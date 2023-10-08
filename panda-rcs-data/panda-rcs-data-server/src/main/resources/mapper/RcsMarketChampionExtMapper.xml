@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.data.mapper.RcsMarketChampionExtMapper">
+  <resultMap id="BaseResultMap" type="com.panda.sport.rcs.pojo.RcsMarketChampionExt">
+    <!--@mbg.generated-->
+    <!--@Table rcs_market_champion_ext-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="sport_id" jdbcType="BIGINT" property="sportId" />
+    <result column="standard_match_info_id" jdbcType="BIGINT" property="standardMatchInfoId" />
+    <result column="market_category_id" jdbcType="BIGINT" property="marketCategoryId" />
+    <result column="market_id" jdbcType="BIGINT" property="marketId" />
+    <result column="next_seal_time" jdbcType="VARCHAR" property="nextSealTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, sport_id, standard_match_info_id, market_category_id, market_id, next_seal_time, 
+    create_time, update_time
+  </sql>
+  <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into rcs_market_champion_ext
+    (sport_id, standard_match_info_id, market_category_id, market_id, next_seal_time, 
+      create_time, update_time)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.sportId,jdbcType=BIGINT}, #{item.standardMatchInfoId,jdbcType=BIGINT}, #{item.marketCategoryId,jdbcType=BIGINT}, 
+        #{item.marketId,jdbcType=BIGINT}, #{item.nextSealTime,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP}, 
+        #{item.updateTime,jdbcType=TIMESTAMP})
+    </foreach>
+  </insert>
+  <insert id="insertOrUpdate" keyColumn="id" keyProperty="id" parameterType="com.panda.sport.rcs.pojo.RcsMarketChampionExt" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into rcs_market_champion_ext
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      sport_id,
+      standard_match_info_id,
+      market_category_id,
+      market_id,
+      next_seal_time,
+      create_time,
+      update_time,
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      #{sportId,jdbcType=BIGINT},
+      #{standardMatchInfoId,jdbcType=BIGINT},
+      #{marketCategoryId,jdbcType=BIGINT},
+      #{marketId,jdbcType=BIGINT},
+      #{nextSealTime,jdbcType=VARCHAR},
+      #{createTime,jdbcType=TIMESTAMP},
+      #{updateTime,jdbcType=TIMESTAMP},
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        id = #{id,jdbcType=BIGINT},
+      </if>
+      sport_id = #{sportId,jdbcType=BIGINT},
+      standard_match_info_id = #{standardMatchInfoId,jdbcType=BIGINT},
+      market_category_id = #{marketCategoryId,jdbcType=BIGINT},
+      market_id = #{marketId,jdbcType=BIGINT},
+      next_seal_time = #{nextSealTime,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+    </trim>
+  </insert>
+
+  <insert id="insertOrUpdateSelective" keyColumn="id" keyProperty="id" parameterType="com.panda.sport.rcs.pojo.RcsMarketChampionExt" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into rcs_market_champion_ext
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="sportId != null">
+        sport_id,
+      </if>
+      <if test="standardMatchInfoId != null">
+        standard_match_info_id,
+      </if>
+      <if test="marketCategoryId != null">
+        market_category_id,
+      </if>
+      <if test="marketId != null">
+        market_id,
+      </if>
+      <if test="nextSealTime != null and nextSealTime != ''">
+        next_seal_time,
+      </if>
+      <if test="marketStartTime != null and marketStartTime != ''">
+        market_start_time,
+      </if>
+      <if test="marketEndTime != null and marketEndTime != ''">
+        market_end_time,
+      </if>
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="sportId != null">
+        #{sportId,jdbcType=BIGINT},
+      </if>
+      <if test="standardMatchInfoId != null">
+        #{standardMatchInfoId,jdbcType=BIGINT},
+      </if>
+      <if test="marketCategoryId != null">
+        #{marketCategoryId,jdbcType=BIGINT},
+      </if>
+      <if test="marketId != null">
+        #{marketId,jdbcType=BIGINT},
+      </if>
+      <if test="nextSealTime != null and nextSealTime != ''">
+        #{nextSealTime,jdbcType=VARCHAR},
+      </if>
+      <if test="marketStartTime != null and marketStartTime != ''">
+        #{marketStartTime,jdbcType=VARCHAR},
+      </if>
+      <if test="marketEndTime != null and marketEndTime != ''">
+        #{marketEndTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+    on duplicate key update
+    <trim suffixOverrides=",">
+      <if test="nextSealTime != null and nextSealTime != ''">
+        next_seal_time = #{nextSealTime,jdbcType=VARCHAR},
+      </if>
+      <if test="marketStartTime != null and marketStartTime != ''">
+        market_start_time = #{marketStartTime,jdbcType=VARCHAR},
+      </if>
+      <if test="marketEndTime != null and marketEndTime != ''">
+        market_end_time = #{marketEndTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <insert id="batchInsertOrUpdate" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into rcs_market_champion_ext
+    (sport_id, standard_match_info_id, market_category_id, market_id, next_seal_time)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.sportId,jdbcType=BIGINT}, #{item.standardMatchInfoId,jdbcType=BIGINT}, #{item.marketCategoryId,jdbcType=BIGINT},
+        #{item.marketId,jdbcType=BIGINT}, #{item.nextSealTime,jdbcType=VARCHAR})
+    </foreach>
+        on duplicate key update
+    <trim suffixOverrides=",">
+      next_seal_time = values(next_seal_time)
+    </trim>
+  </insert>
+</mapper>

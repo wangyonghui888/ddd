@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.console.dao.StandardMatchInfoMapper">
+    <select id="selectStandardMatchInfoById" parameterType="Map" resultType="Map">
+        SELECT * FROM standard_match_info
+        WHERE 1=1
+        <if test="matchId!=null">
+            and id=#{matchId}
+        </if>
+    </select>
+
+
+    <select id="selectStandardSportMarket" parameterType="Map" resultType="Map">
+        SELECT
+        *
+        FROM
+        standard_sport_market
+        WHERE
+        1 = 1
+        <if test="marketId!=null">
+            AND id = #{marketId}
+        </if>
+        <if test="matchId!=null">
+            AND standard_match_info_id =#{matchId}
+        </if>
+    </select>
+
+
+    <select id="selectStandardSportMarketOdds" parameterType="Map" resultType="Map">
+        SELECT
+        *
+        FROM
+        standard_sport_market_odds
+        WHERE
+        1 = 1
+        <if test="marketId!=null">
+            AND market_id = #{marketId}
+        </if>
+        <if test="oddId!=null">
+            AND id =#{oddId}
+        </if>
+    </select>
+</mapper>

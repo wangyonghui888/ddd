@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.data.mapper.RcsStandardPlaceRefMapper">
+  <resultMap id="BaseResultMap" type="com.panda.sport.rcs.pojo.RcsStandardPlaceRef">
+    <!--@mbg.generated-->
+    <!--@Table rcs_standard_place_ref-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="place_id" jdbcType="VARCHAR" property="placeId" />
+    <result column="standard_match_info_id" jdbcType="BIGINT" property="standardMatchInfoId" />
+    <result column="market_category_id" jdbcType="BIGINT" property="marketCategoryId" />
+    <result column="place_num" jdbcType="INTEGER" property="placeNum" />
+    <result column="market_id" jdbcType="BIGINT" property="marketId" />
+    <result column="version_id" jdbcType="VARCHAR" property="versionId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, place_id, standard_match_info_id, market_category_id, place_num, market_id, version_id, 
+    create_time, modify_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from rcs_standard_place_ref
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--@mbg.generated-->
+    delete from rcs_standard_place_ref
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.panda.sport.rcs.pojo.RcsStandardPlaceRef" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into rcs_standard_place_ref
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="placeId != null">
+        place_id,
+      </if>
+      <if test="standardMatchInfoId != null">
+        standard_match_info_id,
+      </if>
+      <if test="marketCategoryId != null">
+        market_category_id,
+      </if>
+      <if test="placeNum != null">
+        place_num,
+      </if>
+      <if test="marketId != null">
+        market_id,
+      </if>
+      <if test="versionId != null">
+        version_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifyTime != null">
+        modify_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="placeId != null">
+        #{placeId,jdbcType=VARCHAR},
+      </if>
+      <if test="standardMatchInfoId != null">
+        #{standardMatchInfoId,jdbcType=BIGINT},
+      </if>
+      <if test="marketCategoryId != null">
+        #{marketCategoryId,jdbcType=BIGINT},
+      </if>
+      <if test="placeNum != null">
+        #{placeNum,jdbcType=INTEGER},
+      </if>
+      <if test="marketId != null">
+        #{marketId,jdbcType=BIGINT},
+      </if>
+      <if test="versionId != null">
+        #{versionId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.panda.sport.rcs.pojo.RcsStandardPlaceRef">
+    <!--@mbg.generated-->
+    update rcs_standard_place_ref
+    <set>
+      <if test="placeId != null">
+        place_id = #{placeId,jdbcType=VARCHAR},
+      </if>
+      <if test="standardMatchInfoId != null">
+        standard_match_info_id = #{standardMatchInfoId,jdbcType=BIGINT},
+      </if>
+      <if test="marketCategoryId != null">
+        market_category_id = #{marketCategoryId,jdbcType=BIGINT},
+      </if>
+      <if test="placeNum != null">
+        place_num = #{placeNum,jdbcType=INTEGER},
+      </if>
+      <if test="marketId != null">
+        market_id = #{marketId,jdbcType=BIGINT},
+      </if>
+      <if test="versionId != null">
+        version_id = #{versionId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null">
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.panda.sport.rcs.pojo.RcsStandardPlaceRef">
+    <!--@mbg.generated-->
+    update rcs_standard_place_ref
+    set place_id = #{placeId,jdbcType=VARCHAR},
+      standard_match_info_id = #{standardMatchInfoId,jdbcType=BIGINT},
+      market_category_id = #{marketCategoryId,jdbcType=BIGINT},
+      place_num = #{placeNum,jdbcType=INTEGER},
+      market_id = #{marketId,jdbcType=BIGINT},
+      version_id = #{versionId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update rcs_standard_place_ref
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="place_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.placeId,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="standard_match_info_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.standardMatchInfoId,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="market_category_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.marketCategoryId,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="place_num = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.placeNum,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+      <trim prefix="market_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.marketId,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="version_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.versionId,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="create_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.createTime,jdbcType=TIMESTAMP}
+        </foreach>
+      </trim>
+      <trim prefix="modify_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.modifyTime,jdbcType=TIMESTAMP}
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id,jdbcType=BIGINT}
+    </foreach>
+  </update>
+  <update id="updateBatchSelective" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update rcs_standard_place_ref
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="place_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.placeId != null">
+            when id = #{item.id,jdbcType=BIGINT} then #{item.placeId,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="standard_match_info_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.standardMatchInfoId != null">
+            when id = #{item.id,jdbcType=BIGINT} then #{item.standardMatchInfoId,jdbcType=BIGINT}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="market_category_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.marketCategoryId != null">
+            when id = #{item.id,jdbcType=BIGINT} then #{item.marketCategoryId,jdbcType=BIGINT}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="place_num = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.placeNum != null">
+            when id = #{item.id,jdbcType=BIGINT} then #{item.placeNum,jdbcType=INTEGER}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="market_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.marketId != null">
+            when id = #{item.id,jdbcType=BIGINT} then #{item.marketId,jdbcType=BIGINT}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="version_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.versionId != null">
+            when id = #{item.id,jdbcType=BIGINT} then #{item.versionId,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="create_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.createTime != null">
+            when id = #{item.id,jdbcType=BIGINT} then #{item.createTime,jdbcType=TIMESTAMP}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="modify_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.modifyTime != null">
+            when id = #{item.id,jdbcType=BIGINT} then #{item.modifyTime,jdbcType=TIMESTAMP}
+          </if>
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id,jdbcType=BIGINT}
+    </foreach>
+  </update>
+  <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into rcs_standard_place_ref
+    (place_id, standard_match_info_id, market_category_id, place_num, market_id, version_id, 
+      create_time, modify_time)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.placeId,jdbcType=VARCHAR}, #{item.standardMatchInfoId,jdbcType=BIGINT}, #{item.marketCategoryId,jdbcType=BIGINT}, 
+        #{item.placeNum,jdbcType=INTEGER}, #{item.marketId,jdbcType=BIGINT}, #{item.versionId,jdbcType=VARCHAR}, 
+        #{item.createTime,jdbcType=TIMESTAMP}, #{item.modifyTime,jdbcType=TIMESTAMP})
+    </foreach>
+  </insert>
+  <insert id="insertOrUpdate" keyColumn="id" keyProperty="id" parameterType="com.panda.sport.rcs.pojo.RcsStandardPlaceRef" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into rcs_standard_place_ref
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      place_id,
+      standard_match_info_id,
+      market_category_id,
+      place_num,
+      market_id,
+      version_id,
+      create_time,
+      modify_time,
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      #{placeId,jdbcType=VARCHAR},
+      #{standardMatchInfoId,jdbcType=BIGINT},
+      #{marketCategoryId,jdbcType=BIGINT},
+      #{placeNum,jdbcType=INTEGER},
+      #{marketId,jdbcType=BIGINT},
+      #{versionId,jdbcType=VARCHAR},
+      #{createTime,jdbcType=TIMESTAMP},
+      #{modifyTime,jdbcType=TIMESTAMP},
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        id = #{id,jdbcType=BIGINT},
+      </if>
+      place_id = #{placeId,jdbcType=VARCHAR},
+      standard_match_info_id = #{standardMatchInfoId,jdbcType=BIGINT},
+      market_category_id = #{marketCategoryId,jdbcType=BIGINT},
+      place_num = #{placeNum,jdbcType=INTEGER},
+      market_id = #{marketId,jdbcType=BIGINT},
+      version_id = #{versionId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+    </trim>
+  </insert>
+  <insert id="insertOrUpdateSelective" keyColumn="id" keyProperty="id" parameterType="com.panda.sport.rcs.pojo.RcsStandardPlaceRef" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into rcs_standard_place_ref
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="placeId != null">
+        place_id,
+      </if>
+      <if test="standardMatchInfoId != null">
+        standard_match_info_id,
+      </if>
+      <if test="marketCategoryId != null">
+        market_category_id,
+      </if>
+      <if test="placeNum != null">
+        place_num,
+      </if>
+      <if test="marketId != null">
+        market_id,
+      </if>
+      <if test="versionId != null">
+        version_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifyTime != null">
+        modify_time,
+      </if>
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="placeId != null">
+        #{placeId,jdbcType=VARCHAR},
+      </if>
+      <if test="standardMatchInfoId != null">
+        #{standardMatchInfoId,jdbcType=BIGINT},
+      </if>
+      <if test="marketCategoryId != null">
+        #{marketCategoryId,jdbcType=BIGINT},
+      </if>
+      <if test="placeNum != null">
+        #{placeNum,jdbcType=INTEGER},
+      </if>
+      <if test="marketId != null">
+        #{marketId,jdbcType=BIGINT},
+      </if>
+      <if test="versionId != null">
+        #{versionId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        id = #{id,jdbcType=BIGINT},
+      </if>
+      <if test="placeId != null">
+        place_id = #{placeId,jdbcType=VARCHAR},
+      </if>
+      <if test="standardMatchInfoId != null">
+        standard_match_info_id = #{standardMatchInfoId,jdbcType=BIGINT},
+      </if>
+      <if test="marketCategoryId != null">
+        market_category_id = #{marketCategoryId,jdbcType=BIGINT},
+      </if>
+      <if test="placeNum != null">
+        place_num = #{placeNum,jdbcType=INTEGER},
+      </if>
+      <if test="marketId != null">
+        market_id = #{marketId,jdbcType=BIGINT},
+      </if>
+      <if test="versionId != null">
+        version_id = #{versionId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null">
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <insert id="batchInsertOrUpdate">
+    insert into rcs_standard_place_ref
+    (place_id, standard_match_info_id, market_category_id, place_num, market_id, version_id,child_market_category_id)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.placeId,jdbcType=VARCHAR}, #{item.standardMatchInfoId,jdbcType=BIGINT}, #{item.marketCategoryId,jdbcType=BIGINT},
+      #{item.placeNum,jdbcType=INTEGER}, #{item.marketId,jdbcType=BIGINT}, #{item.versionId,jdbcType=VARCHAR},#{item.childMarketCategoryId})
+    </foreach>
+    on duplicate key update
+    <trim suffixOverrides=",">
+      standard_match_info_id = values (standard_match_info_id),
+      market_category_id = values (market_category_id),
+      place_num = values (place_num),
+      market_id = values (market_id),
+      version_id = values (version_id),
+      child_market_category_id = values (child_market_category_id),
+    </trim>
+  </insert>
+  
+  <select id="queryOddsByPlaceNumAndPlayId" parameterType="Map" resultType="Map">
+  	SELECT r.place_num,o.odds_type,o.odds_value,o.market_diff_value FROM (
+			SELECT r.standard_match_info_id, r.market_category_id , r.version_id FROM standard_match_info i
+			LEFT JOIN rcs_standard_place_ref r ON r.standard_match_info_id = i.id
+			WHERE i.id = #{matchId} AND r.place_num = 1 AND r.market_category_id = #{playId}
+			) t
+		LEFT JOIN rcs_standard_place_ref r ON r.standard_match_info_id = t.standard_match_info_id
+				AND r.market_category_id = t.market_category_id AND r.version_id = t.version_id
+		JOIN standard_sport_market m ON m.id = r.market_id
+		JOIN standard_sport_market_odds o ON o.market_id = m.id
+		WHERE r.market_id IS NOT NULL
+  </select>
+</mapper>

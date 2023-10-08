@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: panda-rcs-credit
+  cloud:
+    nacos:
+      config:
+        server-addr: 10.105.21.28:8848
+        file-extension: properties
+        namespace: 2b15d8a8-51fd-4a6b-b91f-6462004cc235
+  profiles:
+    active: sandbox
+
+spring.cloud.nacos.discovery.serverAddr: ${spring.cloud.nacos.config.server-addr}
+spring.cloud.nacos.discovery.namespace: ${spring.cloud.nacos.config.namespace}
+

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.customdb.mapper.OrderDetailMapper">
+
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.panda.sport.rcs.db.entity.OrderOptionOddChange">
+        <result column="id" property="id"/>
+        <result column="bet_no" property="betNo"/>
+        <result column="order_no" property="orderNo"/>
+        <result column="play_options_id" property="playOptionsId"/>
+        <result column="odds_value" property="oddsValue"/>
+        <result column="order_type" property="orderType"/>
+        <result column="bet_time" property="betTime"/>
+    </resultMap>
+
+
+    <!-- 赛前盘订单 -->
+    <select id="queryPreMatchOrder" resultMap="BaseResultMap">
+        SELECT
+            d.bet_no, d.order_no, d.play_options_id, d.odds_value, d.bet_time ,0 as order_type,d.market_id
+        FROM tybss_merchant_common.t_order_detail d inner join tybss_new.s_market_odds o
+        on d.play_options_id = o.id
+        INNER JOIN tybss_merchant_common.t_order r on d.order_no = r.order_no
+        WHERE
+            d.create_time &gt;= #{timeBegin}
+            and d.create_time &lt;  #{timeEnd}
+            and d.match_type = 1
+            and d.bet_amount &gt;= #{betAmount}
+            and r.series_type=1
+            and d.odds_value &gt; o.pa_odds_value;
+    </select>
+
+
+    <!-- 滚球订单 -->
+    <select id="queryLiveMatchOrder" resultMap="BaseResultMap">
+        SELECT
+        d.bet_no, d.order_no, d.play_options_id, d.odds_value,d.bet_time, 1 as order_type,d.market_id
+        FROM tybss_merchant_common.t_order_detail d
+        inner join tybss_new.s_market_odds o
+        on d.play_options_id = o.id
+        INNER JOIN tybss_merchant_common.t_order r on d.order_no = r.order_no
+        WHERE
+        d.bet_time &gt;= #{timeBegin}
+        and d.bet_time &lt; #{timeEnd}
+        and d.match_type = 2
+        <!--1、注单金额>=1000元（参数1）-->
+        and d.bet_amount &gt;= #{betAmount}
+        <!--2、大小类玩法-->
+        and d.play_id in (2,10,11,13,18,26,34,87,88,97,98,102,109,110,114,115,116,122,123,124,127,134,217,233)
+        <!--3、下注10秒内（参数2）赔率跳水到Y，然后30秒内（参数3）赔率没有回到原值X-->
+        and d.odds_value &gt; o.pa_odds_value
+        <!--4、注单欧赔>1.9（参数4）-->
+        and d.odds_value &gt; #{orderOddsValue}
+        and r.series_type=1
+        <!--6、注单赔率> SR赔率-->
+        and d.odds_value &gt; o.original_odds_value;
+    </select>
+</mapper>

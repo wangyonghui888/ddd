@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.mapper.statistics.RcsMatchPlayConfigMapper">
+    <select id="inserOrUpdate">
+        INSERT INTO `panda_rcs`.`rcs_match_play_config` ( `match_id`, `play_id`, `status`, `data_source`)
+        VALUES
+        ( #{matchId}, #{playId}, #{status}, #{dataSource} )
+        ON DUPLICATE KEY UPDATE
+        match_id=#{matchId}
+        <if test="status!=null">
+            ,status=#{status}
+        </if>
+        <if test="dataSource!=null">
+            ,data_source=#{dataSource}
+        </if>
+    </select>
+
+    <select id="inserOrUpdateList">
+        <foreach collection="playIds" index="index" item="item" separator=";">
+            INSERT INTO `panda_rcs`.`rcs_match_play_config` ( `match_id`, `play_id`, `status`, `data_source`)
+            VALUES
+            ( #{matchId}, #{item}, #{status}, #{dataSource} )
+            ON DUPLICATE KEY UPDATE
+            match_id=#{matchId}
+            <if test="status!=null">
+                ,status=#{status}
+            </if>
+            <if test="dataSource!=null">
+                ,data_source=#{dataSource}
+            </if>
+        </foreach>
+    </select>
+    <insert id="insertOrUpdateMarketHeadGap">
+        INSERT INTO `panda_rcs`.`rcs_match_play_config` (
+        `match_id`,
+        `play_id`,
+        `market_head_gap`,
+         sub_play_id,
+        `data_source`)
+        VALUES   (
+        #{config.matchId,jdbcType=BIGINT},
+        #{config.playId,jdbcType=BIGINT},
+        #{config.marketHeadGap,jdbcType=DECIMAL},
+        #{config.subPlayId,jdbcType=VARCHAR},
+        #{config.dataSource,jdbcType=BIGINT} )
+        ON DUPLICATE KEY UPDATE market_head_gap=#{config.marketHeadGap,jdbcType=DECIMAL}
+    </insert>
+    
+    <select id="queryPlaceWaterConfigList" parameterType="Map" resultType="com.panda.sport.rcs.vo.odds.MatchMarketPlaceConfig">
+    	SELECT  c.market_index placeNum , IFNULL(c.away_auto_change_rate,0) placeMarketDiff FROM rcs_match_market_config c
+		WHERE c.match_id = #{matchId} AND c.play_id = #{playId}
+        <if test="marketIndex!=null">
+            and c.market_index &lt;= #{marketIndex}
+        </if>
+    </select>
+    <select id="queryPlaceWaterConfigSubList" parameterType="Map" resultType="com.panda.sport.rcs.vo.odds.MatchMarketPlaceConfig">
+    	SELECT  c.market_index placeNum , IFNULL(c.away_auto_change_rate,0) placeMarketDiff,c.sub_play_id as subPlayId FROM rcs_match_market_config_sub c
+		WHERE c.match_id = #{matchId} AND c.play_id = #{playId}
+        <if test="subPlayId!=null">
+            and c.sub_play_id = #{subPlayId}
+        </if>
+        <if test="marketIndex!=null">
+            and c.market_index &lt;= #{marketIndex}
+        </if>
+    </select>
+
+<!--    <update id="updateMatchPlayPlaceList" parameterType="Map" >-->
+<!--    	update `panda_rcs`.`rcs_match_market_config` set -->
+<!--    	`away_auto_change_rate` = case when IFNULL(away_auto_change_rate,0) + ${changeOdds} > 0.3 then 0.3-->
+<!--          	when IFNULL(away_auto_change_rate,0) + ${changeOdds} &lt; -0.3 then -0.3-->
+<!--          	ELSE IFNULL(away_auto_change_rate,0) + ${changeOdds} END-->
+<!--         where `match_id` = #{matchId} and `play_id`= #{playId}-->
+<!--    </update>-->
+    <update id="updateMatchPlayPlaceList" parameterType="Map" >
+    	update `panda_rcs`.`rcs_match_market_config` set
+    	`away_auto_change_rate` = IFNULL(away_auto_change_rate,0) + ${changeOdds}
+         where `match_id` = #{matchId} and `play_id`= #{playId}
+        <if test="marketIndex!=null">
+            and market_index &lt;= #{marketIndex}
+        </if>
+    </update>
+    <update id="updateMatchPlayPlaceSubList" parameterType="Map" >
+    	update `panda_rcs`.`rcs_match_market_config_sub` set
+    	`away_auto_change_rate` = IFNULL(away_auto_change_rate,0) + ${changeOdds}
+         where `match_id` = #{matchId} and `play_id`= #{playId}
+        <if test="subPlayId!=null">
+            and sub_play_id = #{subPlayId}
+        </if>
+        <if test="marketIndex!=null">
+            and market_index &lt;= #{marketIndex}
+        </if>
+    </update>
+    <update id="insertOrUpdateNewSportWaterConfig">
+        INSERT INTO `panda_rcs`.`rcs_new_sport_water_config` (
+            `match_id`,
+            `play_id`,
+             market_index,
+             sub_play_id,
+
+            `away_auto_change_rate`
+        )
+        VALUES
+        ( #{matchId},
+          #{playId},
+          #{marketIndex},
+          #{subPlayId},
+
+          #{changeOdds}
+        )
+        ON DUPLICATE KEY UPDATE
+         `away_auto_change_rate`= (#{changeOdds} + away_auto_change_rate)
+    </update>
+
+    <select id="queryNewSportWaterConfig" resultType="com.panda.sport.rcs.vo.odds.MatchMarketPlaceConfig">
+        SELECT t.away_auto_change_rate as placeMarketDiff,
+                t.market_index as placeNum
+        FROM rcs_new_sport_water_config t
+        WHERE t.match_id = #{matchId}
+        AND t.play_id = #{playId}
+        AND t.market_index = #{marketIndex}
+        AND t.sub_play_id = #{subPlayId}
+    </select>
+</mapper>

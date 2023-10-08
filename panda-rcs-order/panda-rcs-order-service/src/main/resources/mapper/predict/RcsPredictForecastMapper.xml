@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.mapper.predict.RcsPredictForecastMapper">
+    <insert id="saveOrUpdate" parameterType="com.panda.sport.rcs.pojo.vo.predict.RcsPredictBetStatis">
+        INSERT INTO
+        rcs_predict_forecast(sport_id,match_id,match_type,play_id,market_id,odds_item,bet_score,profit_amount,create_time,market_value_complete,market_value_current,forecast_score,hash_unique)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.sportId},#{item.matchId},#{item.matchType},#{item.playId},#{item.marketId},#{item.oddsItem},#{item.betScore},#{item.profitAmount},
+            #{item.createTime},#{item.marketValueComplete},#{item.marketValueCurrent},#{item.forecastScore},#{item.hashUnique})
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+        sport_id=  values (sport_id),
+        match_id= values (match_id),
+        match_type= values (match_type),
+        play_id= values (play_id),
+        market_id= values (market_id),
+        odds_item= values (odds_item),
+        bet_score= values (bet_score),
+        profit_amount= values (profit_amount),
+        create_time= values (create_time),
+        market_value_complete= values (market_value_complete),
+        market_value_current= values (market_value_current),
+        forecast_score=values (forecast_score),
+        hash_unique = values (hash_unique)
+    </insert>
+
+    <select id="selectList" resultType="com.panda.sport.rcs.pojo.vo.predict.RcsPredictForecast">
+        SELECT *
+        FROM rcs_predict_forecast t
+        WHERE 1=1
+        <if test="vo.sportId != null">
+            AND t.sport_id = #{vo.sportId}
+        </if>
+        <if test="vo.matchId != null">
+            AND t.match_id = #{vo.matchId}
+        </if>
+        <if test="vo.playId != null">
+            AND t.play_id = #{vo.playId}
+        </if>
+        <if test="vo.matchType != null">
+            AND t.match_type = #{vo.matchType}
+        </if>
+        <if test="vo.hashUnique != null">
+            AND t.hash_unique = #{vo.hashUnique}
+        </if>
+        and t.hash_unique is not null
+        ORDER BY forecast_score ASC
+    </select>
+</mapper>

@@ -1,0 +1,14 @@
+#启动配置
+server:
+  port: 10647
+spring:
+  application:
+    name: panda-rcs-mts
+  cloud:
+    nacos:
+      config:
+        server-addr: 10.5.21.35:8848
+        file-extension: properties
+        namespace: 19360358-8e5b-4932-bbcc-aa4d411774e8
+  profiles:
+    active: sandbox

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.rcs.cleanup.mapper.RcsTournamentTemplateMapper">
+    <delete id="deleteTemplateById">
+        delete from rcs_tournament_template where id in
+        <foreach item="id" index="index" collection="templateIdList" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <delete id="deleteMargainByTemplateId">
+        delete from rcs_tournament_template_play_margain where template_id in
+        <foreach item="id" index="index" collection="templateIdList" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+
+    </delete>
+    <delete id="deleteMargainRefByMargainId">
+        delete from rcs_tournament_template_play_margain_ref where margain_id in
+        <foreach item="id" index="index" collection="margainId" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <delete id="deleteTemplateAcceptConfig">
+        delete from rcs_tournament_template_accept_config where template_id in
+        <foreach item="id" index="index" collection="templateIdList" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <delete id="deleteTemplateAcceptEvent">
+        delete from rcs_tournament_template_accept_event where accept_config_id in
+        <foreach item="id" index="index" collection="acceptConfigIdList" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+    <select id="queryTemplateIdByMatchId" resultType="java.lang.Long">
+        select id from rcs_tournament_template t where t.`type` = 3 AND t.type_val in
+        <foreach item="id" index="index" collection="matchList" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="queryMargainIdByTemplateId" resultType="java.lang.Long">
+        select id from rcs_tournament_template_play_margain t where t.template_id in
+        <foreach item="id" index="index" collection="templateIdList" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+    <select id="queryTemplateAcceptConfigId" resultType="java.lang.Long">
+        select id from rcs_tournament_template_accept_config t where t.template_id in
+        <foreach item="id" index="index" collection="templateIdList" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+    <select id="queryTemplateIdByNotMatchId" resultType="java.lang.Long">
+     select id from rcs_tournament_template t where t.`type` = 3 AND t.type_val not in (select id from standard_match_info) LIMIT 100;
+    </select>
+</mapper>

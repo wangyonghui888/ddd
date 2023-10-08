@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.data.mapper.RcsTournamentTemplateMapper">
+  <resultMap id="BaseResultMap" type="com.panda.sport.rcs.pojo.dto.TournamentTemplateDto">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="data_source_code" jdbcType="VARCHAR" property="dataSourceCode" />
+    <result column="order_accept_event_code" jdbcType="VARCHAR" property="orderAcceptEventCode" />
+    <result column="accept_min_time" jdbcType="INTEGER" property="acceptMinTime" />
+    <result column="accept_max_time" jdbcType="INTEGER" property="acceptMaxTime" />
+    <collection property="acceptEventList" ofType="com.panda.sport.rcs.pojo.dto.TournamentTemplateAcceptEventDto">
+        <result column="event_code" jdbcType="VARCHAR" property="eventCode" />
+        <result column="event_desc" jdbcType="VARCHAR" property="eventDesc" />
+        <result column="delay_time" jdbcType="INTEGER" property="delayTime" />
+        <result column="status" jdbcType="INTEGER" property="status" />
+    </collection>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, sport_id, `type`, type_val,match_type, data_source_code, order_accept_event_code, template_event_id,
+    template_accept_event_id, pre_market_count, live_market_count, accept_min_time, accept_max_time,
+    create_time, update_time
+  </sql>
+
+  <select id="queryByTournamentId" resultMap="BaseResultMap">
+    SELECT
+        t.id,
+        t.data_source_code,
+        t.order_accept_event_code,
+        t.accept_min_time,
+        t.accept_max_time,
+        e.event_code,
+        e.event_desc,
+        e.delay_time,
+        e.status
+    FROM
+        rcs_tournament_template AS t
+    LEFT JOIN rcs_tournament_template_accept_event AS e ON t.id = e.template_id
+    WHERE t.type=2 and t.type_val=#{tournamentId} and t.sport_id=#{sportId} and t.match_type=#{matchType}
+  </select>
+
+
+  <select id="queryByTournamentLevel" resultMap="BaseResultMap">
+    SELECT
+        t.id,
+        t.data_source_code,
+        t.order_accept_event_code,
+        t.accept_min_time,
+        t.accept_max_time,
+        e.event_code,
+        e.event_desc,
+        e.delay_time,
+        e.status
+    FROM
+        rcs_tournament_template AS t
+    LEFT JOIN rcs_tournament_template_accept_event AS e ON t.id = e.template_id
+     where t.type=1 and t.type_val=#{tournamentLevel} and t.sport_id=#{sportId} and t.match_type=#{matchType}
+  </select>
+
+    <select id="selectTemplate" parameterType="com.panda.sport.rcs.pojo.RcsTournamentTemplate" resultType="com.panda.sport.rcs.pojo.RcsTournamentTemplate">
+    SELECT
+        *
+    FROM
+        rcs_tournament_template t
+    where
+    t.type = #{type}
+    and t.type_val = #{typeVal}
+    and t.match_type = #{matchType}
+    and t.sport_id = #{sportId}
+  </select>
+</mapper>

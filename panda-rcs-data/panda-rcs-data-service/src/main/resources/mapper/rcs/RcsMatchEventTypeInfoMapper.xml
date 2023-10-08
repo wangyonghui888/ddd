@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace=" com.panda.sport.rcs.mapper.RcsMatchEventTypeInfoMapper">
+  <resultMap id="BaseResultMap" type="com.panda.sport.rcs.bean.RcsMatchEventTypeInfo">
+    <!--@mbg.generated-->
+    <!--@Table rcs_match_event_type_info-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="sport_id" jdbcType="INTEGER" property="sportId" />
+    <result column="data_source_code" jdbcType="VARCHAR" property="dataSourceCode" />
+    <result column="event_code" jdbcType="VARCHAR" property="eventCode" />
+    <result column="event_type" jdbcType="INTEGER" property="eventType" />
+    <result column="event_description" jdbcType="VARCHAR" property="eventDescription" />
+    <result column="event_remark" jdbcType="VARCHAR" property="eventRemark" />
+    <result column="event_name" jdbcType="VARCHAR" property="eventName" />
+    <result column="event_en_name" jdbcType="VARCHAR" property="eventEnName" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="modify_time" jdbcType="BIGINT" property="modifyTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, sport_id, data_source_code, event_code, event_type, event_description, event_remark, 
+    event_name, event_en_name, create_time, modify_time, update_time
+  </sql>
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update rcs_match_event_type_info
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="sport_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.sportId,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+      <trim prefix="data_source_code = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.dataSourceCode,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="event_code = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.eventCode,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="event_type = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.eventType,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+      <trim prefix="event_description = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.eventDescription,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="event_remark = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.eventRemark,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="event_name = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.eventName,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="event_en_name = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.eventEnName,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="create_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.createTime,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="modify_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.modifyTime,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="update_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.updateTime,jdbcType=TIMESTAMP}
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id,jdbcType=BIGINT}
+    </foreach>
+  </update>
+  <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into rcs_match_event_type_info
+    (sport_id, data_source_code, event_code, event_type, event_description, event_remark, 
+      event_name, event_en_name, create_time, modify_time, update_time)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.sportId,jdbcType=INTEGER}, #{item.dataSourceCode,jdbcType=VARCHAR}, #{item.eventCode,jdbcType=VARCHAR}, 
+        #{item.eventType,jdbcType=INTEGER}, #{item.eventDescription,jdbcType=VARCHAR}, 
+        #{item.eventRemark,jdbcType=VARCHAR}, #{item.eventName,jdbcType=VARCHAR}, #{item.eventEnName,jdbcType=VARCHAR}, #{item.createTime,jdbcType=BIGINT},
+        #{item.modifyTime,jdbcType=BIGINT}, #{item.updateTime,jdbcType=TIMESTAMP})
+    </foreach>
+  </insert>
+  <insert id="insertOrUpdate" keyColumn="id" keyProperty="id" parameterType="com.panda.sport.rcs.bean.RcsMatchEventTypeInfo" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into rcs_match_event_type_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      sport_id,
+      data_source_code,
+      event_code,
+      event_type,
+      event_description,
+      event_remark,
+      event_name,
+      event_en_name,
+      create_time,
+      modify_time,
+      update_time,
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      #{sportId,jdbcType=INTEGER},
+      #{dataSourceCode,jdbcType=VARCHAR},
+      #{eventCode,jdbcType=VARCHAR},
+      #{eventType,jdbcType=INTEGER},
+      #{eventDescription,jdbcType=VARCHAR},
+      #{eventRemark,jdbcType=VARCHAR},
+      #{eventName,jdbcType=VARCHAR},
+      #{eventEnName,jdbcType=VARCHAR},
+      #{createTime,jdbcType=BIGINT},
+      #{modifyTime,jdbcType=BIGINT},
+      #{updateTime,jdbcType=TIMESTAMP},
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        id = #{id,jdbcType=BIGINT},
+      </if>
+      sport_id = #{sportId,jdbcType=INTEGER},
+      data_source_code = #{dataSourceCode,jdbcType=VARCHAR},
+      event_code = #{eventCode,jdbcType=VARCHAR},
+      event_type = #{eventType,jdbcType=INTEGER},
+      event_description = #{eventDescription,jdbcType=VARCHAR},
+      event_remark = #{eventRemark,jdbcType=VARCHAR},
+      event_name = #{eventName,jdbcType=VARCHAR},
+      event_en_name = #{eventEnName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=BIGINT},
+      modify_time = #{modifyTime,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+    </trim>
+  </insert>
+  <insert id="insertOrUpdateSelective" keyColumn="id" keyProperty="id" parameterType="com.panda.sport.rcs.bean.RcsMatchEventTypeInfo" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into rcs_match_event_type_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="sportId != null">
+        sport_id,
+      </if>
+      <if test="dataSourceCode != null">
+        data_source_code,
+      </if>
+      <if test="eventCode != null">
+        event_code,
+      </if>
+      <if test="eventType != null">
+        event_type,
+      </if>
+      <if test="eventDescription != null">
+        event_description,
+      </if>
+      <if test="eventRemark != null">
+        event_remark,
+      </if>
+      <if test="eventName != null">
+        event_name,
+      </if>
+      <if test="eventEnName != null">
+        event_en_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifyTime != null">
+        modify_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="sportId != null">
+        #{sportId,jdbcType=INTEGER},
+      </if>
+      <if test="dataSourceCode != null">
+        #{dataSourceCode,jdbcType=VARCHAR},
+      </if>
+      <if test="eventCode != null">
+        #{eventCode,jdbcType=VARCHAR},
+      </if>
+      <if test="eventType != null">
+        #{eventType,jdbcType=INTEGER},
+      </if>
+      <if test="eventDescription != null">
+        #{eventDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="eventRemark != null">
+        #{eventRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="eventName != null">
+        #{eventName,jdbcType=VARCHAR},
+      </if>
+      <if test="eventEnName != null">
+        #{eventEnName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        id = #{id,jdbcType=BIGINT},
+      </if>
+      <if test="sportId != null">
+        sport_id = #{sportId,jdbcType=INTEGER},
+      </if>
+      <if test="dataSourceCode != null">
+        data_source_code = #{dataSourceCode,jdbcType=VARCHAR},
+      </if>
+      <if test="eventCode != null">
+        event_code = #{eventCode,jdbcType=VARCHAR},
+      </if>
+      <if test="eventType != null">
+        event_type = #{eventType,jdbcType=INTEGER},
+      </if>
+      <if test="eventDescription != null">
+        event_description = #{eventDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="eventRemark != null">
+        event_remark = #{eventRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="eventName != null">
+        event_name = #{eventName,jdbcType=VARCHAR},
+      </if>
+      <if test="eventEnName != null">
+        event_en_name = #{eventEnName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="modifyTime != null">
+        modify_time = #{modifyTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+</mapper>

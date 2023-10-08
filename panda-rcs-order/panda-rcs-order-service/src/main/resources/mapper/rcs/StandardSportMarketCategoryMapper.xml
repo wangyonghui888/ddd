@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.mapper.StandardSportMarketCategoryMapper">
+
+<!--	<select id="getMatchMarketConfig" parameterType="Map" resultType="Map">-->
+<!--		SELECT c.*,(SELECT status FROM standard_sport_market WHERE id = #{marketId}) marketStatus-->
+<!--		FROM rcs_match_market_config c-->
+<!--		WHERE match_id =#{matchId} AND play_id = #{playId} AND market_id = #{marketId}-->
+<!--		<if test="traderType!=null">-->
+<!--			AND trader_type=#{traderType}-->
+<!--		</if>-->
+<!--	</select>-->
+<!--	-->
+<!--	<select id="getTournamentConfig" parameterType="Map" resultType="Map">-->
+<!--		SELECT t.* FROM rcs_tournament_market_config t-->
+<!--		WHERE t.tournament_id = #{tournamentId} AND t.play_id = #{playId}-->
+<!--	</select>-->
+<!--	-->
+<!--	<select id="getTournamentConfigByMatchId" parameterType="Map" resultType="Map">-->
+<!--		SELECT * FROM  rcs_tournament_market_config c -->
+<!--		WHERE c.tournament_id = (SELECT i.standard_tournament_id FROM standard_match_info i WHERE i.id = #{matchId})-->
+<!--		AND c.play_id = #{playId}-->
+<!--	</select>-->
+<!--	-->
+<!--	<select id="queryOddsListByMarketId" parameterType="Map" resultType="Map">-->
+<!--		SELECT s.id,s.name_expression_value nameExpressionValue,s.odds_type oddsType,-->
+<!--		s.odds_value fieldOddsValue,s.active FROM standard_sport_market_odds s-->
+<!--		WHERE market_id = #{market_id}-->
+<!--	</select>-->
+<!--	-->
+<!--	<select id="queryRcsMatchMarketConfig" parameterType="com.panda.sport.rcs.pojo.RcsMatchMarketConfig" -->
+<!--		resultType="com.panda.sport.rcs.pojo.RcsMatchMarketConfig">-->
+
+<!--		SELECT-->
+<!--			case when COUNT(0) >= 1 then 1 ELSE 0 end as isExistsMarket ,-->
+<!--			case when IFNULL(m.addition1,0) = #{awayMarketValue} - #{homeMarketValue} then 2 else 1 end  as isMarketChange-->
+<!--		FROM standard_sport_market m-->
+<!--			WHERE m.standard_match_info_id = #{matchId} and m.market_category_id = #{playId} and m.id = #{marketId}-->
+
+<!--		&lt;!&ndash;SELECT c.*,case when c.away_market_value  - c.home_market_value  = #{awayMarketValue} - #{homeMarketValue} then 2 ELSE 1 END  isMarketChange,-->
+<!--		(SELECT case when COUNT(1) >= 1 then 1 ELSE 0 end FROM standard_sport_market m -->
+<!--			WHERE m.standard_match_info_id = #{matchId} and m.market_category_id = #{playId} -->
+<!--			and IFNULL(m.addition1,0) = #{awayMarketValue} - #{homeMarketValue}) isExistsMarket-->
+<!--		FROM rcs_match_market_config c-->
+<!--		WHERE market_id = #{marketId} and play_id = #{playId} and match_id = #{matchId}&ndash;&gt;-->
+<!--	</select>-->
+
+<!--	<select id="queryRcsMatchMarketConfigByPlayId" parameterType="com.panda.sport.rcs.pojo.RcsMatchMarketConfig"-->
+<!--			resultType="com.panda.sport.rcs.pojo.RcsMatchMarketConfig">-->
+<!--		SELECT c.*,case when c.away_market_value  - c.home_market_value  = #{awayMarketValue} - #{homeMarketValue} then 2 ELSE 1 END  isMarketChange,-->
+<!--		(SELECT case when COUNT(1) >= 1 then 1 ELSE 0 end FROM standard_sport_market m-->
+<!--			WHERE m.standard_match_info_id = #{matchId} and m.market_category_id = #{playId}-->
+<!--			and IFNULL(m.addition1,0) = #{awayMarketValue} - #{homeMarketValue}) isExistsMarket-->
+<!--		FROM rcs_match_market_config c-->
+<!--		WHERE market_id = #{marketId} and play_id = #{playId} and match_id = #{matchId}-->
+<!--	</select>-->
+
+<!--	<update id="updateMatchMarketConfig" parameterType="com.panda.sport.rcs.pojo.RcsMatchMarketConfig">-->
+<!--		update rcs_match_market_config -->
+<!--		set &lt;!&ndash;home_market_value = #{homeMarketValue},away_market_value = #{awayMarketValue},&ndash;&gt;-->
+<!--		margin = #{margin},home_level_first_max_amount = #{homeLevelFirstMaxAmount},home_level_first_odds_rate = #{homeLevelFirstOddsRate},-->
+<!--		home_level_second_max_amount = #{homeLevelSecondMaxAmount},home_level_second_odds_rate = #{homeLevelSecondOddsRate},-->
+<!--		max_single_bet_amount = #{maxSingleBetAmount},max_odds = #{maxOdds},min_odds = #{minOdds},-->
+<!--		data_source = #{dataSource},away_level_first_max_amount = #{awayLevelFirstMaxAmount},away_level_second_max_amount = #{awayLevelSecondMaxAmount},-->
+<!--		away_level_first_odds_rate = #{awayLevelFirstOddsRate},away_level_second_odds_rate = #{awayLevelSecondOddsRate}-->
+<!--		where market_id = #{marketId} and play_id = #{playId} and match_id = #{matchId}-->
+<!--	</update>-->
+<!--	-->
+<!--	<insert id="saveupdateTournamentConfig" parameterType="com.panda.sport.rcs.pojo.RcsTournamentMarketConfig" useGeneratedKeys="true" keyProperty="id">-->
+<!--		insert into rcs_tournament_market_config(tournament_id,play_id,margin,home_level_first_max_amount,home_level_first_odds_rate,home_level_second_max_amount,-->
+<!--			home_level_second_odds_rate,max_single_bet_amount,max_odds,min_odds,data_source,away_level_first_max_amount,-->
+<!--			away_level_second_max_amount,away_level_first_odds_rate,away_level_second_odds_rate)-->
+<!--		values(#{tournamentId},#{playId},#{margin},#{homeLevelFirstMaxAmount},#{homeLevelFirstOddsRate},#{homeLevelSecondMaxAmount},#{homeLevelSecondOddsRate},-->
+<!--			#{maxSingleBetAmount},#{maxOddsRate},#{minOddsRate},#{dataSource},#{awayLevelFirstMaxAmount},#{awayLevelSecondMaxAmount},#{awayLevelFirstOddsRate},-->
+<!--			#{awayLevelSecondOddsRate})-->
+<!--		on duplicate key update margin = VALUES(margin),home_level_first_max_amount = VALUES(home_level_first_max_amount),-->
+<!--			home_level_first_odds_rate = VALUES(home_level_first_odds_rate),home_level_second_max_amount = VALUES(home_level_second_max_amount),-->
+<!--			home_level_second_odds_rate = VALUES(home_level_second_odds_rate),max_single_bet_amount = VALUES(max_single_bet_amount),-->
+<!--			max_odds = VALUES(max_odds),min_odds = VALUES(min_odds),-->
+<!--			data_source = VALUES(data_source),away_level_first_max_amount = VALUES(away_level_first_max_amount),-->
+<!--			away_level_second_max_amount = VALUES(away_level_second_max_amount),away_level_first_odds_rate = VALUES(away_level_first_odds_rate),-->
+<!--			away_level_second_odds_rate = VALUES(away_level_second_odds_rate)-->
+<!--	</insert>-->
+<!--	<select id="queryCategoryList" parameterType="String" resultType="com.panda.sport.rcs.pojo.StandardSportMarketCategory">-->
+<!--		SELECT c.id,r.sport_id sportId,r.name_code nameCode,-->
+<!--		case when c.`status` = 1 AND r.`status` = 1 then 1 ELSE 0 END `status`,-->
+<!--		c.multi_market multiMarket,-->
+<!--		r.order_no `orderNo`,c.fields_num fieldsNum,c.odds_switch oddsSwitch,r.scope_id theirTime ,-->
+<!--		(SELECT case when COUNT(1) > 0 then 1 ELSE NULL END  FROM rcs_market_category_set_relation r -->
+<!--			LEFT JOIN rcs_market_category_set s ON s.id = r.market_category_set_id -->
+<!--			WHERE s.`type` = 1 AND  r.market_category_id = c.id ) displayStyle-->
+<!--		FROM standard_sport_market_category c-->
+<!--		LEFT JOIN standard_sport_market_category_ref r ON r.category_id = c.id-->
+<!--		WHERE r.sport_id = #{sportId}-->
+<!--	</select>-->
+    <!--	<update id="updateMatchMarketConfig" parameterType="com.panda.sport.rcs.pojo.RcsMatchMarketConfig">-->
+    <!--		update rcs_match_market_config -->
+    <!--		set &lt;!&ndash;home_market_value = #{homeMarketValue},away_market_value = #{awayMarketValue},&ndash;&gt;-->
+    <!--		margin = #{margin},home_level_first_max_amount = #{homeLevelFirstMaxAmount},home_level_first_odds_rate = #{homeLevelFirstOddsRate},-->
+    <!--		home_level_second_max_amount = #{homeLevelSecondMaxAmount},home_level_second_odds_rate = #{homeLevelSecondOddsRate},-->
+    <!--		max_single_bet_amount = #{maxSingleBetAmount},max_odds = #{maxOdds},min_odds = #{minOdds},-->
+    <!--		data_source = #{dataSource},away_level_first_max_amount = #{awayLevelFirstMaxAmount},away_level_second_max_amount = #{awayLevelSecondMaxAmount},-->
+    <!--		away_level_first_odds_rate = #{awayLevelFirstOddsRate},away_level_second_odds_rate = #{awayLevelSecondOddsRate}-->
+    <!--		where market_id = #{marketId} and play_id = #{playId} and match_id = #{matchId}-->
+    <!--	</update>-->
+    <!--	-->
+    <!--	<insert id="saveupdateTournamentConfig" parameterType="com.panda.sport.rcs.pojo.RcsTournamentMarketConfig" useGeneratedKeys="true" keyProperty="id">-->
+    <!--		insert into rcs_tournament_market_config(tournament_id,play_id,margin,home_level_first_max_amount,home_level_first_odds_rate,home_level_second_max_amount,-->
+    <!--			home_level_second_odds_rate,max_single_bet_amount,max_odds,min_odds,data_source,away_level_first_max_amount,-->
+    <!--			away_level_second_max_amount,away_level_first_odds_rate,away_level_second_odds_rate)-->
+    <!--		values(#{tournamentId},#{playId},#{margin},#{homeLevelFirstMaxAmount},#{homeLevelFirstOddsRate},#{homeLevelSecondMaxAmount},#{homeLevelSecondOddsRate},-->
+    <!--			#{maxSingleBetAmount},#{maxOddsRate},#{minOddsRate},#{dataSource},#{awayLevelFirstMaxAmount},#{awayLevelSecondMaxAmount},#{awayLevelFirstOddsRate},-->
+    <!--			#{awayLevelSecondOddsRate})-->
+    <!--		on duplicate key update margin = VALUES(margin),home_level_first_max_amount = VALUES(home_level_first_max_amount),-->
+    <!--			home_level_first_odds_rate = VALUES(home_level_first_odds_rate),home_level_second_max_amount = VALUES(home_level_second_max_amount),-->
+    <!--			home_level_second_odds_rate = VALUES(home_level_second_odds_rate),max_single_bet_amount = VALUES(max_single_bet_amount),-->
+    <!--			max_odds = VALUES(max_odds),min_odds = VALUES(min_odds),-->
+    <!--			data_source = VALUES(data_source),away_level_first_max_amount = VALUES(away_level_first_max_amount),-->
+    <!--			away_level_second_max_amount = VALUES(away_level_second_max_amount),away_level_first_odds_rate = VALUES(away_level_first_odds_rate),-->
+    <!--			away_level_second_odds_rate = VALUES(away_level_second_odds_rate)-->
+    <!--	</insert>-->
+
+    <select id="queryCategoryInfoByMap" parameterType="Map"
+            resultType="com.panda.sport.rcs.pojo.StandardSportMarketCategory">
+        SELECT c.id,r.sport_id sportId,r.name_code nameCode,c.`status`,c.multi_market multiMarket,c.type,
+        c.order_no `orderNo`,c.fields_num fieldsNum,c.odds_switch oddsSwitch,r.scope_id theirTime FROM
+        standard_sport_market_category c
+        LEFT JOIN standard_sport_market_category_ref r ON r.category_id = c.id
+        WHERE c.id = #{id} AND r.sport_id = #{sportId}
+    </select>
+
+    <!--	<select id="queryCategoryList" parameterType="String" resultType="com.panda.sport.rcs.pojo.StandardSportMarketCategory">-->
+    <!--		SELECT c.id,r.sport_id sportId,r.name_code nameCode,-->
+    <!--		case when c.`status` = 1 AND r.`status` = 1 then 1 ELSE 0 END `status`,-->
+    <!--		c.multi_market multiMarket,-->
+    <!--		r.order_no `orderNo`,c.fields_num fieldsNum,c.odds_switch oddsSwitch,r.scope_id theirTime ,-->
+    <!--		(SELECT case when COUNT(1) > 0 then 1 ELSE NULL END  FROM rcs_market_category_set_relation r -->
+    <!--			LEFT JOIN rcs_market_category_set s ON s.id = r.market_category_set_id -->
+    <!--			WHERE s.`type` = 1 AND  r.market_category_id = c.id ) displayStyle-->
+    <!--		FROM standard_sport_market_category c-->
+    <!--		LEFT JOIN standard_sport_market_category_ref r ON r.category_id = c.id-->
+    <!--		WHERE r.sport_id = #{sportId}-->
+    <!--	</select>-->
+    <select id="queryCategoryTemplate" resultType="com.panda.sport.rcs.vo.CategoryTemplateVo">
+        SELECT
+        ssmcr.sport_id sport_id,
+        ssmcr.category_id category_id,
+        ssmcr.scope_id scope_id,
+        ssmcr.name_code name_code,
+        ssmc.template_pc template_id,
+        ssmcr.order_no
+        FROM
+        standard_sport_market_category_ref ssmcr
+        LEFT JOIN standard_sport_market_category ssmc ON ssmc.id = ssmcr.category_id
+        WHERE 1 = 1
+        <if test="sportId != null and sportId !=''">
+            AND ssmcr.sport_id = #{sportId}
+        </if>
+        ORDER BY
+        ssmcr.sport_id,
+        ssmcr.category_id
+    </select>
+    <select id="queryMtsConfigVal" resultType="java.lang.String">
+        select mts_config_value as mtsConfigValue  from  rcs_tournament_template
+        where sport_id=#{sportId} and type_val=#{matchId} and type=#{type}
+    </select>
+    <select id="queryRelationPlayId" resultType="com.panda.sport.rcs.vo.RcsPlayIdByCategory">
+        SELECT t.id as categorySetId,t1.market_category_id as playId from rcs_market_category_set t LEFT JOIN rcs_market_category_set_relation t1 on t.id=t1.market_category_set_id where t.sport_id=1 and t.type=1;
+    </select>
+</mapper>

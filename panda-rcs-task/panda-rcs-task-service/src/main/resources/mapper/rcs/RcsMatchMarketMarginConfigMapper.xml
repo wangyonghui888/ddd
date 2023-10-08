@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.mapper.RcsMatchMarketMarginConfigMapper">
+    <insert id="insertOrUpdateMarketMarginConfig">
+        INSERT INTO `panda_rcs`.`rcs_match_market_margin_config` (
+            `match_id`,
+            `play_id`,
+             market_id,
+
+            `home_margin`,
+            `away_margin`,
+            `tie_margin`
+        )
+        VALUES
+        ( #{config.matchId},
+          #{config.playId},
+          #{config.marketId,jdbcType=BIGINT},
+
+          #{config.homeMargin,jdbcType=DECIMAL},
+          #{config.awayMargin,jdbcType=DECIMAL},
+          #{config.tieMargin,jdbcType=DECIMAL}
+        )
+        ON DUPLICATE KEY UPDATE
+         `home_margin`=	#{config.homeMargin,jdbcType=DECIMAL},
+         `away_margin`=	#{config.awayMargin,jdbcType=DECIMAL},
+         `tie_margin`=	#{config.tieMargin,jdbcType=DECIMAL}
+    </insert>
+
+    <update id="updateZero">
+       UPDATE rcs_match_market_margin_config set away_auto_change_rate  = 0,tie_margin = 0 ,away_margin = 0 ,home_margin = 0 WHERE match_id = #{matchId}
+    </update>
+
+</mapper>

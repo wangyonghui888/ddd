@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.customdb.mapper.UserSpecialStatisExtMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.panda.sport.rcs.db.entity.UserSpecialStatis">
+        <id column="id" property="id"/>
+        <result column="statis_day" property="statisDay"/>
+        <result column="user_id" property="userId"/>
+        <result column="parent_type" property="parentType"/>
+        <result column="child_type" property="childType"/>
+        <result column="value" property="value"/>
+        <result column="profit" property="profit"/>
+        <result column="bet_num" property="betNum"/>
+        <result column="bet_profit_num" property="betProfitNum"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, statis_day, user_id, parent_type, child_type, value, profit, bet_num, bet_profit_num
+    </sql>
+
+    <resultMap id="ListBySportResVoResultMap" type="com.panda.sport.rcs.common.vo.api.response.ListBySportResVo">
+    </resultMap>
+
+    <resultMap id="ListByTournamentResVoResultMap" type="com.panda.sport.rcs.common.vo.api.response.ListByTournamentResVo">
+    </resultMap>
+
+    <resultMap id="ListByPlayResVoResultMap" type="com.panda.sport.rcs.common.vo.api.response.ListByPlayResVo">
+    </resultMap>
+
+    <resultMap id="ListByTeamResVoResultMap" type="com.panda.sport.rcs.common.vo.api.response.ListByTeamResVo">
+    </resultMap>
+
+    <resultMap id="ListByMarketResVoResultMap" type="com.panda.sport.rcs.common.vo.api.response.ListByMarketResVo">
+    </resultMap>
+
+    <resultMap id="ListByOddsResVoResultMap" type="com.panda.sport.rcs.common.vo.api.response.ListByOddsResVo">
+    </resultMap>
+
+    <resultMap id="ListByBetScopeResVoResultMap" type="com.panda.sport.rcs.common.vo.api.response.ListByBetScopeResVo">
+    </resultMap>
+
+    <resultMap id="ListByMainResVoResultMap" type="com.panda.sport.rcs.common.vo.api.response.ListByMainResVo">
+    </resultMap>
+
+    <resultMap id="ListByOppositeResVoResultMap" type="com.panda.sport.rcs.common.vo.api.response.ListByOppositeResVo">
+    </resultMap>
+
+    <resultMap id="DangerousListResVoResultMap" type="com.panda.sport.rcs.common.vo.api.response.UserDangerousOrderResVo">
+    </resultMap>
+
+    <resultMap id="AccessListResVoResultMap" type="com.panda.sport.rcs.common.vo.api.response.AccessListResVo">
+    </resultMap>
+
+    <resultMap id="ListByBetTypeVoResultMap" type="com.panda.sport.rcs.common.vo.api.response.ListByBetTypeResVo">
+    </resultMap>
+
+    <resultMap id="ListByBetStageResVoResultMap" type="com.panda.sport.rcs.common.vo.api.response.ListByBetStageResVo">
+    </resultMap>
+
+    <!--球类统计-->
+    <select id="getListBySport" resultMap="ListBySportResVoResultMap">
+        select
+        #{param.beginDate} as beginDate,
+        #{param.endDate} as endDate,
+        <if test="@com.baomidou.mybatisplus.core.toolkit.ObjectUtils@isEmpty(param.isAll)">
+            child_type sportId,
+        </if>
+        sum(value)/100 betAmount ,
+        sum(finance_value)/100 financeValue ,
+        sum(profit)/100 profitAmount ,
+        SUM(bet_num) betNum ,
+        SUM(bet_profit_num) betProfitNum ,
+        SUM(finance_value)/100/SUM(bet_num) avgBetAmount ,
+        SUM(profit)/1.0/SUM(finance_value)*100 profitRate ,
+        SUM(bet_profit_num)/1.0/SUM(bet_num)*100 profitBetRate,
+        (sum(win_bet_num)/sum(bet_num))*100 winPoint
+        from user_special_statis
+        where parent_type =1
+        and user_id=#{param.userId}
+        and statis_day &gt;= #{param.beginDate}
+        and statis_day &lt;= #{param.endDate}
+        <if test="@com.baomidou.mybatisplus.core.toolkit.ObjectUtils@isEmpty(param.isAll)">
+            group by child_type
+        </if>
+        <if test="@com.baomidou.mybatisplus.core.toolkit.ObjectUtils@isNotEmpty(param.orderColumn)">
+            order by ${param.orderColumn} desc
+        </if>
+    </select>
+
+
+    <!--联赛统计-->
+    <select id="getListByTournament" resultMap="ListByTournamentResVoResultMap">
+        select
+        <if test="@com.baomidou.mybatisplus.core.toolkit.ObjectUtils@isEmpty(param.isAll)">
+            child_type tournamentId,
+        </if>
+        sum(value)/100 betAmount ,
+        sum(finance_value)/100 financeValue ,
+        sum(profit)/100 profitAmount ,
+        SUM(bet_num) betNum ,
+        SUM(bet_profit_num) betProfitNum ,
+        SUM(finance_value)/100/SUM(bet_num) avgBetAmount ,
+        SUM(profit)/1.0/SUM(finance_value)*100 profitRate ,
+        SUM(bet_profit_num)/1.0/SUM(bet_num)*100 profitBetRate,
+        (sum(win_bet_num)/sum(bet_num)) * 100 winPoint
+        from user_special_statis
+        where parent_type = 2
+        and user_id=#{param.userId}
+        and statis_day &gt;= #{param.beginDate}
+        and statis_day &lt;= #{param.endDate}
+        <if test="@com.baomidou.mybatisplus.core.toolkit.ObjectUtils@isEmpty(param.isAll)">
+            group by child_type
+        </if>
+        <if test="@com.baomidou.mybatisplus.core.toolkit.ObjectUtils@isNotEmpty(param.orderColumn)">
+            order by ${param.orderColumn} desc
+        </if>
+
+    </select>
+
+    <!--玩法统计-->
+    <select id="getListByPlay" resultMap="ListByPlayResVoResultMap">
+        select
+        <if test="@com.baomidou.mybatisplus.core.toolkit.ObjectUtils@isEmpty(param.isAll)">
+            child_type sportIdPlayId,
+        </if>
+        sum(value)/100 betAmount ,
+        sum(finance_value)/100 financeValue ,
+        sum(profit)/100 profitAmount ,
+        SUM(bet_num) betNum ,
+        SUM(bet_profit_num) betProfitNum ,
+        SUM(finance_value)/100/SUM(bet_num) avgBetAmount ,
+        SUM(profit)/1.0/SUM(finance_value)*100 profitRate ,
+        SUM(bet_profit_num)/1.0/SUM(bet_num)*100 profitBetRate,
+        (sum(win_bet_num)/sum(bet_num))*100 winPoint
+        from user_special_statis
+        where parent_type = 3
+        and user_id=#{param.userId}
+        and statis_day &gt;= #{param.beginDate}
+        and statis_day &lt;= #{param.endDate}
+        <if test="@com.baomidou.mybatisplus.core.toolkit.ObjectUtils@isEmpty(param.isAll)">
+            group by child_type
+        </if>
+        <if test="@com.baomidou.mybatisplus.core.toolkit.ObjectUtils@isNotEmpty(param.orderColumn)">
+            order by ${param.orderColumn} desc
+        </if>
+    </select>
+
+    <!--球队统计-->
+    <select id="getListByTeam" resultMap="ListByTeamResVoResultMap">
+        select
+        <if test="@com.baomidou.mybatisplus.core.toolkit.ObjectUtils@isEmpty(param.isAll)">
+            child_type teamId,
+        </if>
+        sum(value)  betAmount
+        from user_special_statis
+        where parent_type = 4
+        and user_id=#{param.userId}
+        and statis_day &gt;= #{param.beginDate}
+        and statis_day &lt;= #{param.endDate}
+        <if test="@com.baomidou.mybatisplus.core.toolkit.ObjectUtils@isEmpty(param.isAll)">
+            group by child_type
+        </if>
+        <if test="@com.baomidou.mybatisplus.core.toolkit.ObjectUtils@isNotEmpty(param.orderColumn)">
+            order by ${param.orderColumn} desc
+        </if>
+    </select>
+
+    <!--盘口统计-->
+    <select id="getListByMarket" resultMap="ListByMarketResVoResultMap">
+        select
+        child_type market,
+        sum(value)/100 betAmount
+        from user_special_statis
+        where parent_type = 5
+        and user_id=#{param.userId}
+        and statis_day &gt;= #{param.beginDate}
+        and statis_day &lt;= #{param.endDate}
+        group by child_type
+        <if test="@com.baomidou.mybatisplus.core.toolkit.ObjectUtils@isNotEmpty(param.orderColumn)">
+            order by ${param.orderColumn} desc
+        </if>
+    </select>
+
+    <!--赔率区间统计-->
+    <select id="getListByOdds" resultMap="ListByOddsResVoResultMap">
+        select
+        child_type oddsType,
+        sum(value)/100 betAmount
+        from user_special_statis
+        where parent_type = 6
+        and user_id=#{param.userId}
+        and statis_day &gt;= #{param.beginDate}
+        and statis_day &lt;= #{param.endDate}
+        group by child_type
+        <if test="@com.baomidou.mybatisplus.core.toolkit.ObjectUtils@isNotEmpty(param.orderColumn)">
+            order by ${param.orderColumn} desc
+        </if>
+    </select>
+
+    <!--赔率区间统计-->
+    <select id="getListByBetScope" resultMap="ListByBetScopeResVoResultMap">
+        select
+        child_type betType,
+        sum(value)/100 betAmount
+        from user_special_statis
+        where parent_type = 7
+        and user_id=#{param.userId}
+        and statis_day &gt;= #{param.beginDate}
+        and statis_day &lt;= #{param.endDate}
+        group by child_type
+        <if test="@com.baomidou.mybatisplus.core.toolkit.ObjectUtils@isNotEmpty(param.orderColumn)">
+            order by ${param.orderColumn} desc
+        </if>
+    </select>
+
+    <!--赔率区间统计-->
+    <select id="getListByMain" resultMap="ListByMainResVoResultMap">
+        select
+        child_type mainType,
+        sum(value)/100 betAmount
+        from user_special_statis
+        where parent_type = 8
+        and user_id=#{param.userId}
+        and statis_day &gt;= #{param.beginDate}
+        and statis_day &lt;= #{param.endDate}
+        group by child_type
+        <if test="@com.baomidou.mybatisplus.core.toolkit.ObjectUtils@isNotEmpty(param.orderColumn)">
+            order by ${param.orderColumn} desc
+        </if>
+    </select>
+
+    <!--赔率区间统计-->
+    <select id="getListByOpposite" resultMap="ListByOppositeResVoResultMap">
+        select
+        child_type isOpposite,
+        sum(value)/100 betAmount
+        from user_special_statis
+        where parent_type = 9
+        and user_id=#{param.userId}
+        and statis_day &gt;= #{param.beginDate}
+        and statis_day &lt;= #{param.endDate}
+        group by child_type
+        <if test="@com.baomidou.mybatisplus.core.toolkit.ObjectUtils@isNotEmpty(param.orderColumn)">
+            order by ${param.orderColumn} desc
+        </if>
+    </select>
+
+    <!--危险投注-->
+    <select id="getDangerousList" resultMap="DangerousListResVoResultMap">
+        SELECT r.dangerous_id dangerousId ,
+        SUM(d.bet_amount)/100 betAmount ,
+        COUNT(*) num ,
+        AVG(d.bet_amount)/100 avgAmount
+        FROM user_profile_order_dangerous r
+        INNER JOIN  tybss_merchant_common.t_order_detail d   ON r.order_no = d.order_no AND   r.bet_no = d.bet_no
+        INNER JOIN  tybss_merchant_common.t_order o   ON o.order_no = d.order_no
+        and d.create_time &gt;= #{param.beginTime}
+        and d.create_time &lt;= #{param.endTime}
+        and d.uid = #{param.userId}
+        and o.series_type=1
+        GROUP BY r.dangerous_id
+    </select>
+
+
+
+    <!--投注类型-->
+    <select id="getListByBetType" resultMap="ListByBetTypeVoResultMap">
+        select
+        <if test="@com.baomidou.mybatisplus.core.toolkit.ObjectUtils@isEmpty(param.isAll)">
+            child_type betType,
+        </if>
+            sum(value)/100 betAmount ,
+            sum(finance_value)/100 financeValue ,
+            sum(profit)/100 profitAmount ,
+            SUM(bet_num) betNum ,
+            SUM(bet_profit_num) betProfitNum ,
+            SUM(finance_value)/100/SUM(bet_num) avgBetAmount ,
+            SUM(profit)/1.0/SUM(finance_value)*100 profitRate ,
+            SUM(bet_profit_num)/1.0/SUM(bet_num)*100 profitBetRate,
+            (sum(win_bet_num)/sum(bet_num)) * 100 winPoint
+        from
+            user_special_statis
+        where
+            parent_type = 10
+            and user_id=#{param.userId}
+            and statis_day &gt;= #{param.beginDate}
+            and statis_day &lt;= #{param.endDate}
+            <if test="@com.baomidou.mybatisplus.core.toolkit.ObjectUtils@isEmpty(param.isAll)">
+                group by child_type
+            </if>
+            <if test="@com.baomidou.mybatisplus.core.toolkit.ObjectUtils@isNotEmpty(param.orderColumn)">
+                order by ${param.orderColumn} desc
+            </if>
+
+    </select>
+
+
+    <!--投注阶段-->
+    <select id="getListByBetStage" resultMap="ListByBetStageResVoResultMap">
+        select
+        <if test="@com.baomidou.mybatisplus.core.toolkit.ObjectUtils@isEmpty(param.isAll)">
+            child_type betStage,
+        </if>
+            sum(value)/100 betAmount ,
+            sum(finance_value)/100 financeValue ,
+            sum(profit)/100 profitAmount ,
+            SUM(bet_num) betNum ,
+            SUM(bet_profit_num) betProfitNum ,
+            SUM(finance_value)/100/SUM(bet_num) avgBetAmount ,
+            SUM(profit)/1.0/SUM(finance_value)*100 profitRate ,
+            SUM(bet_profit_num)/1.0/SUM(bet_num)*100 profitBetRate,
+            (sum(win_bet_num)/sum(bet_num)) * 100 winPoint
+        from
+            user_special_statis
+        where
+            parent_type = 11
+            and user_id=#{param.userId}
+            and statis_day &gt;= #{param.beginDate}
+            and statis_day &lt;= #{param.endDate}
+            <if test="@com.baomidou.mybatisplus.core.toolkit.ObjectUtils@isEmpty(param.isAll)">
+                group by child_type
+            </if>
+            <if test="@com.baomidou.mybatisplus.core.toolkit.ObjectUtils@isNotEmpty(param.orderColumn)">
+                order by ${param.orderColumn} desc
+            </if>
+
+    </select>
+
+</mapper>

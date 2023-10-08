@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.mapper.RcsPreOrderDetailExtMapper">
+    <update id="updateOrderStatus" parameterType="com.panda.sport.rcs.pojo.RcsPreOrderDetailExt">
+        update rcs_pre_order_detail_ext
+        <set>
+            update_time = #{updateTime},
+            order_status = #{orderStatus},
+            info_status = #{infoStatus},
+            max_accept_time = #{maxAcceptTime},
+            max_wait = #{maxWait},
+            min_wait = #{minWait},
+            current_event = #{currentEvent},
+            current_event_type = #{currentEventType},
+            current_event_time = #{currentEventTime},
+            category_set_id = #{categorySetId},
+            reason = #{reason},
+            event_axis = #{eventAxis}
+        </set>
+        where order_no = #{orderNo} and order_status != 2
+    </update>
+</mapper>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.mapper.RcsMarketChampionExtMapper">
+  <resultMap id="BaseResultMap" type="com.panda.sport.rcs.pojo.RcsMarketChampionExt">
+    <!--@mbg.generated-->
+    <!--@Table rcs_market_champion_ext-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="sport_id" jdbcType="BIGINT" property="sportId" />
+    <result column="standard_match_info_id" jdbcType="BIGINT" property="standardMatchInfoId" />
+    <result column="market_category_id" jdbcType="BIGINT" property="marketCategoryId" />
+    <result column="market_id" jdbcType="BIGINT" property="marketId" />
+    <result column="next_seal_time" jdbcType="VARCHAR" property="nextSealTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, sport_id, standard_match_info_id, market_category_id, market_id, next_seal_time, 
+    create_time, update_time
+  </sql>
+
+  <select id="queryChampionMatchBySeal" resultType="com.panda.sport.rcs.pojo.RcsMarketChampionExt">
+     select temp.* from
+    (
+    SELECT e.*,
+    (select c.data_source from rcs_trade_config c where c.match_id= concat(e.standard_match_info_id) and c.targer_data = e.market_id order by c.id desc LIMIT 1) as data_source,
+    (select c.status from rcs_trade_config c where c.match_id= concat(e.standard_match_info_id) and c.targer_data = e.market_id order by c.id desc LIMIT 1) as status
+    FROM rcs_market_champion_ext e,rcs_standard_outright_match_info i
+    where e.standard_match_info_id = i.id
+    ) temp
+    where temp.data_source = 1
+    and (temp.status = 0 or temp.status is null)
+    and temp.next_seal_time &lt;= unix_timestamp(now()) * 1000
+  </select>
+
+  <select id="queryChampionMatchBySealNew" resultType="com.panda.sport.rcs.pojo.dao.RcsMarketChampionExtVO">
+    SELECT e.*
+    FROM rcs_market_champion_ext e
+    INNER JOIN rcs_standard_outright_match_info i ON e.standard_match_info_id = i.id
+    WHERE e.next_seal_time &lt;= unix_timestamp(now()) * 1000
+  </select>
+
+
+</mapper>

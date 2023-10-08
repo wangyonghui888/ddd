@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.rcs.push.mapper.PlayInfoMapper">
+    <cache/>
+    <!-- 根据玩法id查询所在玩法集-->
+    <select id="findMarketCategoryListByPlayId" resultType="com.panda.rcs.order.entity.vo.PlayInfoVo">
+        select
+            category.id as id, category.name as name,
+            rel.market_category_id as playId, category.sport_id as sportId
+        from rcs_market_category_set_relation rel
+                 JOIN rcs_market_category_set category ON category.id=rel.market_category_set_id
+        where category.`status` = 2
+          AND rel.market_category_id = #{ id }
+          AND category.`type` = 1
+          AND category.sport_id= #{ sportId }
+        limit 1
+    </select>
+</mapper>

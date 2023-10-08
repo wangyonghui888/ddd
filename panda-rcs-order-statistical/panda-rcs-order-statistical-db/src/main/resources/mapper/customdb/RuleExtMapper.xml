@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.customdb.mapper.RuleExtMapper">
+
+    <resultMap id="FinancialRuleVoResultMap" type="com.panda.sport.rcs.common.vo.rule.FinancialRuleVo"></resultMap>
+    <resultMap id="SportRateVoResultMap" type="com.panda.sport.rcs.common.vo.rule.SportRateVo"></resultMap>
+    <resultMap id="TournamentBetNumVoResultMap"
+               type="com.panda.sport.rcs.common.vo.rule.TournamentBetNumVo"></resultMap>
+    <resultMap id="TeamTimesVoResultMap" type="com.panda.sport.rcs.common.vo.rule.TeamTimesVo"></resultMap>
+    <resultMap id="CityNumVoResultMap" type="com.panda.sport.rcs.common.vo.rule.CityNumVo"></resultMap>
+    <resultMap id="RiskUserVisitIpResultMap" type="com.panda.sport.rcs.db.entity.RiskUserVisitIp"></resultMap>
+    <resultMap id="IpNumVoResultMap" type="com.panda.sport.rcs.common.vo.rule.IpNumVo"></resultMap>
+    <resultMap id="BetAmountOrderVo" type="com.panda.sport.rcs.common.vo.rule.BetAmountOrderVo"></resultMap>
+    <resultMap id="UserBetNumVoResultMap" type="com.panda.sport.rcs.common.vo.rule.UserBetNumVo"></resultMap>
+    <resultMap id="UserBetAmountVoResultMap" type="com.panda.sport.rcs.common.vo.rule.UserBetAmountVo"></resultMap>
+    <resultMap id="SportBetNumVoResultMap" type="com.panda.sport.rcs.common.vo.rule.SportBetNumVo"></resultMap>
+    <resultMap id="PlayBetNumVoResultMap" type="com.panda.sport.rcs.common.vo.rule.PlayBetNumVo"></resultMap>
+    <resultMap id="MatchProfitNumVoResultMap" type="com.panda.sport.rcs.common.vo.rule.MatchProfitNumVo"></resultMap>
+    <resultMap id="MatchBetNumVoVoResultMap" type="com.panda.sport.rcs.common.vo.rule.MatchBetNumVo"></resultMap>
+    <resultMap id="LongResultMap" type="java.lang.Long"></resultMap>
+
+    <!--投注金额 盈利金额-->
+    <select id="getProfitAndRate" resultMap="FinancialRuleVoResultMap">
+
+            SELECT
+            SUM(betAmount) betAmount,
+            SUM(settleAmount)  settleAmount,
+            (SUM(settleAmount)-SUM(betAmount))  profitAmount
+            FROM
+        (
+            (
+            SELECT
+            SUM(bet_amount)/100 betAmount,
+            SUM(settle_amount)/100 settleAmount ,
+            (SUM(settle_amount)-SUM(bet_amount))/100  profitAmount
+            FROM tybss_merchant_common.t_settle s
+            where s.uid=#{userId}
+            and s.create_time &gt;= #{beginDate}
+            and s.create_time &lt; #{endDate}
+            )
+            UNION ALL
+            (
+            SELECT
+            SUM(bet_amount)/100 betAmount,
+            SUM(settle_amount)/100 settleAmount ,
+            (SUM(settle_amount)-SUM(bet_amount))/100  profitAmount
+            FROM tybss_merchant_common.t_settle_old s
+            where s.uid=#{userId}
+            and s.create_time &gt;= #{beginDate}
+            and s.create_time &lt; #{endDate}
+            )
+        ) t
+</select>
+
+<!--投注内容-x球类 投注比例-->
+    <select id="getSportRate" resultMap="SportRateVoResultMap">
+         SELECT sum(bet_amount)/100 allAmount,SUM(s)/100 sportAmount ,SUM(s)/sum(bet_amount)*100 rate FROM
+         (
+            SELECT d.bet_amount,IF(sport_id =#{sportId},bet_amount,0) s FROM tybss_merchant_common.t_order_detail d inner join tybss_merchant_common.t_order o  on d.order_no = o.order_no
+            where d.uid=#{userId}
+            and d.create_time &gt;= #{beginDate}
+            and d.create_time &lt; #{endDate}
+            and (d.bet_status = 1 or d.bet_status = 0 or d.bet_status = 6)
+            and o.series_type=1
+        UNION ALL
+             SELECT d.bet_amount,IF(sport_id =#{sportId},bet_amount,0) s FROM tybss_merchant_common.t_order_detail_old d inner join tybss_merchant_common.t_order_old o  on d.order_no = o.order_no
+            where d.uid=#{userId}
+            and d.create_time &gt;= #{beginDate}
+            and d.create_time &lt; #{endDate}
+            and (d.bet_status = 1 or d.bet_status = 0 or d.bet_status = 6)
+            and o.series_type=1
+
+         ) t
+    </select>
+
+    <!--投注内容-获取用户联赛投注笔数最高的-->
+    <select id="getTournamentBetNum" resultMap="TournamentBetNumVoResultMap">
+        SELECT t.tournamentId,sum(betNum) betNum,t.tournamentName1,t.tournamentName2,t.tournamentName3 FROM
+        (
+        SELECT d.tournament_id tournamentId , count(*) betNum,
+        (SELECT cn_name FROM tybss_new.`s_esport_tournaments` WHERE id = d.tournament_id) tournamentName1,
+        (SELECT zs FROM tybss_new.`s_language` where name_code =(SELECT name_code FROM tybss_new.`s_tournament` WHERE id = d.tournament_id)) tournamentName2,
+        (SELECT zs FROM tybss_new.`s_virtual_language` where name_code =(SELECT name_code FROM tybss_new.`s_virtual_tournament` WHERE id = d.tournament_id)) tournamentName3
+
+        FROM tybss_merchant_common.t_order_detail d inner join tybss_merchant_common.t_order o  on d.order_no = o.order_no
+        where d.uid=#{userId}
+        and d.create_time &gt;= #{beginDate}
+        and d.create_time &lt; #{endDate}
+        and (d.bet_status = 1 or d.bet_status = 0 or d.bet_status = 6)
+        and o.series_type=1
+        GROUP BY d.tournament_id
+
+        UNION ALL
+
+        SELECT d.tournament_id tournamentId , count(*) betNum,
+        (SELECT cn_name FROM tybss_new.`s_esport_tournaments` WHERE id = d.tournament_id) tournamentName1,
+        (SELECT zs FROM tybss_new.`s_language` where name_code =(SELECT name_code FROM tybss_new.`s_tournament` WHERE id = d.tournament_id)) tournamentName2,
+        (SELECT zs FROM tybss_new.`s_virtual_language` where name_code =(SELECT name_code FROM tybss_new.`s_virtual_tournament` WHERE id = d.tournament_id)) tournamentName3
+
+        FROM tybss_merchant_common.t_order_detail_old d inner join tybss_merchant_common.t_order_old o  on d.order_no = o.order_no
+        where d.uid=#{userId}
+        and d.create_time &gt;= #{beginDate}
+        and d.create_time &lt; #{endDate}
+        and (d.bet_status = 1 or d.bet_status = 0 or d.bet_status = 6)
+        and o.series_type=1
+        GROUP BY d.tournament_id
+        ) t  GROUP BY t.tournamentId
+        order by betNum desc
+    <!--  limit 1-->
+</select>
+
+<!--投注内容-获取用户联赛投注笔数最高的-->
+    <select id="getSportBetNum" resultMap="SportBetNumVoResultMap">
+        select t.sportId,sum(betNum) betNum from
+        (
+        SELECT d.sport_id sportId , count(*) betNum  FROM tybss_merchant_common.t_order_detail d inner join tybss_merchant_common.t_order o  on d.order_no = o.order_no
+        where d.uid=#{userId}
+        and d.create_time &gt;= #{beginDate}
+        and d.create_time &lt; #{endDate}
+        and (d.bet_status = 1 or d.bet_status = 0 or d.bet_status = 6)
+        and o.series_type=1
+        GROUP BY d.sport_id
+        UNION ALL
+        SELECT d.sport_id sportId , count(*) betNum  FROM tybss_merchant_common.t_order_detail_old d inner join tybss_merchant_common.t_order_old o  on d.order_no = o.order_no
+        where d.uid=#{userId}
+        and d.create_time &gt;= #{beginDate}
+        and d.create_time &lt; #{endDate}
+        and (d.bet_status = 1 or d.bet_status = 0 or d.bet_status = 6)
+        and o.series_type=1
+        GROUP BY d.sport_id
+        )t
+
+        order by betNum desc
+    <!--limit 1-->
+    </select>
+
+<!--投注内容-用户时间段内所有投注笔数-->
+    <select id="getUserBetNum" resultMap="LongResultMap">
+        SELECT sum(betNum) betNum FROM
+        (
+        SELECT count(*) betNum  FROM tybss_merchant_common.t_order_detail d inner join tybss_merchant_common.t_order o  on d.order_no = o.order_no
+        where d.uid=#{userId}
+        and d.create_time &gt;= #{beginDate}
+        and d.create_time &lt; #{endDate}
+        and (d.bet_status = 1 or d.bet_status = 0 or d.bet_status = 6)
+        and o.series_type=1
+        UNION ALL
+        SELECT count(*) betNum  FROM tybss_merchant_common.t_order_detail_old d inner join tybss_merchant_common.t_order_old o  on d.order_no = o.order_no
+        where d.uid=#{userId}
+        and d.create_time &gt;= #{beginDate}
+        and d.create_time &lt; #{endDate}
+        and (d.bet_status = 1 or d.bet_status = 0 or d.bet_status = 6)
+        and o.series_type=1
+        ) t
+
+    </select>
+
+    <!--投注内容-用户时间段内所有投注笔数-->
+    <select id="getUserSuccessBetNum" resultMap="LongResultMap">
+        SELECT sum(betNum) betNum FROM
+        (
+        SELECT count(*) betNum  FROM tybss_merchant_common.t_order_detail d inner join tybss_merchant_common.t_order o  on d.order_no = o.order_no
+        where d.uid=#{userId}
+        and d.create_time &gt;= #{beginDate}
+        and d.create_time &lt; #{endDate}
+        and (d.bet_status = 1 or d.bet_status = 0 or d.bet_status = 6)
+        and o.series_type=1
+         UNION ALL
+         SELECT count(*) betNum  FROM tybss_merchant_common.t_order_detail_old d inner join tybss_merchant_common.t_order_old o  on d.order_no = o.order_no
+        where d.uid=#{userId}
+        and d.create_time &gt;= #{beginDate}
+        and d.create_time &lt; #{endDate}
+        and (d.bet_status = 1 or d.bet_status = 0 or d.bet_status = 6)
+        and o.series_type=1
+        ) t
+    </select>
+
+
+    <!--投注内容-用户时间段内所有投注金额-->
+    <select id="getUserBetAmount" resultMap="UserBetAmountVoResultMap">
+        SELECT SUM(betAmount)  betAmount FROM
+        (
+        SELECT SUM(d.bet_amount)/100 betAmount FROM tybss_merchant_common.t_order_detail d inner join tybss_merchant_common.t_order o  on d.order_no = o.order_no
+        where d.uid=#{userId}
+        and d.create_time &gt;= #{beginDate}
+        and d.create_time &lt; #{endDate}
+        and (d.bet_status = 1 or d.bet_status = 0 or d.bet_status = 6)
+        and o.series_type=1
+        UNION ALL
+        SELECT SUM(d.bet_amount)/100 betAmount FROM tybss_merchant_common.t_order_detail_old d inner join tybss_merchant_common.t_order_old o  on d.order_no = o.order_no
+        where d.uid=#{userId}
+        and d.create_time &gt;= #{beginDate}
+        and d.create_time &lt; #{endDate}
+        and (d.bet_status = 1 or d.bet_status = 0 or d.bet_status = 6)
+        and o.series_type=1
+        ) t
+    </select>
+
+
+    <!--投注内容-球队次数-->
+    <select id="getTeamTimes" resultMap="TeamTimesVoResultMap">
+        SELECT SUM(VALUE) FROM user_special_statis WHERE parent_type = 4
+        and user_id=#{userId}
+        and statis_day &gt;= #{beginDate}
+        and statis_day &lt;= #{endDate}
+        GROUP BY child_type
+        ORDER BY teamTimes DESC
+        LIMIT 1
+    </select>
+
+    <!--访问特征类 R5	代理登录判断标准 -->
+    <select id="getCityNum" resultMap="CityNumVoResultMap">
+        SELECT login_date loginDate,city,COUNT(*) cityNum
+        FROM risk_user_visit_ip
+        WHERE user_id=#{userId}
+        and login_date &gt;= #{beginDate}
+        and login_date &lt;= #{endDate}
+        GROUP BY login_date,city
+        ORDER BY cityNum desc
+        LIMIT 1
+    </select>
+
+    <!--访问特征类	R7	一机多登判断标准  查询出 满足条件的ip  -->
+    <select id="getIpNum" resultMap="IpNumVoResultMap">
+        SELECT ip ,COUNT(*) num FROM
+        (
+        SELECT distinct ip ,user_id
+        FROM risk_user_visit_ip
+        WHERE   login_date &gt;= #{beginDate}
+        and login_date &lt;= #{endDate}
+        ) t
+        GROUP BY ip HAVING num >=#{num}
+    </select>
+
+    <!--查询危险投注投注笔数标准-->
+    <select id="getUserDangerousBetNum" resultMap="LongResultMap">
+         select sum(s) FROM
+        (
+        select count(*) s From user_profile_order_dangerous r
+                    INNER JOIN  tybss_merchant_common.t_order_detail d   ON r.order_no = d.order_no AND   r.bet_no = d.bet_no
+                    INNER JOIN  tybss_merchant_common.t_order o   ON o.order_no = d.order_no
+        and d.uid=#{userId}
+        and d.create_time &gt;= #{startTime}
+        and d.create_time &lt; #{endTime}
+        and r.dangerous_id = #{dangerousId}
+        and o.series_type=1
+        UNION ALL
+        select count(*) s From user_profile_order_dangerous r
+                    INNER JOIN  tybss_merchant_common.t_order_detail_old d   ON r.order_no = d.order_no AND   r.bet_no = d.bet_no
+                    INNER JOIN  tybss_merchant_common.t_order_old o   ON o.order_no = d.order_no
+        and d.uid=#{userId}
+        and d.create_time &gt;= #{startTime}
+        and d.create_time &lt; #{endTime}
+        and r.dangerous_id = #{dangerousId}
+        and o.series_type=1
+        ) t
+    </select>
+
+    <select id="getLargeAmountBetOrders" resultMap="BetAmountOrderVo">
+        SELECT
+            sum(times) AS betNumbersAll,
+            sum(conditon) AS betNumbers,
+            #{uid} as  uid
+        FROM
+	        (
+            SELECT
+                1 AS times,
+                IF ( bet_amount &gt;= #{limitAmount}, 1, 0 ) AS conditon
+            FROM
+                tybss_merchant_common.t_order_detail d inner join tybss_merchant_common.t_order o  on d.order_no = o.order_no
+            WHERE d.uid = #{uid}
+                and d.create_time &gt;= #{beginTime}
+                and d.create_time &lt; #{endTime}
+                and o.series_type=1
+
+            UNION ALL
+            SELECT
+                1 AS times,
+                IF ( bet_amount &gt; #{limitAmount}, 1, 0 ) AS conditon
+            FROM
+                tybss_merchant_common.t_order_detail_old d inner join tybss_merchant_common.t_order_old o  on d.order_no = o.order_no
+            WHERE d.uid = #{uid}
+                and d.create_time &gt;= #{beginTime}
+                and d.create_time &lt; #{endTime}
+                and o.series_type=1
+            ) t;
+    </select>
+
+    <!--投注内容-满额投注笔数-->
+    <select id="getFullBetNum" resultMap="LongResultMap">
+        select  sum(betNum) betNum FROM
+        (
+        SELECT count(*) betNum  FROM tybss_merchant_common.t_order_detail d inner join tybss_merchant_common.t_order o  on d.order_no = o.order_no
+        where d.uid=#{userId}
+        and d.create_time &gt;= #{startTime}
+        and d.create_time &lt; #{endTime}
+        and o.series_type=1
+        and o.full_bet =1
+        UNION ALL
+        SELECT count(*) betNum  FROM tybss_merchant_common.t_order_detail_old d inner join tybss_merchant_common.t_order_old o  on d.order_no = o.order_no
+        where d.uid=#{userId}
+        and d.create_time &gt;= #{startTime}
+        and d.create_time &lt; #{endTime}
+        and o.series_type=1
+        and o.full_bet =1
+        ) t
+    </select>
+
+    <select id="getPlayBetNum" resultMap="PlayBetNumVoResultMap">
+        SELECT  sportId ,  playId , sum(betNum) betNum  FROM
+        (SELECT d.sport_id sportId , d.play_id playId , count(*) betNum  FROM tybss_merchant_common.t_order_detail d inner join tybss_merchant_common.t_order o  on d.order_no = o.order_no
+        where d.uid=#{userId}
+        and d.create_time &gt;= #{beginDate}
+        and d.create_time &lt; #{endDate}
+        and (d.bet_status = 1 or d.bet_status = 0 or d.bet_status = 6)
+        and o.series_type=1
+        GROUP BY d.sport_id ,d.play_id
+        UNION ALL
+        SELECT d.sport_id sportId , d.play_id playId , count(*) betNum  FROM tybss_merchant_common.t_order_detail_old d inner join tybss_merchant_common.t_order_old o  on d.order_no = o.order_no
+        where d.uid=#{userId}
+        and d.create_time &gt;= #{beginDate}
+        and d.create_time &lt; #{endDate}
+        and (d.bet_status = 1 or d.bet_status = 0 or d.bet_status = 6)
+        and o.series_type=1
+        GROUP BY d.sport_id ,d.play_id
+        ) t
+        GROUP BY sportId ,playId
+        order by betNum desc
+        limit 10
+    </select>
+
+    <select id="getMatchBetNumVo" resultMap="LongResultMap">
+        SELECT COUNT(*) FROM (
+                SELECT match_id  FROM tybss_merchant_common.t_order_detail d inner join tybss_merchant_common.t_order o  on d.order_no = o.order_no
+                where d.uid=#{userId}
+                and d.create_time &gt;= #{beginDate}
+                and d.create_time &lt; #{endDate}
+                and (d.bet_status = 1 or d.bet_status = 0 or d.bet_status = 6)
+                and o.series_type=1
+                GROUP BY d.match_id
+                UNION
+                SELECT match_id  FROM tybss_merchant_common.t_order_detail_old d inner join tybss_merchant_common.t_order_old o  on d.order_no = o.order_no
+                where d.uid=#{userId}
+                and d.create_time &gt;= #{beginDate}
+                and d.create_time &lt; #{endDate}
+                and (d.bet_status = 1 or d.bet_status = 0 or d.bet_status = 6)
+                and o.series_type=1
+                GROUP BY d.match_id
+        )t
+    </select>
+
+    <!--用户单场盈利程度-->
+    <select id="getMatchProfitNum" resultMap="MatchProfitNumVoResultMap">
+        SELECT   match_id,  tournament_level, sport_id, match_type, sum(profitAmount)   profitAmount FROM
+        (
+        SELECT  d.match_id, d.tournament_level,d.sport_id, d.match_type, sum(profit_amount)/100  profitAmount
+        FROM tybss_merchant_common.t_settle s inner JOIN tybss_merchant_common.t_order_detail d on s.order_no =d.order_no
+        inner JOIN tybss_merchant_common.t_order o on o.order_no =d.order_no
+        where d.uid=#{userId}
+        and o.series_type=1
+        and d.create_time &gt;= #{beginDate}
+        and d.create_time &lt; #{endDate}
+        and d.tournament_level &gt;= #{minLevel}
+        and d.tournament_level &lt; #{maxLevel}
+        GROUP by d.match_id ,d.tournament_level,d.sport_id,d.match_type
+        having profitAmount > 0
+
+        UNION ALL
+
+        SELECT  d.match_id, d.tournament_level,d.sport_id, d.match_type, sum(profit_amount)/100  profitAmount
+        FROM tybss_merchant_common.t_settle_old s inner JOIN tybss_merchant_common.t_order_detail_old d on s.order_no =d.order_no
+        inner JOIN tybss_merchant_common.t_order_old o on o.order_no =d.order_no
+        where d.uid=#{userId}
+        and o.series_type=1
+        and d.create_time &gt;= #{beginDate}
+        and d.create_time &lt; #{endDate}
+        and d.tournament_level &gt;= #{minLevel}
+        and d.tournament_level &lt; #{maxLevel}
+        GROUP by d.match_id ,d.tournament_level,d.sport_id,d.match_type
+        having profitAmount > 0
+        ) t
+        GROUP by  match_id , tournament_level, sport_id, match_type
+
+    </select>
+
+
+</mapper>
+        

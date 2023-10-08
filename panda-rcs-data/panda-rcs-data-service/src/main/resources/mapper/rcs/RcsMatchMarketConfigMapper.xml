@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.mapper.RcsMatchMarketConfigMapper">
+
+    <resultMap id="BaseResultMap" type="com.panda.sport.rcs.pojo.RcsMatchMarketConfig">
+        <!--@mbg.generated-->
+        <result column="home_level_first_max_amount" jdbcType="BIGINT" property="homeLevelFirstMaxAmount" />
+        <result column="home_level_second_max_amount" jdbcType="BIGINT" property="homeLevelSecondMaxAmount" />
+        <result column="away_level_first_max_amount" jdbcType="BIGINT" property="awayLevelFirstMaxAmount" />
+        <result column="away_level_second_max_amount" jdbcType="BIGINT" property="awayLevelSecondMaxAmount" />
+        <result column="home_level_first_odds_rate" jdbcType="DOUBLE" property="homeLevelFirstOddsRate" />
+        <result column="home_level_second_odds_rate" jdbcType="DOUBLE" property="homeLevelSecondOddsRate" />
+        <result column="away_level_first_odds_rate" jdbcType="DOUBLE" property="awayLevelFirstOddsRate" />
+        <result column="away_level_second_odds_rate" jdbcType="DOUBLE" property="awayLevelSecondOddsRate" />
+        <result column="data_source" jdbcType="INTEGER" property="dataSource" />
+        <result column="market_type" jdbcType="VARCHAR" property="marketType" />
+        <result column="auto_bet_stop" jdbcType="VARCHAR" property="autoBetStop" />
+        <result column="max_odds" jdbcType="VARCHAR" property="maxOdds" />
+        <result column="min_odds" jdbcType="VARCHAR" property="minOdds" />
+    </resultMap>
+
+    <select id="queryMaxBetAmount" parameterType = "com.panda.sport.rcs.pojo.RcsMatchMarketConfig" resultMap="BaseResultMap">
+        SELECT
+        ifnull(a.home_level_first_max_amount,0) home_level_first_max_amount,
+        ifnull(a.home_level_second_max_amount,0) home_level_second_max_amount,
+        ifnull(a.away_level_first_max_amount,0) away_level_first_max_amount,
+        ifnull(a.away_level_second_max_amount,0) away_level_second_max_amount,
+        ifnull(a.home_level_first_odds_rate,0) home_level_first_odds_rate,
+        ifnull(a.home_level_second_odds_rate,0) home_level_second_odds_rate,
+        ifnull(a.away_level_first_odds_rate,0) away_level_first_odds_rate,
+        ifnull(a.away_level_second_odds_rate,0) away_level_second_odds_rate,data_source,
+        a.market_type,a.auto_bet_stop,a.max_odds,a.min_odds
+        FROM rcs_match_market_config a
+        WHERE a.match_id = #{matchId,jdbcType=BIGINT} AND a.play_id = #{playId,jdbcType=BIGINT} AND a.market_id =#{marketId,jdbcType=BIGINT}
+
+        union all
+
+        SELECT
+        ifnull(a.home_level_first_max_amount,0) home_level_first_max_amount,
+        ifnull(a.home_level_second_max_amount,0) home_level_second_max_amount,
+        ifnull(a.away_level_first_max_amount,0) away_level_first_max_amount,
+        ifnull(a.away_level_second_max_amount,0) away_level_second_max_amount,
+        ifnull(a.home_level_first_odds_rate,0) home_level_first_odds_rate,
+        ifnull(a.home_level_second_odds_rate,0) home_level_second_odds_rate,
+        ifnull(a.away_level_first_odds_rate,0) away_level_first_odds_rate,
+        ifnull(a.away_level_second_odds_rate,0) away_level_second_odds_rate,data_source,
+        null,null,a.max_odds,a.min_odds
+        FROM rcs_tournament_market_config a
+        WHERE a.tournament_id = #{tournamentId,jdbcType=BIGINT} AND a.play_id = #{playId,jdbcType=BIGINT}
+
+        limit 1
+    </select>
+
+    <select id="updateBatch">
+        UPDATE rcs_match_market_config
+        <set>
+            <if test="dataSource!=null">
+                data_source = #{dataSource},
+                odds_change=0,
+            </if>
+            <if test="marketStatus!=null">
+                market_status = #{marketStatus},
+            </if>
+        </set>
+        WHERE
+        match_id = #{matchId}
+
+
+    </select>
+
+
+    <update id="updateDataSource">
+        <foreach collection="standardSportMarketList" index="index" item="item" separator=";">
+            INSERT INTO `panda_rcs`.`rcs_match_market_config` ( `match_id`, `play_id`, `market_id`, data_source )
+            VALUES
+            ( #{item.standardMatchInfoId}, #{item.marketCategoryId}, #{item.id}, #{dataSource} )
+            ON DUPLICATE KEY UPDATE data_source = #{dataSource},odds_change=0
+        </foreach>
+    </update>
+    <select id="selectRcsMatchMarketConfigByMarketId" resultType="com.panda.sport.rcs.pojo.RcsMatchMarketConfig">
+        	SELECT * FROM rcs_match_market_config WHERE market_id=#{marketId}
+    </select>
+
+    <update id="insertAndUpdate">
+        <foreach collection="standardSportMarketList" index="index" item="item" separator=";">
+            INSERT INTO `panda_rcs`.`rcs_match_market_config` ( `match_id`,`play_id`, `market_id`, data_source )
+            VALUES
+            ( #{item.standardMatchInfoId}, #{item.marketCategoryId}, #{item.id}, #{dataSource} )
+            ON DUPLICATE KEY UPDATE data_source = #{dataSource},odds_change=0
+        </foreach>
+    </update>
+    <select id="selectOddsChangeAndMaxRate" resultType="com.panda.sport.rcs.pojo.RcsMatchMarketConfig">
+		SELECT
+            (SELECT mc.price_adjustment_parameters FROM rcs_match_config mc WHERE mc.match_id = mmc.match_id)  as updateOdds,
+            mmc.margin as margin,
+            mmc.odds_change as oddsChange
+        FROM 	rcs_match_market_config mmc
+        WHERE	mmc.market_id =#{marketId}
+    </select>
+    <update id="updateMarginChange">
+        UPDATE rcs_match_market_config c SET c.odds_change = #{oddsRateTotal},c.modify_time = now() WHERE c.market_id = #{marketId}
+    </update>
+
+    <select id="selectRcsMatchMarketConfigByRelevanceType" resultType="com.panda.sport.rcs.pojo.RcsMatchMarketConfig">
+SELECT
+	*
+FROM
+	rcs_match_market_config c
+	LEFT JOIN standard_sport_market s ON s.id = c.market_id
+WHERE
+	c.match_id = #{matchId}
+	AND ( c.play_id = #{playId1} OR c.play_id = #{playId2} )
+	AND c.market_id != #{marketId}
+	AND c.relevance_type = 1
+	AND s.`status` =0
+	AND c.data_source=0
+    </select>
+
+    <select id="updateRcsMatchMarketConfigToOddsValue">
+        	UPDATE rcs_match_market_config SET  home_market_value=#{home_market_value} , away_market_value=#{away_market_value} WHERE market_id=#{marketId}
+    </select>
+
+
+    <update id="updateRcsMatchMarketConfigToOddsChange">
+        UPDATE rcs_match_market_config SET odds_change=0 WHERE match_id =#{matchId}
+        <if test="playId!=null">
+            AND play_id=#{playId}
+        </if>
+    </update>
+        
+    <select id="queryAllMarketConfigList" parameterType="Map" resultType="Map">
+        SELECT match_id,market_id FROM rcs_match_market_config WHERE match_id = #{matchId}  
+    </select>
+        
+    <update id="updateAllMarketToZeroByMatchId" parameterType="Map">
+        update rcs_match_market_config set home_amount = 0 , away_amount = 0 , tie_amount = 0 ,odds_change = 0
+        where match_id = #{matchId} 
+    </update>
+
+    <resultMap id="BuildMarketPlaceConfigResultMap" type="com.panda.sport.rcs.pojo.config.BuildMarketPlaceConfig">
+        <result column="match_id" jdbcType="BIGINT" property="matchId" />
+        <result column="play_id" jdbcType="INTEGER" property="playId" />
+        <result column="place_num" jdbcType="INTEGER" property="placeNum" />
+        <result column="spread" jdbcType="VARCHAR" property="spread" />
+        <result column="pause_spread" jdbcType="INTEGER" property="pauseSpread" />
+        <result column="place_water_diff" jdbcType="DECIMAL" property="placeWaterDiff" />
+    </resultMap>
+    <select id="getBuildMarketPlaceConfig" resultMap="BuildMarketPlaceConfigResultMap">
+        SELECT
+            t.match_id,
+            t.play_id,
+            t.market_index place_num,
+            t.margin spread,
+            t.time_out_margin pause_spread,
+            t.away_auto_change_rate place_water_diff
+        FROM
+            rcs_match_market_config t
+        WHERE
+            t.match_id = #{matchId}
+          AND t.play_id = #{playId}
+        ORDER BY
+            t.market_index
+    </select>
+</mapper>

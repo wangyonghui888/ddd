@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.data.mapper.RcsMatchMarketConfigMapper">
+    <resultMap id="MarketBuildConfigResultMap" type="com.panda.sport.rcs.pojo.config.MarketBuildConfig">
+        <result column="match_id" jdbcType="BIGINT" property="matchId" />
+        <result column="play_id" jdbcType="BIGINT" property="playId" />
+        <result column="place_num" jdbcType="INTEGER" property="placeNum" />
+        <result column="margin" jdbcType="DECIMAL" property="margin" />
+        <result column="time_out_margin" jdbcType="DECIMAL" property="timeOutMargin" />
+        <result column="place_water_diff" jdbcType="DECIMAL" property="placeWaterDiff" />
+        <result column="play_water_diff" jdbcType="DECIMAL" property="playWaterDiff" />
+        <result column="market_head_gap" jdbcType="DECIMAL" property="marketHeadGap" />
+    </resultMap>
+    <select id="listMarketBuildConfig" resultMap="MarketBuildConfigResultMap">
+        SELECT
+            place.match_id,
+            place.play_id,
+            place.market_index place_num,
+            place.margin,
+            place.time_out_margin,
+            place.away_auto_change_rate place_water_diff,
+            play.away_auto_change_rate play_water_diff,
+	        play.market_head_gap
+        FROM
+            rcs_match_market_config place
+            LEFT JOIN rcs_match_play_config play ON ( place.match_id = play.match_id AND place.play_id = play.play_id )
+        WHERE
+            place.match_id = #{matchId}
+            AND place.play_id = #{playId}
+        ORDER BY place.market_index
+    </select>
+    <resultMap id="MarketBuildPlayConfigResultMap" type="com.panda.sport.rcs.pojo.config.MarketBuildPlayConfig">
+        <result column="match_id" jdbcType="BIGINT" property="matchId" />
+        <result column="play_id" jdbcType="INTEGER" property="playId" />
+        <result column="match_type" jdbcType="INTEGER" property="matchType" />
+        <result column="market_type" jdbcType="VARCHAR" property="marketType" />
+        <result column="market_count" jdbcType="INTEGER" property="marketCount" />
+        <result column="market_near_diff" jdbcType="DECIMAL" property="marketNearDiff" />
+        <result column="market_near_odds_diff" jdbcType="DECIMAL" property="marketNearOddsDiff" />
+        <result column="market_adjust_range" jdbcType="DECIMAL" property="marketAdjustRange" />
+        <result column="spread" jdbcType="VARCHAR" property="spread" />
+    </resultMap>
+    <select id="queryMarketBuildPlayConfig" resultMap="MarketBuildPlayConfigResultMap">
+        SELECT
+            i.id match_id,
+            m.play_id,
+            m.match_type,
+            m.market_type,
+            m.market_count,
+            m.market_near_diff,
+            m.market_near_odds_diff,
+            m.market_adjust_range,
+            f.margain spread
+        FROM
+            rcs_tournament_template t
+            LEFT JOIN rcs_tournament_template_play_margain m ON t.id = m.template_id
+            LEFT JOIN rcs_tournament_template_play_margain_ref f ON ( m.id = f.margain_id AND m.valid_margin_id = f.id )
+            LEFT JOIN standard_match_info i ON i.id = t.type_val
+        WHERE
+            t.type_val = #{matchId, jdbcType=BIGINT}
+            AND t.type = 3
+            AND ( CASE WHEN i.match_status IN ( 1, 2, 10 ) THEN t.match_type = 0 ELSE t.match_type = 1 END )
+            AND m.play_id = #{playId, jdbcType=INTEGER}
+    </select>
+
+    <resultMap id="BuildMarketPlaceConfigResultMap" type="com.panda.sport.rcs.pojo.config.BuildMarketPlaceConfig">
+        <result column="match_id" jdbcType="BIGINT" property="matchId" />
+        <result column="play_id" jdbcType="INTEGER" property="playId" />
+        <result column="place_num" jdbcType="INTEGER" property="placeNum" />
+        <result column="spread" jdbcType="VARCHAR" property="spread" />
+        <result column="pause_spread" jdbcType="INTEGER" property="pauseSpread" />
+        <result column="place_water_diff" jdbcType="DECIMAL" property="placeWaterDiff" />
+    </resultMap>
+    <select id="getBuildMarketPlaceConfig" resultMap="BuildMarketPlaceConfigResultMap">
+        SELECT
+            t.match_id,
+            t.play_id,
+            t.market_index place_num,
+            t.margin spread,
+            t.time_out_margin pause_spread,
+            t.away_auto_change_rate place_water_diff
+        FROM
+            rcs_match_market_config t
+        WHERE
+            t.match_id = #{matchId}
+            AND t.play_id = #{playId}
+        ORDER BY
+            t.market_index
+    </select>
+    <resultMap id="MarketHeadGapResultMap" type="com.panda.sport.rcs.pojo.config.BuildMarketPlayConfig">
+        <result column="match_id" jdbcType="BIGINT" property="matchId" />
+        <result column="play_id" jdbcType="INTEGER" property="playId" />
+        <result column="market_head_gap" jdbcType="INTEGER" property="marketHeadGap" />
+    </resultMap>
+    <select id="getMarketHeadGap" resultMap="MarketHeadGapResultMap">
+        SELECT
+            t.match_id,
+            t.play_id,
+            t.sub_play_id,
+            t.market_head_gap
+        FROM
+            rcs_match_play_config t
+        WHERE
+            t.match_id = #{matchId}
+            AND t.play_id = #{playId}
+        ORDER BY
+            t.sub_play_id
+            LIMIT 1
+    </select>
+    <resultMap id="BuildMarketPlayConfigResultMap" type="com.panda.sport.rcs.pojo.config.BuildMarketPlayConfig">
+        <result column="match_id" jdbcType="BIGINT" property="matchId" />
+        <result column="play_id" jdbcType="INTEGER" property="playId" />
+        <result column="match_type" jdbcType="INTEGER" property="matchType" />
+        <result column="market_type" jdbcType="VARCHAR" property="marketType" />
+        <result column="market_count" jdbcType="INTEGER" property="marketCount" />
+        <result column="market_near_diff" jdbcType="DECIMAL" property="marketNearDiff" />
+        <result column="market_near_odds_diff" jdbcType="DECIMAL" property="marketNearOddsDiff" />
+        <result column="market_adjust_range" jdbcType="DECIMAL" property="marketAdjustRange" />
+    </resultMap>
+    <select id="getBuildMarketPlayConfig" resultMap="BuildMarketPlayConfigResultMap">
+        SELECT
+            i.id match_id,
+            m.play_id,
+            m.match_type,
+            m.market_type,
+            m.market_count,
+            m.market_near_diff,
+            m.market_near_odds_diff,
+            m.market_adjust_range
+        FROM
+            standard_match_info i
+            LEFT JOIN rcs_tournament_template t ON ( t.`type` = 3 AND t.type_val = i.id )
+            LEFT JOIN rcs_tournament_template_play_margain m ON m.template_id = t.id
+        WHERE
+            i.id = #{matchId}
+            AND m.play_id = #{playId}
+            AND <include refid="where_match_type" />
+    </select>
+    <sql id="where_match_type">
+        (CASE WHEN i.odds_live = 1 THEN m.match_type = 0 ELSE m.match_type = 1 END)
+    </sql>
+    <sql id="match_length_2_time">
+        (CASE
+			WHEN i.match_length = 0 THEN 10
+			WHEN i.match_length = 7 THEN 12
+			WHEN i.match_length = 17 THEN 20
+			WHEN i.match_length = 64 THEN 6
+			WHEN i.match_length = 68 THEN 5
+			WHEN i.match_length = 70 THEN 4
+			ELSE 20
+		END)
+    </sql>
+    <sql id="match_period_id_2_time">
+        (CASE
+            WHEN i.match_period_id IN ( 0, 13, 1, 301 ) THEN 0
+            WHEN i.match_period_id IN ( 14, 302, 2 ) THEN 1
+            WHEN i.match_period_id IN ( 15, 303, 31 ) THEN 2
+            WHEN i.match_period_id IN ( 16, 100, 999, 32, 110 ) THEN 3
+            WHEN i.match_period_id IN ( 40 ) THEN 4
+            ELSE 0
+        END)
+    </sql>
+    <sql id="seconds_match_start_expression">
+        (i.seconds_match_start - ( unix_timestamp( NOW( ) ) * 1000 - i.event_time ) / 1000)
+    </sql>
+    <sql id="seconds_match_start_2_time">
+        (CASE
+            WHEN i.seconds_match_start = 0 THEN 0
+            WHEN i.seconds_match_start > 0 THEN
+            IF( <include refid="seconds_match_start_expression" /> &lt;= 0,
+                0,
+                <include refid="seconds_match_start_expression" /> )
+        END)
+    </sql>
+    <sql id="seconds_match_start_2_time2">
+        (CASE
+            WHEN i.seconds_match_start = 0 THEN 0
+            WHEN i.seconds_match_start > 0 THEN
+            IF( <include refid="seconds_match_start_expression" /> &lt;= 0,
+                0,
+                <include refid="seconds_match_start_expression" />  - 2 )
+        END)
+    </sql>
+    <sql id="where_event_code">
+        CASE
+            WHEN i.event_code IS NOT NULL THEN <include refid="match_length_2_time" /> * 60 - <include refid="seconds_match_start_2_time" />
+            ELSE ( unix_timestamp( NOW( ) ) * 1000 - i.begin_time ) / 1000
+	    END
+    </sql>
+    <sql id="where_event_code2">
+        CASE
+            WHEN i.event_code IS NOT NULL THEN <include refid="match_length_2_time" /> * 60 - <include refid="seconds_match_start_2_time2" />
+            ELSE ( unix_timestamp( NOW( ) ) * 1000 - i.begin_time ) / 1000
+        END
+    </sql>
+    <sql id="expression1">
+        (i.odds_live = 1 AND cr.scope_id IN ( 6, 7, 8, 9, 13, 14, 15, 17 ))
+    </sql>
+    <sql id="expression2">
+        (i.odds_live = 1 AND cr.scope_id NOT IN ( 6, 7, 8, 9, 13, 14, 15, 17 ) AND i.match_period_id IN ( 13, 14, 15, 16, 40, 1, 2, 40 ) AND r.time_val % 2 = 0)
+    </sql>
+    <sql id="expression3">
+        (i.odds_live = 1 AND i.match_period_id = 0)
+    </sql>
+    <sql id="expression4">
+        (i.odds_live = 1 AND i.match_period_id IN ( 302, 31 ) AND r.time_val % 2 > 0)
+    </sql>
+    <sql id="expression5">
+        (i.odds_live = 0 AND i.match_period_id = 0)
+    </sql>
+    <sql id="expression6">
+        (i.odds_live = 1 AND i.match_period_id = 21)
+    </sql>
+    <sql id="where_expression">
+        CASE
+            WHEN <include refid="expression1" /> THEN
+            r.time_val &lt;= <include refid="where_event_code" />
+            WHEN <include refid="expression2" /> THEN
+            r.time_val &lt;= <include refid="match_length_2_time" /> * 60 * <include refid="match_period_id_2_time" /> + <include refid="where_event_code2" />
+            WHEN <include refid="expression3" /> THEN
+            r.time_val = 0
+            WHEN <include refid="expression4" /> THEN
+            r.time_val = r.time_val
+            WHEN <include refid="expression5" /> THEN
+            r.time_val > ( i.begin_time - unix_timestamp( NOW( ) ) * 1000 ) / 1000
+            WHEN <include refid="expression6" /> THEN
+            r.time_val = 0
+        END
+    </sql>
+    <resultMap id="BasketballBuildMarketConfigResultMap" type="com.panda.sport.rcs.pojo.config.BuildMarketPlayConfig">
+        <result column="match_id" jdbcType="BIGINT" property="matchId" />
+        <result column="play_id" jdbcType="INTEGER" property="playId" />
+        <result column="match_type" jdbcType="INTEGER" property="matchType" />
+        <result column="market_type" jdbcType="VARCHAR" property="marketType" />
+        <result column="market_count" jdbcType="INTEGER" property="marketCount" />
+        <result column="market_near_diff" jdbcType="DECIMAL" property="marketNearDiff" />
+        <result column="market_near_odds_diff" jdbcType="DECIMAL" property="marketNearOddsDiff" />
+        <result column="market_adjust_range" jdbcType="DECIMAL" property="marketAdjustRange" />
+        <result column="time_val" jdbcType="INTEGER" property="timeVal" />
+        <result column="spread" jdbcType="VARCHAR" property="spread" />
+        <result column="pause_spread" jdbcType="VARCHAR" property="pauseSpread" />
+    </resultMap>
+    <select id="queryBasketballBuildMarketConfig" resultMap="BasketballBuildMarketConfigResultMap">
+        SELECT
+            i.id match_id,
+            m.play_id,
+            m.match_type,
+            m.market_type,
+            m.market_count,
+            m.market_near_diff,
+            m.market_near_odds_diff,
+            m.market_adjust_range,
+            r.time_val,
+            r.margain spread,
+            r.pause_margain pause_spread
+        FROM
+            standard_match_info i
+            LEFT JOIN rcs_tournament_template t ON ( t.`type` = 3 AND t.type_val = i.id )
+            LEFT JOIN rcs_tournament_template_play_margain m ON m.template_id = t.id
+            LEFT JOIN rcs_tournament_template_play_margain_ref r ON r.margain_id = m.id
+            LEFT JOIN standard_sport_market_category_ref cr ON ( cr.category_id = m.play_id AND cr.sport_id = i.sport_id )
+        WHERE
+            i.id = #{matchId, jdbcType=BIGINT}
+            AND i.begin_time > unix_timestamp( NOW( ) ) * 1000 - 1000 * 60 * 60 * 12
+            AND i.sport_id = 2
+            AND i.match_status NOT IN ( 3, 4 )
+            AND r.`status` NOT IN ( 2 )
+            AND m.play_id = #{playId, jdbcType=INTEGER}
+            AND <include refid="where_match_type" />
+            AND <include refid="where_expression" />
+            AND r.time_val IS NOT NULL
+        ORDER BY
+            r.time_val
+    </select>
+</mapper>

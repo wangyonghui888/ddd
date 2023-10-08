@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.rcs.cleanup.mapper.MatchTournamentMapper">
+    <select id="queryInvalidTournamentId"  resultType="com.panda.rcs.cleanup.entity.MatchTournamentVo">
+        SELECT
+               id templateId,
+               type_val matchId
+        FROM rcs_tournament_template
+        WHERE type = 3 AND type_val NOT IN (SELECT id FROM standard_match_info)
+    </select>
+
+    <delete id="deleteTemplateNotMatch">
+        DELETE FROM rcs_tournament_template
+        WHERE type = 3 AND type_val NOT IN (SELECT id FROM standard_match_info)
+    </delete>
+
+    <delete id="deleteTemplateByMatchIds">
+        DELETE FROM rcs_tournament_template
+        WHERE type = 3 AND type_val IN
+        <foreach item="matchId" index="index" collection="matchIds" open="(" separator="," close=")">
+            #{ matchId }
+        </foreach>
+    </delete>
+
+    <select id="queryTournamentIdByMatchIds"  resultType="com.panda.rcs.cleanup.entity.MatchTournamentVo">
+        SELECT
+            id templateId,
+            type_val matchId
+        FROM rcs_tournament_template
+        WHERE type = 3 AND type_val IN
+        <foreach item="matchId" index="index" collection="matchIds" open="(" separator="," close=")">
+            #{ matchId }
+        </foreach>
+    </select>
+
+    <delete id="deletePlayMargain">
+        DELETE FROM rcs_tournament_template_play_margain
+        WHERE template_id IN
+            <foreach item="matchTournament" index="index" collection="matchTournamentLists" open="(" separator="," close=")">
+                #{ matchTournament.templateId }
+            </foreach>
+    </delete>
+    
+    <delete id="deleteTimeSharingNode">
+        DELETE FROM rcs_tournament_template_play_margain_ref
+        WHERE margain_id IN (
+            SELECT id FROM rcs_tournament_template_play_margain WHERE template_id IN
+                <foreach item="matchTournament" index="index" collection="matchTournamentLists" open="(" separator="," close=")">
+                    #{ matchTournament.templateId }
+                </foreach>
+        )
+    </delete>
+
+    <delete id="deleteAcceptEvent">
+        DELETE FROM rcs_tournament_template_accept_event
+        WHERE accept_config_id IN (
+            SELECT id FROM rcs_tournament_template_accept_config WHERE template_id IN
+                <foreach item="matchTournament" index="index" collection="matchTournamentLists" open="(" separator="," close=")">
+                #{ matchTournament.templateId }
+            </foreach>
+        )
+    </delete>
+
+    <delete id="deleteAcceptConfig">
+        DELETE FROM rcs_tournament_template_accept_config
+        WHERE template_id IN
+        <foreach item="matchTournament" index="index" collection="matchTournamentLists" open="(" separator="," close=")">
+            #{ matchTournament.templateId }
+        </foreach>
+    </delete>
+
+    <delete id="deleteAcceptEventSettle">
+        DELETE FROM rcs_tournament_template_accept_event_settle
+        WHERE accept_config_settle_id IN (
+            SELECT id FROM rcs_tournament_template_accept_config_settle WHERE template_id IN
+                <foreach item="matchTournament" index="index" collection="matchTournamentLists" open="(" separator="," close=")">
+                    #{ matchTournament.templateId }
+                </foreach>
+        )
+    </delete>
+
+    <delete id="deleteAcceptConfigSettle">
+        DELETE FROM rcs_tournament_template_accept_config_settle
+        WHERE template_id IN
+        <foreach item="matchTournament" index="index" collection="matchTournamentLists" open="(" separator="," close=")">
+            #{ matchTournament.templateId }
+        </foreach>
+    </delete>
+
+    <delete id="deleteTemplateEvent">
+        DELETE FROM rcs_tournament_template_event
+        WHERE template_id IN
+        <foreach item="matchTournament" index="index" collection="matchTournamentLists" open="(" separator="," close=")">
+            #{ matchTournament.templateId }
+        </foreach>
+    </delete>
+
+
+</mapper>

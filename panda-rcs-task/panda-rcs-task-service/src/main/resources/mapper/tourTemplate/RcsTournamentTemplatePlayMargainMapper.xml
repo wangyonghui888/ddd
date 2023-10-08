@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.mapper.tourTemplate.RcsTournamentTemplatePlayMargainMapper">
+    <resultMap id="BaseResultMap" type="com.panda.sport.rcs.pojo.tourTemplate.RcsTournamentTemplatePlayMargain">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="template_id" jdbcType="INTEGER" property="templateId"/>
+        <result column="play_id" jdbcType="INTEGER" property="playId"/>
+        <result column="match_type" jdbcType="INTEGER" property="matchType"/>
+        <result column="market_type" jdbcType="INTEGER" property="marketType"/>
+        <result column="is_sell" jdbcType="INTEGER" property="isSell"/>
+
+        <result column="auto_open_market" jdbcType="INTEGER" property="autoOpenMarket"/>
+        <result column="auto_open_time" jdbcType="INTEGER" property="autoOpenTime"/>
+
+        <result column="auto_close_market" jdbcType="INTEGER" property="autoCloseMarket"/>
+        <result column="match_progress_time" jdbcType="INTEGER" property="matchProgressTime"/>
+        <result column="injury_time" jdbcType="INTEGER" property="injuryTime"/>
+
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, template_id, play_id, match_type, market_type, create_time, update_time,auto_close_market,match_progress_time,injury_time
+  </sql>
+
+    <sql id="commonRcsLanguage">
+        With ali as (
+            select JSON_UNQUOTE(JSON_EXTRACT ( `text`, '$.zs' )) as text,
+                   'zs' as language_type,
+                   li.name_code
+            from rcs_language_internation li
+            union all
+            select JSON_UNQUOTE(JSON_EXTRACT ( `text`, '$.en' )) as text,
+                   'en' as language_type,
+                   li.name_code
+            from rcs_language_internation li
+            union all
+            select JSON_UNQUOTE(JSON_EXTRACT ( `text`, '$.zh' )) as text,
+                   'zh' as language_type,
+                   li.name_code
+            from rcs_language_internation li
+
+        )
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from rcs_tournament_template_play_margain
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from rcs_tournament_template_play_margain
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id"
+            parameterType="com.panda.sport.rcs.pojo.tourTemplate.RcsTournamentTemplatePlayMargain"
+            useGeneratedKeys="true">
+        insert into rcs_tournament_template_play_margain (template_id, play_id,is_sell, match_type,
+        market_type, create_time, update_time,auto_close_market,match_progress_time,injury_time
+        )
+        values (#{templateId,jdbcType=INTEGER}, #{playId,jdbcType=INTEGER},#{isSell,jdbcType=INTEGER},
+        #{matchType,jdbcType=INTEGER},
+        #{marketType,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
+        #{autoCloseMarket,jdbcType=INTEGER},#{matchProgressTime,jdbcType=INTEGER},#{injuryTime,jdbcType=INTEGER}
+        )
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyColumn="id" keyProperty="id" parameterType="list" useGeneratedKeys="true">
+        insert into rcs_tournament_template_play_margain (id,template_id, play_id,is_sell, match_type,
+        market_type, create_time, update_time,auto_close_market,match_progress_time,injury_time
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.id,jdbcType=BIGINT},#{item.templateId,jdbcType=INTEGER},
+            #{item.playId,jdbcType=INTEGER},#{item.isSell,jdbcType=INTEGER}, #{item.matchType,jdbcType=INTEGER},
+            #{item.marketType,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP},
+            #{item.updateTime,jdbcType=TIMESTAMP},
+            #{item.autoCloseMarket,jdbcType=INTEGER},#{item.matchProgressTime,jdbcType=INTEGER},#{item.injuryTime,jdbcType=INTEGER}
+            )
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+        is_sell = VALUES(is_sell),
+        market_type = VALUES(market_type),
+        auto_close_market = VALUES(auto_close_market),
+        match_progress_time = VALUES(match_progress_time),
+        injury_time = VALUES(injury_time),
+        update_time = now()
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id"
+            parameterType="com.panda.sport.rcs.pojo.tourTemplate.RcsTournamentTemplatePlayMargain"
+            useGeneratedKeys="true">
+        insert into rcs_tournament_template_play_margain
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="templateId != null">
+                template_id,
+            </if>
+            <if test="playId != null">
+                play_id,
+            </if>
+            <if test="isSell != null">
+                is_sell,
+            </if>
+
+            <if test="autoOpenMarket != null">
+                auto_open_market,
+            </if>
+            <if test="autoOpenTime != null">
+                auto_open_time,
+            </if>
+
+            <if test="autoCloseMarket != null">
+                auto_close_market,
+            </if>
+            <if test="matchProgressTime != null">
+                match_progress_time,
+            </if>
+            <if test="injuryTime != null">
+                injury_time,
+            </if>
+
+            <if test="matchType != null">
+                match_type,
+            </if>
+            <if test="marketType != null">
+                market_type,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="templateId != null">
+                #{templateId,jdbcType=INTEGER},
+            </if>
+            <if test="playId != null">
+                #{playId,jdbcType=INTEGER},
+            </if>
+            <if test="isSell != null">
+                #{isSell,jdbcType=INTEGER},
+            </if>
+
+            <if test="autoOpenMarket != null">
+                #{autoOpenMarket,jdbcType=INTEGER},
+            </if>
+            <if test="autoOpenTime != null">
+                #{autoOpenTime,jdbcType=INTEGER},
+            </if>
+
+            <if test="autoCloseMarket != null">
+                #{autoCloseMarket,jdbcType=INTEGER},
+            </if>
+            <if test="matchProgressTime != null">
+                #{matchProgressTime,jdbcType=INTEGER},
+            </if>
+            <if test="injuryTime != null">
+                #{injuryTime,jdbcType=INTEGER},
+            </if>
+
+            <if test="matchType != null">
+                #{matchType,jdbcType=INTEGER},
+            </if>
+            <if test="marketType != null">
+                #{marketType,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.panda.sport.rcs.pojo.tourTemplate.RcsTournamentTemplatePlayMargain">
+        update rcs_tournament_template_play_margain
+        <set>
+            <if test="templateId != null">
+                template_id = #{templateId,jdbcType=INTEGER},
+            </if>
+            <if test="playId != null">
+                play_id = #{playId,jdbcType=INTEGER},
+            </if>
+            <if test="autoCloseMarket != null">
+                auto_close_market = #{autoCloseMarket,jdbcType=INTEGER},
+            </if>
+            <if test="matchProgressTime != null">
+                match_progress_time = #{matchProgressTime,jdbcType=INTEGER},
+            </if>
+            <if test="injuryTime != null">
+                injury_time = #{injuryTime,jdbcType=INTEGER},
+            </if>
+            <if test="isSell != null">
+                is_sell = #{isSell,jdbcType=INTEGER},
+            </if>
+            <if test="matchType != null">
+                match_type = #{matchType,jdbcType=INTEGER},
+            </if>
+            <if test="marketType != null">
+                market_type = #{marketType,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey"
+            parameterType="com.panda.sport.rcs.pojo.tourTemplate.RcsTournamentTemplatePlayMargain">
+        update rcs_tournament_template_play_margain
+        set template_id = #{templateId,jdbcType=INTEGER},
+        play_id = #{playId,jdbcType=INTEGER},
+        match_type = #{matchType,jdbcType=INTEGER},
+        is_sell = #{isSell,jdbcType=INTEGER},
+        auto_close_market = #{autoCloseMarket,jdbcType=INTEGER},
+        match_progress_time = #{matchProgressTime,jdbcType=INTEGER},
+        injury_time = #{injuryTime,jdbcType=INTEGER},
+        market_type = #{marketType,jdbcType=INTEGER},
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+        update_time = #{updateTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <resultMap id="queryResultMap" type="com.panda.sport.rcs.pojo.tourTemplate.RcsTournamentTemplatePlayMargain">
+        <id column="m_id" jdbcType="INTEGER" property="id"/>
+        <result column="template_id" jdbcType="INTEGER" property="templateId"/>
+        <result column="play_id" jdbcType="INTEGER" property="playId"/>
+        <result column="match_type" jdbcType="INTEGER" property="matchType"/>
+        <result column="market_type" jdbcType="INTEGER" property="marketType"/>
+        <result column="is_sell" jdbcType="INTEGER" property="isSell"/>
+        <result column="auto_close_market" jdbcType="INTEGER" property="autoCloseMarket"/>
+        <result column="match_progress_time" jdbcType="INTEGER" property="matchProgressTime"/>
+        <result column="injury_time" jdbcType="INTEGER" property="injuryTime"/>
+        <result column="m_create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="m_update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="play_name" jdbcType="VARCHAR" property="playName"/>
+        <collection property="playMargainRefList"
+                    ofType="com.panda.sport.rcs.pojo.tourTemplate.RcsTournamentTemplatePlayMargainRef">
+            <id column="mr_id" jdbcType="INTEGER" property="id"/>
+            <result column="margain_id" jdbcType="INTEGER" property="margainId"/>
+            <result column="time_type" jdbcType="INTEGER" property="timeType"/>
+            <result column="time_val" jdbcType="INTEGER" property="timeVal"/>
+            <result column="minute_time_val" jdbcType="INTEGER" property="minuteTimeVal"/>
+            <result column="margain" jdbcType="VARCHAR" property="margain"/>
+            <result column="mr_create_time" jdbcType="TIMESTAMP" property="createTime"/>
+            <result column="mr_update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        </collection>
+    </resultMap>
+
+
+
+
+    <select id="marketCountByMatchId" resultType="com.panda.sport.rcs.pojo.dto.MarketCountDTO">
+        SELECT
+        m.play_id,m.market_count,m.market_type,f.margain,m.odds_adjust_range,m.market_adjust_range
+        FROM
+        rcs_tournament_template t
+        LEFT JOIN rcs_tournament_template_play_margain m ON t.id = m.template_id
+        LEFT JOIN rcs_tournament_template_play_margain_ref f ON m.id = f.margain_id AND m.valid_margin_id = f.id
+        LEFT JOIN standard_match_info i ON i.id = t.type_val
+        WHERE
+        t.`type` = 3
+
+        AND
+        CASE
+
+        WHEN i.match_status IN ( 1, 2, 10 ) THEN
+        t.match_type = 0 ELSE t.match_type = 1
+        END
+
+        <if test="matchId!=null">
+            and t.type_val = #{matchId}
+        </if>
+
+    </select>
+
+    <select id="marketCountByPlayId" resultType="com.panda.sport.rcs.pojo.dto.MarketCountDTO">
+        SELECT
+        m.play_id,m.market_count,m.market_type,f.margain,m.odds_adjust_range,m.market_adjust_range,m.data_source
+        FROM
+        rcs_tournament_template t
+        LEFT JOIN rcs_tournament_template_play_margain m ON t.id = m.template_id
+        LEFT JOIN rcs_tournament_template_play_margain_ref f ON m.id = f.margain_id AND m.valid_margin_id = f.id
+        LEFT JOIN standard_match_info i ON i.id = t.type_val
+        WHERE
+        t.`type` = 3
+        AND
+        CASE
+        WHEN i.match_status IN ( 1, 2, 10 ) THEN
+        t.match_type = 0 ELSE t.match_type = 1
+        END
+
+        <if test="matchId!=null">
+            and t.type_val = #{matchId}
+        </if>
+        <if test="playId != null">
+            and m.play_id = #{playId}
+        </if>
+
+    </select>
+
+	<select id="queryMarketConfigByMatchId" parameterType="Map" resultType="Map">
+		SELECT * FROM rcs_match_market_config c WHERE match_id = #{matchId}
+		AND time_out_margin IS NOT NULL AND margin IS NOT NULL
+		AND time_out_margin &lt;&gt; margin
+		AND EXISTS (SELECT 1 FROM standard_sport_market m LEFT JOIN standard_sport_market_odds o ON o.market_id = m.id 
+			         WHERE m.standard_match_info_id = c.match_id AND c.play_id = m.market_category_id 
+			         AND o.id IS NOT NULL AND m.market_type = #{marketType}
+			        )
+	</select>
+    <select id="queryPlaceConfigByMatchId" resultType="com.panda.sport.rcs.pojo.RcsMatchMarketConfig">
+        SELECT
+            c.*
+        FROM
+            rcs_match_market_config c
+        WHERE
+            match_id = #{matchId}
+            AND margin IS NOT NULL
+            AND EXISTS (
+            SELECT
+                1
+            FROM
+                standard_sport_market m
+                LEFT JOIN standard_sport_market_odds o ON o.market_id = m.id
+            WHERE
+                m.standard_match_info_id = c.match_id
+                AND c.play_id = m.market_category_id
+                AND o.id IS NOT NULL
+            AND m.market_type = #{matchType}
+            )
+    </select>
+    <select id="queryPlaceConfigByMatchIdSnooker" resultType="com.panda.sport.rcs.pojo.RcsMatchMarketConfig">
+        SELECT
+            c.*
+        FROM
+            rcs_match_market_config_sub c
+        WHERE
+            match_id = #{matchId}
+            AND margin IS NOT NULL
+            AND EXISTS (
+            SELECT
+                1
+            FROM
+                standard_sport_market m
+                LEFT JOIN standard_sport_market_odds o ON o.market_id = m.id
+            WHERE
+                m.standard_match_info_id = c.match_id
+                AND c.play_id = m.market_category_id
+                AND o.id IS NOT NULL
+            AND m.market_type = #{matchType}
+            )
+    </select>
+
+    <select id="searchHistoryMatch" resultType="com.panda.sport.rcs.pojo.tourTemplate.RcsTournamentTemplatePlayMargain">
+		SELECT
+           DISTINCT m.template_id,
+           m.match_type
+        FROM
+            rcs_tournament_template_play_margain m,
+            rcs_tournament_template t,
+            standard_match_info s
+        WHERE
+            t.type_val = s.id
+            AND m.template_id = t.id
+            AND t.type = 3
+            AND s.begin_time &lt; unix_timestamp( NOW()) * 1000 - 1000 * 60 * 60 * 24 * 7
+	</select>
+</mapper>

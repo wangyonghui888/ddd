@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.mapper.predict.RcsPredictForecastPlayMapper">
+
+    <insert id="saveOrUpdate" parameterType="com.panda.sport.rcs.pojo.vo.predict.RcsPredictForecastPlay">
+        INSERT INTO rcs_predict_forecast_play (
+        match_id,
+        match_type,
+        data_type,
+        play_id,
+        place_num,
+        score,
+        profit_value,
+        create_time,
+        update_time,
+        hash_unique
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.matchId},
+            #{item.matchType},
+            #{item.dataType},
+            #{item.playId},
+            #{item.placeNum},
+            #{item.score},
+            #{item.profitValue},
+            #{item.createTime},
+            #{item.updateTime},
+            #{item.hashUnique}
+            )
+        </foreach>
+        on duplicate key update
+        profit_value = values (profit_value),
+        update_time = values (update_time),
+        hash_unique = values (hash_unique)
+    </insert>
+
+    <select id="selectList" resultType="com.panda.sport.rcs.pojo.vo.predict.RcsPredictForecastPlay">
+        SELECT *
+        FROM rcs_predict_forecast_play t
+        WHERE 1=1
+        <if test="vo.dataType != null">
+            AND t.data_type = #{vo.dataType}
+        </if>
+        <if test="vo.matchId != null">
+            AND t.match_id = #{vo.matchId}
+        </if>
+        <if test="vo.playId != null">
+            AND t.play_id = #{vo.playId}
+        </if>
+        <if test="vo.matchType != null">
+            AND t.match_type = #{vo.matchType}
+        </if>
+        <if test="vo.hashUnique != null">
+            AND t.hash_unique = #{vo.hashUnique}
+        </if>
+        AND t.hash_unique is not null
+        <if test="vo.score != null">
+            ORDER BY score ASC
+        </if>
+    </select>
+</mapper>

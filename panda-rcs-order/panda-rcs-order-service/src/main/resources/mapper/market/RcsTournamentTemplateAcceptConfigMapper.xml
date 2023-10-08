@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.mapper.RcsTournamentTemplateAcceptConfigMapper">
+    <update id="updateMatchDataSourceByTemplateId">
+        UPDATE rcs_tournament_template_accept_config c
+        SET c.data_source = #{dataSourceCode},
+            c.update_time = NOW()
+        WHERE c.template_id = #{templateId}
+    </update>
+
+
+    <select id="queryWaitTimeConfig" resultType="com.panda.sport.data.rcs.vo.RcsTournamentTemplateAcceptConfig">
+        SELECT e.event_type      as eventType,
+               e.event_code      as eventCode,
+               c.data_source     as dataSource,
+               c.category_set_id as categorySetId,
+               c.normal          as minWaitTime,
+               t.type_val        as matchId,
+               CASE event_type
+                   WHEN 'safety' THEN
+                       c.normal
+                   WHEN 'danger' THEN
+                       c.min_wait
+                   WHEN 'closing' THEN
+                       c.max_wait
+                   WHEN 'reject' THEN
+                       0
+                   END              maxWaitTime,
+               e.event_name      as eventName,
+               e.`status`        as status
+        FROM rcs_tournament_template_accept_event e
+                 JOIN rcs_tournament_template_accept_config c ON e.accept_config_id = c.id
+                 JOIN rcs_tournament_template t ON c.template_id = t.id AND t.type = 3 AND t.match_type = 0
+        WHERE t.type_val = #{config.matchId,jdbcType=BIGINT}
+          AND t.sport_id = #{config.sportId,jdbcType=INTEGER}
+          AND c.category_set_id = #{playSet,jdbcType=INTEGER}
+          AND e.event_type is NOT null
+          AND e.`status` = 1
+    </select>
+    <select id="queryConfigCode" resultType="java.lang.String">
+        SELECT c.data_source as dataSource
+        FROM rcs_tournament_template_accept_config c
+                 JOIN rcs_tournament_template t ON c.template_id = t.id AND t.type = 3 AND t.match_type = 0
+        WHERE t.type_val = #{matchId}
+          AND t.sport_id = #{sportId}
+          AND c.category_set_id = #{categorySetId}
+    </select>
+    <select id="selectOrderAcceptConfigNew" resultType="com.panda.sport.data.rcs.vo.RcsTournamentTemplateAcceptConfig">
+        SELECT e.event_type as eventType,
+        e.event_code as eventCode,
+        c.data_source as dataSource,
+        t.type_val as matchId,
+        c.category_set_id as categorySetId,
+        c.normal as minWaitTime,
+        CASE event_type
+        WHEN 'safety' THEN
+        c.normal
+        WHEN 'danger' THEN
+        c.min_wait
+        WHEN 'closing' THEN
+        c.max_wait
+        WHEN 'reject' THEN
+        0
+        END maxWaitTime
+        FROM rcs_tournament_template_accept_event e
+        JOIN rcs_tournament_template_accept_config c ON e.accept_config_id = c.id
+        JOIN rcs_tournament_template t ON c.template_id = t.id AND t.type = 3 AND t.match_type = 0
+        WHERE t.type_val = #{matchId}
+        AND t.sport_id = 1
+        AND e.event_type is NOT null
+        AND e.`status` = 1
+        <if test = "categorySetId != null and categorySetId !=''">
+            and category_set_id =#{categorySetId}
+        </if>
+    </select>
+
+    <select id="selectOrderAcceptConfig" resultType="com.panda.sport.data.rcs.vo.RcsTournamentTemplateAcceptConfig">
+        SELECT e.event_type as eventType,
+               e.event_code as eventCode,
+               c.data_source as dataSource,
+               t.type_val as  matchId,
+               c.category_set_id as  categorySetId,
+               c.normal as minWaitTime,
+               CASE event_type
+                   WHEN 'safety' THEN
+                       c.normal
+                   WHEN 'danger' THEN
+                       c.min_wait
+                   WHEN 'closing' THEN
+                       c.max_wait
+                   WHEN 'reject' THEN
+                       0
+                   END maxWaitTime
+        FROM rcs_tournament_template_accept_event e
+                 JOIN rcs_tournament_template_accept_config c ON e.accept_config_id = c.id
+                 JOIN  rcs_tournament_template t ON c.template_id = t.id AND t.type = 3 AND t.match_type = 0
+        WHERE t.type_val = #{matchId}
+          AND t.sport_id = 1
+          AND e.event_type is NOT null
+          AND e.`status` = 1
+    </select>
+</mapper>

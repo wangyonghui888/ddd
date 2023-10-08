@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.console.dao.MatchStatisticsInfoDetailFlowingMapper">
+
+  <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into match_statistics_info_detail_flowing
+    (link_id, o_id, standard_match_id, match_statistics_info_id, code, first_num, second_num, 
+      t1, t2, create_time, modify_time)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.linkId,jdbcType=VARCHAR}, #{item.oId,jdbcType=BIGINT}, #{item.standardMatchId,jdbcType=BIGINT}, 
+        #{item.matchStatisticsInfoId,jdbcType=INTEGER}, #{item.code,jdbcType=VARCHAR}, 
+        #{item.firstNum,jdbcType=INTEGER}, #{item.secondNum,jdbcType=INTEGER}, #{item.t1,jdbcType=INTEGER}, 
+        #{item.t2,jdbcType=INTEGER}, #{item.createTime,jdbcType=BIGINT}, #{item.modifyTime,jdbcType=BIGINT})
+    </foreach>
+  </insert>
+</mapper>

@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head th:include="layout :: htmlhead" th:with="title='商户折扣利率'">
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <!--头-->
+    <div th:replace="fragments/head :: header"></div>
+
+    <div class="layui-body" style="margin: 1%">
+
+        <form id="searchForm" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 5px;">
+            <div class="layui-form-item">
+                <label class="layui-form-label">商户id</label>
+                <div class="layui-input-inline">
+                    <input id="busId" name="businessId" autocomplete="off" class="layui-input" type="text"/>
+                </div>
+                <label class="layui-form-label">商户code</label>
+                <div class="layui-input-inline">
+                    <input id="busCode" name="businessCode" autocomplete="off" class="layui-input" type="text"/>
+                </div>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                <button class="layui-btn" lay-submit="" lay-filter="searchSubmit">查询</button>
+            </div>
+        </form>
+
+        <!--<hr class="layui-bg-blue"/>-->
+<!--        <hr class="layui-bg-black"/>-->
+
+        <div style="display:none;" id="currentUser">
+            <shiro:principal property="id"></shiro:principal>
+        </div>
+
+        <table id="myTable" lay-filter="rateTable"></table>
+
+        <script type="text/html" id="rateToolbar">
+            <div class="layui-btn-container">
+                <button class="layui-btn layui-btn-sm" lay-event="batchEdit">批量设置</button>
+                <button class="layui-btn layui-btn-sm" lay-event="rateAllSet">默认设置</button>
+                <button class="layui-btn layui-btn-sm" lay-event="rateVirtualSet">例外设置</button>
+                <button class="layui-btn layui-btn-sm" onclick="rateRedisSet()">同步数据到redis</button>
+            </div>
+        </script>
+
+
+        <script type="text/html" id="optBar">
+            <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        </script>
+    </div>
+
+    <div id="batchRateDiv" class="layer_self_wrap" style="display:none;">
+        <form id="batchRateForm" class="layui-form">
+            <br>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 100px">mts折扣利率</label>
+                <div class="layui-input-block">
+                    <input style="width: 400px" type="text" id="mtsRateBatch" name="mtsRateAll" required
+                           autocomplete="off" class="layui-input"
+                           oninput="value=value.replace(/^\D*(\d*(?:\.\d{0,4})?).*$/g, '$1')">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 100px">cts折扣利率</label>
+                <div class="layui-input-block">
+                    <input style="width: 400px" type="text" id="ctsRateBatch" name="ctsRateAll" required
+                           autocomplete="off" class="layui-input"
+                           oninput="value=value.replace(/^\D*(\d*(?:\.\d{0,4})?).*$/g, '$1')">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 100px">gts折扣利率</label>
+                <div class="layui-input-block">
+                    <input style="width: 400px" type="text" id="gtsRateBatch" name="gtsRateAll" required
+                           autocomplete="off" class="layui-input"
+                           oninput="value=value.replace(/^\D*(\d*(?:\.\d{0,4})?).*$/g, '$1')">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 100px">ots折扣利率</label>
+                <div class="layui-input-block">
+                    <input style="width: 400px" type="text" id="otsRateBatch" name="otsRateAll" required
+                           autocomplete="off" class="layui-input"
+                           oninput="value=value.replace(/^\D*(\d*(?:\.\d{0,4})?).*$/g, '$1')">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 100px">rts折扣利率</label>
+                <div class="layui-input-block">
+                    <input style="width: 400px" type="text" id="rtsRateBatch" name="rtsRateAll" required
+                           autocomplete="off" class="layui-input"
+                           oninput="value=value.replace(/^\D*(\d*(?:\.\d{0,4})?).*$/g, '$1')">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 100px">虚拟折扣利率</label>
+                <div class="layui-input-block">
+                    <input style="width: 400px" type="text" id="virtualRateBatch" name="virtualRateAll" required
+                           autocomplete="off" class="layui-input"
+                           oninput="value=value.replace(/^\D*(\d*(?:\.\d{0,4})?).*$/g, '$1')">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 100px">商户id</label>
+                <div class="layui-input-inline">
+                    <textarea style="width: 400px" id="busIds" name="busIds"
+                              placeholder="请输入商户id,逗号分隔,不输入默认全部" class="layui-textarea"></textarea>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit="" lay-filter="batchRateSubmit">提交</button>
+                    <button type="reset" onclick="closeMode()" class="layui-btn layui-btn-primary">取消</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div id="rateAllDiv" class="layer_self_wrap" style="display:none;">
+        <form id="rateAllForm" class="layui-form">
+            <br>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 100px">mts折扣利率</label>
+                <div class="layui-input-block">
+                    <input style="width: 280px" type="text" id="mtsRateAll" name="mtsRateAll" required
+                           autocomplete="off" class="layui-input"
+                           oninput="value=value.replace(/^\D*(\d*(?:\.\d{0,4})?).*$/g, '$1')">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 100px">cts折扣利率</label>
+                <div class="layui-input-block">
+                    <input style="width: 280px" type="text" id="ctsRateAll" name="ctsRateAll" required
+                           autocomplete="off" class="layui-input"
+                           oninput="value=value.replace(/^\D*(\d*(?:\.\d{0,4})?).*$/g, '$1')">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 100px">gts折扣利率</label>
+                <div class="layui-input-block">
+                    <input style="width: 280px" type="text" id="gtsRateAll" name="gtsRateAll" required
+                           autocomplete="off" class="layui-input"
+                           oninput="value=value.replace(/^\D*(\d*(?:\.\d{0,4})?).*$/g, '$1')">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 100px">ots折扣利率</label>
+                <div class="layui-input-block">
+                    <input style="width: 280px" type="text" id="otsRateAll" name="otsRateAll" required
+                           autocomplete="off" class="layui-input"
+                           oninput="value=value.replace(/^\D*(\d*(?:\.\d{0,4})?).*$/g, '$1')">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 100px">rts折扣利率</label>
+                <div class="layui-input-block">
+                    <input style="width: 280px" type="text" id="rtsRateAll" name="rtsRateAll" required
+                           autocomplete="off" class="layui-input"
+                           oninput="value=value.replace(/^\D*(\d*(?:\.\d{0,4})?).*$/g, '$1')">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 100px">虚拟折扣利率</label>
+                <div class="layui-input-block">
+                    <input style="width: 280px" type="text" id="virtualRateAll" name="virtualRateAll" required
+                           autocomplete="off" class="layui-input"
+                           oninput="value=value.replace(/^\D*(\d*(?:\.\d{0,4})?).*$/g, '$1')">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit="" lay-filter="rateAllSubmit">提交</button>
+                    <button type="reset" onclick="closeMode()" class="layui-btn layui-btn-primary">取消</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+    <div id="virtualRateDiv" class="layer_self_wrap" style="display:none;">
+        <form id="virtualRateForm" class="layui-form">
+            <br>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 100px">mts折扣利率</label>
+                <div class="layui-input-block">
+                    <input style="width: 280px" type="text" id="mtsRateAllOut" name="mtsRateAll" required
+                           autocomplete="off" class="layui-input"
+                           oninput="value=value.replace(/^\D*(\d*(?:\.\d{0,4})?).*$/g, '$1')">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 100px">cts折扣利率</label>
+                <div class="layui-input-block">
+                    <input style="width: 280px" type="text" id="ctsRateAllOut" name="ctsRateAll" required
+                           autocomplete="off" class="layui-input"
+                           oninput="value=value.replace(/^\D*(\d*(?:\.\d{0,4})?).*$/g, '$1')">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 100px">gts折扣利率</label>
+                <div class="layui-input-block">
+                    <input style="width: 280px" type="text" id="gtsRateAllOut" name="gtsRateAll" required
+                           autocomplete="off" class="layui-input"
+                           oninput="value=value.replace(/^\D*(\d*(?:\.\d{0,4})?).*$/g, '$1')">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 100px">ots折扣利率</label>
+                <div class="layui-input-block">
+                    <input style="width: 280px" type="text" id="otsRateAllOut" name="otsRateAll" required
+                           autocomplete="off" class="layui-input"
+                           oninput="value=value.replace(/^\D*(\d*(?:\.\d{0,4})?).*$/g, '$1')">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 100px">rts折扣利率</label>
+                <div class="layui-input-block">
+                    <input style="width: 280px" type="text" id="rtsRateAllOut" name="rtsRateAll" required
+                           autocomplete="off" class="layui-input"
+                           oninput="value=value.replace(/^\D*(\d*(?:\.\d{0,4})?).*$/g, '$1')">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 100px">虚拟折扣利率</label>
+                <div class="layui-input-block">
+                    <input style="width: 400px" type="text" id="inVirtualRateBatch" name="virtualRateAll" required
+                            autocomplete="off" class="layui-input"
+                           oninput="value=value.replace(/^\D*(\d*(?:\.\d{0,4})?).*$/g, '$1')">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 100px">例外商户ID</label>
+                <div class="layui-input-inline">
+                    <textarea style="width: 400px" id="busIds_1" name="busIds"
+                              placeholder="请输入不需要更改折扣商户id,逗号分隔，不输入默认全部" class="layui-textarea"></textarea>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit="" lay-filter="virtualSubmit">提交</button>
+                    <button type="reset" onclick="closeMode()" class="layui-btn layui-btn-primary">取消</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+    <div id="setRate" class="layer_self_wrap" style="width:500px;display:none;">
+        <form id="editRate" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
+            <input id="pageNum" type="hidden" name="pageNum"/>
+            <input id="businessId" type="hidden" name="businessId"/>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 150px">商户code</label>
+                <div class="layui-input-inline">
+                    <input id="businessCode" name="businessCode" lay-verify="required" autocomplete="off"
+                           class="layui-input" type="text" readonly="true"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 150px">mts折扣利率</label>
+                <div class="layui-input-inline">
+                    <input id="mtsRate" name="mtsRate" autocomplete="off" class="layui-input" type="text"
+                           oninput="value=value.replace(/^\D*(\d*(?:\.\d{0,4})?).*$/g, '$1')"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 150px">cts折扣利率</label>
+                <div class="layui-input-inline">
+                    <input id="ctsRate" name="ctsRate" autocomplete="off" class="layui-input" type="text"
+                           oninput="value=value.replace(/^\D*(\d*(?:\.\d{0,4})?).*$/g, '$1')"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 150px">gts折扣利率</label>
+                <div class="layui-input-inline">
+                    <input id="gtsRate" name="gtsRate" autocomplete="off" class="layui-input" type="text"
+                           oninput="value=value.replace(/^\D*(\d*(?:\.\d{0,4})?).*$/g, '$1')"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 150px">ots折扣利率</label>
+                <div class="layui-input-inline">
+                    <input id="otsRate" name="otsRate" autocomplete="off" class="layui-input" type="text"
+                           oninput="value=value.replace(/^\D*(\d*(?:\.\d{0,4})?).*$/g, '$1')"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 150px">rts折扣利率</label>
+                <div class="layui-input-inline">
+                    <input id="rtsRate" name="rtsRate" autocomplete="off" class="layui-input" type="text"
+                           oninput="value=value.replace(/^\D*(\d*(?:\.\d{0,4})?).*$/g, '$1')"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 150px">虚拟折扣利率</label>
+                <div class="layui-input-inline">
+                    <input id="virtualRate" name="virtualRate" autocomplete="off" class="layui-input" type="text"
+                           oninput="value=value.replace(/^\D*(\d*(?:\.\d{0,4})?).*$/g, '$1')"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block" style="margin-left: 10px;">
+                    <button class="layui-btn" lay-submit="" lay-filter="rateSubmit">提交</button>
+                    <input onclick="closeMode()" class="layui-btn layui-btn-primary" type="button" value="取消">
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!--底部-->
+    <div th:replace="fragments/footer :: footer"></div>
+    <script src="/js/businessRate/rateManage.js"></script>
+
+</div>
+</body>
+</html>

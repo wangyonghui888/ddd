@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.auto.mapper.RcsVirtualUserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.panda.sport.rcs.pojo.virtual.RcsVirtualUser">
+        <id column="id" property="id" />
+        <result column="user_id" property="userId" />
+        <result column="virtual_user_id" property="virtualUserId" />
+        <result column="virtual_user_name" property="virtualUserName" />
+        <result column="virtual_ext_id" property="virtualExtId" />
+        <result column="virtual_user_status" property="virtualUserStatus" />
+        <result column="virtual_parent_id" property="virtualParentId" />
+        <result column="calculation_id" property="calculationId" />
+        <result column="wallet_id" property="walletId" />
+        <result column="create_time" property="createTime" />
+        <result column="panda_status" property="pandaStatus" />
+        <result column="remark" property="remark" />
+    </resultMap>
+
+</mapper>

@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.rcs.cleanup.mapper.MatchMapper">
+
+    <select id="getExpiredMatchList" resultType="Map">
+        SELECT
+            CONCAT(id,'') as id,
+			CONCAT(IFNULL(begin_time,unix_timestamp(now()) * 1000),'') as begin_time,
+			CONCAT(sport_id,'') AS sport_id
+        FROM panda_rcs.standard_match_info WHERE
+            (match_status IN(3,4) OR match_period_id = 999) AND begin_time &lt; #{ expiredTime }
+    </select>
+
+    <delete id="deleteMatch">
+        DELETE FROM standard_match_info WHERE
+            (match_status IN(3,4) OR match_period_id = 999) AND begin_time &lt; #{ expiredTime }
+    </delete>
+
+    <!-- 删除标准赛事事件 -->
+    <delete id="deleteMatchEvent">
+        DELETE FROM match_event_info WHERE standard_match_id IN
+        <foreach item="matchId" index="index" collection="matchIds" open="(" separator="," close=")">
+            #{ matchId }
+        </foreach>
+    </delete>
+
+    <!-- 删除标准赛事事件 -->
+    <delete id="deleteOrderSummary">
+        DELETE FROM rcs_order_summary WHERE match_id IN
+        <foreach item="matchId" index="index" collection="matchIds" open="(" separator="," close=")">
+            #{ matchId }
+        </foreach>
+    </delete>
+
+    <!-- 删除标准赛事事件 -->
+    <delete id="deleteFirstMarket">
+        DELETE FROM rcs_first_market WHERE standard_match_id IN
+        <foreach item="matchId" index="index" collection="matchIds" open="(" separator="," close=")">
+            #{ matchId }
+        </foreach>
+    </delete>
+
+    <!-- 删除赛事收藏数据 -->
+    <delete id="deleteMatchCollection">
+        DELETE FROM rcs_match_collection WHERE match_id IN
+        <foreach item="matchId" index="index" collection="matchIds" open="(" separator="," close=")">
+            #{ matchId }
+        </foreach>
+    </delete>
+
+    <!-- 删除赛事收藏数据 -->
+    <delete id="deleteMatchPlayConfig">
+        DELETE FROM rcs_match_play_config WHERE match_id IN
+        <foreach item="matchId" index="index" collection="matchIds" open="(" separator="," close=")">
+            #{ matchId }
+        </foreach>
+    </delete>
+
+    <!-- 删除赛事收藏数据 -->
+    <delete id="deleteMatchMarketProbabilityConfig">
+        DELETE FROM rcs_match_market_probability_config WHERE match_id IN
+        <foreach item="matchId" index="index" collection="matchIds" open="(" separator="," close=")">
+            #{ matchId }
+        </foreach>
+    </delete>
+
+    <!-- 删除赛事收藏数据 -->
+    <delete id="deleteMatchOrderAcceptEventConfig">
+        DELETE FROM rcs_match_order_accept_event_config WHERE match_id IN
+        <foreach item="matchId" index="index" collection="matchIds" open="(" separator="," close=")">
+            #{ matchId }
+        </foreach>
+    </delete>
+
+    <!-- 删除篮球订单矩阵数据 -->
+    <delete id="deleteOrderBasketballMatrix">
+        DELETE FROM rcs_order_basketball_matrix WHERE match_id IN
+        <foreach item="matchId" index="index" collection="matchIds" open="(" separator="," close=")">
+            #{ matchId }
+        </foreach>
+    </delete>
+
+    <!-- 删除篮球货量矩阵数据 -->
+    <delete id="deletePredictBasketballMatrix">
+        DELETE FROM rcs_predict_basketball_matrix WHERE match_id IN
+        <foreach item="matchId" index="index" collection="matchIds" open="(" separator="," close=")">
+            #{ matchId }
+        </foreach>
+    </delete>
+
+    <!-- 删除基准分forecast表 -->
+    <delete id="deletePredictForecast">
+        DELETE FROM rcs_predict_forecast WHERE match_id IN
+        <foreach item="matchId" index="index" collection="matchIds" open="(" separator="," close=")">
+            #{ matchId }
+        </foreach>
+    </delete>
+
+    <!-- 删除基准分forecast表-玩法级别 -->
+    <delete id="deletePredictForecastPlay">
+        DELETE FROM rcs_predict_forecast_play WHERE match_id IN
+        <foreach item="matchId" index="index" collection="matchIds" open="(" separator="," close=")">
+            #{ matchId }
+        </foreach>
+    </delete>
+
+    <!-- 删除基准分forecast表-玩法级别 -->
+    <delete id="deleteMatchDimensionStatistics">
+        DELETE FROM rcs_match_dimension_statistics WHERE match_id IN
+        <foreach item="matchId" index="index" collection="matchIds" open="(" separator="," close=")">
+            #{ matchId }
+        </foreach>
+    </delete>
+
+    <!-- 删除基准分forecast表-玩法级别 -->
+    <delete id="deleteMatchAutoSwitchLinked">
+        DELETE FROM rcs_match_auto_switch_linked WHERE match_id IN
+        <foreach item="matchId" index="index" collection="matchIds" open="(" separator="," close=")">
+            #{ matchId }
+        </foreach>
+    </delete>
+
+    <!-- 删除投注项货量表	 -->
+    <delete id="deletePredictBetOdds">
+        DELETE FROM rcs_predict_bet_odds WHERE match_id IN
+        <foreach item="matchId" index="index" collection="matchIds" open="(" separator="," close=")">
+            #{ matchId }
+        </foreach>
+    </delete>
+
+    <!-- 删除投注统计货量表	 -->
+    <delete id="deletePredictBetStatis">
+        DELETE FROM rcs_predict_bet_statis WHERE match_id IN
+        <foreach item="matchId" index="index" collection="matchIds" open="(" separator="," close=")">
+            #{ matchId }
+        </foreach>
+    </delete>
+
+    <!-- 删除投注统计货量表	 -->
+    <delete id="deleteMarketOddsConfig">
+        DELETE FROM rcs_market_odds_config WHERE match_id IN
+        <foreach item="matchId" index="index" collection="matchIds" open="(" separator="," close=")">
+            #{ matchId }
+        </foreach>
+    </delete>
+
+    <delete id="deleteTradeConfig">
+        DELETE FROM rcs_trade_config WHERE match_id IN
+        <foreach item="matchId" index="index" collection="matchIds" open="(" separator="," close=")">
+            #{ matchId }
+        </foreach>
+    </delete>
+
+    <delete id="deleteStandardPlaceRef">
+        DELETE FROM rcs_standard_place_ref WHERE standard_match_info_id IN
+        <foreach item="matchId" index="index" collection="matchIds" open="(" separator="," close=")">
+            #{ matchId }
+        </foreach>
+    </delete>
+
+    <delete id="deleteStandardMarket">
+        DELETE FROM standard_sport_market WHERE standard_match_info_id IN
+        <foreach item="matchId" index="index" collection="matchIds" open="(" separator="," close=")">
+            #{ matchId }
+        </foreach>
+    </delete>
+
+    <delete id="deleteStatMatchIp">
+        DELETE FROM stat_match_ip WHERE match_id IN
+        <foreach item="matchId" index="index" collection="matchIds" open="(" separator="," close=")">
+            #{ matchId }
+        </foreach>
+    </delete>
+
+    <delete id="deleteMatchMarketConfig">
+        DELETE FROM rcs_match_market_config WHERE match_id IN
+        <foreach item="matchId" index="index" collection="matchIds" open="(" separator="," close=")">
+            #{ matchId }
+        </foreach>
+    </delete>
+
+    <delete id="deleteMatchMarketConfigSub">
+        DELETE FROM rcs_match_market_config_sub WHERE match_id IN
+        <foreach item="matchId" index="index" collection="matchIds" open="(" separator="," close=")">
+            #{ matchId }
+        </foreach>
+    </delete>
+
+    <delete id="deleteMatchMarketMarginConfig">
+        DELETE FROM rcs_match_market_margin_config WHERE match_id IN
+        <foreach item="matchId" index="index" collection="matchIds" open="(" separator="," close=")">
+            #{ matchId }
+        </foreach>
+    </delete>
+
+    <delete id="deleteStandardSportMarketSell">
+        DELETE FROM rcs_standard_sport_market_sell WHERE match_info_id IN
+        <foreach item="matchId" index="index" collection="matchIds" open="(" separator="," close=")">
+            #{ matchId }
+        </foreach>
+    </delete>
+
+    <delete id="deleteMatchProfit">
+        DELETE FROM rcs_match_profit WHERE match_id IN
+        <foreach item="matchId" index="index" collection="matchIds" open="(" separator="," close=")">
+            #{ matchId }
+        </foreach>
+    </delete>
+
+    <delete id="deleteTradingAssignment">
+        DELETE FROM rcs_trading_assignment WHERE match_id IN
+        <foreach item="matchId" index="index" collection="matchIds" open="(" separator="," close=")">
+            #{ matchId }
+        </foreach>
+    </delete>
+
+    <delete id="deleteMatrixInfo">
+        DELETE FROM rcs_matrix_info WHERE match_id IN
+        <foreach item="matchId" index="index" collection="matchIds" open="(" separator="," close=")">
+            #{ matchId }
+        </foreach>
+    </delete>
+
+    <delete id="deleteMatchPeriod">
+        DELETE FROM match_period WHERE standard_match_id IN
+        <foreach item="matchId" index="index" collection="matchIds" open="(" separator="," close=")">
+            #{ matchId }
+        </foreach>
+    </delete>
+
+    <delete id="deleteMatchStatisticsInfo">
+        DELETE FROM match_statistics_info WHERE standard_match_id IN
+        <foreach item="matchId" index="index" collection="matchIds" open="(" separator="," close=")">
+            #{ matchId }
+        </foreach>
+    </delete>
+
+    <delete id="deleteMatchStatisticsInfoDetail">
+        DELETE FROM match_statistics_info_detail WHERE standard_match_id IN
+        <foreach item="matchId" index="index" collection="matchIds" open="(" separator="," close=")">
+            #{ matchId }
+        </foreach>
+    </delete>
+
+    <delete id="deleteMatchStatisticsInfoDetailSource">
+        DELETE FROM match_statistics_info_detail_source WHERE standard_match_id IN
+        <foreach item="matchId" index="index" collection="matchIds" open="(" separator="," close=")">
+            #{ matchId }
+        </foreach>
+    </delete>
+
+    <delete id="deleteBroadCast">
+        DELETE FROM rcs_broad_cast WHERE extends_field IN
+        <foreach item="matchId" index="index" collection="matchIds" open="(" separator="," close=")">
+            #{ matchId }
+        </foreach>
+    </delete>
+
+    <delete id="deleteProfitRectangle">
+        DELETE FROM rcs_profit_rectangle WHERE match_id IN
+        <foreach item="matchId" index="index" collection="matchIds" open="(" separator="," close=")">
+            #{ matchId }
+        </foreach>
+    </delete>
+
+    <!-- 删除基准分forecast表-玩法级别 -->
+    <delete id="deleteMarketNumStatis">
+        DELETE FROM rcs_market_num_statis WHERE match_id IN
+        <foreach item="matchId" index="index" collection="matchIds" open="(" separator="," close=")">
+            #{ matchId }
+        </foreach>
+    </delete>
+
+
+    <!-- 首次清理 -->
+    <delete id="deleteMatchPeriodForNotMatchId">
+        DELETE FROM match_period WHERE standard_match_id NOT IN
+        (SELECT id FROM standard_match_info)
+    </delete>
+
+    <delete id="deleteMatchStatisticsInfoForNotMatchId">
+        DELETE FROM match_statistics_info WHERE standard_match_id NOT IN
+        (SELECT id FROM standard_match_info)
+    </delete>
+
+    <delete id="deleteMatchStatisticsInfoDetailForNotMatchId">
+        DELETE FROM match_statistics_info_detail WHERE standard_match_id  NOT IN
+        (SELECT id FROM standard_match_info)
+    </delete>
+
+    <delete id="deleteMatchStatisticsInfoDetailSourceForNotMatchId">
+        DELETE FROM match_statistics_info_detail_source WHERE standard_match_id NOT IN
+        (SELECT id FROM standard_match_info)
+    </delete>
+
+    <delete id="deleteMarketOdds">
+        DELETE FROM standard_sport_market_odds WHERE market_id NOT IN
+        (SELECT id FROM standard_sport_market)
+    </delete>
+
+    <delete id="deleteMatchEventForNotMatchId">
+        DELETE FROM match_event_info WHERE standard_match_id  NOT IN
+        (SELECT id FROM standard_match_info)
+    </delete>
+
+    <select id="getMarketIds" resultType="Map">
+        SELECT
+        CONCAT(id,'') as id,
+        CONCAT(standard_match_info_id,'') AS match_id,
+        CONCAT(market_category_id,'') as play_id,
+        CONCAT(child_market_category_id,'') AS sub_play_id
+        FROM panda_rcs.standard_sport_market WHERE standard_match_info_id IN
+        <foreach item="matchId" index="index" collection="matchIds" open="(" separator="," close=")">
+            #{ matchId }
+        </foreach>
+    </select>
+    <!--    <select id="getMarketIds" resultType="long">-->
+    <!--        SELECT-->
+    <!--            id-->
+    <!--        FROM panda_rcs.standard_sport_market WHERE standard_match_info_id IN-->
+    <!--        <foreach item="matchId" index="index" collection="matchIds" open="(" separator="," close=")">-->
+    <!--            #{ matchId }-->
+    <!--        </foreach>-->
+    <!--    </select>-->
+
+    <!-- 删除标准赛事事件 -->
+    <delete id="deleteMarketOddsByMarketIds">
+        DELETE FROM standard_sport_market_odds WHERE market_id IN
+        <foreach item="marketId" index="index" collection="marketIds" open="(" separator="," close=")">
+            #{ marketId }
+        </foreach>
+    </delete>
+
+    <select id="selectMatchIds" resultType="long">
+        SELECT
+            t.id
+        FROM
+            standard_match_info t
+        WHERE
+            t.id &gt;= #{matchIdStart}
+            AND t.id &lt;= #{matchIdEnd}
+    </select>
+    <select id="queryMatchInfoId" resultType="java.lang.String">
+        		  SELECT
+            t.id
+        FROM
+            standard_match_info t
+        WHERE
+            t.match_status =1
+			and t.sport_id=1
+    </select>
+
+    <delete id="deleteTraderWeightByMatchIds">
+        DELETE FROM rcs_category_set_trader_weight WHERE match_id IN
+        <foreach item="matchId" index="index" collection="matchIds" open="(" separator="," close=")">
+            #{ matchId }
+        </foreach>
+    </delete>
+
+    <delete id="deleteMatchMonitorErrorLogByMatchIds">
+        DELETE FROM rcs_match_monitor_error_log WHERE match_id IN
+        <foreach item="matchId" index="index" collection="matchIds" open="(" separator="," close=")">
+            #{ matchId }
+        </foreach>
+    </delete>
+
+    <delete id="deleteMatchMonitorMqLicenseByMatchIds">
+        DELETE FROM rcs_match_monitor_mq_license WHERE match_id IN
+        <foreach item="matchId" index="index" collection="matchIds" open="(" separator="," close=")">
+            #{ matchId }
+        </foreach>
+    </delete>
+
+    <delete id="deleteMatchMonitorListByMatchIds">
+        DELETE FROM rcs_match_monitor_list WHERE match_id IN
+        <foreach item="matchId" index="index" collection="matchIds" open="(" separator="," close=")">
+            #{ matchId }
+        </foreach>
+    </delete>
+
+    <delete id="deleteMerchantsSinglePercentageByMatchIds">
+        DELETE FROM merchants_single_percentage WHERE match_id IN
+        <foreach item="matchId" index="index" collection="matchIds" open="(" separator="," close=")">
+            #{ matchId }
+        </foreach>
+    </delete>
+
+    <delete id="deleteMerchantsSinglePercentageInit">
+        DELETE FROM merchants_single_percentage WHERE match_id NOT IN (SELECT id FROM standard_match_info) LIMIT 500
+    </delete>
+
+</mapper>

@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.data.mapper.RcsLanguageInternationMapper">
+  <resultMap id="BaseResultMap" type="com.panda.sport.rcs.pojo.RcsLanguageInternation">
+    <!--@mbg.generated-->
+    <!--@Table rcs_language_internation-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="name_code" jdbcType="VARCHAR" property="nameCode" />
+    <result column="text" jdbcType="VARCHAR" property="text" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, name_code, `text`, create_time, update_time
+  </sql>
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update rcs_language_internation
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="name_code = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.nameCode,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="`text` = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.text,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="create_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.createTime,jdbcType=TIMESTAMP}
+        </foreach>
+      </trim>
+      <trim prefix="update_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.updateTime,jdbcType=TIMESTAMP}
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id,jdbcType=BIGINT}
+    </foreach>
+  </update>
+
+  <insert id="insertOrUpdate" keyColumn="id" keyProperty="id" parameterType="com.panda.sport.rcs.pojo.RcsLanguageInternation" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into rcs_language_internation
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      name_code,
+      `text`,
+      create_time,
+      update_time,
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      #{nameCode,jdbcType=VARCHAR},
+      #{text,jdbcType=VARCHAR},
+      #{createTime,jdbcType=TIMESTAMP},
+      #{updateTime,jdbcType=TIMESTAMP},
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        id = #{id,jdbcType=BIGINT},
+      </if>
+      name_code = #{nameCode,jdbcType=VARCHAR},
+      `text` = #{text,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+    </trim>
+  </insert>
+  <insert id="insertOrUpdateSelective" keyColumn="id" keyProperty="id" parameterType="com.panda.sport.rcs.pojo.RcsLanguageInternation" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into rcs_language_internation
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="nameCode != null">
+        name_code,
+      </if>
+      <if test="text != null">
+        `text`,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="nameCode != null">
+        #{nameCode,jdbcType=VARCHAR},
+      </if>
+      <if test="text != null">
+        #{text,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        id = #{id,jdbcType=BIGINT},
+      </if>
+      <if test="nameCode != null">
+        name_code = #{nameCode,jdbcType=VARCHAR},
+      </if>
+      <if test="text != null">
+        `text` = #{text,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+
+  <insert id="batchInsertOrUpdate" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into rcs_language_internation
+    (name_code, `text`)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.nameCode,jdbcType=VARCHAR}, #{item.text,jdbcType=VARCHAR})
+    </foreach>
+    on duplicate key update
+    <trim suffixOverrides=",">
+      `text` = values (`text`),
+    </trim>
+  </insert>
+
+  <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into rcs_language_internation
+    (name_code, `text`)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.nameCode,jdbcType=VARCHAR}, #{item.text,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+
+  <!--国际化json融合-->
+  <insert id="batchInsertOrUpdateMerge" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into rcs_language_internation
+    (name_code, `text`)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.nameCode,jdbcType=VARCHAR}, #{item.text,jdbcType=VARCHAR})
+    </foreach>
+    on duplicate key update
+    <trim suffixOverrides=",">
+      `text` =json_merge_patch(text,values (`text`)) ,
+    </trim>
+  </insert>
+
+
+  <insert id="insertOrUpdateMerge" keyColumn="id" keyProperty="id" parameterType="com.panda.sport.rcs.pojo.RcsLanguageInternation" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into rcs_language_internation
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      name_code,
+      `text`,
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      #{nameCode,jdbcType=VARCHAR},
+      #{text,jdbcType=VARCHAR},
+    </trim>
+    on duplicate key update
+    <trim suffixOverrides=",">
+      `text` =json_merge_patch(text,#{text}) ,
+    </trim>
+  </insert>
+</mapper>

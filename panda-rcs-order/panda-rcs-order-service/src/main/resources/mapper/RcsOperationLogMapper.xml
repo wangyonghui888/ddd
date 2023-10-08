@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.mapper.RcsOperationLogMapper">
+  <resultMap id="BaseResultMap" type="com.panda.sport.rcs.pojo.RcsOperationLog">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="handle_code" jdbcType="VARCHAR" property="handleCode" />
+    <result column="hanler_id" jdbcType="VARCHAR" property="hanlerId" />
+    <result column="update_pre_content" jdbcType="VARCHAR" property="updatePreContent" />
+    <result column="update_content" jdbcType="VARCHAR" property="updateContent" />
+    <result column="show_content" jdbcType="VARCHAR" property="showContent" />
+    <result column="crt_time" jdbcType="TIMESTAMP" property="crtTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, handle_code, hanler_id, update_pre_content, update_content, show_content, crt_time, 
+    update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from rcs_operation_log
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from rcs_operation_log
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.panda.sport.rcs.pojo.RcsOperationLog" useGeneratedKeys="true">
+    insert into rcs_operation_log (handle_code, hanler_id, update_pre_content, 
+      update_content, show_content, crt_time, 
+      update_time)
+    values (#{handleCode,jdbcType=VARCHAR}, #{hanlerId,jdbcType=VARCHAR}, #{updatePreContent,jdbcType=VARCHAR}, 
+      #{updateContent,jdbcType=VARCHAR}, #{showContent,jdbcType=VARCHAR}, #{crtTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.panda.sport.rcs.pojo.RcsOperationLog" useGeneratedKeys="true">
+    insert into rcs_operation_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="handleCode != null">
+        handle_code,
+      </if>
+      <if test="hanlerId != null">
+        hanler_id,
+      </if>
+      <if test="updatePreContent != null">
+        update_pre_content,
+      </if>
+      <if test="updateContent != null">
+        update_content,
+      </if>
+      <if test="showContent != null">
+        show_content,
+      </if>
+      <if test="crtTime != null">
+        crt_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="handleCode != null">
+        #{handleCode,jdbcType=VARCHAR},
+      </if>
+      <if test="hanlerId != null">
+        #{hanlerId,jdbcType=VARCHAR},
+      </if>
+      <if test="updatePreContent != null">
+        #{updatePreContent,jdbcType=VARCHAR},
+      </if>
+      <if test="updateContent != null">
+        #{updateContent,jdbcType=VARCHAR},
+      </if>
+      <if test="showContent != null">
+        #{showContent,jdbcType=VARCHAR},
+      </if>
+      <if test="crtTime != null">
+        #{crtTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.panda.sport.rcs.pojo.RcsOperationLog">
+    update rcs_operation_log
+    <set>
+      <if test="handleCode != null">
+        handle_code = #{handleCode,jdbcType=VARCHAR},
+      </if>
+      <if test="hanlerId != null">
+        hanler_id = #{hanlerId,jdbcType=VARCHAR},
+      </if>
+      <if test="updatePreContent != null">
+        update_pre_content = #{updatePreContent,jdbcType=VARCHAR},
+      </if>
+      <if test="updateContent != null">
+        update_content = #{updateContent,jdbcType=VARCHAR},
+      </if>
+      <if test="showContent != null">
+        show_content = #{showContent,jdbcType=VARCHAR},
+      </if>
+      <if test="crtTime != null">
+        crt_time = #{crtTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.panda.sport.rcs.pojo.RcsOperationLog">
+    update rcs_operation_log
+    set handle_code = #{handleCode,jdbcType=VARCHAR},
+      hanler_id = #{hanlerId,jdbcType=VARCHAR},
+      update_pre_content = #{updatePreContent,jdbcType=VARCHAR},
+      update_content = #{updateContent,jdbcType=VARCHAR},
+      show_content = #{showContent,jdbcType=VARCHAR},
+      crt_time = #{crtTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

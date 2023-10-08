@@ -1,0 +1,12 @@
+#启动配置
+spring:
+  application:
+    name: panda-rcs-datasync
+  cloud:
+    nacos:
+      config:
+        server-addr: 10.5.36.115:8848
+        file-extension: properties
+        namespace: 2b70e6d1-a81b-40fb-ac35-66e93e09b6bf
+  profiles:
+    active: mini

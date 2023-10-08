@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.data.mapper.StandardSportOddsFieldsTempletMapper">
+  <resultMap id="BaseResultMap" type="com.panda.sport.rcs.pojo.StandardSportOddsFieldsTemplet">
+    <!--@mbg.generated-->
+    <!--@Table standard_sport_odds_fields_templet-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="market_category_id" jdbcType="BIGINT" property="marketCategoryId" />
+    <result column="name_code" jdbcType="BIGINT" property="nameCode" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="order_no" jdbcType="INTEGER" property="orderNo" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="modify_time" jdbcType="BIGINT" property="modifyTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, market_category_id, name_code, `name`, order_no, create_time, modify_time
+  </sql>
+  <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into standard_sport_odds_fields_templet
+    (id, market_category_id, name_code, `name`, order_no, create_time, modify_time)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.id,jdbcType=BIGINT},#{item.marketCategoryId,jdbcType=BIGINT}, #{item.nameCode,jdbcType=BIGINT}, #{item.name,jdbcType=VARCHAR},
+        #{item.orderNo,jdbcType=INTEGER}, #{item.createTime,jdbcType=BIGINT}, #{item.modifyTime,jdbcType=BIGINT}
+        )
+    </foreach>
+  </insert>
+
+  <insert id="batchInsertOrUpdate" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="false">
+    <!--@mbg.generated-->
+    insert into standard_sport_odds_fields_templet
+    (id, market_category_id, name_code, `name`, order_no, create_time, modify_time)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.id,jdbcType=BIGINT},#{item.marketCategoryId,jdbcType=BIGINT}, #{item.nameCode,jdbcType=BIGINT}, #{item.name,jdbcType=VARCHAR},
+      #{item.orderNo,jdbcType=INTEGER}, #{item.createTime,jdbcType=BIGINT}, #{item.modifyTime,jdbcType=BIGINT}
+      )
+    </foreach>
+    on duplicate key update
+    <trim suffixOverrides=",">
+      market_category_id = values (market_category_id),
+      name_code = values (name_code),
+      `name` = values (`name`),
+      order_no = values (order_no),
+      modify_time = values (modify_time),
+    </trim>
+  </insert>
+</mapper>

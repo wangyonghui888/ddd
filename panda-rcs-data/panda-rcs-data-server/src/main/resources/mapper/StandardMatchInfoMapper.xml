@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.data.mapper.StandardMatchInfoMapper">
+  <resultMap id="BaseResultMap" type="com.panda.sport.rcs.pojo.StandardMatchInfo">
+    <!--@mbg.generated-->
+    <!--@Table standard_match_info-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="sport_id" jdbcType="BIGINT" property="sportId" />
+    <result column="standard_tournament_id" jdbcType="BIGINT" property="standardTournamentId" />
+    <result column="third_match_id" jdbcType="INTEGER" property="thirdMatchId" />
+    <result column="seconds_match_start" jdbcType="INTEGER" property="secondsMatchStart" />
+    <result column="pre_match_business" jdbcType="TINYINT" property="preMatchBusiness" />
+    <result column="live_odd_business" jdbcType="TINYINT" property="liveOddBusiness" />
+    <result column="operate_match_status" jdbcType="TINYINT" property="operateMatchStatus" />
+    <result column="begin_time" jdbcType="BIGINT" property="beginTime" />
+    <result column="active" jdbcType="TINYINT" property="active" />
+    <result column="pre_match_bet_status" jdbcType="TINYINT" property="preMatchBetStatus" />
+    <result column="live_odds_bet_status" jdbcType="TINYINT" property="liveOddsBetStatus" />
+    <result column="match_status" jdbcType="TINYINT" property="matchStatus" />
+    <result column="neutral_ground" jdbcType="TINYINT" property="neutralGround" />
+    <result column="match_manage_id" jdbcType="VARCHAR" property="matchManageId" />
+    <result column="match_position_name" jdbcType="VARCHAR" property="matchPositionName" />
+    <result column="match_position_name_code" jdbcType="BIGINT" property="matchPositionNameCode" />
+    <result column="risk_manager_code" jdbcType="VARCHAR" property="riskManagerCode" />
+    <result column="data_source_code" jdbcType="VARCHAR" property="dataSourceCode" />
+    <result column="related_data_source_coder_list" jdbcType="VARCHAR" property="relatedDataSourceCoderList" />
+    <result column="related_data_source_coder_num" jdbcType="INTEGER" property="relatedDataSourceCoderNum" />
+    <result column="match_data_provider_code" jdbcType="VARCHAR" property="matchDataProviderCode" />
+    <result column="third_match_source_id" jdbcType="VARCHAR" property="thirdMatchSourceId" />
+    <result column="home_away_info" jdbcType="VARCHAR" property="homeAwayInfo" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="bet_status" jdbcType="TINYINT" property="betStatus" />
+    <result column="team_name" jdbcType="OTHER" property="teamName" />
+    <result column="team_manage_id" jdbcType="OTHER" property="teamManageId" />
+    <result column="match_period_id" jdbcType="BIGINT" property="matchPeriodId" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="modify_time" jdbcType="BIGINT" property="modifyTime" />
+    <result column="pre_risk_manager_code" jdbcType="VARCHAR" property="preRiskManagerCode"/>
+    <result column="live_risk_manager_code" jdbcType="VARCHAR" property="liveRiskManagerCode"/>
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, sport_id, standard_tournament_id, third_match_id, seconds_match_start, pre_match_business,
+    live_odd_business, operate_match_status, begin_time, active, pre_match_bet_status,
+    live_odds_bet_status, match_status, neutral_ground, match_manage_id, match_position_name,
+    match_position_name_code, risk_manager_code, data_source_code, related_data_source_coder_list,
+    related_data_source_coder_num, match_data_provider_code, third_match_source_id, home_away_info,
+    parent_id, bet_status, team_name, team_manage_id, match_period_id, remark, create_time,
+    modify_time,pre_risk_manager_code,live_risk_manager_code
+  </sql>
+
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update standard_match_info
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="pre_risk_manager_code = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.preRiskManagerCode,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="live_risk_manager_code = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.liveRiskManagerCode,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="sport_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.sportId,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="standard_tournament_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.standardTournamentId,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="third_match_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.thirdMatchId,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+      <trim prefix="seconds_match_start = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.secondsMatchStart,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+      <trim prefix="pre_match_business = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.preMatchBusiness,jdbcType=TINYINT}
+        </foreach>
+      </trim>
+      <trim prefix="live_odd_business = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.liveOddBusiness,jdbcType=TINYINT}
+        </foreach>
+      </trim>
+      <trim prefix="operate_match_status = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.operateMatchStatus,jdbcType=TINYINT}
+        </foreach>
+      </trim>
+      <trim prefix="begin_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.beginTime,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="active = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.active,jdbcType=TINYINT}
+        </foreach>
+      </trim>
+      <trim prefix="pre_match_bet_status = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.preMatchBetStatus,jdbcType=TINYINT}
+        </foreach>
+      </trim>
+      <trim prefix="live_odds_bet_status = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.liveOddsBetStatus,jdbcType=TINYINT}
+        </foreach>
+      </trim>
+      <trim prefix="match_status = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.matchStatus,jdbcType=TINYINT}
+        </foreach>
+      </trim>
+      <trim prefix="neutral_ground = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.neutralGround,jdbcType=TINYINT}
+        </foreach>
+      </trim>
+      <trim prefix="match_manage_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.matchManageId,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="match_position_name = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.matchPositionName,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="match_position_name_code = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.matchPositionNameCode,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="risk_manager_code = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.riskManagerCode,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="data_source_code = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.dataSourceCode,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="related_data_source_coder_list = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.relatedDataSourceCoderList,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="related_data_source_coder_num = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.relatedDataSourceCoderNum,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+      <trim prefix="match_data_provider_code = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.matchDataProviderCode,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="third_match_source_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.thirdMatchSourceId,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="home_away_info = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.homeAwayInfo,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="parent_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.parentId,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="bet_status = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.betStatus,jdbcType=TINYINT}
+        </foreach>
+      </trim>
+      <trim prefix="team_name = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.teamName,jdbcType=OTHER}
+        </foreach>
+      </trim>
+      <trim prefix="team_manage_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.teamManageId,jdbcType=OTHER}
+        </foreach>
+      </trim>
+      <trim prefix="match_period_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.matchPeriodId,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="remark = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.remark,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="create_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.createTime,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="modify_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.modifyTime,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id,jdbcType=BIGINT}
+    </foreach>
+  </update>
+    <update id="updateOperateMatchStatus">
+        UPDATE standard_match_info SET operate_match_status = #{status,jdbcType=INTEGER} WHERE id = #{id,jdbcType=BIGINT}
+    </update>
+    <insert id="batchInsertOrUpdate" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into standard_match_info
+    (id,sport_id, standard_tournament_id, third_match_id, seconds_match_start, pre_match_business,
+      live_odd_business,  begin_time, active, pre_match_bet_status,
+      live_odds_bet_status, match_status, neutral_ground, match_manage_id,match_type, match_position_name,
+      match_position_name_code, risk_manager_code, data_source_code, related_data_source_coder_list,
+      related_data_source_coder_num, match_data_provider_code, third_match_source_id,
+      home_away_info, parent_id, bet_status, team_name, team_manage_id, match_period_id, match_length,third_match_list_str,
+      remark, create_time, modify_time,pre_risk_manager_code,live_risk_manager_code,name_concat,round_type,odds_live)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.id,jdbcType=BIGINT}, #{item.sportId,jdbcType=BIGINT}, #{item.standardTournamentId,jdbcType=BIGINT}, #{item.thirdMatchId,jdbcType=INTEGER},
+        #{item.secondsMatchStart,jdbcType=INTEGER}, #{item.preMatchBusiness,jdbcType=TINYINT},
+        #{item.liveOddBusiness,jdbcType=TINYINT},
+        #{item.beginTime,jdbcType=BIGINT}, #{item.active,jdbcType=TINYINT}, #{item.preMatchBetStatus,jdbcType=TINYINT},
+        #{item.liveOddsBetStatus,jdbcType=TINYINT}, #{item.matchStatus,jdbcType=TINYINT},
+        #{item.neutralGround,jdbcType=TINYINT}, #{item.matchManageId,jdbcType=BIGINT},#{item.matchType},
+        #{item.matchPositionName,jdbcType=VARCHAR}, #{item.matchPositionNameCode,jdbcType=BIGINT},
+        #{item.riskManagerCode,jdbcType=VARCHAR}, #{item.dataSourceCode,jdbcType=VARCHAR},
+        #{item.relatedDataSourceCoderList,jdbcType=VARCHAR}, #{item.relatedDataSourceCoderNum,jdbcType=INTEGER},
+        #{item.matchDataProviderCode,jdbcType=VARCHAR}, #{item.thirdMatchSourceId,jdbcType=VARCHAR},
+        #{item.homeAwayInfo,jdbcType=VARCHAR}, #{item.parentId,jdbcType=BIGINT}, #{item.betStatus,jdbcType=TINYINT},
+        #{item.teamName,jdbcType=OTHER}, #{item.teamManageId,jdbcType=OTHER}, #{item.matchPeriodId,jdbcType=BIGINT}, #{item.matchLength},#{item.thirdMatchListStr},
+        #{item.remark,jdbcType=VARCHAR}, #{item.createTime,jdbcType=BIGINT}, #{item.modifyTime,jdbcType=BIGINT},
+        #{item.preRiskManagerCode,jdbcType=VARCHAR}, #{item.liveRiskManagerCode,jdbcType=VARCHAR}, #{item.nameConcat,jdbcType=VARCHAR},#{item.roundType},
+        #{item.oddsLive,jdbcType=TINYINT}
+        )
+    </foreach>
+      on duplicate key update
+      <trim suffixOverrides=",">
+        sport_id = values (sport_id),
+        standard_tournament_id = values (standard_tournament_id),
+        third_match_id = values (third_match_id),
+        seconds_match_start = CASE WHEN (VALUES (match_type) = 3 and VALUES (sport_id) = 2)
+                                        or  (0 = VALUES (seconds_match_start) and VALUES (sport_id) = 1)
+                                        or 'uof' = event_code
+                                        or values (sport_id) = 4
+                              THEN seconds_match_start
+                              else VALUES (seconds_match_start) end,
+        pre_match_business = values (pre_match_business),
+        live_odd_business = values (live_odd_business),
+        begin_time = values (begin_time),
+        active = values (active),
+        pre_match_bet_status = values (pre_match_bet_status),
+        live_odds_bet_status = values (live_odds_bet_status),
+        match_status = CASE WHEN VALUES (match_status) = 3 THEN 3
+                            WHEN VALUES (match_status) = 6 THEN 6
+                            WHEN match_status in (0,1) AND odds_live = 1 THEN 1
+                       else VALUES(match_status) end,
+        neutral_ground = values (neutral_ground),
+        match_manage_id = values (match_manage_id),
+        match_position_name = values (match_position_name),
+        match_position_name_code = values (match_position_name_code),
+        risk_manager_code = values (risk_manager_code),
+        data_source_code = values (data_source_code),
+        related_data_source_coder_list = values (related_data_source_coder_list),
+        related_data_source_coder_num = values (related_data_source_coder_num),
+        match_data_provider_code = values (match_data_provider_code),
+        third_match_source_id = values (third_match_source_id),
+        home_away_info = values (home_away_info),
+        parent_id = values (parent_id),
+        bet_status = values (bet_status),
+        team_name = values (team_name),
+        team_manage_id = values (team_manage_id),
+        match_type = values (match_type),
+        match_period_id = values (match_period_id),
+        match_length = values (match_length),
+        third_match_list_str = values (third_match_list_str),
+        remark = values (remark),
+        modify_time = values (modify_time),
+        update_time = now(),
+        pre_risk_manager_code = values (pre_risk_manager_code),
+        live_risk_manager_code = values (live_risk_manager_code),
+        name_concat = values (name_concat),
+        odds_live = CASE WHEN match_status = 0  AND VALUES ( match_status ) = 1 THEN 0 else odds_live end,
+        round_type = values (round_type),
+      </trim>
+  </insert>
+
+  <select id="selectMatchById" resultType="com.panda.sport.rcs.pojo.StandardMatchInfo">
+    SELECT * from standard_match_info WHERE id = #{matchId}
+  </select>
+</mapper>

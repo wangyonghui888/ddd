@@ -1,0 +1,1526 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.mapper.tourTemplate.RcsTournamentTemplatePlayMargainRefMapper">
+    <resultMap id="ComposeResultMap" type="com.panda.sport.rcs.pojo.tourTemplate.RcsTournamentTemplateComposeModel">
+        <result column="match_id" jdbcType="BIGINT" property="matchId" />
+        <result column="template_id" jdbcType="BIGINT" property="templateId" />
+        <result column="margin_id" jdbcType="BIGINT" property="marginId" />
+        <result column="play_id" jdbcType="BIGINT" property="playId" />
+        <result column="time_val" jdbcType="INTEGER" property="timeVal" />
+        <result column="margin_ref_id" jdbcType="BIGINT" property="marginRefId" />
+        <result column="valid_margin_id" jdbcType="BIGINT" property="validMarginId" />
+        <result column="market_count" jdbcType="INTEGER" property="marketCount" />
+        <result column="vice_market_ratio" jdbcType="VARCHAR" property="viceMarketRatio" />
+        <result column="pause_margain" jdbcType="DECIMAL" property="pauseMargain" />
+        <result column="normal_wait_time" jdbcType="INTEGER" property="normalWaitTime" />
+        <result column="pause_wait_time" jdbcType="INTEGER" property="pauseWaitTime" />
+        <result column="have_handicap" jdbcType="INTEGER" property="haveHandicap" />
+    </resultMap>
+
+    <resultMap id="BaseResultMap" type="com.panda.sport.rcs.pojo.tourTemplate.RcsTournamentTemplatePlayMargainRef">
+        <!--@mbg.generated-->
+        <!--@Table rcs_tournament_template_play_margain_ref-->
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="margain_id" jdbcType="INTEGER" property="margainId" />
+        <result column="time_val" jdbcType="INTEGER" property="timeVal" />
+        <result column="margain" jdbcType="VARCHAR" property="margain" />
+        <result column="balance_option" jdbcType="INTEGER" property="balanceOption" />
+        <result column="max_odds" jdbcType="DECIMAL" property="maxOdds" />
+        <result column="min_odds" jdbcType="DECIMAL" property="minOdds" />
+        <result column="odd_change_rule" jdbcType="INTEGER" property="oddChangeRule" />
+        <result column="home_multi_max_amount" jdbcType="BIGINT" property="homeMultiMaxAmount" />
+        <result column="home_single_max_amount" jdbcType="BIGINT" property="homeSingleMaxAmount" />
+        <result column="home_multi_odds_rate" jdbcType="DECIMAL" property="homeMultiOddsRate" />
+        <result column="home_single_odds_rate" jdbcType="DECIMAL" property="homeSingleOddsRate" />
+        <result column="away_multi_odds_rate" jdbcType="DECIMAL" property="awayMultiOddsRate" />
+        <result column="away_single_odds_rate" jdbcType="DECIMAL" property="awaySingleOddsRate" />
+        <result column="order_single_pay_val" jdbcType="BIGINT" property="orderSinglePayVal" />
+        <result column="order_single_bet_val" jdbcType="BIGINT" property="orderSingleBetVal" />
+        <result column="single_hedge_amount" jdbcType="DECIMAL" property="singleHedgeAmount" />
+        <result column="user_multi_pay_val" jdbcType="BIGINT" property="userMultiPayVal" />
+        <result column="pending_order_pay_val" jdbcType="BIGINT" property="pendingOrderPayVal" />
+        <result column="multi_diff_val" jdbcType="BIGINT" property="multiDiffVal" />
+        <result column="multi_odds_rate" jdbcType="DECIMAL" property="multiOddsRate" />
+        <result column="home_level_first_max_amount" jdbcType="BIGINT" property="homeLevelFirstMaxAmount" />
+        <result column="home_level_second_max_amount" jdbcType="BIGINT" property="homeLevelSecondMaxAmount" />
+        <result column="home_level_first_odds_rate" jdbcType="DECIMAL" property="homeLevelFirstOddsRate" />
+        <result column="home_level_second_odds_rate" jdbcType="DECIMAL" property="homeLevelSecondOddsRate" />
+        <result column="away_level_first_odds_rate" jdbcType="DECIMAL" property="awayLevelFirstOddsRate" />
+        <result column="away_level_second_odds_rate" jdbcType="DECIMAL" property="awayLevelSecondOddsRate" />
+
+        <result column="level_first_market_amount" jdbcType="BIGINT" property="levelFirstMarketAmount" />
+        <result column="level_second_market_amount" jdbcType="BIGINT" property="levelSecondMarketAmount" />
+        <result column="home_level_first_market_rate" jdbcType="DECIMAL" property="homeLevelFirstMarketRate" />
+        <result column="home_level_second_market_rate" jdbcType="DECIMAL" property="homeLevelSecondMarketRate" />
+        <result column="away_level_first_market_rate" jdbcType="DECIMAL" property="awayLevelFirstMarketRate" />
+        <result column="away_level_second_market_rate" jdbcType="DECIMAL" property="awayLevelSecondMarketRate" />
+
+        <result column="market_single_max_amount" jdbcType="BIGINT" property="marketSingleMaxAmount" />
+        <result column="market_cumulative_max_amount" jdbcType="BIGINT" property="marketCumulativeMaxAmount" />
+        <result column="home_single_market_rate" jdbcType="DECIMAL" property="homeSingleMarketRate" />
+        <result column="home_cumulative_market_rate" jdbcType="DECIMAL" property="homeCumulativeMarketRate" />
+        <result column="away_single_market_rate" jdbcType="DECIMAL" property="awaySingleMarketRate" />
+        <result column="away_cumulative_market_rate" jdbcType="DECIMAL" property="awayCumulativeMarketRate" />
+
+        <result column="is_market_config" jdbcType="INTEGER" property="isMarketConfig" />
+        <result column="is_quota_config" jdbcType="INTEGER" property="isQuotaConfig" />
+        <result column="pause_margain" jdbcType="VARCHAR" property="pauseMargain" />
+        <result column="normal_wait_time" jdbcType="INTEGER" property="normalWaitTime" />
+        <result column="pause_wait_time" jdbcType="INTEGER" property="pauseWaitTime" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+        <result column="status" jdbcType="VARCHAR" property="status" />
+        <result column="category_pre_status" jdbcType="INTEGER" property="categoryPreStatus" />
+        <result column="cash_out_margin" jdbcType="BIGINT" property="cashOutMargin" />
+        <result column="is_auto_close_score_config" jdbcType="INTEGER" property="isAutoCloseScoreConfig" />
+        <result column="achieve_close_score" jdbcType="INTEGER" property="achieveCloseScore" />
+    </resultMap>
+    <insert id="insertOrUpdateBatch" keyColumn="id" keyProperty="list.id" parameterType="list" useGeneratedKeys="true">
+        insert into rcs_tournament_template_play_margain_ref
+        (margain_id,time_val,margain,balance_option,max_odds,min_odds,odd_change_rule,home_multi_max_amount,home_single_max_amount,home_multi_odds_rate,single_hedge_amount,
+        home_single_odds_rate,away_multi_odds_rate,away_single_odds_rate,order_single_pay_val,user_multi_pay_val,multi_diff_val,multi_odds_rate,home_level_first_max_amount,
+        home_level_second_max_amount,home_level_first_odds_rate,home_level_second_odds_rate,away_level_first_odds_rate,away_level_second_odds_rate,is_market_config,
+        is_quota_config,pause_margain,normal_wait_time,pause_wait_time,create_time,update_time,pending_order_pay_val)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.margainId,jdbcType=BIGINT},#{item.timeVal,jdbcType=BIGINT},#{item.margain,jdbcType=VARCHAR},#{item.balanceOption,jdbcType=INTEGER},#{item.maxOdds,jdbcType=DECIMAL},#{item.singleHedgeAmount,jdbcType=DECIMAL},
+            #{item.minOdds,jdbcType=DECIMAL},#{item.oddChangeRule,jdbcType=INTEGER},#{item.homeMultiMaxAmount,jdbcType=BIGINT},#{item.homeSingleMaxAmount,jdbcType=BIGINT},#{item.homeMultiOddsRate,jdbcType=DECIMAL},
+            #{item.homeSingleOddsRate,jdbcType=DECIMAL},#{item.awayMultiOddsRate,jdbcType=DECIMAL},#{item.awaySingleOddsRate,jdbcType=DECIMAL},#{item.orderSinglePayVal,jdbcType=BIGINT},
+            #{item.userMultiPayVal,jdbcType=BIGINT},#{item.multiDiffVal,jdbcType=BIGINT},#{item.multiOddsRate,jdbcType=BIGINT},#{item.homeLevelFirstMaxAmount,jdbcType=BIGINT},#{item.homeLevelSecondMaxAmount,jdbcType=BIGINT},
+            #{item.homeLevelFirstOddsRate,jdbcType=DECIMAL},#{item.homeLevelSecondOddsRate,jdbcType=DECIMAL},#{item.awayLevelFirstOddsRate,jdbcType=DECIMAL},#{item.awayLevelSecondOddsRate,jdbcType=DECIMAL},
+            #{item.isMarketConfig,jdbcType=INTEGER},#{item.isQuotaConfig,jdbcType=INTEGER},#{item.pauseMargain,jdbcType=VARCHAR},#{item.normalWaitTime,jdbcType=VARCHAR},#{item.pauseWaitTime,jdbcType=VARCHAR},
+            #{item.createTime,jdbcType=TIMESTAMP},#{item.updateTime,jdbcType=TIMESTAMP},#{item.pendingOrderPayVal,jdbcType=BIGINT})
+        </foreach>
+        <!--ON DUPLICATE KEY UPDATE
+         margain = VALUES(margain),
+         balance_option = VALUES(balance_option),
+         max_odds = VALUES(max_odds),
+         min_odds = VALUES(min_odds),
+         odd_change_rule = VALUES(odd_change_rule),
+         home_multi_max_amount = VALUES(home_multi_max_amount),
+         home_single_max_amount = VALUES(home_single_max_amount),
+         home_multi_odds_rate = VALUES(home_multi_odds_rate),
+         home_single_odds_rate = VALUES(home_single_odds_rate),
+         away_multi_odds_rate = VALUES(away_multi_odds_rate),
+         away_single_odds_rate = VALUES(away_single_odds_rate),
+         order_single_pay_val = VALUES(order_single_pay_val),
+         user_multi_pay_val = VALUES(user_multi_pay_val),
+         multi_diff_val = VALUES(multi_diff_val),
+         multi_odds_rate = VALUES(multi_odds_rate),
+         home_level_first_max_amount = VALUES(home_level_first_max_amount),
+         home_level_second_max_amount = VALUES(home_level_second_max_amount),
+         home_level_first_odds_rate = VALUES(home_level_first_odds_rate),
+         home_level_second_odds_rate = VALUES(home_level_second_odds_rate),
+         away_level_first_odds_rate = VALUES(away_level_first_odds_rate),
+         away_level_second_odds_rate = VALUES(away_level_second_odds_rate),
+         is_market_config = VALUES(is_market_config),
+         is_quota_config = VALUES(is_quota_config),
+         pause_margain = VALUES(pause_margain),
+         normal_wait_time = VALUES(normal_wait_time),
+         pause_wait_time = VALUES(pause_wait_time),
+         update_time = now()-->
+    </insert>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, margain_id, time_val, margain, balance_option, max_odds, min_odds, odd_change_rule,
+        home_multi_max_amount, home_single_max_amount, home_multi_odds_rate, home_single_odds_rate,
+        away_multi_odds_rate, away_single_odds_rate, order_single_pay_val,order_single_bet_val, user_multi_pay_val,
+        multi_diff_val, multi_odds_rate, home_level_first_max_amount, home_level_second_max_amount,
+        home_level_first_odds_rate, home_level_second_odds_rate, away_level_first_odds_rate,
+        away_level_second_odds_rate, is_market_config, is_quota_config, pause_margain, normal_wait_time,
+        pause_wait_time, create_time, update_time,status,
+        level_first_market_amount,level_second_market_amount,home_level_first_market_rate,home_level_second_market_rate,away_level_first_market_rate,away_level_second_market_rate,
+        market_single_max_amount,market_cumulative_max_amount,home_single_market_rate,home_cumulative_market_rate,away_single_market_rate,away_cumulative_market_rate,
+        category_pre_status,cash_out_margin,market_count,vice_market_ratio,pending_order_pay_val,order_single_bet_val,single_hedge_amount
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List" />
+        from rcs_tournament_template_play_margain_ref
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    
+    <select id="selectAllTemplatesByFoot" resultMap="ComposeResultMap">
+    	SELECT t1.id match_id,t1.match_type,t1.pause_wait_time,t1.pause_margain,t1.normal_wait_time,t1.market_count,t1.vice_market_ratio,t1.t_id template_id,t1.m_id margin_id,t1.play_id,t1.time_val,r3.id margin_ref_id,m1.valid_margin_id FROM (
+        SELECT id,t_id,m_id,t.match_type,t.market_count,t.pause_wait_time,t.pause_margain,t.normal_wait_time,t.vice_market_ratio,t.play_id,case when match_type = 0 then MAX(time_val) else MIN(time_val) end time_val FROM (
+        SELECT i.id , t.id t_id ,m.id m_id,m.play_id,r.id m_r_id,r.time_val ,t.match_type,m.market_count,m.vice_market_ratio,r.pause_wait_time,r.pause_margain,r.normal_wait_time
+        FROM standard_match_info i
+        LEFT JOIN rcs_tournament_template t ON t.`type` = 3 AND t.type_val = i.id
+        LEFT JOIN rcs_tournament_template_play_margain m ON m.template_id = t.id
+        LEFT JOIN rcs_tournament_template_play_margain_ref r ON r.margain_id = m.id
+        WHERE i.begin_time > unix_timestamp(NOW()) * 1000 - 1000 * 60 * 60 * 12
+        AND i.sport_id = 1 AND i.match_status NOT IN (3,4)
+		AND r.`status` NOT IN (2)
+        AND case when i.odds_live = 1 then m.match_type = 0 ELSE m.match_type = 1 END
+        AND case when i.odds_live = 1
+        then r.time_val  &lt; (unix_timestamp(NOW()) * 1000 - IFNULL(i.event_time , unix_timestamp(NOW()) * 1000))/1000 + IFNULL(i.seconds_match_start , (unix_timestamp(NOW()) * 1000 - i.begin_time)/1000)
+        ELSE r.time_val  &gt; (i.begin_time - unix_timestamp(NOW()) * 1000)/1000 OR m.play_id in(236,343)
+        END
+        ) t
+        GROUP BY id,t_id,m_id,t.play_id,match_type
+        ) t1
+        LEFT JOIN rcs_tournament_template_play_margain_ref r3 ON r3.margain_id = t1.m_id AND r3.time_val = t1.time_val
+        LEFT JOIN rcs_tournament_template_play_margain m1 ON m1.id = t1.m_id
+        WHERE (m1.valid_margin_id &lt;&gt; r3.id OR m1.valid_margin_id IS NULL or r3.`status` = 3)
+		AND (SELECT count(1) FROM standard_sport_market k
+				left JOIN standard_sport_market_odds o ON o.market_id = k.id
+				WHERE k.standard_match_info_id = t1.id AND k.market_category_id = t1.play_id AND o.id IS NOT NULL 
+				and k.third_market_source_status in (0,1) AND k.market_type = t1.match_type ) &gt; 0
+		limit 200
+    </select>
+
+    <select id="selectAllLiveTemplatesByFoot" resultMap="ComposeResultMap">
+        SELECT t1.id match_id,t1.match_type,t1.pause_wait_time,t1.pause_margain,t1.normal_wait_time,t1.market_count,t1.vice_market_ratio,t1.t_id template_id,t1.m_id margin_id,t1.play_id,t1.time_val,r3.id margin_ref_id,m1.valid_margin_id FROM (
+        SELECT id,t_id,m_id,t.match_type,t.market_count,t.pause_wait_time,t.pause_margain,t.normal_wait_time,t.vice_market_ratio,t.play_id,case when match_type = 0 then MAX(time_val) else MIN(time_val) end time_val FROM (
+        SELECT i.id , t.id t_id ,m.id m_id,m.play_id,r.id m_r_id,r.time_val ,t.match_type,m.market_count,m.vice_market_ratio,r.pause_wait_time,r.pause_margain,r.normal_wait_time
+        FROM standard_match_info i
+        LEFT JOIN rcs_tournament_template t ON t.`type` = 3 AND t.type_val = i.id
+        LEFT JOIN rcs_tournament_template_play_margain m ON m.template_id = t.id
+        LEFT JOIN rcs_tournament_template_play_margain_ref r ON r.margain_id = m.id
+        WHERE i.begin_time > unix_timestamp(NOW()) * 1000 - 1000 * 60 * 60 * 12
+        AND i.odds_live = 1
+        AND i.sport_id = 1 AND i.match_status NOT IN (3,4)
+        AND r.`status` NOT IN (2)
+        AND case when i.odds_live = 1 then m.match_type = 0 ELSE m.match_type = 1 END
+        AND case when i.odds_live = 1
+        then r.time_val  &lt; (unix_timestamp(NOW()) * 1000 - IFNULL(i.event_time , unix_timestamp(NOW()) * 1000))/1000 + IFNULL(i.seconds_match_start , (unix_timestamp(NOW()) * 1000 - i.begin_time)/1000)
+        ELSE r.time_val  &gt; (i.begin_time - unix_timestamp(NOW()) * 1000)/1000 OR m.play_id in(236,343)
+        END
+        ) t
+        GROUP BY id,t_id,m_id,t.play_id,match_type
+        ) t1
+        LEFT JOIN rcs_tournament_template_play_margain_ref r3 ON r3.margain_id = t1.m_id AND r3.time_val = t1.time_val
+        LEFT JOIN rcs_tournament_template_play_margain m1 ON m1.id = t1.m_id
+        WHERE (m1.valid_margin_id &lt;&gt; r3.id OR m1.valid_margin_id IS NULL or r3.`status` = 3)
+        AND (SELECT count(1) FROM standard_sport_market k
+        left JOIN standard_sport_market_odds o ON o.market_id = k.id
+        WHERE k.standard_match_info_id = t1.id AND k.market_category_id = t1.play_id AND o.id IS NOT NULL
+        and k.third_market_source_status in (0,1) AND k.market_type = t1.match_type ) &gt; 0
+        order by match_id
+        limit 2000
+    </select>
+
+    <select id="selectAllZPTemplatesByFoot" resultMap="ComposeResultMap">
+        SELECT t1.id match_id,t1.match_type,t1.pause_wait_time,t1.pause_margain,t1.normal_wait_time,t1.market_count,t1.vice_market_ratio,t1.t_id template_id,t1.m_id margin_id,t1.play_id,t1.time_val,r3.id margin_ref_id,m1.valid_margin_id FROM (
+        SELECT id,t_id,m_id,t.match_type,t.market_count,t.pause_wait_time,t.pause_margain,t.normal_wait_time,t.vice_market_ratio,t.play_id,case when match_type = 0 then MAX(time_val) else MIN(time_val) end time_val FROM (
+        SELECT i.id , t.id t_id ,m.id m_id,m.play_id,r.id m_r_id,r.time_val ,t.match_type,m.market_count,m.vice_market_ratio,r.pause_wait_time,r.pause_margain,r.normal_wait_time
+        FROM standard_match_info i
+        LEFT JOIN rcs_tournament_template t ON t.`type` = 3 AND t.type_val = i.id
+        LEFT JOIN rcs_tournament_template_play_margain m ON m.template_id = t.id
+        LEFT JOIN rcs_tournament_template_play_margain_ref r ON r.margain_id = m.id
+        WHERE i.begin_time > unix_timestamp(NOW()) * 1000 - 1000 * 60 * 60 * 12
+        AND i.odds_live != 1
+        AND i.sport_id = 1 AND i.match_status NOT IN (3,4)
+        AND r.`status` NOT IN (2)
+        AND case when i.odds_live = 1 then m.match_type = 0 ELSE m.match_type = 1 END
+        AND case when i.odds_live = 1
+        then r.time_val  &lt; (unix_timestamp(NOW()) * 1000 - IFNULL(i.event_time , unix_timestamp(NOW()) * 1000))/1000 + IFNULL(i.seconds_match_start , (unix_timestamp(NOW()) * 1000 - i.begin_time)/1000)
+        ELSE r.time_val  &gt; (i.begin_time - unix_timestamp(NOW()) * 1000)/1000 OR m.play_id in(236,343)
+        END
+        ) t
+        GROUP BY id,t_id,m_id,t.play_id,match_type
+        ) t1
+        LEFT JOIN rcs_tournament_template_play_margain_ref r3 ON r3.margain_id = t1.m_id AND r3.time_val = t1.time_val
+        LEFT JOIN rcs_tournament_template_play_margain m1 ON m1.id = t1.m_id
+        WHERE (m1.valid_margin_id &lt;&gt; r3.id OR m1.valid_margin_id IS NULL or r3.`status` = 3)
+        AND (SELECT count(1) FROM standard_sport_market k
+        left JOIN standard_sport_market_odds o ON o.market_id = k.id
+        WHERE k.standard_match_info_id = t1.id AND k.market_category_id = t1.play_id AND o.id IS NOT NULL
+        and k.third_market_source_status in (0,1) AND k.market_type = t1.match_type ) &gt; 0
+        order by match_id
+        limit 2000
+    </select>
+
+    <select id="selectAllTemplatesByBasket" resultMap="ComposeResultMap">
+    SELECT * FROM (SELECT t1.id match_id,t1.match_type,t1.pause_wait_time,t1.pause_margain,t1.normal_wait_time,t1.market_count,t1.vice_market_ratio,t1.t_id template_id,t1.m_id margin_id,t1.play_id,t1.time_val,r3.id margin_ref_id,m1.valid_margin_id,1 have_handicap FROM (
+        SELECT id,t_id,m_id,t.match_type,t.market_count,t.pause_wait_time,t.pause_margain,t.normal_wait_time,t.vice_market_ratio,t.play_id,case when match_type = 0 then MAX(time_val) else MIN(time_val) end time_val FROM (
+        SELECT i.id , t.id t_id ,m.id m_id,m.play_id,r.id m_r_id,r.time_val ,t.match_type,m.market_count,m.vice_market_ratio,r.pause_wait_time,r.pause_margain,r.normal_wait_time
+        FROM standard_match_info i
+        LEFT JOIN rcs_tournament_template t ON t.`type` = 3 AND t.type_val = i.id
+        LEFT JOIN rcs_tournament_template_play_margain m ON m.template_id = t.id
+        LEFT JOIN rcs_tournament_template_play_margain_ref r ON r.margain_id = m.id
+        LEFT JOIN standard_sport_market_category_ref cr ON cr.category_id = m.play_id AND cr.sport_id = i.sport_id
+        WHERE i.begin_time > unix_timestamp(NOW()) * 1000 - 1000 * 60 * 60 * 12
+        AND i.sport_id = 2 AND i.match_status NOT IN (3,4)
+        AND r.`status` NOT IN (2)
+        AND case when i.odds_live = 1 then m.match_type = 0 ELSE m.match_type = 1 END
+        AND case when i.odds_live = 1 AND cr.scope_id IN (6,7,8,9,13,14,15,17)
+		then r.time_val  &lt;= case when i.event_code IS not NULL
+								    then IFNULL(case when i.match_length = 0 then 10
+                                                    when i.match_length = 7 then 12
+                                                    when i.match_length = 17 then 20
+                                                    when i.match_length = 64 then 6
+                                                    when i.match_length = 68 then 5
+                                                    when i.match_length = 70 then 4
+                                                    ELSE null END ,20) * 60
+<!--                                                    + 2-->
+                                                    - (case when i.seconds_match_start = 0 then 0
+                                                            when i.seconds_match_start > 0 then IF(i.seconds_match_start - (unix_timestamp(NOW()) * 1000 - i.event_time) /1000 &lt;= 0,0,i.seconds_match_start - (unix_timestamp(NOW()) * 1000 - i.event_time) /1000) end)
+								 ELSE (unix_timestamp(NOW()) * 1000 - i.begin_time)/1000 END
+		when i.odds_live = 1 AND cr.scope_id not IN (6,7,8,9,13,14,15,17) and i.match_period_id in (13,14,15,16,40,1,2,40)  and r.time_val % 2 = 0
+		then r.time_val  &lt;= IFNULL(case when i.match_length = 0 then 10
+			  								when i.match_length = 7 then 12
+											when i.match_length = 17 then 20
+											when i.match_length = 64 then 6
+											when i.match_length = 68 then 5
+											when i.match_length = 70 then 4
+											ELSE null END ,20) * 60
+											* case when i.match_period_id IN (0,13,1,301) then 0
+											when i.match_period_id IN (14,302,2) then 1
+											when i.match_period_id IN (15,303,31) then 2
+											when i.match_period_id IN (16,100,999,32,110) then 3
+											when i.match_period_id IN (40) then 4
+											ELSE 0 END
+<!--									+ 2-->
+		                            + case when i.event_code IS not NULL
+                                            then IFNULL(case when i.match_length = 0 then 10
+                                                            when i.match_length = 7 then 12
+                                                            when i.match_length = 17 then 20
+                                                            when i.match_length = 64 then 6
+                                                            when i.match_length = 68 then 5
+                                                            when i.match_length = 70 then 4
+                                                            ELSE null END ,20) * 60
+                                                            - (case when i.seconds_match_start = 0 then 0
+                                                            when i.seconds_match_start > 0 then IF(i.seconds_match_start - (unix_timestamp(NOW()) * 1000 - i.event_time) /1000 &lt;= 0,0,(i.seconds_match_start - (unix_timestamp(NOW()) * 1000 - i.event_time) /1000 -2)) end)
+				                            ELSE (unix_timestamp(NOW()) * 1000 - i.begin_time)/1000 END
+        when i.odds_live = 1 and i.match_period_id = 0  then r.time_val = 0
+        when i.odds_live = 1 and i.match_period_id = 21  then r.time_val = 0
+        when i.odds_live = 1 and i.match_period_id in (302,31) and r.time_val % 2 > 0 then r.time_val = r.time_val
+        when i.odds_live = 0 AND i.match_period_id = 0 then r.time_val  > (i.begin_time - unix_timestamp(NOW()) * 1000)/1000
+		END
+        ) t
+        GROUP BY id,t_id,m_id,t.play_id,match_type
+        ) t1
+        LEFT JOIN rcs_tournament_template_play_margain_ref r3 ON r3.margain_id = t1.m_id AND r3.time_val = t1.time_val
+        LEFT JOIN rcs_tournament_template_play_margain m1 ON m1.id = t1.m_id
+        WHERE (m1.valid_margin_id &lt;&gt; r3.id OR m1.valid_margin_id IS NULL or r3.`status` = 3)
+		AND (SELECT count(1) FROM standard_sport_market k
+				left JOIN standard_sport_market_odds o ON o.market_id = k.id
+				WHERE k.standard_match_info_id = t1.id AND k.market_category_id = t1.play_id AND o.id IS NOT NULL
+				and k.third_market_source_status in (0,1) ) &gt; 0
+        UNION ALL
+        SELECT t1.id match_id,t1.match_type,t1.pause_wait_time,t1.pause_margain,t1.normal_wait_time,t1.market_count,t1.vice_market_ratio,t1.t_id template_id,t1.m_id margin_id,t1.play_id,t1.time_val,r3.id margin_ref_id,m1.valid_margin_id,0 have_handicap FROM (
+        SELECT id,t_id,m_id,t.match_type,t.market_count,t.pause_wait_time,t.pause_margain,t.normal_wait_time,t.vice_market_ratio,t.play_id,case when match_type = 0 then MAX(time_val) else MIN(time_val) end time_val FROM (
+        SELECT i.id , t.id t_id ,m.id m_id,m.play_id,r.id m_r_id,r.time_val ,t.match_type,m.market_count,m.vice_market_ratio,r.pause_wait_time,r.pause_margain,r.normal_wait_time
+        FROM standard_match_info i
+        LEFT JOIN rcs_tournament_template t ON t.`type` = 3 AND t.type_val = i.id
+        LEFT JOIN rcs_tournament_template_play_margain m ON m.template_id = t.id
+        LEFT JOIN rcs_tournament_template_play_margain_ref r ON r.margain_id = m.id
+        LEFT JOIN standard_sport_market_category_ref cr ON cr.category_id = m.play_id AND cr.sport_id = i.sport_id
+        WHERE i.begin_time > unix_timestamp(NOW()) * 1000 - 1000 * 60 * 60 * 12
+        AND i.sport_id = 2 AND i.match_status NOT IN (3,4)
+        AND r.`status` NOT IN (2)
+        AND case when i.odds_live = 1 then m.match_type = 0 ELSE m.match_type = 1 END
+        AND case when i.odds_live = 1 AND cr.scope_id IN (6,7,8,9,13,14,15,17)
+        then r.time_val  &lt;= case when i.event_code IS not NULL
+        then IFNULL(case when i.match_length = 0 then 10
+        when i.match_length = 7 then 12
+        when i.match_length = 17 then 20
+        when i.match_length = 64 then 6
+        when i.match_length = 68 then 5
+        when i.match_length = 70 then 4
+        ELSE null END ,20) * 60
+        <!--                                                    + 2-->
+        - (case when i.seconds_match_start = 0 then 0
+        when i.seconds_match_start > 0 then IF(i.seconds_match_start - (unix_timestamp(NOW()) * 1000 - i.event_time) /1000 &lt;= 0,0,i.seconds_match_start - (unix_timestamp(NOW()) * 1000 - i.event_time) /1000) end)
+        ELSE (unix_timestamp(NOW()) * 1000 - i.begin_time)/1000 END
+        when i.odds_live = 1 AND cr.scope_id not IN (6,7,8,9,13,14,15,17) and i.match_period_id in (13,14,15,16,40,1,2,40)  and r.time_val % 2 = 0
+        then r.time_val  &lt;= IFNULL(case when i.match_length = 0 then 10
+        when i.match_length = 7 then 12
+        when i.match_length = 17 then 20
+        when i.match_length = 64 then 6
+        when i.match_length = 68 then 5
+        when i.match_length = 70 then 4
+        ELSE null END ,20) * 60
+        * case when i.match_period_id IN (0,13,1,301) then 0
+        when i.match_period_id IN (14,302,2) then 1
+        when i.match_period_id IN (15,303,31) then 2
+        when i.match_period_id IN (16,100,999,32,110) then 3
+        when i.match_period_id IN (40) then 4
+        ELSE 0 END
+        <!--									+ 2-->
+        + case when i.event_code IS not NULL
+        then IFNULL(case when i.match_length = 0 then 10
+        when i.match_length = 7 then 12
+        when i.match_length = 17 then 20
+        when i.match_length = 64 then 6
+        when i.match_length = 68 then 5
+        when i.match_length = 70 then 4
+        ELSE null END ,20) * 60
+        - (case when i.seconds_match_start = 0 then 0
+        when i.seconds_match_start > 0 then IF(i.seconds_match_start - (unix_timestamp(NOW()) * 1000 - i.event_time) /1000 &lt;= 0,0,(i.seconds_match_start - (unix_timestamp(NOW()) * 1000 - i.event_time) /1000 -2)) end)
+        ELSE (unix_timestamp(NOW()) * 1000 - i.begin_time)/1000 END
+        when i.odds_live = 1 and i.match_period_id = 0  then r.time_val = 0
+        when i.odds_live = 1 and i.match_period_id = 21  then r.time_val = 0
+        when i.odds_live = 1 and i.match_period_id in (302,31) and r.time_val % 2 > 0 then r.time_val = r.time_val
+        when i.odds_live = 0 AND i.match_period_id = 0 then r.time_val  > (i.begin_time - unix_timestamp(NOW()) * 1000)/1000
+        END
+        ) t
+        GROUP BY id,t_id,m_id,t.play_id,match_type
+        ) t1
+        LEFT JOIN rcs_tournament_template_play_margain_ref r3 ON r3.margain_id = t1.m_id AND r3.time_val = t1.time_val
+        LEFT JOIN rcs_tournament_template_play_margain m1 ON m1.id = t1.m_id
+        WHERE  r3.`status` = 3 AND m1.market_count IS NULL
+        AND (SELECT count(1) FROM standard_sport_market k
+        left JOIN standard_sport_market_odds o ON o.market_id = k.id
+        WHERE k.standard_match_info_id = t1.id AND k.market_category_id = t1.play_id AND o.id IS NOT NULL
+        and k.third_market_source_status in (0,1) ) = 0) t1
+		limit 200
+    </select>
+
+    <select id="selectBoulesTemplatesByBasket"  resultMap="ComposeResultMap" parameterType="java.util.Map">
+        SELECT * FROM (SELECT t1.id match_id,t1.match_type,t1.pause_wait_time,t1.pause_margain,t1.normal_wait_time,t1.market_count,t1.vice_market_ratio,t1.t_id template_id,t1.m_id margin_id,t1.play_id,t1.time_val,r3.id margin_ref_id,m1.valid_margin_id,1 have_handicap
+        FROM (
+        SELECT id,t_id,m_id,t.match_type,t.market_count,t.pause_wait_time,t.pause_margain,t.normal_wait_time,t.vice_market_ratio,t.play_id,case when match_type = 0 then MAX(time_val) else MIN(time_val) end time_val FROM (
+        SELECT i.id , t.id t_id ,m.id m_id,m.play_id,r.id m_r_id,r.time_val ,t.match_type,m.market_count,m.vice_market_ratio,r.pause_wait_time,r.pause_margain,r.normal_wait_time
+        FROM standard_match_info i
+        LEFT JOIN rcs_tournament_template t ON t.`type` = 3 AND t.type_val = i.id
+        LEFT JOIN rcs_tournament_template_play_margain m ON m.template_id = t.id
+        LEFT JOIN rcs_tournament_template_play_margain_ref r ON r.margain_id = m.id
+        LEFT JOIN standard_sport_market_category_ref cr ON cr.category_id = m.play_id AND cr.sport_id = i.sport_id
+        WHERE i.id = #{standardMatchId}
+        and i.odds_live = 1
+        and m.match_type = 0
+        AND i.sport_id = 2 AND i.match_status NOT IN (3,4)
+        AND r.`status` NOT IN (2)
+        AND case
+        when cr.scope_id IN (6,7,8,9,13,14,15,17)
+        then r.time_val  &lt;= #{timeVal1}
+        when cr.scope_id not IN (6,7,8,9,13,14,15,17) and i.match_period_id in (0,13,14,15,16,40,1,2,40)  and r.time_val % 2 = 0
+        then r.time_val  &lt;= #{timeVal2}
+        when i.match_period_id in (302,31) and r.time_val % 2 > 0 then r.time_val = r.time_val
+        when i.match_period_id in (301,302,303) and r.time_val % 2 = 0 then r.time_val = #{timeVal2}
+        END
+        ) t
+        GROUP BY id,t_id,m_id,t.play_id,match_type
+        ) t1
+        LEFT JOIN rcs_tournament_template_play_margain_ref r3 ON r3.margain_id = t1.m_id AND r3.time_val = t1.time_val
+        LEFT JOIN rcs_tournament_template_play_margain m1 ON m1.id = t1.m_id
+        WHERE (m1.valid_margin_id &lt;> r3.id OR m1.valid_margin_id IS NULL or r3.`status` = 3)
+        AND (SELECT count(1) FROM standard_sport_market k
+        left JOIN standard_sport_market_odds o ON o.market_id = k.id
+        WHERE k.standard_match_info_id = t1.id AND k.market_category_id = t1.play_id AND o.id IS NOT NULL
+        and k.third_market_source_status in (0,1) ) > 0
+        UNION ALL
+        SELECT t1.id match_id,t1.match_type,t1.pause_wait_time,t1.pause_margain,t1.normal_wait_time,t1.market_count,t1.vice_market_ratio,t1.t_id template_id,t1.m_id margin_id,t1.play_id,t1.time_val,r3.id margin_ref_id,m1.valid_margin_id,0 have_handicap FROM (
+        SELECT id,t_id,m_id,t.match_type,t.market_count,t.pause_wait_time,t.pause_margain,t.normal_wait_time,t.vice_market_ratio,t.play_id,case when match_type = 0 then MAX(time_val) else MIN(time_val) end time_val FROM (
+        SELECT i.id , t.id t_id ,m.id m_id,m.play_id,r.id m_r_id,r.time_val ,t.match_type,m.market_count,m.vice_market_ratio,r.pause_wait_time,r.pause_margain,r.normal_wait_time
+        FROM standard_match_info i
+        LEFT JOIN rcs_tournament_template t ON t.`type` = 3 AND t.type_val = i.id
+        LEFT JOIN rcs_tournament_template_play_margain m ON m.template_id = t.id
+        LEFT JOIN rcs_tournament_template_play_margain_ref r ON r.margain_id = m.id
+        LEFT JOIN standard_sport_market_category_ref cr ON cr.category_id = m.play_id AND cr.sport_id = i.sport_id
+        WHERE i.id = #{standardMatchId}
+        and i.odds_live = 1
+        and m.match_type = 0
+        AND i.sport_id = 2 AND i.match_status NOT IN (3,4)
+        AND r.`status` NOT IN (2)
+        AND case
+        when cr.scope_id IN (6,7,8,9,13,14,15,17)
+        then r.time_val  &lt;= #{timeVal1}
+        when cr.scope_id not IN (6,7,8,9,13,14,15,17) and i.match_period_id in (0,13,14,15,16,40,1,2,40)  and r.time_val % 2 = 0
+        then r.time_val  &lt;= #{timeVal2}
+        when i.match_period_id in (302,31) and r.time_val % 2 > 0 then r.time_val = r.time_val
+        when i.match_period_id in (301,302,303) and r.time_val % 2 = 0 then r.time_val = #{timeVal2}
+        END
+        ) t
+        GROUP BY id,t_id,m_id,t.play_id,match_type
+        ) t1
+        LEFT JOIN rcs_tournament_template_play_margain_ref r3 ON r3.margain_id = t1.m_id AND r3.time_val = t1.time_val
+        LEFT JOIN rcs_tournament_template_play_margain m1 ON m1.id = t1.m_id
+        WHERE  r3.`status` = 3 AND m1.market_count IS NULL
+        AND (SELECT count(1) FROM standard_sport_market k
+        left JOIN standard_sport_market_odds o ON o.market_id = k.id
+        WHERE k.standard_match_info_id = t1.id AND k.market_category_id = t1.play_id AND o.id IS NOT NULL
+        and k.third_market_source_status in (0,1) ) = 0) t1
+
+    </select>
+
+    <select id="selectHandicapBoulesTemplatesByBasket"  resultMap="ComposeResultMap" parameterType="java.util.Map">
+        SELECT t1.id AS match_id, t1.match_type, t1.pause_wait_time, t1.pause_margain, t1.normal_wait_time
+        , t1.market_count, t1.vice_market_ratio, t1.t_id AS template_id, t1.m_id AS margin_id, t1.play_id
+        , t1.time_val, t1.m_r_id AS margin_ref_id, t1.valid_margin_id, t1.status,1 AS have_handicap
+        FROM (
+        SELECT t.type_val AS id, t.id AS t_id, m.id AS m_id, m.play_id, m.valid_margin_id
+        , r.id AS m_r_id, r.status, t.match_type, m.market_count, m.vice_market_ratio
+        , r.pause_wait_time, r.pause_margain, r.normal_wait_time, MAX(r.time_val) AS time_val
+        FROM rcs_tournament_template t
+        LEFT JOIN rcs_tournament_template_play_margain m ON m.template_id = t.id
+        LEFT JOIN (SELECT ref.id id,m.play_id play_id,m.id mid,max(ref.time_val) time_val FROM rcs_tournament_template t
+        LEFT JOIN rcs_tournament_template_play_margain m ON m.template_id = t.id
+        LEFT JOIN rcs_tournament_template_play_margain_ref r ON r.margain_id = m.id
+        LEFT JOIN rcs_tournament_template_play_margain_ref ref ON ref.margain_id = m.id
+        WHERE t.type_val =#{standardMatchId} and ref.time_val&lt;=#{timeVal1} group by t.id,m.id,m.play_id) ref ON ref.mid = m.id
+        LEFT JOIN rcs_tournament_template_play_margain_ref r ON r.margain_id = m.id and r.time_val=ref.time_val
+        WHERE t.type_val = #{standardMatchId}
+        AND t.`type` = 3
+        AND m.match_type = 0
+        AND r.`status` NOT IN (1,2)
+        AND case
+        when  #{matchPeriodId} in (0,13,14,15,16,40,1,2)  and r.time_val % 2 = 0 then r.time_val  &lt;= #{timeVal1}
+        when  #{matchPeriodId} in (302,31) and r.time_val % 2 > 0 then r.time_val = r.time_val
+        when  #{matchPeriodId} in (301,302,303) and r.time_val % 2 = 0 then r.time_val = #{timeVal1} END
+        GROUP BY id, t_id, m_id, m.play_id, match_type
+        ) t1
+
+    </select>
+
+    <select id="selectNoHandicapBoulesTemplatesByBasket"  resultMap="ComposeResultMap" parameterType="java.util.Map">
+
+        SELECT t1.id AS match_id, t1.match_type, t1.pause_wait_time, t1.pause_margain, t1.normal_wait_time
+        , t1.market_count, t1.vice_market_ratio, t1.t_id AS template_id, t1.m_id AS margin_id, t1.play_id
+        , t1.time_val, t1.m_r_id AS margin_ref_id, t1.valid_margin_id, t1.status,0 AS have_handicap
+        FROM (
+        SELECT t.type_val AS id, t.id AS t_id, m.id AS m_id, m.play_id, m.valid_margin_id
+        , r.id AS m_r_id, r.status, t.match_type, m.market_count, m.vice_market_ratio
+        , r.pause_wait_time, r.pause_margain, r.normal_wait_time, MAX(r.time_val) AS time_val
+        FROM rcs_tournament_template t
+        LEFT JOIN rcs_tournament_template_play_margain m ON m.template_id = t.id
+        LEFT JOIN (SELECT ref.id id,m.play_id play_id,m.id mid,max(ref.time_val) time_val FROM rcs_tournament_template t
+        LEFT JOIN rcs_tournament_template_play_margain m ON m.template_id = t.id
+        LEFT JOIN rcs_tournament_template_play_margain_ref r ON r.margain_id = m.id
+        LEFT JOIN rcs_tournament_template_play_margain_ref ref ON ref.margain_id = m.id
+        WHERE t.type_val =#{standardMatchId} and ref.time_val&lt;=#{timeVal1} group by t.id,m.id,m.play_id) ref ON ref.mid = m.id
+        LEFT JOIN rcs_tournament_template_play_margain_ref r ON r.margain_id = m.id and r.time_val=ref.time_val
+        WHERE t.type_val = #{standardMatchId}
+        AND t.`type` = 3
+        AND m.match_type = 0
+        AND r.`status` NOT IN (1,2)
+        AND case
+        when  #{matchPeriodId} in (0,13,14,15,16,40,1,2)  and r.time_val % 2 = 0 then r.time_val  &lt;= #{timeVal1}
+        when  #{matchPeriodId} in (302,31) and r.time_val % 2 > 0 then r.time_val = r.time_val
+        when  #{matchPeriodId} in (301,302,303) and r.time_val % 2 = 0 then r.time_val = #{timeVal1} END
+        AND (m.market_count IS NULL)
+        GROUP BY id, t_id, m_id, m.play_id, match_type
+        ) t1
+    </select>
+
+    <select id="selectHandicapByMatchId"  resultMap="ComposeResultMap" parameterType="java.util.Map">
+        select  count(1) as market_count ,t.play_id from (
+        SELECT  k.market_category_id as play_id FROM standard_sport_market k
+        LEFT JOIN standard_sport_market_odds o ON o.market_id = k.id
+        WHERE k.standard_match_info_id = #{standardMatchId}
+        AND o.id IS NOT NULL
+        AND k.third_market_source_status IN (0, 1) ) t group by play_id
+    </select>
+
+    <select id="selectMatchPlayBoulesTemplatesByBasket"  resultMap="ComposeResultMap" parameterType="java.util.Map">
+        SELECT * FROM (SELECT t1.id match_id,t1.match_type,t1.pause_wait_time,t1.pause_margain,t1.normal_wait_time,t1.market_count,t1.vice_market_ratio,t1.t_id template_id,t1.m_id margin_id,t1.play_id,t1.time_val,r3.id margin_ref_id,m1.valid_margin_id,1 have_handicap
+        FROM (
+        SELECT id,t_id,m_id,t.match_type,t.market_count,t.pause_wait_time,t.pause_margain,t.normal_wait_time,t.vice_market_ratio,t.play_id,case when match_type = 0 then MAX(time_val) else MIN(time_val) end time_val FROM (
+        SELECT i.id , t.id t_id ,m.id m_id,m.play_id,r.id m_r_id,r.time_val ,t.match_type,m.market_count,m.vice_market_ratio,r.pause_wait_time,r.pause_margain,r.normal_wait_time
+        FROM standard_match_info i
+        LEFT JOIN rcs_tournament_template t ON t.`type` = 3 AND t.type_val = i.id
+        LEFT JOIN rcs_tournament_template_play_margain m ON m.template_id = t.id
+        LEFT JOIN rcs_tournament_template_play_margain_ref r ON r.margain_id = m.id
+        LEFT JOIN standard_sport_market_category_ref cr ON cr.category_id = m.play_id AND cr.sport_id = i.sport_id
+        WHERE i.id = #{standardMatchId}
+        and m.play_id = #{playId}
+        and i.odds_live = 1
+        and m.match_type = 0
+        AND i.sport_id = 2 AND i.match_status NOT IN (3,4)
+        AND r.`status` NOT IN (2)
+        AND case
+        when cr.scope_id IN (6,7,8,9,13,14,15,17)
+        then r.time_val  &lt;= #{timeVal1}
+        when cr.scope_id not IN (6,7,8,9,13,14,15,17) and i.match_period_id in (13,14,15,16,40,1,2,40)  and r.time_val % 2 = 0
+        then r.time_val  &lt;= #{timeVal2}
+        when i.match_period_id in (302,31) and r.time_val % 2 > 0 then r.time_val = r.time_val
+        when i.match_period_id in (301,303) then r.time_val = #{timeVal2}
+        END
+        ) t
+        GROUP BY id,t_id,m_id,t.play_id,match_type
+        ) t1
+        LEFT JOIN rcs_tournament_template_play_margain_ref r3 ON r3.margain_id = t1.m_id AND r3.time_val = t1.time_val
+        LEFT JOIN rcs_tournament_template_play_margain m1 ON m1.id = t1.m_id
+        WHERE (m1.valid_margin_id &lt;> r3.id OR m1.valid_margin_id IS NULL or r3.`status` = 3)
+        AND (SELECT count(1) FROM standard_sport_market k
+        left JOIN standard_sport_market_odds o ON o.market_id = k.id
+        WHERE k.standard_match_info_id = t1.id AND k.market_category_id = t1.play_id AND o.id IS NOT NULL
+        and k.third_market_source_status in (0,1) ) > 0
+        UNION ALL
+        SELECT t1.id match_id,t1.match_type,t1.pause_wait_time,t1.pause_margain,t1.normal_wait_time,t1.market_count,t1.vice_market_ratio,t1.t_id template_id,t1.m_id margin_id,t1.play_id,t1.time_val,r3.id margin_ref_id,m1.valid_margin_id,0 have_handicap FROM (
+        SELECT id,t_id,m_id,t.match_type,t.market_count,t.pause_wait_time,t.pause_margain,t.normal_wait_time,t.vice_market_ratio,t.play_id,case when match_type = 0 then MAX(time_val) else MIN(time_val) end time_val FROM (
+        SELECT i.id , t.id t_id ,m.id m_id,m.play_id,r.id m_r_id,r.time_val ,t.match_type,m.market_count,m.vice_market_ratio,r.pause_wait_time,r.pause_margain,r.normal_wait_time
+        FROM standard_match_info i
+        LEFT JOIN rcs_tournament_template t ON t.`type` = 3 AND t.type_val = i.id
+        LEFT JOIN rcs_tournament_template_play_margain m ON m.template_id = t.id
+        LEFT JOIN rcs_tournament_template_play_margain_ref r ON r.margain_id = m.id
+        LEFT JOIN standard_sport_market_category_ref cr ON cr.category_id = m.play_id AND cr.sport_id = i.sport_id
+        WHERE i.id = #{standardMatchId}
+        and m.play_id = #{playId}
+        and i.odds_live = 1
+        and m.match_type = 0
+        AND i.sport_id = 2 AND i.match_status NOT IN (3,4)
+        AND r.`status` NOT IN (2)
+        AND case
+        when cr.scope_id IN (6,7,8,9,13,14,15,17)
+        then r.time_val  &lt;= #{timeVal1}
+        when cr.scope_id not IN (6,7,8,9,13,14,15,17) and i.match_period_id in (13,14,15,16,40,1,2,40)  and r.time_val % 2 = 0
+        then r.time_val  &lt;= #{timeVal2}
+        when i.match_period_id in (302,31) and r.time_val % 2 > 0 then r.time_val = r.time_val
+        when i.match_period_id in (301,303) then r.time_val = #{timeVal2}
+        END
+        ) t
+        GROUP BY id,t_id,m_id,t.play_id,match_type
+        ) t1
+        LEFT JOIN rcs_tournament_template_play_margain_ref r3 ON r3.margain_id = t1.m_id AND r3.time_val = t1.time_val
+        LEFT JOIN rcs_tournament_template_play_margain m1 ON m1.id = t1.m_id
+        WHERE  r3.`status` = 3 AND m1.market_count IS NULL
+        AND (SELECT count(1) FROM standard_sport_market k
+        left JOIN standard_sport_market_odds o ON o.market_id = k.id
+        WHERE k.standard_match_info_id = t1.id AND k.market_category_id = t1.play_id AND o.id IS NOT NULL
+        and k.third_market_source_status in (0,1) ) = 0) t1
+
+    </select>
+
+    <select id="selectAllTemplatesByTennis" resultMap="ComposeResultMap">
+    	SELECT t1.id match_id,t1.match_type,t1.pause_wait_time,t1.pause_margain,t1.normal_wait_time,t1.market_count,t1.vice_market_ratio,t1.t_id template_id,t1.m_id margin_id,t1.play_id,t1.time_val,r3.id margin_ref_id,m1.valid_margin_id FROM (
+        SELECT id,t_id,m_id,t.match_type,t.market_count,t.pause_wait_time,t.pause_margain,t.normal_wait_time,t.vice_market_ratio,t.play_id,case when match_type = 0 then MAX(time_val) else MIN(time_val) end time_val FROM (
+        SELECT i.id , t.id t_id ,m.id m_id,m.play_id,r.id m_r_id,r.time_val ,t.match_type,m.market_count,m.vice_market_ratio,r.pause_wait_time,r.pause_margain,r.normal_wait_time
+        FROM standard_match_info i
+        LEFT JOIN rcs_tournament_template t ON t.`type` = 3 AND t.type_val = i.id
+        LEFT JOIN rcs_tournament_template_play_margain m ON m.template_id = t.id
+        LEFT JOIN rcs_tournament_template_play_margain_ref r ON r.margain_id = m.id
+        WHERE i.begin_time > unix_timestamp(NOW()) * 1000 - 1000 * 60 * 60 * 12
+        AND i.sport_id = 5 AND i.match_status NOT IN (3,4)
+		AND r.`status` NOT IN (2)
+        AND case when i.odds_live = 1 then m.match_type = 0 ELSE m.match_type = 1 END
+        AND case when i.odds_live = 1
+        then (
+            case when i.match_period_id = 301 then r.time_val &lt;= 8
+            when i.match_period_id = 302 then r.time_val &lt;= 9
+            when i.match_period_id = 303 then r.time_val &lt;= 10
+            when i.match_period_id = 304 then r.time_val &lt;= 11
+            when i.match_period_id = 800 then r.time_val &lt;= 8
+            when i.match_period_id = 900 then r.time_val &lt;= 9
+            when i.match_period_id = 1000 then r.time_val &lt;= 10
+            when i.match_period_id = 1100 then r.time_val &lt;= 11
+            when i.match_period_id = 1200 then r.time_val &lt;= 12
+            ELSE r.time_val &lt;= i.match_period_id END
+        )
+        ELSE r.time_val  &gt; (i.begin_time - unix_timestamp(NOW()) * 1000)/1000
+        END
+        ) t
+        GROUP BY id,t_id,m_id,t.play_id,match_type
+        ) t1
+        LEFT JOIN rcs_tournament_template_play_margain_ref r3 ON r3.margain_id = t1.m_id AND r3.time_val = t1.time_val
+        LEFT JOIN rcs_tournament_template_play_margain m1 ON m1.id = t1.m_id
+        WHERE (m1.valid_margin_id &lt;&gt; r3.id OR m1.valid_margin_id IS NULL or r3.`status` = 3)
+		AND (SELECT count(1) FROM standard_sport_market k
+				left JOIN standard_sport_market_odds o ON o.market_id = k.id
+				WHERE k.standard_match_info_id = t1.id AND k.market_category_id = t1.play_id AND o.id IS NOT NULL
+				and k.third_market_source_status in (0,1) AND k.market_type = t1.match_type ) > 0
+		limit 100
+    </select>
+
+    <select id="selectAllTemplatesByPingPong" resultMap="ComposeResultMap">
+    	SELECT t1.id match_id,t1.match_type,t1.pause_wait_time,t1.pause_margain,t1.normal_wait_time,t1.market_count,t1.vice_market_ratio,t1.t_id template_id,t1.m_id margin_id,t1.play_id,t1.time_val,r3.id margin_ref_id,m1.valid_margin_id FROM (
+        SELECT id,t_id,m_id,t.match_type,t.market_count,t.pause_wait_time,t.pause_margain,t.normal_wait_time,t.vice_market_ratio,t.play_id,case when match_type = 0 then MAX(time_val) else MIN(time_val) end time_val FROM (
+        SELECT i.id , t.id t_id ,m.id m_id,m.play_id,r.id m_r_id,r.time_val ,t.match_type,m.market_count,m.vice_market_ratio,r.pause_wait_time,r.pause_margain,r.normal_wait_time
+        FROM standard_match_info i
+        LEFT JOIN rcs_tournament_template t ON t.`type` = 3 AND t.type_val = i.id
+        LEFT JOIN rcs_tournament_template_play_margain m ON m.template_id = t.id
+        LEFT JOIN rcs_tournament_template_play_margain_ref r ON r.margain_id = m.id
+        WHERE i.begin_time > unix_timestamp(NOW()) * 1000 - 1000 * 60 * 60 * 12
+        AND i.sport_id = 8 AND i.match_status NOT IN (3,4)
+		AND r.`status` NOT IN (2)
+        AND case when i.odds_live = 1 then m.match_type = 0 ELSE m.match_type = 1 END
+        AND case when i.odds_live = 1
+        then (
+            case when i.match_period_id = 301 then r.time_val &lt;= 8
+            when i.match_period_id = 302 then r.time_val &lt;= 9
+            when i.match_period_id = 303 then r.time_val &lt;= 10
+            when i.match_period_id = 304 then r.time_val &lt;= 11
+            when i.match_period_id = 305 then r.time_val &lt;= 12
+            when i.match_period_id = 306 then r.time_val &lt;= 441
+            ELSE r.time_val &lt;= i.match_period_id END
+        )
+        ELSE r.time_val  &gt; (i.begin_time - unix_timestamp(NOW()) * 1000)/1000
+        END
+        ) t
+        GROUP BY id,t_id,m_id,t.play_id,match_type
+        ) t1
+        LEFT JOIN rcs_tournament_template_play_margain_ref r3 ON r3.margain_id = t1.m_id AND r3.time_val = t1.time_val
+        LEFT JOIN rcs_tournament_template_play_margain m1 ON m1.id = t1.m_id
+        WHERE (m1.valid_margin_id &lt;&gt; r3.id OR m1.valid_margin_id IS NULL or r3.`status` = 3)
+		AND (SELECT count(1) FROM standard_sport_market k
+				left JOIN standard_sport_market_odds o ON o.market_id = k.id
+				WHERE k.standard_match_info_id = t1.id AND k.market_category_id = t1.play_id AND o.id IS NOT NULL
+				and k.third_market_source_status in (0,1) AND k.market_type = t1.match_type ) > 0
+		limit 100
+    </select>
+
+    <select id="selectAllTemplatesByVolleyBall" resultMap="ComposeResultMap">
+    	SELECT t1.id match_id,t1.match_type,t1.pause_wait_time,t1.pause_margain,t1.normal_wait_time,t1.market_count,t1.vice_market_ratio,t1.t_id template_id,t1.m_id margin_id,t1.play_id,t1.time_val,r3.id margin_ref_id,m1.valid_margin_id FROM (
+        SELECT id,t_id,m_id,t.match_type,t.market_count,t.pause_wait_time,t.pause_margain,t.normal_wait_time,t.vice_market_ratio,t.play_id,case when match_type = 0 then MAX(time_val) else MIN(time_val) end time_val FROM (
+        SELECT i.id , t.id t_id ,m.id m_id,m.play_id,r.id m_r_id,r.time_val ,t.match_type,m.market_count,m.vice_market_ratio,r.pause_wait_time,r.pause_margain,r.normal_wait_time
+        FROM standard_match_info i
+        LEFT JOIN rcs_tournament_template t ON t.`type` = 3 AND t.type_val = i.id
+        LEFT JOIN rcs_tournament_template_play_margain m ON m.template_id = t.id
+        LEFT JOIN rcs_tournament_template_play_margain_ref r ON r.margain_id = m.id
+        WHERE i.begin_time > unix_timestamp(NOW()) * 1000 - 1000 * 60 * 60 * 12
+        AND i.sport_id = 9 AND i.match_status NOT IN (3,4)
+		AND r.`status` NOT IN (2)
+        AND case when i.odds_live = 1 then m.match_type = 0 ELSE m.match_type = 1 END
+        AND case when i.odds_live = 1
+        then (
+            case when i.match_period_id = 301 then r.time_val &lt;= 8
+            when i.match_period_id = 302 then r.time_val &lt;= 9
+            when i.match_period_id = 303 then r.time_val &lt;= 10
+            when i.match_period_id = 304 then r.time_val &lt;= 11
+            when i.match_period_id = 305 then r.time_val &lt;= 12
+            when i.match_period_id = 306 then r.time_val &lt;= 441
+            ELSE r.time_val &lt;= i.match_period_id END
+        )
+        ELSE r.time_val  &gt; (i.begin_time - unix_timestamp(NOW()) * 1000)/1000
+        END
+        ) t
+        GROUP BY id,t_id,m_id,t.play_id,match_type
+        ) t1
+        LEFT JOIN rcs_tournament_template_play_margain_ref r3 ON r3.margain_id = t1.m_id AND r3.time_val = t1.time_val
+        LEFT JOIN rcs_tournament_template_play_margain m1 ON m1.id = t1.m_id
+        WHERE (m1.valid_margin_id &lt;&gt; r3.id OR m1.valid_margin_id IS NULL or r3.`status` = 3)
+		AND (SELECT count(1) FROM standard_sport_market k
+				left JOIN standard_sport_market_odds o ON o.market_id = k.id
+				WHERE k.standard_match_info_id = t1.id AND k.market_category_id = t1.play_id AND o.id IS NOT NULL
+				and k.status not in (2,3,4,5) AND k.market_type = t1.match_type ) > 0
+		limit 100
+    </select>
+
+    <select id="selectAllTemplatesByIceHockeySync" resultMap="ComposeResultMap">
+    SELECT t1.id match_id,t1.match_type,t1.pause_wait_time,t1.pause_margain,t1.normal_wait_time,t1.market_count,t1.vice_market_ratio,t1.t_id template_id,t1.m_id margin_id,t1.play_id,t1.time_val,r3.id margin_ref_id,m1.valid_margin_id FROM (
+    SELECT id,t_id,m_id,t.match_type,t.market_count,t.pause_wait_time,t.pause_margain,t.normal_wait_time,t.vice_market_ratio,t.play_id,case when match_type = 0 then MAX(time_val) else MIN(time_val) end time_val FROM (
+    SELECT i.id , t.id t_id ,m.id m_id,m.play_id,r.id m_r_id,r.time_val ,t.match_type,m.market_count,m.vice_market_ratio,r.pause_wait_time,r.pause_margain,r.normal_wait_time
+    FROM standard_match_info i
+    LEFT JOIN rcs_tournament_template t ON t.`type` = 3 AND t.type_val = i.id
+    LEFT JOIN rcs_tournament_template_play_margain m ON m.template_id = t.id
+    LEFT JOIN rcs_tournament_template_play_margain_ref r ON r.margain_id = m.id
+    WHERE i.begin_time > unix_timestamp(NOW()) * 1000 - 1000 * 60 * 60 * 12
+    AND i.sport_id = 4 AND i.match_status NOT IN (3,4)
+    AND r.`status` NOT IN (2)
+    AND case when i.odds_live = 1 then m.match_type = 0 ELSE m.match_type = 1 END
+    AND case when i.odds_live = 1
+    then (
+    case when i.match_period_id = 301 then r.time_val &lt;= 1
+         when i.match_period_id = 302 then r.time_val &lt;= 2
+    ELSE r.time_val &lt;= i.match_period_id END
+    )
+    ELSE r.time_val  &gt; (i.begin_time - unix_timestamp(NOW()) * 1000)/1000
+    END
+    ) t
+    GROUP BY id,t_id,m_id,t.play_id,match_type
+    ) t1
+    LEFT JOIN rcs_tournament_template_play_margain_ref r3 ON r3.margain_id = t1.m_id AND r3.time_val = t1.time_val
+    LEFT JOIN rcs_tournament_template_play_margain m1 ON m1.id = t1.m_id
+    WHERE (m1.valid_margin_id &lt;&gt; r3.id OR m1.valid_margin_id IS NULL or r3.`status` = 3)
+    AND (SELECT count(1) FROM standard_sport_market k
+    left JOIN standard_sport_market_odds o ON o.market_id = k.id
+    WHERE k.standard_match_info_id = t1.id AND k.market_category_id = t1.play_id AND o.id IS NOT NULL
+    and k.status not in (2,3,4,5) AND k.market_type = t1.match_type ) > 0
+    limit 100
+    </select>
+
+    <select id="selectAllTemplatesBySnooker" resultMap="ComposeResultMap">
+    	SELECT t1.id match_id,t1.match_type,t1.pause_wait_time,t1.pause_margain,t1.normal_wait_time,t1.market_count,t1.vice_market_ratio,t1.t_id template_id,t1.m_id margin_id,t1.play_id,t1.time_val,r3.id margin_ref_id,m1.valid_margin_id FROM (
+        SELECT id,t_id,m_id,t.match_type,t.market_count,t.pause_wait_time,t.pause_margain,t.normal_wait_time,t.vice_market_ratio,t.play_id,case when match_type = 0 then MAX(time_val) else MIN(time_val) end time_val FROM (
+        SELECT i.id , t.id t_id ,m.id m_id,m.play_id,r.id m_r_id,r.time_val ,t.match_type,m.market_count,m.vice_market_ratio,r.pause_wait_time,r.pause_margain,r.normal_wait_time
+        FROM standard_match_info i
+        LEFT JOIN rcs_tournament_template t ON t.`type` = 3 AND t.type_val = i.id
+        LEFT JOIN rcs_tournament_template_play_margain m ON m.template_id = t.id
+        LEFT JOIN rcs_tournament_template_play_margain_ref r ON r.margain_id = m.id
+        WHERE i.begin_time > unix_timestamp(NOW()) * 1000 - 1000 * 60 * 60 * 168
+        AND i.sport_id = 7 AND i.match_status NOT IN (3,4)
+		AND r.`status` NOT IN (2)
+        AND case when i.odds_live = 1 then m.match_type = 0 ELSE m.match_type = 1 END
+        AND case when i.odds_live = 1
+        then (
+            case when i.set_num = 0 then r.time_val &lt;= 1
+            ELSE i.set_num &gt;= r.time_val END
+        )
+        ELSE r.time_val &gt; (i.begin_time - unix_timestamp(NOW()) * 1000)/1000
+        END
+        ) t
+        GROUP BY id,t_id,m_id,t.play_id,match_type
+        ) t1
+        LEFT JOIN rcs_tournament_template_play_margain_ref r3 ON r3.margain_id = t1.m_id AND r3.time_val = t1.time_val
+        LEFT JOIN rcs_tournament_template_play_margain m1 ON m1.id = t1.m_id
+        WHERE (m1.valid_margin_id &lt;&gt; r3.id OR m1.valid_margin_id IS NULL or r3.`status` = 3)
+		AND (SELECT count(1) FROM standard_sport_market k
+            left JOIN standard_sport_market_odds o ON o.market_id = k.id
+            WHERE k.standard_match_info_id = t1.id AND k.market_category_id = t1.play_id AND o.id IS NOT NULL
+            and k.third_market_source_status in (0,1) AND k.market_type = t1.match_type )> 0
+		limit 100
+    </select>
+
+    <select id="selectAllTemplatesByBaseBall" resultMap="ComposeResultMap">
+    	SELECT t1.id match_id,t1.match_type,t1.pause_wait_time,t1.pause_margain,t1.normal_wait_time,t1.market_count,t1.vice_market_ratio,t1.t_id template_id,t1.m_id margin_id,t1.play_id,t1.time_val,r3.id margin_ref_id,m1.valid_margin_id FROM (
+        SELECT id,t_id,m_id,t.match_type,t.market_count,t.pause_wait_time,t.pause_margain,t.normal_wait_time,t.vice_market_ratio,t.play_id,case when match_type = 0 then MAX(time_val) else MIN(time_val) end time_val FROM (
+        SELECT i.id , t.id t_id ,m.id m_id,m.play_id,r.id m_r_id,r.time_val ,t.match_type,m.market_count,m.vice_market_ratio,r.pause_wait_time,r.pause_margain,r.normal_wait_time
+        FROM standard_match_info i
+        LEFT JOIN rcs_tournament_template t ON t.`type` = 3 AND t.type_val = i.id
+        LEFT JOIN rcs_tournament_template_play_margain m ON m.template_id = t.id
+        LEFT JOIN rcs_tournament_template_play_margain_ref r ON r.margain_id = m.id
+        WHERE i.begin_time > unix_timestamp(NOW()) * 1000 - 1000 * 60 * 60 * 12
+        AND i.sport_id = 3 AND i.match_status NOT IN (3,4)
+		AND r.`status` NOT IN (2)
+        AND case when i.odds_live = 1 then m.match_type = 0 ELSE m.match_type = 1 END
+        AND case when i.odds_live = 1
+        then (
+            case when i.match_period_id = 421 then r.time_val &lt;= 401
+            when i.match_period_id = 402 then r.time_val &lt;= 401
+            when i.match_period_id = 422 then r.time_val &lt;= 401
+            when i.match_period_id = 423 then r.time_val &lt;= 403
+            when i.match_period_id = 404 then r.time_val &lt;= 403
+            when i.match_period_id = 424 then r.time_val &lt;= 403
+            when i.match_period_id = 425 then r.time_val &lt;= 405
+            when i.match_period_id = 406 then r.time_val &lt;= 405
+            when i.match_period_id = 426 then r.time_val &lt;= 405
+            when i.match_period_id = 427 then r.time_val &lt;= 407
+            when i.match_period_id = 408 then r.time_val &lt;= 407
+            when i.match_period_id = 428 then r.time_val &lt;= 407
+            when i.match_period_id = 429 then r.time_val &lt;= 409
+            when i.match_period_id = 410 then r.time_val &lt;= 409
+            when i.match_period_id = 430 then r.time_val &lt;= 409
+            when i.match_period_id = 431 then r.time_val &lt;= 411
+            when i.match_period_id = 412 then r.time_val &lt;= 411
+            when i.match_period_id = 432 then r.time_val &lt;= 411
+            when i.match_period_id = 433 then r.time_val &lt;= 413
+            when i.match_period_id = 414 then r.time_val &lt;= 413
+            when i.match_period_id = 434 then r.time_val &lt;= 413
+            when i.match_period_id = 435 then r.time_val &lt;= 415
+            when i.match_period_id = 416 then r.time_val &lt;= 415
+            when i.match_period_id = 436 then r.time_val &lt;= 415
+            when i.match_period_id = 437 then r.time_val &lt;= 417
+            when i.match_period_id = 418 then r.time_val &lt;= 417
+            when i.match_period_id = 438 then r.time_val &lt;= 417
+            ELSE r.time_val &lt;= i.match_period_id END
+        )
+        ELSE r.time_val  &gt; (i.begin_time - unix_timestamp(NOW()) * 1000)/1000
+        END
+        ) t
+        GROUP BY id,t_id,m_id,t.play_id,match_type
+        ) t1
+        LEFT JOIN rcs_tournament_template_play_margain_ref r3 ON r3.margain_id = t1.m_id AND r3.time_val = t1.time_val
+        LEFT JOIN rcs_tournament_template_play_margain m1 ON m1.id = t1.m_id
+        WHERE (m1.valid_margin_id &lt;&gt; r3.id OR m1.valid_margin_id IS NULL or r3.`status` = 3)
+		AND (SELECT count(1) FROM standard_sport_market k
+				left JOIN standard_sport_market_odds o ON o.market_id = k.id
+				WHERE k.standard_match_info_id = t1.id AND k.market_category_id = t1.play_id AND o.id IS NOT NULL
+				and k.third_market_source_status in (0,1) AND k.market_type = t1.match_type ) > 0
+		limit 100
+    </select>
+
+    <select id="selectAllTemplates" resultMap="ComposeResultMap">
+        SELECT t1.id match_id,t1.match_type,t1.pause_wait_time,t1.pause_margain,t1.normal_wait_time,t1.market_count,t1.vice_market_ratio,t1.t_id template_id,t1.m_id margin_id,t1.play_id,t1.time_val,r3.id margin_ref_id,m1.valid_margin_id FROM (
+        SELECT id,t_id,m_id,t.match_type,t.market_count,t.pause_wait_time,t.pause_margain,t.normal_wait_time,t.vice_market_ratio,t.play_id,case when match_type = 0 then MAX(time_val) else MIN(time_val) end time_val FROM (
+        SELECT i.id , t.id t_id ,m.id m_id,m.play_id,r.id m_r_id,r.time_val ,t.match_type,m.market_count,m.vice_market_ratio,r.pause_wait_time,r.pause_margain,r.normal_wait_time
+        FROM standard_match_info i
+        LEFT JOIN rcs_tournament_template t ON t.`type` = 3 AND t.type_val = i.id
+        LEFT JOIN rcs_tournament_template_play_margain m ON m.template_id = t.id
+        LEFT JOIN rcs_tournament_template_play_margain_ref r ON r.margain_id = m.id
+        WHERE i.begin_time > unix_timestamp(NOW()) * 1000 - 1000 * 60 * 60 * 12
+        AND i.sport_id = 1 AND i.match_status NOT IN (3,4)
+		AND r.`status` NOT IN (2)
+        AND case when i.match_status IN (1,2,10) then m.match_type = 0 ELSE m.match_type = 1 END
+        AND case when i.match_status IN  (1,2,10)
+        then r.time_val  &lt; (unix_timestamp(NOW()) * 1000 - IFNULL(i.event_time , unix_timestamp(NOW()) * 1000))/1000 + IFNULL(i.seconds_match_start , (unix_timestamp(NOW()) * 1000 - i.begin_time)/1000)
+        ELSE r.time_val  &gt; (i.begin_time - unix_timestamp(NOW()) * 1000)/1000
+        END
+        ) t
+        GROUP BY id,t_id,m_id,t.play_id,match_type
+        ) t1
+        LEFT JOIN rcs_tournament_template_play_margain_ref r3 ON r3.margain_id = t1.m_id AND r3.time_val = t1.time_val
+        LEFT JOIN rcs_tournament_template_play_margain m1 ON m1.id = t1.m_id
+        WHERE (m1.valid_margin_id &lt;&gt; r3.id OR m1.valid_margin_id IS NULL or r3.`status` = 3)
+		AND EXISTS (SELECT 1 FROM standard_sport_market k 
+				left JOIN standard_sport_market_odds o ON o.market_id = k.id
+				WHERE k.standard_match_info_id = t1.id AND k.market_category_id = t1.play_id AND o.id IS NOT NULL  )
+        
+        union all
+
+        SELECT t1.id match_id,t1.match_type,t1.pause_wait_time,t1.pause_margain,t1.normal_wait_time,t1.market_count,t1.vice_market_ratio,t1.t_id template_id,t1.m_id margin_id,t1.play_id,t1.time_val,r3.id margin_ref_id,m1.valid_margin_id FROM (
+        SELECT id,t_id,m_id,t.match_type,t.market_count,t.pause_wait_time,t.pause_margain,t.normal_wait_time,t.vice_market_ratio,t.play_id,case when match_type = 0 then MAX(time_val) else MIN(time_val) end time_val FROM (
+        SELECT i.id , t.id t_id ,m.id m_id,m.play_id,r.id m_r_id,r.time_val ,t.match_type,m.market_count,m.vice_market_ratio,r.pause_wait_time,r.pause_margain,r.normal_wait_time
+        FROM standard_match_info i
+        LEFT JOIN rcs_tournament_template t ON t.`type` = 3 AND t.type_val = i.id
+        LEFT JOIN rcs_tournament_template_play_margain m ON m.template_id = t.id
+        LEFT JOIN rcs_tournament_template_play_margain_ref r ON r.margain_id = m.id
+        LEFT JOIN standard_sport_market_category_ref cr ON cr.category_id = m.play_id AND cr.sport_id = i.sport_id
+        WHERE i.begin_time > unix_timestamp(NOW()) * 1000 - 1000 * 60 * 60 * 12
+        AND i.sport_id = 2 AND i.match_status NOT IN (3,4)
+        AND r.`status` NOT IN (2)
+        AND case when i.match_status IN (1,2,10) then m.match_type = 0 ELSE m.match_type = 1 END
+        AND case when i.match_status IN  (1,2,10) AND cr.scope_id IN (6,7,8,9,13,14,15,17) 
+		then r.time_val  &lt; case when i.event_code IS not NULL 
+								then IFNULL(case when i.match_length = 0 then 10 
+			  								when i.match_length = 7 then 12 
+											when i.match_length = 17 then 20
+											when i.match_length = 64 then 6
+											when i.match_length = 68 then 5
+											when i.match_length = 70 then 4
+											ELSE null END ,20) * 60
+											- (i.seconds_match_start - (unix_timestamp(NOW()) * 1000 - i.event_time) /1000)
+								ELSE (unix_timestamp(NOW()) * 1000 - i.begin_time)/1000 END
+		when i.match_status IN  (1,2,10) AND cr.scope_id not IN (6,7,8,9,13,14,15,17) 
+		then r.time_val  &lt; IFNULL(case when i.match_length = 0 then 10 
+			  								when i.match_length = 7 then 12 
+											when i.match_length = 17 then 20
+											when i.match_length = 64 then 6
+											when i.match_length = 68 then 5
+											when i.match_length = 70 then 4
+											ELSE null END ,20) * 60 
+											* case when i.match_period_id IN (0,13,1,301) then 0
+											when i.match_period_id IN (14,302,2) then 1
+											when i.match_period_id IN (15,303,31) then 2
+											when i.match_period_id IN (16,100,999,32,110) then 3
+											when i.match_period_id IN (40) then 4
+											ELSE 0 END 
+		+ case when i.event_code IS not NULL 
+								then IFNULL(case when i.match_length = 0 then 10 
+			  								when i.match_length = 7 then 12 
+											when i.match_length = 17 then 20
+											when i.match_length = 64 then 6
+											when i.match_length = 68 then 5
+											when i.match_length = 70 then 4
+											ELSE null END ,20) * 60
+											- (i.seconds_match_start - (unix_timestamp(NOW()) * 1000 - i.event_time) /1000)
+								ELSE (unix_timestamp(NOW()) * 1000 - i.begin_time)/1000 END
+		ELSE r.time_val  > (i.begin_time - unix_timestamp(NOW()) * 1000)/1000
+		END
+        ) t
+        GROUP BY id,t_id,m_id,t.play_id,match_type
+        ) t1
+        LEFT JOIN rcs_tournament_template_play_margain_ref r3 ON r3.margain_id = t1.m_id AND r3.time_val = t1.time_val
+        LEFT JOIN rcs_tournament_template_play_margain m1 ON m1.id = t1.m_id
+        WHERE (m1.valid_margin_id &lt;&gt; r3.id OR m1.valid_margin_id IS NULL or r3.`status` = 3)
+		AND EXISTS (SELECT 1 FROM standard_sport_market k 
+				left JOIN standard_sport_market_odds o ON o.market_id = k.id
+				WHERE k.standard_match_info_id = t1.id AND k.market_category_id = t1.play_id AND o.id IS NOT NULL  )
+				
+        limit 100
+    </select>
+
+    <update id="updatePlayMargainRefById"
+            parameterType="com.panda.sport.rcs.pojo.tourTemplate.RcsTournamentTemplatePlayMargainRef">
+        update rcs_tournament_template_play_margain_ref
+        <trim prefix="set" suffixOverrides=",">
+            <if test="margain != null">
+                margain = #{margain,jdbcType=VARCHAR},
+            </if>
+            <if test="balanceOption != null">
+                balance_option = #{balanceOption,jdbcType=INTEGER},
+            </if>
+            <if test="maxOdds != null">
+                max_odds = #{maxOdds,jdbcType=DECIMAL},
+            </if>
+            <if test="minOdds != null">
+                min_odds = #{minOdds,jdbcType=DECIMAL},
+            </if>
+            <if test="oddChangeRule != null">
+                odd_change_rule = #{oddChangeRule,jdbcType=INTEGER},
+            </if>
+            <if test="homeMultiMaxAmount != null">
+                home_multi_max_amount = #{homeMultiMaxAmount,jdbcType=BIGINT},
+            </if>
+            <if test="homeSingleMaxAmount != null">
+                home_single_max_amount = #{homeSingleMaxAmount,jdbcType=BIGINT},
+            </if>
+            <if test="homeMultiOddsRate != null">
+                home_multi_odds_rate = #{homeMultiOddsRate,jdbcType=DECIMAL},
+            </if>
+            <if test="homeSingleOddsRate != null">
+                home_single_odds_rate = #{homeSingleOddsRate,jdbcType=DECIMAL},
+            </if>
+            <if test="awayMultiOddsRate != null">
+                away_multi_odds_rate = #{awayMultiOddsRate,jdbcType=DECIMAL},
+            </if>
+            <if test="awaySingleOddsRate != null">
+                away_single_odds_rate = #{awaySingleOddsRate,jdbcType=DECIMAL},
+            </if>
+            <if test="orderSinglePayVal != null">
+                order_single_pay_val = #{orderSinglePayVal,jdbcType=BIGINT},
+            </if>
+            <if test="orderSingleBetVal != null">
+                order_single_bet_val = #{orderSingleBetVal,jdbcType=BIGINT},
+            </if>
+            <if test="pendingOrderPayVal != null">
+                pending_order_pay_val = #{pendingOrderPayVal,jdbcType=BIGINT},
+            </if>
+            <if test="userMultiPayVal != null">
+                user_uulti_pay_val = #{userMultiPayVal,jdbcType=BIGINT},
+            </if>
+            <if test="multiDiffVal != null">
+                multi_diff_val = #{multiDiffVal,jdbcType=BIGINT},
+            </if>
+            <if test="multiOddsRate != null">
+                multi_odds_rate = #{multiOddsRate,jdbcType=DECIMAL},
+            </if>
+            <if test="homeLevelFirstMaxAmount != null">
+                home_level_first_max_amount = #{homeLevelFirstMaxAmount,jdbcType=BIGINT},
+            </if>
+            <if test="homeLevelSecondMaxAmount != null">
+                home_level_second_max_amount = #{homeLevelSecondMaxAmount,jdbcType=BIGINT},
+            </if>
+            <if test="homeLevelFirstOddsRate != null">
+                home_level_first_odds_rate = #{homeLevelFirstOddsRate,jdbcType=DECIMAL},
+            </if>
+            <if test="homeLevelSecondOddsRate != null">
+                home_level_second_odds_rate = #{homeLevelSecondOddsRate,jdbcType=DECIMAL},
+            </if>
+            <if test="awayLevelFirstOddsRate != null">
+                away_level_first_odds_rate = #{awayLevelFirstOddsRate,jdbcType=DECIMAL},
+            </if>
+            <if test="awayLevelSecondOddsRate != null">
+                away_level_second_odds_rate = #{awayLevelSecondOddsRate,jdbcType=DECIMAL},
+            </if>
+            <if test="isMarketConfig != null">
+                is_market_config = #{isMarketConfig,jdbcType=INTEGER},
+            </if>
+            <if test="isQuotaConfig != null">
+                is_quota_config = #{isQuotaConfig,jdbcType=INTEGER},
+            </if>
+            <if test="pauseMargain != null">
+                pause_margain = #{pauseMargain,jdbcType=VARCHAR},
+            </if>
+            <if test="normalWaitTime != null">
+                normal_wait_time = #{normalWaitTime,jdbcType=VARCHAR},
+            </if>
+            <if test="pauseWaitTime != null">
+                pause_wait_time = #{pauseWaitTime,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+        </trim>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <select id="selectPreLastPlayMargainRef"
+            resultType="com.panda.sport.rcs.pojo.tourTemplate.RcsTournamentTemplatePlayMargainRef">
+        SELECT
+        *
+        FROM
+        rcs_tournament_template_play_margain_ref ref
+        WHERE
+        ref.margain_id = #{margainId}
+        AND ref.time_val &gt; #{timeVal} or ref.time_val=0
+        ORDER BY
+        ref.time_val DESC
+        limit 1
+    </select>
+
+    <select id="selectLiveLastPlayMargainRef"
+            resultType="com.panda.sport.rcs.pojo.tourTemplate.RcsTournamentTemplatePlayMargainRef">
+        SELECT
+        *
+        FROM
+        rcs_tournament_template_play_margain_ref ref
+        WHERE
+        ref.margain_id = #{margainId}
+        AND ref.time_val &lt; #{timeVal}
+        ORDER BY
+        ref.time_val DESC
+        limit 1
+    </select>
+    
+    <select id="queryMatchOddTypeListByMatchIdAndCategoryId" parameterType="Map" resultType="com.panda.sport.rcs.pojo.RcsCategoryOddTemplet">
+    	SELECT distinct m.market_category_id category,odds_type oddType FROM standard_sport_market_odds o 
+		LEFT JOIN standard_sport_market m ON m.id = o.market_id
+		WHERE m.standard_match_info_id = #{matchId} AND m.market_category_id = #{playId}
+    </select>
+    
+    <select id="queryMatchMargainRefInfo" parameterType="Map" resultType="com.panda.sport.rcs.pojo.tourTemplate.RcsTournamentTemplatePlayMargainRef">
+    	SELECT r.* FROM rcs_tournament_template t
+		LEFT JOIN rcs_tournament_template_play_margain m ON m.template_id = t.id
+		LEFT JOIN rcs_tournament_template_play_margain_ref r ON r.id = m.valid_margin_id
+		WHERE m.valid_margin_id IS NOT NULL AND t.`type` = 3 AND t.type_val = #{matchId}
+		AND t.match_type = #{matchType} AND m.play_id = #{playId}
+    </select>
+    
+	<select id="queryMatchMargainInfo" parameterType="Map" resultType="com.panda.sport.rcs.pojo.tourTemplate.RcsTournamentTemplatePlayMargain">
+    	SELECT m.* FROM rcs_tournament_template t
+		LEFT JOIN rcs_tournament_template_play_margain m ON m.template_id = t.id
+		WHERE m.valid_margin_id IS NOT NULL AND t.`type` = 3 AND t.type_val = #{matchId}
+		AND t.match_type = #{matchType} AND m.play_id = #{playId}
+    </select>
+        
+	<select id="selectAllTemplatesByNoMid" resultMap="ComposeResultMap">
+		SELECT i.id match_id,t.match_type,r.pause_wait_time,r.pause_margain,r.normal_wait_time,m.market_count,m.vice_market_ratio,
+		t.id template_id,m.id margin_id,m.play_id,r.time_val,r.id margin_ref_id,m.valid_margin_id
+        FROM standard_match_info i
+        LEFT JOIN rcs_tournament_template t ON t.`type` = 3 AND t.type_val = i.id
+        LEFT JOIN rcs_tournament_template_play_margain m ON m.template_id = t.id
+        LEFT JOIN rcs_tournament_template_play_margain_ref r ON r.margain_id = m.id
+        WHERE i.begin_time > unix_timestamp(NOW()) * 1000 - 1000 * 60 * 60 * 12
+        AND i.sport_id in
+        <foreach close=")" collection="sportIds" item="id" open="(" separator=",">
+            #{id}
+        </foreach>
+        AND i.match_status NOT IN (3,4)
+        AND case when i.odds_live = 1 then m.match_type = 0 ELSE m.match_type = 1 END
+        AND r.`status` NOT IN (2)
+		AND i.begin_time > unix_timestamp(NOW()) * 1000 + 1000 * 60 * 60 * 24 * 30
+        AND (M.valid_margin_id &lt;&gt; r.id OR m.valid_margin_id IS NULL or r.`status` = 3)
+		<!--AND m.valid_margin_id IS NULL-->
+		AND case when i.odds_live = 1 then r.time_val = 0  ELSE r.time_val = 2592000 END
+		AND (SELECT count(1) FROM standard_sport_market k
+				left JOIN standard_sport_market_odds o ON o.market_id = k.id
+				WHERE k.standard_match_info_id = i.id AND k.market_category_id = m.play_id AND o.id IS NOT NULL  ) &gt; 0
+		
+		limit 1000
+	</select>
+
+    <select id="selectTemplatesByMatchId" resultMap="ComposeResultMap">
+        SELECT i.id match_id,
+                    t.match_type,
+                    r.pause_wait_time,
+                    r.pause_margain,
+                    r.normal_wait_time,
+                    m.market_count,
+                    m.vice_market_ratio,
+                    t.id template_id,
+                    m.id margin_id,
+                    m.play_id,
+                    r.time_val,
+                    r.id margin_ref_id,
+                    m.valid_margin_id
+                FROM standard_match_info i
+                LEFT JOIN rcs_tournament_template t ON t.`type` = 3 AND t.type_val = i.id
+                LEFT JOIN rcs_tournament_template_play_margain m ON m.template_id = t.id
+                LEFT JOIN rcs_tournament_template_play_margain_ref r ON r.margain_id = m.id
+
+                WHERE i.id = #{matchId}
+                AND i.sport_id in (1,2,5,8) AND i.match_status NOT IN (3,4)
+                AND m.match_type = 0
+                AND m.valid_margin_id IS NULL
+                AND r.time_val = 0
+                AND (SELECT count(1) FROM standard_sport_market k
+                        left JOIN standard_sport_market_odds o ON o.market_id = k.id
+                        WHERE k.standard_match_info_id = i.id AND k.market_category_id = m.play_id AND o.id IS NOT NULL  ) > 0
+        limit 1000
+	</select>
+
+    <select id="selectAllTemplatesByBadminton" resultMap="ComposeResultMap">
+        SELECT t1.id match_id,t1.match_type,t1.pause_wait_time,t1.pause_margain,t1.normal_wait_time,t1.market_count,t1.vice_market_ratio,t1.t_id template_id,t1.m_id margin_id,t1.play_id,t1.time_val,r3.id margin_ref_id,m1.valid_margin_id FROM (
+          SELECT id,t_id,m_id,t.match_type,t.market_count,t.pause_wait_time,t.pause_margain,t.normal_wait_time,t.vice_market_ratio,t.play_id,case when match_type = 0 then MAX(time_val) else MIN(time_val) end time_val FROM (
+              SELECT i.id , t.id t_id ,m.id m_id,m.play_id,r.id m_r_id,r.time_val ,t.match_type,m.market_count,m.vice_market_ratio,r.pause_wait_time,r.pause_margain,r.normal_wait_time
+              FROM standard_match_info i
+                       LEFT JOIN rcs_tournament_template t ON t.`type` = 3 AND t.type_val = i.id
+                       LEFT JOIN rcs_tournament_template_play_margain m ON m.template_id = t.id
+                       LEFT JOIN rcs_tournament_template_play_margain_ref r ON r.margain_id = m.id
+              WHERE i.begin_time > unix_timestamp(NOW()) * 1000 - 1000 * 60 * 60 * 12
+                AND i.sport_id = 10 AND i.match_status NOT IN (3,4)
+                AND r.`status` NOT IN (2)
+                AND case when i.odds_live = 1 then m.match_type = 0 ELSE m.match_type = 1 END
+                AND case when i.odds_live = 1
+                             then (
+                      case when i.match_period_id = 301 then r.time_val &lt;= 8
+                           when i.match_period_id = 302 then r.time_val &lt;= 9
+                           when i.match_period_id = 303 then r.time_val &lt;= 10
+                           when i.match_period_id = 304 then r.time_val &lt;= 11
+                           ELSE r.time_val &lt;= i.match_period_id END
+                      )
+                         ELSE r.time_val  &gt; (i.begin_time - unix_timestamp(NOW()) * 1000)/1000
+                  END
+          ) t
+          GROUP BY id,t_id,m_id,t.play_id,match_type
+      ) t1
+          LEFT JOIN rcs_tournament_template_play_margain_ref r3 ON r3.margain_id = t1.m_id AND r3.time_val = t1.time_val
+          LEFT JOIN rcs_tournament_template_play_margain m1 ON m1.id = t1.m_id
+        WHERE (m1.valid_margin_id &lt;&gt; r3.id OR m1.valid_margin_id IS NULL or r3.`status` = 3)
+          AND (SELECT count(1) FROM standard_sport_market k
+                                        left JOIN standard_sport_market_odds o ON o.market_id = k.id
+               WHERE k.standard_match_info_id = t1.id AND k.market_category_id = t1.play_id AND o.id IS NOT NULL
+                 and k.status not in (2,3,4,5) AND k.market_type = t1.match_type ) > 0
+        limit 100
+    </select>
+
+    <select id="selectTemplatePlayMatchId"  resultType="com.panda.sport.rcs.pojo.dto.MatchTemplatePlayConfigDTO">
+        SELECT a.is_auto_close_score_config,a.achieve_close_score,b.play_id,a.time_val
+        FROM `rcs_tournament_template_play_margain_ref` a
+                 inner join `rcs_tournament_template_play_margain`  b on a.margain_id=b.id
+                 inner join `rcs_tournament_template` c on c.id = b.template_id
+        where c.type_val= #{matchId}
+          and b.play_id in
+        <foreach collection="playIds" index="index" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="selectAllBasketballPreMatchId" resultMap="ComposeResultMap">
+        SELECT
+        i.id match_id -- ,m.match_type,m.id
+        FROM
+        standard_match_info i
+        LEFT JOIN rcs_tournament_template t ON t.`type` = 3 AND t.type_val = i.id
+        LEFT JOIN rcs_tournament_template_play_margain m ON m.template_id = t.id
+        LEFT JOIN rcs_tournament_template_play_margain_ref r ON r.margain_id = m.id
+        LEFT JOIN standard_sport_tournament s on i.standard_tournament_id = s.id
+        WHERE
+        i.sport_id = 2  <!-- 篮球 -->
+        AND i.odds_live = 0  <!-- 赛前滚球状态，1（接收到滚球赔率）0（未接收到滚球赔率） -->
+        AND i.match_period_id = 0   <!-- 比赛阶段id -->
+        AND i.begin_time > unix_timestamp(NOW()) * 1000 - 1000 * 60 * 60 * 12 -- <!-- 比赛开始时间 > 当前时间 减去 12个小时 -->
+        AND i.match_status NOT IN (3,4)  <!-- '赛事状态.  0:未开赛, 1:滚球, 2:暂停，3:结束 ，4:关闭，5:取消，6:放弃，7:延迟，8:未知，9:延期，10:中断' -->
+        AND m.match_type = 1   <!-- 0：滚球 1：赛前 -->
+        <if test="eventMatchIds != null and eventMatchIds.size() != 0">
+            AND i.id in
+            <foreach collection="eventMatchIds" item="matchId" open="(" separator="," close=")">
+                #{matchId}
+            </foreach>
+        </if>
+        GROUP by i.id order by s.tournament_level
+    </select>
+
+    <select id="selectAllBasketballPreMatchNodeData" resultMap="ComposeResultMap">
+        SELECT * FROM
+                     (SELECT t1.id match_id,t1.match_type,t1.pause_wait_time,t1.pause_margain,t1.normal_wait_time,t1.market_count,t1.vice_market_ratio,t1.t_id template_id,t1.m_id margin_id,t1.play_id,t1.time_val,r3.id margin_ref_id,m1.valid_margin_id,1 have_handicap FROM (
+                            SELECT id,t_id,m_id,t.match_type,t.market_count,t.pause_wait_time,t.pause_margain,t.normal_wait_time,t.vice_market_ratio,t.play_id,case when match_type = 0 then MAX(time_val) else MIN(time_val) end time_val FROM (
+                                SELECT i.id , t.id t_id ,m.id m_id,m.play_id,r.id m_r_id,r.time_val ,t.match_type,m.market_count,m.vice_market_ratio,r.pause_wait_time,r.pause_margain,r.normal_wait_time
+                                    FROM standard_match_info i
+                                    LEFT JOIN rcs_tournament_template t ON t.`type` = 3 AND t.type_val = i.id
+                                    LEFT JOIN rcs_tournament_template_play_margain m ON m.template_id = t.id
+                                    LEFT JOIN rcs_tournament_template_play_margain_ref r ON r.margain_id = m.id
+                                    LEFT JOIN standard_sport_market_category_ref cr ON cr.category_id = m.play_id AND cr.sport_id = i.sport_id
+                                        WHERE i.begin_time > unix_timestamp(now()) * 1000 - 1000 * 60 * 60 * 12
+                                        AND i.sport_id = 2
+                                        AND i.match_status NOT IN (3,4)
+                                        AND r.`status` NOT IN (2)
+                                        AND m.match_type = 1
+                                        AND i.odds_live = 0
+                                        AND i.match_period_id = 0
+                                        AND r.time_val  > (i.begin_time - unix_timestamp(now()) * 1000)/1000
+                                        <if test="eventMatchIds != null and eventMatchIds.size() != 0">
+                                            AND i.id in
+                                            <foreach collection="eventMatchIds" item="matchId" open="(" separator="," close=")">
+                                                #{matchId}
+                                            </foreach>
+                                        </if>
+                            ) t
+                            GROUP BY id,t_id,m_id,t.play_id,match_type
+                    ) t1
+                    LEFT JOIN rcs_tournament_template_play_margain_ref r3 ON r3.margain_id = t1.m_id AND r3.time_val = t1.time_val
+                    LEFT JOIN rcs_tournament_template_play_margain m1 ON m1.id = t1.m_id
+                    <![CDATA[
+                        WHERE (m1.valid_margin_id <> r3.id OR m1.valid_margin_id IS NULL or r3.`status` = 3)
+                          ]]>
+                        AND (SELECT count(1) FROM standard_sport_market k
+                        left JOIN standard_sport_market_odds o ON o.market_id = k.id
+                        WHERE k.standard_match_info_id = t1.id AND k.market_category_id = t1.play_id AND o.id IS NOT NULL
+                        and k.third_market_source_status in (0,1) ) > 0
+        UNION ALL
+        SELECT t1.id match_id,t1.match_type,t1.pause_wait_time,t1.pause_margain,t1.normal_wait_time,t1.market_count,t1.vice_market_ratio,t1.t_id template_id,t1.m_id margin_id,t1.play_id,t1.time_val,r3.id margin_ref_id,m1.valid_margin_id,0 have_handicap FROM (
+            SELECT id,t_id,m_id,t.match_type,t.market_count,t.pause_wait_time,t.pause_margain,t.normal_wait_time,t.vice_market_ratio,t.play_id,case when match_type = 0 then MAX(time_val) else MIN(time_val) end time_val FROM (
+                SELECT i.id , t.id t_id ,m.id m_id,m.play_id,r.id m_r_id,r.time_val ,t.match_type,m.market_count,m.vice_market_ratio,r.pause_wait_time,r.pause_margain,r.normal_wait_time
+                    FROM standard_match_info i
+                    LEFT JOIN rcs_tournament_template t ON t.`type` = 3 AND t.type_val = i.id
+                    LEFT JOIN rcs_tournament_template_play_margain m ON m.template_id = t.id
+                    LEFT JOIN rcs_tournament_template_play_margain_ref r ON r.margain_id = m.id
+                    LEFT JOIN standard_sport_market_category_ref cr ON cr.category_id = m.play_id AND cr.sport_id = i.sport_id
+                        WHERE i.begin_time > unix_timestamp(now()) * 1000 - 1000 * 60 * 60 * 12
+                        AND i.sport_id = 2
+                        AND i.match_status NOT IN (3,4)
+                        AND r.`status` NOT IN (2)
+                        AND m.match_type = 1
+                        AND i.odds_live = 0
+                        AND i.match_period_id = 0
+                        AND r.time_val  > (i.begin_time - unix_timestamp(now()) * 1000)/1000
+                        <if test="eventMatchIds != null and eventMatchIds.size() != 0">
+                            AND i.id in
+                            <foreach collection="eventMatchIds" item="matchId" open="(" separator="," close=")">
+                                #{matchId}
+                            </foreach>
+                        </if>
+            ) t
+            GROUP BY id,t_id,m_id,t.play_id,match_type
+        ) t1
+        LEFT JOIN rcs_tournament_template_play_margain_ref r3 ON r3.margain_id = t1.m_id AND r3.time_val = t1.time_val
+        LEFT JOIN rcs_tournament_template_play_margain m1 ON m1.id = t1.m_id
+            WHERE  r3.`status` = 3 AND m1.market_count IS NULL
+            AND (SELECT count(1) FROM standard_sport_market k
+                left JOIN standard_sport_market_odds o ON o.market_id = k.id
+                WHERE k.standard_match_info_id = t1.id AND k.market_category_id = t1.play_id AND o.id IS NOT NULL
+                and k.third_market_source_status in (0,1) ) = 0
+                    ) t1
+    </select>
+
+    <select id="selectAllLiveTemplatesByBasket" resultMap="ComposeResultMap">
+        SELECT * FROM (SELECT t1.id match_id,t1.match_type,t1.pause_wait_time,t1.pause_margain,t1.normal_wait_time,t1.market_count,t1.vice_market_ratio,t1.t_id template_id,t1.m_id margin_id,t1.play_id,t1.time_val,r3.id margin_ref_id,m1.valid_margin_id,1 have_handicap FROM (
+        SELECT id,t_id,m_id,t.match_type,t.market_count,t.pause_wait_time,t.pause_margain,t.normal_wait_time,t.vice_market_ratio,t.play_id,case when match_type = 0 then MAX(time_val) else MIN(time_val) end time_val FROM (
+        SELECT i.id , t.id t_id ,m.id m_id,m.play_id,r.id m_r_id,r.time_val ,t.match_type,m.market_count,m.vice_market_ratio,r.pause_wait_time,r.pause_margain,r.normal_wait_time
+        FROM standard_match_info i
+        LEFT JOIN rcs_tournament_template t ON t.`type` = 3 AND t.type_val = i.id
+        LEFT JOIN rcs_tournament_template_play_margain m ON m.template_id = t.id
+        LEFT JOIN rcs_tournament_template_play_margain_ref r ON r.margain_id = m.id
+        LEFT JOIN standard_sport_market_category_ref cr ON cr.category_id = m.play_id AND cr.sport_id = i.sport_id
+        WHERE i.begin_time > unix_timestamp(NOW()) * 1000 - 1000 * 60 * 60 * 12
+        AND i.sport_id = 2 AND i.match_status NOT IN (3,4)
+        AND r.`status` NOT IN (2)
+        AND i.odds_live = 1
+        AND case when i.odds_live = 1 then m.match_type = 0 ELSE m.match_type = 1 END
+        AND case when i.odds_live = 1 AND cr.scope_id IN (6,7,8,9,13,14,15,17)
+        then r.time_val  &lt;= case when i.event_code IS not NULL
+        then IFNULL(case when i.match_length = 0 then 10
+        when i.match_length = 7 then 12
+        when i.match_length = 17 then 20
+        when i.match_length = 64 then 6
+        when i.match_length = 68 then 5
+        when i.match_length = 70 then 4
+        ELSE null END ,20) * 60
+        <!--                                                    + 2-->
+        - (case when i.seconds_match_start = 0 then 0
+        when i.seconds_match_start > 0 then IF(i.seconds_match_start - (unix_timestamp(NOW()) * 1000 - i.event_time) /1000 &lt;= 0,0,i.seconds_match_start - (unix_timestamp(NOW()) * 1000 - i.event_time) /1000) end)
+        ELSE (unix_timestamp(NOW()) * 1000 - i.begin_time)/1000 END
+        when i.odds_live = 1 AND cr.scope_id not IN (6,7,8,9,13,14,15,17) and i.match_period_id in (13,14,15,16,40,1,2,40)  and r.time_val % 2 = 0
+        then r.time_val  &lt;= IFNULL(case when i.match_length = 0 then 10
+        when i.match_length = 7 then 12
+        when i.match_length = 17 then 20
+        when i.match_length = 64 then 6
+        when i.match_length = 68 then 5
+        when i.match_length = 70 then 4
+        ELSE null END ,20) * 60
+        * case when i.match_period_id IN (0,13,1,301) then 0
+        when i.match_period_id IN (14,302,2) then 1
+        when i.match_period_id IN (15,303,31) then 2
+        when i.match_period_id IN (16,100,999,32,110) then 3
+        when i.match_period_id IN (40) then 4
+        ELSE 0 END
+        <!--									+ 2-->
+        + case when i.event_code IS not NULL
+        then IFNULL(case when i.match_length = 0 then 10
+        when i.match_length = 7 then 12
+        when i.match_length = 17 then 20
+        when i.match_length = 64 then 6
+        when i.match_length = 68 then 5
+        when i.match_length = 70 then 4
+        ELSE null END ,20) * 60
+        - (case when i.seconds_match_start = 0 then 0
+        when i.seconds_match_start > 0 then IF(i.seconds_match_start - (unix_timestamp(NOW()) * 1000 - i.event_time) /1000 &lt;= 0,0,(i.seconds_match_start - (unix_timestamp(NOW()) * 1000 - i.event_time) /1000 -2)) end)
+        ELSE (unix_timestamp(NOW()) * 1000 - i.begin_time)/1000 END
+        when i.odds_live = 1 and i.match_period_id = 0  then r.time_val = 0
+        when i.odds_live = 1 and i.match_period_id = 21  then r.time_val = 0
+        when i.odds_live = 1 and i.match_period_id in (302,31) and r.time_val % 2 > 0 then r.time_val = r.time_val
+        when i.odds_live = 0 AND i.match_period_id = 0 then r.time_val  > (i.begin_time - unix_timestamp(NOW()) * 1000)/1000
+        END
+        ) t
+        GROUP BY id,t_id,m_id,t.play_id,match_type
+        ) t1
+        LEFT JOIN rcs_tournament_template_play_margain_ref r3 ON r3.margain_id = t1.m_id AND r3.time_val = t1.time_val
+        LEFT JOIN rcs_tournament_template_play_margain m1 ON m1.id = t1.m_id
+        WHERE (m1.valid_margin_id &lt;&gt; r3.id OR m1.valid_margin_id IS NULL or r3.`status` = 3)
+        AND (SELECT count(1) FROM standard_sport_market k
+        left JOIN standard_sport_market_odds o ON o.market_id = k.id
+        WHERE k.standard_match_info_id = t1.id AND k.market_category_id = t1.play_id AND o.id IS NOT NULL
+        and k.third_market_source_status in (0,1) ) &gt; 0
+        UNION ALL
+        SELECT t1.id match_id,t1.match_type,t1.pause_wait_time,t1.pause_margain,t1.normal_wait_time,t1.market_count,t1.vice_market_ratio,t1.t_id template_id,t1.m_id margin_id,t1.play_id,t1.time_val,r3.id margin_ref_id,m1.valid_margin_id,0 have_handicap FROM (
+        SELECT id,t_id,m_id,t.match_type,t.market_count,t.pause_wait_time,t.pause_margain,t.normal_wait_time,t.vice_market_ratio,t.play_id,case when match_type = 0 then MAX(time_val) else MIN(time_val) end time_val FROM (
+        SELECT i.id , t.id t_id ,m.id m_id,m.play_id,r.id m_r_id,r.time_val ,t.match_type,m.market_count,m.vice_market_ratio,r.pause_wait_time,r.pause_margain,r.normal_wait_time
+        FROM standard_match_info i
+        LEFT JOIN rcs_tournament_template t ON t.`type` = 3 AND t.type_val = i.id
+        LEFT JOIN rcs_tournament_template_play_margain m ON m.template_id = t.id
+        LEFT JOIN rcs_tournament_template_play_margain_ref r ON r.margain_id = m.id
+        LEFT JOIN standard_sport_market_category_ref cr ON cr.category_id = m.play_id AND cr.sport_id = i.sport_id
+        WHERE i.begin_time > unix_timestamp(NOW()) * 1000 - 1000 * 60 * 60 * 12
+        AND i.sport_id = 2 AND i.match_status NOT IN (3,4)
+        AND r.`status` NOT IN (2)
+        AND i.odds_live = 1
+        AND case when i.odds_live = 1 then m.match_type = 0 ELSE m.match_type = 1 END
+        AND case when i.odds_live = 1 AND cr.scope_id IN (6,7,8,9,13,14,15,17)
+        then r.time_val  &lt;= case when i.event_code IS not NULL
+        then IFNULL(case when i.match_length = 0 then 10
+        when i.match_length = 7 then 12
+        when i.match_length = 17 then 20
+        when i.match_length = 64 then 6
+        when i.match_length = 68 then 5
+        when i.match_length = 70 then 4
+        ELSE null END ,20) * 60
+        <!--                                                    + 2-->
+        - (case when i.seconds_match_start = 0 then 0
+        when i.seconds_match_start > 0 then IF(i.seconds_match_start - (unix_timestamp(NOW()) * 1000 - i.event_time) /1000 &lt;= 0,0,i.seconds_match_start - (unix_timestamp(NOW()) * 1000 - i.event_time) /1000) end)
+        ELSE (unix_timestamp(NOW()) * 1000 - i.begin_time)/1000 END
+        when i.odds_live = 1 AND cr.scope_id not IN (6,7,8,9,13,14,15,17) and i.match_period_id in (13,14,15,16,40,1,2,40)  and r.time_val % 2 = 0
+        then r.time_val  &lt;= IFNULL(case when i.match_length = 0 then 10
+        when i.match_length = 7 then 12
+        when i.match_length = 17 then 20
+        when i.match_length = 64 then 6
+        when i.match_length = 68 then 5
+        when i.match_length = 70 then 4
+        ELSE null END ,20) * 60
+        * case when i.match_period_id IN (0,13,1,301) then 0
+        when i.match_period_id IN (14,302,2) then 1
+        when i.match_period_id IN (15,303,31) then 2
+        when i.match_period_id IN (16,100,999,32,110) then 3
+        when i.match_period_id IN (40) then 4
+        ELSE 0 END
+        <!--									+ 2-->
+        + case when i.event_code IS not NULL
+        then IFNULL(case when i.match_length = 0 then 10
+        when i.match_length = 7 then 12
+        when i.match_length = 17 then 20
+        when i.match_length = 64 then 6
+        when i.match_length = 68 then 5
+        when i.match_length = 70 then 4
+        ELSE null END ,20) * 60
+        - (case when i.seconds_match_start = 0 then 0
+        when i.seconds_match_start > 0 then IF(i.seconds_match_start - (unix_timestamp(NOW()) * 1000 - i.event_time) /1000 &lt;= 0,0,(i.seconds_match_start - (unix_timestamp(NOW()) * 1000 - i.event_time) /1000 -2)) end)
+        ELSE (unix_timestamp(NOW()) * 1000 - i.begin_time)/1000 END
+        when i.odds_live = 1 and i.match_period_id = 0  then r.time_val = 0
+        when i.odds_live = 1 and i.match_period_id = 21  then r.time_val = 0
+        when i.odds_live = 1 and i.match_period_id in (302,31) and r.time_val % 2 > 0 then r.time_val = r.time_val
+        when i.odds_live = 0 AND i.match_period_id = 0 then r.time_val  > (i.begin_time - unix_timestamp(NOW()) * 1000)/1000
+        END
+        ) t
+        GROUP BY id,t_id,m_id,t.play_id,match_type
+        ) t1
+        LEFT JOIN rcs_tournament_template_play_margain_ref r3 ON r3.margain_id = t1.m_id AND r3.time_val = t1.time_val
+        LEFT JOIN rcs_tournament_template_play_margain m1 ON m1.id = t1.m_id
+        WHERE  r3.`status` = 3 AND m1.market_count IS NULL
+        AND (SELECT count(1) FROM standard_sport_market k
+        left JOIN standard_sport_market_odds o ON o.market_id = k.id
+        WHERE k.standard_match_info_id = t1.id AND k.market_category_id = t1.play_id AND o.id IS NOT NULL
+        and k.third_market_source_status in (0,1) ) = 0) t1
+        limit 2000
+    </select>
+    <select id="selectAllZpTemplatesByBasket" resultMap="ComposeResultMap">
+        SELECT * FROM (SELECT t1.id match_id,t1.match_type,t1.pause_wait_time,t1.pause_margain,t1.normal_wait_time,t1.market_count,t1.vice_market_ratio,t1.t_id template_id,t1.m_id margin_id,t1.play_id,t1.time_val,r3.id margin_ref_id,m1.valid_margin_id,1 have_handicap FROM (
+        SELECT id,t_id,m_id,t.match_type,t.market_count,t.pause_wait_time,t.pause_margain,t.normal_wait_time,t.vice_market_ratio,t.play_id,case when match_type = 0 then MAX(time_val) else MIN(time_val) end time_val FROM (
+        SELECT i.id , t.id t_id ,m.id m_id,m.play_id,r.id m_r_id,r.time_val ,t.match_type,m.market_count,m.vice_market_ratio,r.pause_wait_time,r.pause_margain,r.normal_wait_time
+        FROM standard_match_info i
+        LEFT JOIN rcs_tournament_template t ON t.`type` = 3 AND t.type_val = i.id
+        LEFT JOIN rcs_tournament_template_play_margain m ON m.template_id = t.id
+        LEFT JOIN rcs_tournament_template_play_margain_ref r ON r.margain_id = m.id
+        LEFT JOIN standard_sport_market_category_ref cr ON cr.category_id = m.play_id AND cr.sport_id = i.sport_id
+        WHERE i.begin_time > unix_timestamp(NOW()) * 1000 - 1000 * 60 * 60 * 12
+        AND i.sport_id = 2 AND i.match_status NOT IN (3,4)
+        AND r.`status` NOT IN (2)
+        AND i.odds_live != 1
+        AND case when i.odds_live = 1 then m.match_type = 0 ELSE m.match_type = 1 END
+        AND case when i.odds_live = 1 AND cr.scope_id IN (6,7,8,9,13,14,15,17)
+        then r.time_val  &lt;= case when i.event_code IS not NULL
+        then IFNULL(case when i.match_length = 0 then 10
+        when i.match_length = 7 then 12
+        when i.match_length = 17 then 20
+        when i.match_length = 64 then 6
+        when i.match_length = 68 then 5
+        when i.match_length = 70 then 4
+        ELSE null END ,20) * 60
+        <!--                                                    + 2-->
+        - (case when i.seconds_match_start = 0 then 0
+        when i.seconds_match_start > 0 then IF(i.seconds_match_start - (unix_timestamp(NOW()) * 1000 - i.event_time) /1000 &lt;= 0,0,i.seconds_match_start - (unix_timestamp(NOW()) * 1000 - i.event_time) /1000) end)
+        ELSE (unix_timestamp(NOW()) * 1000 - i.begin_time)/1000 END
+        when i.odds_live = 1 AND cr.scope_id not IN (6,7,8,9,13,14,15,17) and i.match_period_id in (13,14,15,16,40,1,2,40)  and r.time_val % 2 = 0
+        then r.time_val  &lt;= IFNULL(case when i.match_length = 0 then 10
+        when i.match_length = 7 then 12
+        when i.match_length = 17 then 20
+        when i.match_length = 64 then 6
+        when i.match_length = 68 then 5
+        when i.match_length = 70 then 4
+        ELSE null END ,20) * 60
+        * case when i.match_period_id IN (0,13,1,301) then 0
+        when i.match_period_id IN (14,302,2) then 1
+        when i.match_period_id IN (15,303,31) then 2
+        when i.match_period_id IN (16,100,999,32,110) then 3
+        when i.match_period_id IN (40) then 4
+        ELSE 0 END
+        <!--									+ 2-->
+        + case when i.event_code IS not NULL
+        then IFNULL(case when i.match_length = 0 then 10
+        when i.match_length = 7 then 12
+        when i.match_length = 17 then 20
+        when i.match_length = 64 then 6
+        when i.match_length = 68 then 5
+        when i.match_length = 70 then 4
+        ELSE null END ,20) * 60
+        - (case when i.seconds_match_start = 0 then 0
+        when i.seconds_match_start > 0 then IF(i.seconds_match_start - (unix_timestamp(NOW()) * 1000 - i.event_time) /1000 &lt;= 0,0,(i.seconds_match_start - (unix_timestamp(NOW()) * 1000 - i.event_time) /1000 -2)) end)
+        ELSE (unix_timestamp(NOW()) * 1000 - i.begin_time)/1000 END
+        when i.odds_live = 1 and i.match_period_id = 0  then r.time_val = 0
+        when i.odds_live = 1 and i.match_period_id = 21  then r.time_val = 0
+        when i.odds_live = 1 and i.match_period_id in (302,31) and r.time_val % 2 > 0 then r.time_val = r.time_val
+        when i.odds_live = 0 AND i.match_period_id = 0 then r.time_val  > (i.begin_time - unix_timestamp(NOW()) * 1000)/1000
+        END
+        ) t
+        GROUP BY id,t_id,m_id,t.play_id,match_type
+        ) t1
+        LEFT JOIN rcs_tournament_template_play_margain_ref r3 ON r3.margain_id = t1.m_id AND r3.time_val = t1.time_val
+        LEFT JOIN rcs_tournament_template_play_margain m1 ON m1.id = t1.m_id
+        WHERE (m1.valid_margin_id &lt;&gt; r3.id OR m1.valid_margin_id IS NULL or r3.`status` = 3)
+        AND (SELECT count(1) FROM standard_sport_market k
+        left JOIN standard_sport_market_odds o ON o.market_id = k.id
+        WHERE k.standard_match_info_id = t1.id AND k.market_category_id = t1.play_id AND o.id IS NOT NULL
+        and k.third_market_source_status in (0,1) ) &gt; 0
+        UNION ALL
+        SELECT t1.id match_id,t1.match_type,t1.pause_wait_time,t1.pause_margain,t1.normal_wait_time,t1.market_count,t1.vice_market_ratio,t1.t_id template_id,t1.m_id margin_id,t1.play_id,t1.time_val,r3.id margin_ref_id,m1.valid_margin_id,0 have_handicap FROM (
+        SELECT id,t_id,m_id,t.match_type,t.market_count,t.pause_wait_time,t.pause_margain,t.normal_wait_time,t.vice_market_ratio,t.play_id,case when match_type = 0 then MAX(time_val) else MIN(time_val) end time_val FROM (
+        SELECT i.id , t.id t_id ,m.id m_id,m.play_id,r.id m_r_id,r.time_val ,t.match_type,m.market_count,m.vice_market_ratio,r.pause_wait_time,r.pause_margain,r.normal_wait_time
+        FROM standard_match_info i
+        LEFT JOIN rcs_tournament_template t ON t.`type` = 3 AND t.type_val = i.id
+        LEFT JOIN rcs_tournament_template_play_margain m ON m.template_id = t.id
+        LEFT JOIN rcs_tournament_template_play_margain_ref r ON r.margain_id = m.id
+        LEFT JOIN standard_sport_market_category_ref cr ON cr.category_id = m.play_id AND cr.sport_id = i.sport_id
+        WHERE i.begin_time > unix_timestamp(NOW()) * 1000 - 1000 * 60 * 60 * 12
+        AND i.sport_id = 2 AND i.match_status NOT IN (3,4)
+        AND r.`status` NOT IN (2)
+        AND i.odds_live != 1
+        AND case when i.odds_live = 1 then m.match_type = 0 ELSE m.match_type = 1 END
+        AND case when i.odds_live = 1 AND cr.scope_id IN (6,7,8,9,13,14,15,17)
+        then r.time_val  &lt;= case when i.event_code IS not NULL
+        then IFNULL(case when i.match_length = 0 then 10
+        when i.match_length = 7 then 12
+        when i.match_length = 17 then 20
+        when i.match_length = 64 then 6
+        when i.match_length = 68 then 5
+        when i.match_length = 70 then 4
+        ELSE null END ,20) * 60
+        <!--                                                    + 2-->
+        - (case when i.seconds_match_start = 0 then 0
+        when i.seconds_match_start > 0 then IF(i.seconds_match_start - (unix_timestamp(NOW()) * 1000 - i.event_time) /1000 &lt;= 0,0,i.seconds_match_start - (unix_timestamp(NOW()) * 1000 - i.event_time) /1000) end)
+        ELSE (unix_timestamp(NOW()) * 1000 - i.begin_time)/1000 END
+        when i.odds_live = 1 AND cr.scope_id not IN (6,7,8,9,13,14,15,17) and i.match_period_id in (13,14,15,16,40,1,2,40)  and r.time_val % 2 = 0
+        then r.time_val  &lt;= IFNULL(case when i.match_length = 0 then 10
+        when i.match_length = 7 then 12
+        when i.match_length = 17 then 20
+        when i.match_length = 64 then 6
+        when i.match_length = 68 then 5
+        when i.match_length = 70 then 4
+        ELSE null END ,20) * 60
+        * case when i.match_period_id IN (0,13,1,301) then 0
+        when i.match_period_id IN (14,302,2) then 1
+        when i.match_period_id IN (15,303,31) then 2
+        when i.match_period_id IN (16,100,999,32,110) then 3
+        when i.match_period_id IN (40) then 4
+        ELSE 0 END
+        <!--									+ 2-->
+        + case when i.event_code IS not NULL
+        then IFNULL(case when i.match_length = 0 then 10
+        when i.match_length = 7 then 12
+        when i.match_length = 17 then 20
+        when i.match_length = 64 then 6
+        when i.match_length = 68 then 5
+        when i.match_length = 70 then 4
+        ELSE null END ,20) * 60
+        - (case when i.seconds_match_start = 0 then 0
+        when i.seconds_match_start > 0 then IF(i.seconds_match_start - (unix_timestamp(NOW()) * 1000 - i.event_time) /1000 &lt;= 0,0,(i.seconds_match_start - (unix_timestamp(NOW()) * 1000 - i.event_time) /1000 -2)) end)
+        ELSE (unix_timestamp(NOW()) * 1000 - i.begin_time)/1000 END
+        when i.odds_live = 1 and i.match_period_id = 0  then r.time_val = 0
+        when i.odds_live = 1 and i.match_period_id = 21  then r.time_val = 0
+        when i.odds_live = 1 and i.match_period_id in (302,31) and r.time_val % 2 > 0 then r.time_val = r.time_val
+        when i.odds_live = 0 AND i.match_period_id = 0 then r.time_val  > (i.begin_time - unix_timestamp(NOW()) * 1000)/1000
+        END
+        ) t
+        GROUP BY id,t_id,m_id,t.play_id,match_type
+        ) t1
+        LEFT JOIN rcs_tournament_template_play_margain_ref r3 ON r3.margain_id = t1.m_id AND r3.time_val = t1.time_val
+        LEFT JOIN rcs_tournament_template_play_margain m1 ON m1.id = t1.m_id
+        WHERE  r3.`status` = 3 AND m1.market_count IS NULL
+        AND (SELECT count(1) FROM standard_sport_market k
+        left JOIN standard_sport_market_odds o ON o.market_id = k.id
+        WHERE k.standard_match_info_id = t1.id AND k.market_category_id = t1.play_id AND o.id IS NOT NULL
+        and k.third_market_source_status in (0,1) ) = 0) t1
+        limit 2000
+    </select>
+
+</mapper>

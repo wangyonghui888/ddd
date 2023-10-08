@@ -1,0 +1,18 @@
+server:
+  port: 10600
+#启动配置
+spring:
+  application:
+    name: panda-rcs-zuul
+  cloud:
+    nacos:
+      config:
+        server-addr: 10.105.20.121:8848
+        file-extension: properties
+        namespace: d0abd274-c674-43ac-8007-fe59a9a7a300
+        shared-dataids: panda-rpc-zuul.yml
+  profiles:
+    active: lspre
+
+spring.cloud.nacos.discovery.serverAddr: ${spring.cloud.nacos.config.server-addr}
+spring.cloud.nacos.discovery.namespace: ${spring.cloud.nacos.config.namespace}

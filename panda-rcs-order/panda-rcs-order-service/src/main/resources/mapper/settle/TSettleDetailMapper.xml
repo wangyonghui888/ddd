@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.mapper.settle.TSettleDetailMapper">
+
+
+    <insert id="bathInsertOrUpdate" keyColumn="betNo" keyProperty="betNo" parameterType="com.panda.sport.rcs.pojo.settle.TSettleDetail" useGeneratedKeys="true">
+        INSERT INTO `t_settle_detail`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            `bet_no`,
+            `order_no`,
+            `match_id`,
+            `begin_time`,
+
+            `tournament_level`,
+             `match_type`,
+            `sport_id`,
+            `uid`,
+            `play_options_id`,
+
+            `bet_result`,
+            `odd_finally`,
+            `market_value`,
+            `bet_amount`,
+            `odds_value`,
+            `max_win_amount`,
+            `market_id`,
+            `play_options`,
+            `play_id`,
+            `settle_score`,
+            `market_value_new`,
+            `create_time`,
+            `modify_time`
+        </trim>
+        VALUES
+         <foreach collection="list" item="item" separator=",">
+            (
+             #{item.betNo},
+             #{item.orderNo},
+             #{item.matchId},
+             #{item.beginTime},
+
+             #{item.tournamentLevel},
+             #{item.matchType},
+             #{item.sportId},
+             #{item.uid},
+             #{item.playOptionsId},
+
+             #{item.betResult},
+             #{item.oddFinally},
+             #{item.marketValue},
+             #{item.betAmount},
+             #{item.oddsValue},
+             #{item.maxWinAmount},
+             #{item.marketId},
+             #{item.playOptions},
+             #{item.playId},
+             #{item.settleScore},
+             #{item.marketValueNew},
+             now(),
+             now()
+            )
+         </foreach>
+        ON DUPLICATE KEY UPDATE
+            `bet_no` = VALUES(bet_no),
+            `match_id` = VALUES(match_id),
+            `begin_time` = VALUES(begin_time),
+
+            `tournament_level` = VALUES(tournament_level),
+            `match_type` = VALUES(match_type),
+            `sport_id` =VALUES(sport_id),
+            `uid` = VALUES(uid),
+            `play_options_id` = VALUES(play_options_id),
+
+            `bet_result` = VALUES(bet_result),
+            `odd_finally` = VALUES(odd_finally),
+            `market_value` = VALUES(market_value),
+            `bet_amount` = VALUES(bet_amount),
+            `odds_value` = VALUES(odds_value),
+            `max_win_amount` = VALUES(max_win_amount),
+            `market_id` = VALUES(market_id),
+            `play_options` = VALUES(play_options),
+            `play_id` =  VALUES(play_id),
+            `settle_score` = VALUES(settle_score),
+            `market_value_new` =  VALUES(market_value_new),
+            `modify_time` = now()
+    </insert>
+
+
+
+</mapper>

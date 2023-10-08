@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.mapper.tourTemplate.RcsTournamentTemplatePlayMargainRefMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.panda.sport.rcs.pojo.tourTemplate.RcsTournamentTemplatePlayMargainRef">
+        <id column="id" property="id" />
+        <result column="margain_id" property="margainId" />
+        <result column="time_val" property="timeVal" />
+        <result column="margain" property="margain" />
+        <result column="balance_option" property="balanceOption" />
+        <result column="max_odds" property="maxOdds" />
+        <result column="min_odds" property="minOdds" />
+        <result column="odd_change_rule" property="oddChangeRule" />
+        <result column="home_multi_max_amount" property="homeMultiMaxAmount" />
+        <result column="home_single_max_amount" property="homeSingleMaxAmount" />
+        <result column="home_multi_odds_rate" property="homeMultiOddsRate" />
+        <result column="home_single_odds_rate" property="homeSingleOddsRate" />
+        <result column="away_multi_odds_rate" property="awayMultiOddsRate" />
+        <result column="away_single_odds_rate" property="awaySingleOddsRate" />
+        <result column="order_single_pay_val" property="orderSinglePayVal" />
+        <result column="user_multi_pay_val" property="userMultiPayVal" />
+        <result column="multi_diff_val" property="multiDiffVal" />
+        <result column="multi_odds_rate" property="multiOddsRate" />
+        <result column="home_level_first_max_amount" property="homeLevelFirstMaxAmount" />
+        <result column="home_level_second_max_amount" property="homeLevelSecondMaxAmount" />
+        <result column="home_level_first_odds_rate" property="homeLevelFirstOddsRate" />
+        <result column="home_level_second_odds_rate" property="homeLevelSecondOddsRate" />
+        <result column="away_level_first_odds_rate" property="awayLevelFirstOddsRate" />
+        <result column="away_level_second_odds_rate" property="awayLevelSecondOddsRate" />
+        <result column="is_market_config" property="isMarketConfig" />
+        <result column="is_quota_config" property="isQuotaConfig" />
+        <result column="pause_margain" property="pauseMargain" />
+        <result column="normal_wait_time" property="normalWaitTime" />
+        <result column="pause_wait_time" property="pauseWaitTime" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, margain_id, time_val, margain, balance_option, max_odds, min_odds, odd_change_rule, home_multi_max_amount, home_single_max_amount, home_multi_odds_rate, home_single_odds_rate, away_multi_odds_rate, away_single_odds_rate, order_single_pay_val, user_multi_pay_val, multi_diff_val, multi_odds_rate, home_level_first_max_amount, home_level_second_max_amount, home_level_first_odds_rate, home_level_second_odds_rate, away_level_first_odds_rate, away_level_second_odds_rate, is_market_config, is_quota_config, pause_margain, normal_wait_time, pause_wait_time, create_time, update_time
+    </sql>
+
+</mapper>

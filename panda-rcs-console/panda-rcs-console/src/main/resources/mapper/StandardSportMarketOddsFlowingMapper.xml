@@ -1,0 +1,691 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.console.dao.StandardSportMarketOddsFlowingMapper">
+  <resultMap id="BaseResultMap" type="com.panda.sport.rcs.console.pojo.StandardSportMarketOddsFlowing">
+    <!--@mbg.generated-->
+    <!--@Table standard_sport_market_odds_flowing-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="link_id" jdbcType="VARCHAR" property="linkId" />
+    <result column="o_id" jdbcType="BIGINT" property="oId" />
+    <result column="market_id" jdbcType="BIGINT" property="marketId" />
+    <result column="odds_fields_templet_id" jdbcType="BIGINT" property="oddsFieldsTempletId" />
+    <result column="settlement_result_text" jdbcType="VARCHAR" property="settlementResultText" />
+    <result column="settlement_result" jdbcType="VARCHAR" property="settlementResult" />
+    <result column="bet_settlement_certainty" jdbcType="VARCHAR" property="betSettlementCertainty" />
+    <result column="odds_type" jdbcType="VARCHAR" property="oddsType" />
+    <result column="active" jdbcType="TINYINT" property="active" />
+    <result column="addition1" jdbcType="VARCHAR" property="addition1" />
+    <result column="addition2" jdbcType="VARCHAR" property="addition2" />
+    <result column="addition3" jdbcType="VARCHAR" property="addition3" />
+    <result column="addition4" jdbcType="VARCHAR" property="addition4" />
+    <result column="addition5" jdbcType="VARCHAR" property="addition5" />
+    <result column="name_code" jdbcType="BIGINT" property="nameCode" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="name_expression_value" jdbcType="VARCHAR" property="nameExpressionValue" />
+    <result column="odds_value" jdbcType="INTEGER" property="oddsValue" />
+    <result column="previous_odds_value" jdbcType="INTEGER" property="previousOddsValue" />
+    <result column="third_template_source_id" jdbcType="VARCHAR" property="thirdTemplateSourceId" />
+    <result column="original_odds_value" jdbcType="INTEGER" property="originalOddsValue" />
+    <result column="target_side" jdbcType="VARCHAR" property="targetSide" />
+    <result column="order_odds" jdbcType="INTEGER" property="orderOdds" />
+    <result column="data_source_code" jdbcType="VARCHAR" property="dataSourceCode" />
+    <result column="third_odds_field_source_id" jdbcType="VARCHAR" property="thirdOddsFieldSourceId" />
+    <result column="manager_confirm_prize" jdbcType="TINYINT" property="managerConfirmPrize" />
+    <result column="i18n_names" jdbcType="VARCHAR" property="i18nNames" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="extra_info" jdbcType="VARCHAR" property="extraInfo" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="modify_time" jdbcType="BIGINT" property="modifyTime" />
+    <result column="insert_time" jdbcType="TIMESTAMP" property="insertTime" />
+    <result column="my_remark" jdbcType="VARCHAR" property="myRemark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, link_id, o_id, market_id, odds_fields_templet_id, settlement_result_text, settlement_result,
+    bet_settlement_certainty, odds_type, active, addition1, addition2, addition3, addition4,
+    addition5, name_code, `name`, name_expression_value, odds_value, previous_odds_value,
+    third_template_source_id, original_odds_value, target_side, order_odds, data_source_code,
+    third_odds_field_source_id, manager_confirm_prize, i18n_names, remark, extra_info,
+    create_time, modify_time, insert_time, my_remark
+  </sql>
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update standard_sport_market_odds_flowing
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="link_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.linkId,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="o_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.oId,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="market_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.marketId,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="odds_fields_templet_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.oddsFieldsTempletId,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="settlement_result_text = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.settlementResultText,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="settlement_result = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.settlementResult,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="bet_settlement_certainty = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.betSettlementCertainty,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="odds_type = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.oddsType,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="active = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.active,jdbcType=TINYINT}
+        </foreach>
+      </trim>
+      <trim prefix="addition1 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.addition1,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="addition2 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.addition2,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="addition3 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.addition3,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="addition4 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.addition4,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="addition5 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.addition5,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="name_code = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.nameCode,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="`name` = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.name,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="name_expression_value = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.nameExpressionValue,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="odds_value = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.oddsValue,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+      <trim prefix="previous_odds_value = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.previousOddsValue,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+      <trim prefix="third_template_source_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.thirdTemplateSourceId,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="original_odds_value = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.originalOddsValue,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+      <trim prefix="target_side = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.targetSide,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="order_odds = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.orderOdds,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+      <trim prefix="data_source_code = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.dataSourceCode,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="third_odds_field_source_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.thirdOddsFieldSourceId,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="manager_confirm_prize = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.managerConfirmPrize,jdbcType=TINYINT}
+        </foreach>
+      </trim>
+      <trim prefix="i18n_names = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.i18nNames,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="remark = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.remark,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="extra_info = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.extraInfo,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="create_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.createTime,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="modify_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.modifyTime,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="insert_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.insertTime,jdbcType=TIMESTAMP}
+        </foreach>
+      </trim>
+      <trim prefix="my_remark = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.myRemark,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id,jdbcType=BIGINT}
+    </foreach>
+  </update>
+  <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="false">
+    <!--@mbg.generated-->
+    insert into standard_sport_market_odds_flowing
+    (link_id, o_id, market_id, place_num_id,odds_fields_templet_id, settlement_result_text, settlement_result,
+      bet_settlement_certainty, odds_type, active, addition1, addition2, addition3, addition4,
+      addition5, name_code, `name`, name_expression_value, odds_value, previous_odds_value,
+      third_template_source_id, original_odds_value, target_side, order_odds, data_source_code,
+      third_odds_field_source_id, manager_confirm_prize, i18n_names, remark ,margin , extra_info,
+      create_time, modify_time, my_remark,market_diff_value,data_type)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.linkId,jdbcType=VARCHAR}, #{item.oId,jdbcType=BIGINT}, #{item.marketId,jdbcType=BIGINT},#{item.placeNumId},
+        #{item.oddsFieldsTempletId,jdbcType=BIGINT}, #{item.settlementResultText,jdbcType=VARCHAR},
+        #{item.settlementResult,jdbcType=VARCHAR}, #{item.betSettlementCertainty,jdbcType=VARCHAR},
+        #{item.oddsType,jdbcType=VARCHAR}, #{item.active,jdbcType=TINYINT}, #{item.addition1,jdbcType=VARCHAR},
+        #{item.addition2,jdbcType=VARCHAR}, #{item.addition3,jdbcType=VARCHAR}, #{item.addition4,jdbcType=VARCHAR},
+        #{item.addition5,jdbcType=VARCHAR}, #{item.nameCode,jdbcType=BIGINT}, #{item.name,jdbcType=VARCHAR},
+        #{item.nameExpressionValue,jdbcType=VARCHAR}, #{item.oddsValue,jdbcType=INTEGER},
+        #{item.previousOddsValue,jdbcType=INTEGER}, #{item.thirdTemplateSourceId,jdbcType=VARCHAR},
+        #{item.originalOddsValue,jdbcType=INTEGER}, #{item.targetSide,jdbcType=VARCHAR},
+        #{item.orderOdds,jdbcType=INTEGER}, #{item.dataSourceCode,jdbcType=VARCHAR}, #{item.thirdOddsFieldSourceId,jdbcType=VARCHAR},
+        #{item.managerConfirmPrize,jdbcType=TINYINT}, #{item.i18nNames,jdbcType=VARCHAR},
+        #{item.remark,jdbcType=VARCHAR},#{item.margin}, #{item.extraInfo,jdbcType=VARCHAR}, #{item.createTime,jdbcType=BIGINT},
+        #{item.modifyTime,jdbcType=BIGINT}, #{item.myRemark,jdbcType=VARCHAR},#{item.marketDiffValue},#{item.dataType}
+        )
+    </foreach>
+  </insert>
+  <insert id="insertOrUpdate" keyColumn="id" keyProperty="id" parameterType="com.panda.sport.rcs.console.pojo.StandardSportMarketOddsFlowing" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into standard_sport_market_odds_flowing
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      link_id,
+      o_id,
+      market_id,
+      odds_fields_templet_id,
+      settlement_result_text,
+      settlement_result,
+      bet_settlement_certainty,
+      odds_type,
+      active,
+      addition1,
+      addition2,
+      addition3,
+      addition4,
+      addition5,
+      name_code,
+      `name`,
+      name_expression_value,
+      odds_value,
+      previous_odds_value,
+      third_template_source_id,
+      original_odds_value,
+      target_side,
+      order_odds,
+      data_source_code,
+      third_odds_field_source_id,
+      manager_confirm_prize,
+      i18n_names,
+      remark,
+      extra_info,
+      create_time,
+      modify_time,
+      insert_time,
+      my_remark,
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      #{linkId,jdbcType=VARCHAR},
+      #{oId,jdbcType=BIGINT},
+      #{marketId,jdbcType=BIGINT},
+      #{oddsFieldsTempletId,jdbcType=BIGINT},
+      #{settlementResultText,jdbcType=VARCHAR},
+      #{settlementResult,jdbcType=VARCHAR},
+      #{betSettlementCertainty,jdbcType=VARCHAR},
+      #{oddsType,jdbcType=VARCHAR},
+      #{active,jdbcType=TINYINT},
+      #{addition1,jdbcType=VARCHAR},
+      #{addition2,jdbcType=VARCHAR},
+      #{addition3,jdbcType=VARCHAR},
+      #{addition4,jdbcType=VARCHAR},
+      #{addition5,jdbcType=VARCHAR},
+      #{nameCode,jdbcType=BIGINT},
+      #{name,jdbcType=VARCHAR},
+      #{nameExpressionValue,jdbcType=VARCHAR},
+      #{oddsValue,jdbcType=INTEGER},
+      #{previousOddsValue,jdbcType=INTEGER},
+      #{thirdTemplateSourceId,jdbcType=VARCHAR},
+      #{originalOddsValue,jdbcType=INTEGER},
+      #{targetSide,jdbcType=VARCHAR},
+      #{orderOdds,jdbcType=INTEGER},
+      #{dataSourceCode,jdbcType=VARCHAR},
+      #{thirdOddsFieldSourceId,jdbcType=VARCHAR},
+      #{managerConfirmPrize,jdbcType=TINYINT},
+      #{i18nNames,jdbcType=VARCHAR},
+      #{remark,jdbcType=VARCHAR},
+      #{extraInfo,jdbcType=VARCHAR},
+      #{createTime,jdbcType=BIGINT},
+      #{modifyTime,jdbcType=BIGINT},
+      #{insertTime,jdbcType=TIMESTAMP},
+      #{myRemark,jdbcType=VARCHAR},
+    </trim>
+    on duplicate key update
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        id = #{id,jdbcType=BIGINT},
+      </if>
+      link_id = #{linkId,jdbcType=VARCHAR},
+      o_id = #{oId,jdbcType=BIGINT},
+      market_id = #{marketId,jdbcType=BIGINT},
+      odds_fields_templet_id = #{oddsFieldsTempletId,jdbcType=BIGINT},
+      settlement_result_text = #{settlementResultText,jdbcType=VARCHAR},
+      settlement_result = #{settlementResult,jdbcType=VARCHAR},
+      bet_settlement_certainty = #{betSettlementCertainty,jdbcType=VARCHAR},
+      odds_type = #{oddsType,jdbcType=VARCHAR},
+      active = #{active,jdbcType=TINYINT},
+      addition1 = #{addition1,jdbcType=VARCHAR},
+      addition2 = #{addition2,jdbcType=VARCHAR},
+      addition3 = #{addition3,jdbcType=VARCHAR},
+      addition4 = #{addition4,jdbcType=VARCHAR},
+      addition5 = #{addition5,jdbcType=VARCHAR},
+      name_code = #{nameCode,jdbcType=BIGINT},
+      `name` = #{name,jdbcType=VARCHAR},
+      name_expression_value = #{nameExpressionValue,jdbcType=VARCHAR},
+      odds_value = #{oddsValue,jdbcType=INTEGER},
+      previous_odds_value = #{previousOddsValue,jdbcType=INTEGER},
+      third_template_source_id = #{thirdTemplateSourceId,jdbcType=VARCHAR},
+      original_odds_value = #{originalOddsValue,jdbcType=INTEGER},
+      target_side = #{targetSide,jdbcType=VARCHAR},
+      order_odds = #{orderOdds,jdbcType=INTEGER},
+      data_source_code = #{dataSourceCode,jdbcType=VARCHAR},
+      third_odds_field_source_id = #{thirdOddsFieldSourceId,jdbcType=VARCHAR},
+      manager_confirm_prize = #{managerConfirmPrize,jdbcType=TINYINT},
+      i18n_names = #{i18nNames,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      extra_info = #{extraInfo,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=BIGINT},
+      modify_time = #{modifyTime,jdbcType=BIGINT},
+      insert_time = #{insertTime,jdbcType=TIMESTAMP},
+      my_remark = #{myRemark,jdbcType=VARCHAR},
+    </trim>
+  </insert>
+  <insert id="insertOrUpdateSelective" keyColumn="id" keyProperty="id" parameterType="com.panda.sport.rcs.console.pojo.StandardSportMarketOddsFlowing" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into standard_sport_market_odds_flowing
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="linkId != null">
+        link_id,
+      </if>
+      <if test="oId != null">
+        o_id,
+      </if>
+      <if test="marketId != null">
+        market_id,
+      </if>
+      <if test="oddsFieldsTempletId != null">
+        odds_fields_templet_id,
+      </if>
+      <if test="settlementResultText != null">
+        settlement_result_text,
+      </if>
+      <if test="settlementResult != null">
+        settlement_result,
+      </if>
+      <if test="betSettlementCertainty != null">
+        bet_settlement_certainty,
+      </if>
+      <if test="oddsType != null">
+        odds_type,
+      </if>
+      <if test="active != null">
+        active,
+      </if>
+      <if test="addition1 != null">
+        addition1,
+      </if>
+      <if test="addition2 != null">
+        addition2,
+      </if>
+      <if test="addition3 != null">
+        addition3,
+      </if>
+      <if test="addition4 != null">
+        addition4,
+      </if>
+      <if test="addition5 != null">
+        addition5,
+      </if>
+      <if test="nameCode != null">
+        name_code,
+      </if>
+      <if test="name != null">
+        `name`,
+      </if>
+      <if test="nameExpressionValue != null">
+        name_expression_value,
+      </if>
+      <if test="oddsValue != null">
+        odds_value,
+      </if>
+      <if test="previousOddsValue != null">
+        previous_odds_value,
+      </if>
+      <if test="thirdTemplateSourceId != null">
+        third_template_source_id,
+      </if>
+      <if test="originalOddsValue != null">
+        original_odds_value,
+      </if>
+      <if test="targetSide != null">
+        target_side,
+      </if>
+      <if test="orderOdds != null">
+        order_odds,
+      </if>
+      <if test="dataSourceCode != null">
+        data_source_code,
+      </if>
+      <if test="thirdOddsFieldSourceId != null">
+        third_odds_field_source_id,
+      </if>
+      <if test="managerConfirmPrize != null">
+        manager_confirm_prize,
+      </if>
+      <if test="i18nNames != null">
+        i18n_names,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="extraInfo != null">
+        extra_info,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifyTime != null">
+        modify_time,
+      </if>
+      <if test="insertTime != null">
+        insert_time,
+      </if>
+      <if test="myRemark != null">
+        my_remark,
+      </if>
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="linkId != null">
+        #{linkId,jdbcType=VARCHAR},
+      </if>
+      <if test="oId != null">
+        #{oId,jdbcType=BIGINT},
+      </if>
+      <if test="marketId != null">
+        #{marketId,jdbcType=BIGINT},
+      </if>
+      <if test="oddsFieldsTempletId != null">
+        #{oddsFieldsTempletId,jdbcType=BIGINT},
+      </if>
+      <if test="settlementResultText != null">
+        #{settlementResultText,jdbcType=VARCHAR},
+      </if>
+      <if test="settlementResult != null">
+        #{settlementResult,jdbcType=VARCHAR},
+      </if>
+      <if test="betSettlementCertainty != null">
+        #{betSettlementCertainty,jdbcType=VARCHAR},
+      </if>
+      <if test="oddsType != null">
+        #{oddsType,jdbcType=VARCHAR},
+      </if>
+      <if test="active != null">
+        #{active,jdbcType=TINYINT},
+      </if>
+      <if test="addition1 != null">
+        #{addition1,jdbcType=VARCHAR},
+      </if>
+      <if test="addition2 != null">
+        #{addition2,jdbcType=VARCHAR},
+      </if>
+      <if test="addition3 != null">
+        #{addition3,jdbcType=VARCHAR},
+      </if>
+      <if test="addition4 != null">
+        #{addition4,jdbcType=VARCHAR},
+      </if>
+      <if test="addition5 != null">
+        #{addition5,jdbcType=VARCHAR},
+      </if>
+      <if test="nameCode != null">
+        #{nameCode,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="nameExpressionValue != null">
+        #{nameExpressionValue,jdbcType=VARCHAR},
+      </if>
+      <if test="oddsValue != null">
+        #{oddsValue,jdbcType=INTEGER},
+      </if>
+      <if test="previousOddsValue != null">
+        #{previousOddsValue,jdbcType=INTEGER},
+      </if>
+      <if test="thirdTemplateSourceId != null">
+        #{thirdTemplateSourceId,jdbcType=VARCHAR},
+      </if>
+      <if test="originalOddsValue != null">
+        #{originalOddsValue,jdbcType=INTEGER},
+      </if>
+      <if test="targetSide != null">
+        #{targetSide,jdbcType=VARCHAR},
+      </if>
+      <if test="orderOdds != null">
+        #{orderOdds,jdbcType=INTEGER},
+      </if>
+      <if test="dataSourceCode != null">
+        #{dataSourceCode,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdOddsFieldSourceId != null">
+        #{thirdOddsFieldSourceId,jdbcType=VARCHAR},
+      </if>
+      <if test="managerConfirmPrize != null">
+        #{managerConfirmPrize,jdbcType=TINYINT},
+      </if>
+      <if test="i18nNames != null">
+        #{i18nNames,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="extraInfo != null">
+        #{extraInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=BIGINT},
+      </if>
+      <if test="insertTime != null">
+        #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="myRemark != null">
+        #{myRemark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+    on duplicate key update
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        id = #{id,jdbcType=BIGINT},
+      </if>
+      <if test="linkId != null">
+        link_id = #{linkId,jdbcType=VARCHAR},
+      </if>
+      <if test="oId != null">
+        o_id = #{oId,jdbcType=BIGINT},
+      </if>
+      <if test="marketId != null">
+        market_id = #{marketId,jdbcType=BIGINT},
+      </if>
+      <if test="oddsFieldsTempletId != null">
+        odds_fields_templet_id = #{oddsFieldsTempletId,jdbcType=BIGINT},
+      </if>
+      <if test="settlementResultText != null">
+        settlement_result_text = #{settlementResultText,jdbcType=VARCHAR},
+      </if>
+      <if test="settlementResult != null">
+        settlement_result = #{settlementResult,jdbcType=VARCHAR},
+      </if>
+      <if test="betSettlementCertainty != null">
+        bet_settlement_certainty = #{betSettlementCertainty,jdbcType=VARCHAR},
+      </if>
+      <if test="oddsType != null">
+        odds_type = #{oddsType,jdbcType=VARCHAR},
+      </if>
+      <if test="active != null">
+        active = #{active,jdbcType=TINYINT},
+      </if>
+      <if test="addition1 != null">
+        addition1 = #{addition1,jdbcType=VARCHAR},
+      </if>
+      <if test="addition2 != null">
+        addition2 = #{addition2,jdbcType=VARCHAR},
+      </if>
+      <if test="addition3 != null">
+        addition3 = #{addition3,jdbcType=VARCHAR},
+      </if>
+      <if test="addition4 != null">
+        addition4 = #{addition4,jdbcType=VARCHAR},
+      </if>
+      <if test="addition5 != null">
+        addition5 = #{addition5,jdbcType=VARCHAR},
+      </if>
+      <if test="nameCode != null">
+        name_code = #{nameCode,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="nameExpressionValue != null">
+        name_expression_value = #{nameExpressionValue,jdbcType=VARCHAR},
+      </if>
+      <if test="oddsValue != null">
+        odds_value = #{oddsValue,jdbcType=INTEGER},
+      </if>
+      <if test="previousOddsValue != null">
+        previous_odds_value = #{previousOddsValue,jdbcType=INTEGER},
+      </if>
+      <if test="thirdTemplateSourceId != null">
+        third_template_source_id = #{thirdTemplateSourceId,jdbcType=VARCHAR},
+      </if>
+      <if test="originalOddsValue != null">
+        original_odds_value = #{originalOddsValue,jdbcType=INTEGER},
+      </if>
+      <if test="targetSide != null">
+        target_side = #{targetSide,jdbcType=VARCHAR},
+      </if>
+      <if test="orderOdds != null">
+        order_odds = #{orderOdds,jdbcType=INTEGER},
+      </if>
+      <if test="dataSourceCode != null">
+        data_source_code = #{dataSourceCode,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdOddsFieldSourceId != null">
+        third_odds_field_source_id = #{thirdOddsFieldSourceId,jdbcType=VARCHAR},
+      </if>
+      <if test="managerConfirmPrize != null">
+        manager_confirm_prize = #{managerConfirmPrize,jdbcType=TINYINT},
+      </if>
+      <if test="i18nNames != null">
+        i18n_names = #{i18nNames,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="extraInfo != null">
+        extra_info = #{extraInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="modifyTime != null">
+        modify_time = #{modifyTime,jdbcType=BIGINT},
+      </if>
+      <if test="insertTime != null">
+        insert_time = #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="myRemark != null">
+        my_remark = #{myRemark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

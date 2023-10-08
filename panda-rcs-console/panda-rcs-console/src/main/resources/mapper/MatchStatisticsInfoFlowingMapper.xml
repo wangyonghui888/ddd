@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.console.dao.MatchStatisticsInfoFlowingMapper">
+  <resultMap id="BaseResultMap" type="com.panda.sport.rcs.console.pojo.MatchStatisticsInfoFlowing">
+    <!--@mbg.generated-->
+    <!--@Table match_statistics_info_flowing-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="link_id" jdbcType="VARCHAR" property="linkId" />
+    <result column="o_id" jdbcType="BIGINT" property="oId" />
+    <result column="third_source_event_id" jdbcType="BIGINT" property="thirdSourceEventId" />
+    <result column="third_source_match_id" jdbcType="BIGINT" property="thirdSourceMatchId" />
+    <result column="third_match_id" jdbcType="BIGINT" property="thirdMatchId" />
+    <result column="standard_match_id" jdbcType="BIGINT" property="standardMatchId" />
+    <result column="event_time" jdbcType="BIGINT" property="eventTime" />
+    <result column="third_event_type_id" jdbcType="TINYINT" property="thirdEventTypeId" />
+    <result column="third_event_type" jdbcType="VARCHAR" property="thirdEventType" />
+    <result column="home_away" jdbcType="VARCHAR" property="homeAway" />
+    <result column="seconds_match_start" jdbcType="INTEGER" property="secondsMatchStart" />
+    <result column="match_length" jdbcType="INTEGER" property="matchLength" />
+    <result column="score" jdbcType="VARCHAR" property="score" />
+    <result column="corner_score" jdbcType="VARCHAR" property="cornerScore" />
+    <result column="yellow_card_score" jdbcType="VARCHAR" property="yellowCardScore" />
+    <result column="red_card_score" jdbcType="VARCHAR" property="redCardScore" />
+    <result column="shot_on_target_score" jdbcType="VARCHAR" property="shotOnTargetScore" />
+    <result column="shot_off_target_score" jdbcType="VARCHAR" property="shotOffTargetScore" />
+    <result column="dangerous_attack_score" jdbcType="VARCHAR" property="dangerousAttackScore" />
+    <result column="aces_score" jdbcType="VARCHAR" property="acesScore" />
+    <result column="double_fault_score" jdbcType="VARCHAR" property="doubleFaultScore" />
+    <result column="sport_id" jdbcType="VARCHAR" property="sportId" />
+    <result column="period_score" jdbcType="VARCHAR" property="periodScore" />
+    <result column="quarter_score" jdbcType="VARCHAR" property="quarterScore" />
+    <result column="set_score" jdbcType="VARCHAR" property="setScore" />
+    <result column="set1_score" jdbcType="VARCHAR" property="set1Score" />
+    <result column="set2_score" jdbcType="VARCHAR" property="set2Score" />
+    <result column="set3_score" jdbcType="VARCHAR" property="set3Score" />
+    <result column="set4_score" jdbcType="VARCHAR" property="set4Score" />
+    <result column="set5_score" jdbcType="VARCHAR" property="set5Score" />
+    <result column="set6_score" jdbcType="VARCHAR" property="set6Score" />
+    <result column="set7_score" jdbcType="VARCHAR" property="set7Score" />
+    <result column="set8_score" jdbcType="VARCHAR" property="set8Score" />
+    <result column="set9_score" jdbcType="VARCHAR" property="set9Score" />
+    <result column="set10_score" jdbcType="VARCHAR" property="set10Score" />
+    <result column="game_score" jdbcType="VARCHAR" property="gameScore" />
+    <result column="server" jdbcType="TINYINT" property="server" />
+    <result column="info" jdbcType="VARCHAR" property="info" />
+    <result column="remaining_time" jdbcType="INTEGER" property="remainingTime" />
+    <result column="period" jdbcType="INTEGER" property="period" />
+    <result column="period_length" jdbcType="TINYINT" property="periodLength" />
+    <result column="set_count" jdbcType="TINYINT" property="setCount" />
+    <result column="penalty_score" jdbcType="VARCHAR" property="penaltyScore" />
+    <result column="free_kick_score" jdbcType="VARCHAR" property="freeKickScore" />
+    <result column="extra_time_score" jdbcType="VARCHAR" property="extraTimeScore" />
+    <result column="set1_yellow_card_score" jdbcType="VARCHAR" property="set1YellowCardScore" />
+    <result column="set1_red_card_score" jdbcType="VARCHAR" property="set1RedCardScore" />
+    <result column="set1_corner_score" jdbcType="VARCHAR" property="set1CornerScore" />
+    <result column="set2_yellow_card_score" jdbcType="VARCHAR" property="set2YellowCardScore" />
+    <result column="set2_red_card_score" jdbcType="VARCHAR" property="set2RedCardScore" />
+    <result column="set2_corner_score" jdbcType="VARCHAR" property="set2CornerScore" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="modify_time" jdbcType="BIGINT" property="modifyTime" />
+    <result column="insert_time" jdbcType="TIMESTAMP" property="insertTime" />
+  </resultMap>
+
+  <insert id="insertOrUpdate" keyColumn="id" keyProperty="id" parameterType="com.panda.sport.rcs.console.pojo.MatchStatisticsInfoFlowing" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into match_statistics_info_flowing
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      link_id,
+      o_id,
+      third_source_match_id,
+      third_match_id,
+      standard_match_id,
+      match_length,
+      score,
+      sport_id,
+      info,
+      period,
+      set_count,
+      remark,
+      modify_time,
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      #{linkId,jdbcType=VARCHAR},
+      #{oId,jdbcType=BIGINT},
+      #{thirdSourceMatchId,jdbcType=BIGINT},
+      #{thirdMatchId,jdbcType=BIGINT},
+      #{standardMatchId,jdbcType=BIGINT},
+      #{matchLength,jdbcType=INTEGER},
+      #{score,jdbcType=VARCHAR},
+      #{sportId,jdbcType=VARCHAR},
+      #{info,jdbcType=VARCHAR},
+      #{period,jdbcType=INTEGER},
+      #{setCount,jdbcType=TINYINT},
+      #{remark,jdbcType=VARCHAR},
+      #{modifyTime,jdbcType=BIGINT},
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      link_id = #{linkId,jdbcType=VARCHAR},
+      o_id = #{oId,jdbcType=BIGINT},
+      third_source_match_id = #{thirdSourceMatchId,jdbcType=BIGINT},
+      third_match_id = #{thirdMatchId,jdbcType=BIGINT},
+      standard_match_id = #{standardMatchId,jdbcType=BIGINT},
+      match_length = #{matchLength,jdbcType=INTEGER},
+      score = #{score,jdbcType=VARCHAR},
+      info = #{info,jdbcType=VARCHAR},
+      period = #{period,jdbcType=INTEGER},
+      set_count = #{setCount,jdbcType=TINYINT},
+      remark = #{remark,jdbcType=VARCHAR},
+      modify_time = #{modifyTime,jdbcType=BIGINT},
+    </trim>
+  </insert>
+
+
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.panda.sport.rcs.console.pojo.MatchStatisticsInfoFlowing" useGeneratedKeys="false">
+    <!--@mbg.generated-->
+    insert into match_statistics_info_flowing
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      link_id,
+      o_id,
+      third_source_match_id,
+      third_match_id,
+      standard_match_id,
+      match_length,
+      score,
+      sport_id,
+      info,
+      period,
+      set_count,
+      remark,
+      modify_time,
+      remaining_time,
+      seconds_match_start,
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      #{globalId,jdbcType=VARCHAR},
+      #{oId,jdbcType=BIGINT},
+      #{thirdSourceMatchId,jdbcType=BIGINT},
+      #{thirdMatchId,jdbcType=BIGINT},
+      #{standardMatchId,jdbcType=BIGINT},
+      #{matchLength,jdbcType=INTEGER},
+      #{score,jdbcType=VARCHAR},
+      #{sportId,jdbcType=VARCHAR},
+      #{info,jdbcType=VARCHAR},
+      #{period,jdbcType=INTEGER},
+      #{setCount,jdbcType=TINYINT},
+      #{remark,jdbcType=VARCHAR},
+      #{modifyTime,jdbcType=BIGINT},
+      #{remainingTime},
+      #{secondsMatchStart}
+    </trim>
+  </insert>
+</mapper>

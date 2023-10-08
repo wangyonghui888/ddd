@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.customdb.mapper.TagExtMapper">
+
+    <resultMap id="getUserIdResultMap" type="java.lang.Long">
+    </resultMap>
+    <!--投注金额 盈利金额-->
+    <select id="getUserId" resultMap="getUserIdResultMap">
+        SELECT distinct uid
+        FROM tybss_merchant_common.t_order_detail
+        WHERE  create_time >= #{beginDate}
+        and create_time &lt;#{endDate};
+        UNION
+        SELECT distinct uid
+        FROM tybss_merchant_common.t_order_detail_old
+        WHERE  create_time >= #{beginDate}
+        and create_time &lt;#{endDate};
+    </select>
+
+
+    <!--是否是投注特征标签用户-->
+    <select id="getUserIdTagType" resultMap="getUserIdResultMap">
+        SELECT COUNT(*) FROM user_profile_tags WHERE id
+        in( SELECT tag_id FROM `user_profile_tag_user_relation` WHERE user_id =#{userId}  and status =1 )
+        and tag_type = 2
+    </select>
+
+    <select id="getBetTagTypeUser" resultMap="getUserIdResultMap">
+        SELECT user_id FROM `user_profile_tag_user_relation`
+        WHERE status =1 and tag_id in(SELECT id FROM user_profile_tags WHERE tag_type=2)
+    </select>
+
+    <select id="getUserByTag" resultMap="getUserIdResultMap">
+        SELECT uid FROM tybss_merchant_common.t_user
+        WHERE user_level   = 230 and create_time  >= #{time}
+    </select>
+
+    <select id="getUserTag" resultType="java.util.Map">
+        SELECT user_level AS userLevel,merchant_code as merchantCode,username FROM tybss_merchant_common.t_user
+        WHERE uid  = #{userId}
+    </select>
+
+
+
+    <select id="getUserByTime" resultMap="getUserIdResultMap">
+         SELECT uid from tybss_merchant_common.t_user  WHERE last_bet_time	>= #{timeEnd};
+    </select>
+
+    <!--获取特殊商户的新用户标签 -->
+    <select id="getSpecialMerchantNewUserUserId" resultType="java.util.Map">
+        SELECT uid,username,merchant_code as merchantCode FROM tybss_merchant_common.t_user
+        WHERE merchant_code in(${merchantCodes})
+        AND user_level = #{userLevel}
+    </select>
+
+    <select id="getBasketBallUser" resultMap="getUserIdResultMap">
+        SELECT uid FROM tybss_merchant_common.t_user
+        WHERE user_level   = 201 or user_level = 200
+        and unactive != 1
+    </select>
+    <select id="getUserByBasketTag" resultMap="getUserIdResultMap">
+        SELECT uid FROM tybss_merchant_common.t_user
+        WHERE user_level   = 200 or user_level   =201
+    </select>
+
+</mapper>
+        

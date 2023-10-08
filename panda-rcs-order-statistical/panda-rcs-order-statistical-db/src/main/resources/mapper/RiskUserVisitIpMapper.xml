@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.db.mapper.RiskUserVisitIpMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.panda.sport.rcs.db.entity.RiskUserVisitIp">
+    </resultMap>
+    <!-- 按用户ID和登录 日期来检查-->
+    <select id="queryByUserIdAndLoginDate" resultType="com.panda.sport.rcs.db.entity.RiskUserVisitIp">
+        select * from risk_user_visit_ip where not city  is null and user_id = #{userId} and login_date = #{loginDate}
+    </select>
+
+    <!-- 根据IP查询所有关联用户-->
+    <select id="queryUserListByIp" resultType="com.panda.sport.rcs.common.vo.api.response.UserListByIpResVo">
+        SELECT
+            i.user_id as userId,
+            u.username as userName,
+            fake_name as fakeName,
+            u.merchant_code as merchantCode,
+            max( t.tag_name ) as tagName,
+            u.user_level as tagId,
+
+            lr.sport_json AS sportJson,
+            lr.tournament_json AS tournamentJson,
+            lr.order_type_json AS orderTypeJson,
+            lr.play_json AS playJson,
+            lr.order_stage_json AS orderStageJson,
+
+            lr.sport_ids_json AS sportIdsJson,
+            lr.tournament_ids_json AS tournamentIdsJson,
+            lr.order_type_ids_json AS orderTypeIdsJson,
+            lr.play_ids_json AS playIdsJson,
+            lr.order_stage_ids_json AS orderStageIdsJson,
+
+            ifnull(u.seven_day_bet_amount,0) as sevenDayBetAmount,
+            ifnull(u.seven_day_profit_amount,0) as sevenDayProfitAmount,
+            count( i.user_id ) as days
+        FROM
+            risk_user_visit_ip i
+            LEFT JOIN tybss_merchant_common.t_user u ON u.uid = i.user_id
+            LEFT JOIN user_profile_tags t ON t.id = u.user_level
+            LEFT JOIN tybss_merchant_common.t_user_level_relation lr ON lr.uid = u.uid
+        WHERE
+            i.ip = #{ip}
+        GROUP BY
+            i.user_id
+    </select>
+
+    <select id="queryListByLoginTime" resultType="com.panda.sport.rcs.db.entity.RiskUserVisitIp">
+        SELECT
+        i.ip,
+        i.area,
+        i.tag_id,
+        i.user_id
+        FROM
+        risk_user_visit_ip i
+        WHERE
+        i.login_date >= #{startTime}
+        AND i.login_date <![CDATA[< ]]> #{endTime}
+        ORDER BY
+        i.ip
+    </select>
+
+</mapper>

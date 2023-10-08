@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.data.mapper.RcsTournamentTemplatePlayMargainMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.panda.sport.rcs.pojo.tourTemplate.RcsTournamentTemplatePlayMargain">
+        <result column="margain" property="margin" />
+        <result column="template_id" property="templateId" />
+        <result column="play_id" property="playId" />
+        <result column="match_type" property="matchType" />
+        <result column="market_type" property="marketType" />
+        <result column="market_count" property="marketCount" />
+        <result column="is_sell" property="isSell" />
+        <result column="auto_close_market" property="autoCloseMarket" />
+        <result column="match_progress_time" property="matchProgressTime" />
+        <result column="injury_time" property="injuryTime" />
+        <result column="market_warn" property="marketWarn" />
+        <result column="is_series" property="isSeries" />
+        <result column="vice_market_ratio" property="viceMarketRatio" />
+        <result column="market_near_diff" property="marketNearDiff" />
+        <result column="market_near_odds_diff" property="marketNearOddsDiff" />
+
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        margain,template_id, play_id, match_type, market_type, market_count, is_sell, auto_close_market, match_progress_time, injury_time, market_warn, is_series, vice_market_ratio, market_near_diff, market_near_odds_diff
+    </sql>
+
+    <select id="selectByPlayId" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List" />
+        from rcs_tournament_template_play_margain m left join  rcs_tournament_template_play_margain_ref r on m.valid_margin_id=r.id
+        where template_id in
+        (select a.id from rcs_tournament_template a left join standard_match_info i on a.type_val = i.id
+            where a.type=3 and a.type_val=#{matchId,jdbcType=BIGINT}
+            AND case when i.match_status IN (1,2,10) then a.match_type = 0 ELSE a.match_type = 1 END )
+        and play_id=#{playId,jdbcType=INTEGER}
+    </select>
+
+</mapper>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.console.dao.OrderMapper">
+
+    <select id="getOrderList" resultType="com.panda.sport.rcs.console.pojo.Order">
+        SELECT o.order_no orderNo,o.tenant_id tenantId,o.uid,o.order_status orderStatus,o.info_status infoStatus,
+		FROM_UNIXTIME(o.create_time/1000) createTime,
+		case when m.`status` IS NULL then o.reason ELSE CONCAT(m.`status`,',原因：',o.reason)  END  reason,
+		o.series_type seriesType,o.order_amount_total orderAmountTotal,o.ip,d.bet_no betNo,d.match_id matchId,
+		d.play_id playId,d.market_id marketId,d.market_value marketValue,d.odds_value oddsValue,d.play_options_id playOptionsId,
+		d.rec_val,case when e.id IS NULL then 0 ELSE 1 END isAcct,e.order_status accOrderStatus,e.`mode` ,
+		e.handle_status handleStatus,e.update_time accTime
+		FROM t_order o
+		LEFT JOIN t_order_detail d ON d.order_no = o.order_no
+		LEFT JOIN t_order_detail_ext e ON e.bet_no = d.bet_no
+		left join rcs_mts_order_ext m on m.order_no = o.order_no
+        <where>
+            <if test="orderNo != null and orderNo != '' ">
+                and o.order_no = #{orderNo}
+            </if>
+            <if test="orderStatus != null and orderStatus != '' ">
+                and o.order_status = #{orderStatus}
+            </if>
+            <if test="seriesType != null and seriesType != '' ">
+                <if test="seriesType==1">
+                    and o.series_type = #{seriesType}
+                </if>
+                <if test="seriesType==2">
+                    and o.series_type != 1
+                </if>
+            </if>
+            <if test="matchType != null and matchType != '' ">
+                and d.match_type = #{matchType}
+            </if>
+            <if test="isSettlement != null and isSettlement != '' ">
+                and d.is_settlement = #{isSettlement}
+            </if>
+            <if test="riskChannel != null and riskChannel != '' ">
+                and d.risk_channel = #{riskChannel}
+            </if>
+            <if test="uid != null and uid != '' ">
+                and o.uid = #{uid}
+            </if>
+            <if test="matchId != null and matchId != '' ">
+                and d.match_id = #{matchId}
+            </if>
+            <if test="marketId != null and marketId != '' ">
+                and d.market_id = #{marketId}
+            </if>
+            <if test="startTime != null and startTime != '' ">
+                <![CDATA[ and d.bet_time >= unix_timestamp(#{startTime})*1000  ]]>
+            </if>
+            <if test="startTime == null or startTime == ''">
+                <![CDATA[ and d.bet_time >= UNIX_TIMESTAMP(now())-60*60*12  ]]>
+            </if>
+            <if test="endTime != null and endTime != '' ">
+                <![CDATA[ and d.bet_time <= unix_timestamp(#{endTime})*1000 ]]>
+            </if>
+        </where>
+        order by d.bet_time desc,o.order_no desc
+    </select>
+</mapper>

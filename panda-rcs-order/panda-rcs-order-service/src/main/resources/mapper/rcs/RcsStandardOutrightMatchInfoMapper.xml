@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.mapper.RcsStandardOutrightMatchInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.panda.sport.rcs.pojo.RcsStandardOutrightMatchInfo">
+        <id column="id" property="id" />
+        <result column="sport_id" property="sportId" />
+        <result column="region_id" property="regionId" />
+        <result column="standard_tournament_id" property="standardTournamentId" />
+        <result column="data_source_code" property="dataSourceCode" />
+        <result column="next_closing_time" property="nextClosingTime" />
+        <result column="match_market_status" property="matchMarketStatus" />
+        <result column="standard_outright_manager_id" property="standardOutrightManagerId" />
+        <result column="third_outright_match_id" property="thirdOutrightMatchId" />
+        <result column="third_outright_match_source_id" property="thirdOutrightMatchSourceId" />
+        <result column="standrd_outright_match_begion_time" property="standrdOutrightMatchBegionTime" />
+        <result column="standrd_outright_match_end_time" property="standrdOutrightMatchEndTime" />
+        <result column="sell_status" property="sellStatus" />
+        <result column="auto_sell_status" property="autoSellStatus" />
+        <result column="season_id" property="seasonId" />
+        <result column="standard_outright_year" property="standardOutrightYear" />
+        <result column="booked" property="booked" />
+        <result column="remark" property="remark" />
+        <result column="name_code" property="nameCode" />
+        <result column="create_time" property="createTime" />
+        <result column="modify_time" property="modifyTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, sport_id, region_id, standard_tournament_id, data_source_code, next_closing_time, match_market_status, standard_outright_manager_id, third_outright_match_id, third_outright_match_source_id, standrd_outright_match_begion_time, standrd_outright_match_end_time, sell_status, auto_sell_status, season_id, standard_outright_year, booked, remark, name_code, create_time, modify_time, update_time
+    </sql>
+
+</mapper>

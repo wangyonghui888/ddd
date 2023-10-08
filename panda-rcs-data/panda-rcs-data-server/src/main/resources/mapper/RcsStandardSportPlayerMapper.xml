@@ -1,0 +1,588 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.data.mapper.RcsStandardSportPlayerMapper">
+  <resultMap id="BaseResultMap" type="com.panda.sport.rcs.pojo.RcsStandardSportPlayer">
+    <!--@mbg.generated-->
+    <!--@Table rcs_standard_sport_player-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="sport_id" jdbcType="BIGINT" property="sportId" />
+    <result column="region_id" jdbcType="BIGINT" property="regionId" />
+    <result column="data_source_code" jdbcType="VARCHAR" property="dataSourceCode" />
+    <result column="player_manager_id" jdbcType="VARCHAR" property="playerManagerId" />
+    <result column="third_player_id" jdbcType="BIGINT" property="thirdPlayerId" />
+    <result column="third_source_player_id" jdbcType="VARCHAR" property="thirdSourcePlayerId" />
+    <result column="picture_url" jdbcType="VARCHAR" property="pictureUrl" />
+    <result column="name_code" jdbcType="BIGINT" property="nameCode" />
+    <result column="weight" jdbcType="INTEGER" property="weight" />
+    <result column="height" jdbcType="INTEGER" property="height" />
+    <result column="gender" jdbcType="INTEGER" property="gender" />
+    <result column="birthday" jdbcType="VARCHAR" property="birthday" />
+    <result column="name_spell" jdbcType="VARCHAR" property="nameSpell" />
+    <result column="country_id" jdbcType="BIGINT" property="countryId" />
+    <result column="personal_feature" jdbcType="VARCHAR" property="personalFeature" />
+    <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="related_data_source_coder_num" jdbcType="INTEGER" property="relatedDataSourceCoderNum" />
+    <result column="related_data_source_coder_list" jdbcType="VARCHAR" property="relatedDataSourceCoderList" />
+    <result column="all_language_name" jdbcType="VARCHAR" property="allLanguageName" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modify_time" jdbcType="BIGINT" property="modifyTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, sport_id, region_id, data_source_code, player_manager_id, third_player_id, third_source_player_id,
+    picture_url, name_code, weight, height, gender, birthday, name_spell, country_id,
+    personal_feature, nick_name, `name`, related_data_source_coder_num, related_data_source_coder_list,
+    all_language_name, remark, create_time, modify_time, update_time
+  </sql>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.panda.sport.rcs.pojo.RcsStandardSportPlayer" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into rcs_standard_sport_player
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="sportId != null">
+        sport_id,
+      </if>
+      <if test="regionId != null">
+        region_id,
+      </if>
+      <if test="dataSourceCode != null">
+        data_source_code,
+      </if>
+      <if test="playerManagerId != null">
+        player_manager_id,
+      </if>
+      <if test="thirdPlayerId != null">
+        third_player_id,
+      </if>
+      <if test="thirdSourcePlayerId != null">
+        third_source_player_id,
+      </if>
+      <if test="pictureUrl != null">
+        picture_url,
+      </if>
+      <if test="nameCode != null">
+        name_code,
+      </if>
+      <if test="weight != null">
+        weight,
+      </if>
+      <if test="height != null">
+        height,
+      </if>
+      <if test="gender != null">
+        gender,
+      </if>
+      <if test="birthday != null">
+        birthday,
+      </if>
+      <if test="nameSpell != null">
+        name_spell,
+      </if>
+      <if test="countryId != null">
+        country_id,
+      </if>
+      <if test="personalFeature != null">
+        personal_feature,
+      </if>
+      <if test="nickName != null">
+        nick_name,
+      </if>
+      <if test="name != null">
+        `name`,
+      </if>
+      <if test="relatedDataSourceCoderNum != null">
+        related_data_source_coder_num,
+      </if>
+      <if test="relatedDataSourceCoderList != null">
+        related_data_source_coder_list,
+      </if>
+      <if test="allLanguageName != null">
+        all_language_name,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifyTime != null">
+        modify_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="sportId != null">
+        #{sportId,jdbcType=BIGINT},
+      </if>
+      <if test="regionId != null">
+        #{regionId,jdbcType=BIGINT},
+      </if>
+      <if test="dataSourceCode != null">
+        #{dataSourceCode,jdbcType=VARCHAR},
+      </if>
+      <if test="playerManagerId != null">
+        #{playerManagerId,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdPlayerId != null">
+        #{thirdPlayerId,jdbcType=BIGINT},
+      </if>
+      <if test="thirdSourcePlayerId != null">
+        #{thirdSourcePlayerId,jdbcType=VARCHAR},
+      </if>
+      <if test="pictureUrl != null">
+        #{pictureUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="nameCode != null">
+        #{nameCode,jdbcType=BIGINT},
+      </if>
+      <if test="weight != null">
+        #{weight,jdbcType=INTEGER},
+      </if>
+      <if test="height != null">
+        #{height,jdbcType=INTEGER},
+      </if>
+      <if test="gender != null">
+        #{gender,jdbcType=INTEGER},
+      </if>
+      <if test="birthday != null">
+        #{birthday,jdbcType=VARCHAR},
+      </if>
+      <if test="nameSpell != null">
+        #{nameSpell,jdbcType=VARCHAR},
+      </if>
+      <if test="countryId != null">
+        #{countryId,jdbcType=BIGINT},
+      </if>
+      <if test="personalFeature != null">
+        #{personalFeature,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null">
+        #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="relatedDataSourceCoderNum != null">
+        #{relatedDataSourceCoderNum,jdbcType=INTEGER},
+      </if>
+      <if test="relatedDataSourceCoderList != null">
+        #{relatedDataSourceCoderList,jdbcType=VARCHAR},
+      </if>
+      <if test="allLanguageName != null">
+        #{allLanguageName,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into rcs_standard_sport_player
+    (sport_id, region_id, data_source_code, player_manager_id, third_player_id, third_source_player_id,
+      picture_url, name_code, weight, height, gender, birthday, name_spell, country_id,
+      personal_feature, nick_name, `name`, related_data_source_coder_num, related_data_source_coder_list,
+      all_language_name, remark, create_time, modify_time, update_time)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.sportId,jdbcType=BIGINT}, #{item.regionId,jdbcType=BIGINT}, #{item.dataSourceCode,jdbcType=VARCHAR},
+        #{item.playerManagerId,jdbcType=VARCHAR}, #{item.thirdPlayerId,jdbcType=BIGINT},
+        #{item.thirdSourcePlayerId,jdbcType=VARCHAR}, #{item.pictureUrl,jdbcType=VARCHAR},
+        #{item.nameCode,jdbcType=BIGINT}, #{item.weight,jdbcType=INTEGER}, #{item.height,jdbcType=INTEGER},
+        #{item.gender,jdbcType=INTEGER}, #{item.birthday,jdbcType=VARCHAR}, #{item.nameSpell,jdbcType=VARCHAR},
+        #{item.countryId,jdbcType=BIGINT}, #{item.personalFeature,jdbcType=VARCHAR}, #{item.nickName,jdbcType=VARCHAR},
+        #{item.name,jdbcType=VARCHAR}, #{item.relatedDataSourceCoderNum,jdbcType=INTEGER},
+        #{item.relatedDataSourceCoderList,jdbcType=VARCHAR}, #{item.allLanguageName,jdbcType=VARCHAR},
+        #{item.remark,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.modifyTime,jdbcType=BIGINT},
+        #{item.updateTime,jdbcType=TIMESTAMP})
+    </foreach>
+  </insert>
+  <insert id="insertOrUpdate" keyColumn="id" keyProperty="id" parameterType="com.panda.sport.rcs.pojo.RcsStandardSportPlayer" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into rcs_standard_sport_player
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      sport_id,
+      region_id,
+      data_source_code,
+      player_manager_id,
+      third_player_id,
+      third_source_player_id,
+      picture_url,
+      name_code,
+      weight,
+      height,
+      gender,
+      birthday,
+      name_spell,
+      country_id,
+      personal_feature,
+      nick_name,
+      `name`,
+      related_data_source_coder_num,
+      related_data_source_coder_list,
+      all_language_name,
+      remark,
+      create_time,
+      modify_time,
+      update_time,
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      #{sportId,jdbcType=BIGINT},
+      #{regionId,jdbcType=BIGINT},
+      #{dataSourceCode,jdbcType=VARCHAR},
+      #{playerManagerId,jdbcType=VARCHAR},
+      #{thirdPlayerId,jdbcType=BIGINT},
+      #{thirdSourcePlayerId,jdbcType=VARCHAR},
+      #{pictureUrl,jdbcType=VARCHAR},
+      #{nameCode,jdbcType=BIGINT},
+      #{weight,jdbcType=INTEGER},
+      #{height,jdbcType=INTEGER},
+      #{gender,jdbcType=INTEGER},
+      #{birthday,jdbcType=VARCHAR},
+      #{nameSpell,jdbcType=VARCHAR},
+      #{countryId,jdbcType=BIGINT},
+      #{personalFeature,jdbcType=VARCHAR},
+      #{nickName,jdbcType=VARCHAR},
+      #{name,jdbcType=VARCHAR},
+      #{relatedDataSourceCoderNum,jdbcType=INTEGER},
+      #{relatedDataSourceCoderList,jdbcType=VARCHAR},
+      #{allLanguageName,jdbcType=VARCHAR},
+      #{remark,jdbcType=VARCHAR},
+      #{createTime,jdbcType=TIMESTAMP},
+      #{modifyTime,jdbcType=BIGINT},
+      #{updateTime,jdbcType=TIMESTAMP},
+    </trim>
+    on duplicate key update
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        id = #{id,jdbcType=BIGINT},
+      </if>
+      sport_id = #{sportId,jdbcType=BIGINT},
+      region_id = #{regionId,jdbcType=BIGINT},
+      data_source_code = #{dataSourceCode,jdbcType=VARCHAR},
+      player_manager_id = #{playerManagerId,jdbcType=VARCHAR},
+      third_player_id = #{thirdPlayerId,jdbcType=BIGINT},
+      third_source_player_id = #{thirdSourcePlayerId,jdbcType=VARCHAR},
+      picture_url = #{pictureUrl,jdbcType=VARCHAR},
+      name_code = #{nameCode,jdbcType=BIGINT},
+      weight = #{weight,jdbcType=INTEGER},
+      height = #{height,jdbcType=INTEGER},
+      gender = #{gender,jdbcType=INTEGER},
+      birthday = #{birthday,jdbcType=VARCHAR},
+      name_spell = #{nameSpell,jdbcType=VARCHAR},
+      country_id = #{countryId,jdbcType=BIGINT},
+      personal_feature = #{personalFeature,jdbcType=VARCHAR},
+      nick_name = #{nickName,jdbcType=VARCHAR},
+      `name` = #{name,jdbcType=VARCHAR},
+      related_data_source_coder_num = #{relatedDataSourceCoderNum,jdbcType=INTEGER},
+      related_data_source_coder_list = #{relatedDataSourceCoderList,jdbcType=VARCHAR},
+      all_language_name = #{allLanguageName,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modify_time = #{modifyTime,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+    </trim>
+  </insert>
+  <insert id="insertOrUpdateSelective" keyColumn="id" keyProperty="id" parameterType="com.panda.sport.rcs.pojo.RcsStandardSportPlayer" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into rcs_standard_sport_player
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="sportId != null">
+        sport_id,
+      </if>
+      <if test="regionId != null">
+        region_id,
+      </if>
+      <if test="dataSourceCode != null">
+        data_source_code,
+      </if>
+      <if test="playerManagerId != null">
+        player_manager_id,
+      </if>
+      <if test="thirdPlayerId != null">
+        third_player_id,
+      </if>
+      <if test="thirdSourcePlayerId != null">
+        third_source_player_id,
+      </if>
+      <if test="pictureUrl != null">
+        picture_url,
+      </if>
+      <if test="nameCode != null">
+        name_code,
+      </if>
+      <if test="weight != null">
+        weight,
+      </if>
+      <if test="height != null">
+        height,
+      </if>
+      <if test="gender != null">
+        gender,
+      </if>
+      <if test="birthday != null">
+        birthday,
+      </if>
+      <if test="nameSpell != null">
+        name_spell,
+      </if>
+      <if test="countryId != null">
+        country_id,
+      </if>
+      <if test="personalFeature != null">
+        personal_feature,
+      </if>
+      <if test="nickName != null">
+        nick_name,
+      </if>
+      <if test="name != null">
+        `name`,
+      </if>
+      <if test="relatedDataSourceCoderNum != null">
+        related_data_source_coder_num,
+      </if>
+      <if test="relatedDataSourceCoderList != null">
+        related_data_source_coder_list,
+      </if>
+      <if test="allLanguageName != null">
+        all_language_name,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifyTime != null">
+        modify_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="sportId != null">
+        #{sportId,jdbcType=BIGINT},
+      </if>
+      <if test="regionId != null">
+        #{regionId,jdbcType=BIGINT},
+      </if>
+      <if test="dataSourceCode != null">
+        #{dataSourceCode,jdbcType=VARCHAR},
+      </if>
+      <if test="playerManagerId != null">
+        #{playerManagerId,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdPlayerId != null">
+        #{thirdPlayerId,jdbcType=BIGINT},
+      </if>
+      <if test="thirdSourcePlayerId != null">
+        #{thirdSourcePlayerId,jdbcType=VARCHAR},
+      </if>
+      <if test="pictureUrl != null">
+        #{pictureUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="nameCode != null">
+        #{nameCode,jdbcType=BIGINT},
+      </if>
+      <if test="weight != null">
+        #{weight,jdbcType=INTEGER},
+      </if>
+      <if test="height != null">
+        #{height,jdbcType=INTEGER},
+      </if>
+      <if test="gender != null">
+        #{gender,jdbcType=INTEGER},
+      </if>
+      <if test="birthday != null">
+        #{birthday,jdbcType=VARCHAR},
+      </if>
+      <if test="nameSpell != null">
+        #{nameSpell,jdbcType=VARCHAR},
+      </if>
+      <if test="countryId != null">
+        #{countryId,jdbcType=BIGINT},
+      </if>
+      <if test="personalFeature != null">
+        #{personalFeature,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null">
+        #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="relatedDataSourceCoderNum != null">
+        #{relatedDataSourceCoderNum,jdbcType=INTEGER},
+      </if>
+      <if test="relatedDataSourceCoderList != null">
+        #{relatedDataSourceCoderList,jdbcType=VARCHAR},
+      </if>
+      <if test="allLanguageName != null">
+        #{allLanguageName,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        id = #{id,jdbcType=BIGINT},
+      </if>
+      <if test="sportId != null">
+        sport_id = #{sportId,jdbcType=BIGINT},
+      </if>
+      <if test="regionId != null">
+        region_id = #{regionId,jdbcType=BIGINT},
+      </if>
+      <if test="dataSourceCode != null">
+        data_source_code = #{dataSourceCode,jdbcType=VARCHAR},
+      </if>
+      <if test="playerManagerId != null">
+        player_manager_id = #{playerManagerId,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdPlayerId != null">
+        third_player_id = #{thirdPlayerId,jdbcType=BIGINT},
+      </if>
+      <if test="thirdSourcePlayerId != null">
+        third_source_player_id = #{thirdSourcePlayerId,jdbcType=VARCHAR},
+      </if>
+      <if test="pictureUrl != null">
+        picture_url = #{pictureUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="nameCode != null">
+        name_code = #{nameCode,jdbcType=BIGINT},
+      </if>
+      <if test="weight != null">
+        weight = #{weight,jdbcType=INTEGER},
+      </if>
+      <if test="height != null">
+        height = #{height,jdbcType=INTEGER},
+      </if>
+      <if test="gender != null">
+        gender = #{gender,jdbcType=INTEGER},
+      </if>
+      <if test="birthday != null">
+        birthday = #{birthday,jdbcType=VARCHAR},
+      </if>
+      <if test="nameSpell != null">
+        name_spell = #{nameSpell,jdbcType=VARCHAR},
+      </if>
+      <if test="countryId != null">
+        country_id = #{countryId,jdbcType=BIGINT},
+      </if>
+      <if test="personalFeature != null">
+        personal_feature = #{personalFeature,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null">
+        nick_name = #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="relatedDataSourceCoderNum != null">
+        related_data_source_coder_num = #{relatedDataSourceCoderNum,jdbcType=INTEGER},
+      </if>
+      <if test="relatedDataSourceCoderList != null">
+        related_data_source_coder_list = #{relatedDataSourceCoderList,jdbcType=VARCHAR},
+      </if>
+      <if test="allLanguageName != null">
+        all_language_name = #{allLanguageName,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null">
+        modify_time = #{modifyTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <insert id="batchInsertOrUpdate" parameterType="map">
+      insert into rcs_standard_sport_player
+    (id,sport_id, region_id, data_source_code, player_manager_id, third_player_id, third_source_player_id,
+      picture_url, name_code, weight, height, gender, birthday, name_spell, country_id,
+      personal_feature, nick_name, `name`, related_data_source_coder_num, related_data_source_coder_list,
+      all_language_name, remark, modify_time)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.id,jdbcType=BIGINT},#{item.sportId,jdbcType=BIGINT}, #{item.regionId,jdbcType=BIGINT}, #{item.dataSourceCode,jdbcType=VARCHAR},
+        #{item.playerManagerId,jdbcType=VARCHAR}, #{item.thirdPlayerId,jdbcType=BIGINT},
+        #{item.thirdSourcePlayerId,jdbcType=VARCHAR}, #{item.pictureUrl,jdbcType=VARCHAR},
+        #{item.nameCode,jdbcType=BIGINT}, #{item.weight,jdbcType=INTEGER}, #{item.height,jdbcType=INTEGER},
+        #{item.gender,jdbcType=INTEGER}, #{item.birthday,jdbcType=VARCHAR}, #{item.nameSpell,jdbcType=VARCHAR},
+        #{item.countryId,jdbcType=BIGINT}, #{item.personalFeature,jdbcType=VARCHAR}, #{item.nickName,jdbcType=VARCHAR},
+        #{item.name,jdbcType=VARCHAR}, #{item.relatedDataSourceCoderNum,jdbcType=INTEGER},
+        #{item.relatedDataSourceCoderList,jdbcType=VARCHAR}, #{item.allLanguageName,jdbcType=VARCHAR},
+        #{item.remark,jdbcType=VARCHAR}, #{item.modifyTime,jdbcType=BIGINT})
+    </foreach>
+      on duplicate key update
+        <trim suffixOverrides=",">
+          sport_id = values (sport_id),
+          region_id = values (region_id),
+          data_source_code = values (data_source_code),
+          player_manager_id = values (player_manager_id),
+          third_player_id =values (third_player_id),
+          third_source_player_id = values (third_source_player_id),
+          picture_url = values (picture_url),
+          name_code = values (name_code),
+          weight = values (weight),
+          height = values (height),
+          gender = values (gender),
+          birthday = values (birthday),
+          name_spell = values (name_spell),
+          country_id = values (country_id),
+          personal_feature = values (personal_feature),
+          nick_name = values (nick_name),
+          `name` = values (`name`),
+          related_data_source_coder_num = values (related_data_source_coder_num),
+          related_data_source_coder_list = values (related_data_source_coder_list),
+          all_language_name = values (all_language_name),
+          remark = values (remark),
+          modify_time = values (modify_time),
+        </trim>
+  </insert>
+</mapper>

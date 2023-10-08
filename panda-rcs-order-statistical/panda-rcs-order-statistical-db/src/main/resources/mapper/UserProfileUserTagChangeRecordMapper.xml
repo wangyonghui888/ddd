@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.db.mapper.UserProfileUserTagChangeRecordMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.panda.sport.rcs.db.entity.UserProfileUserTagChangeRecord">
+        <id column="id" property="id" />
+        <result column="user_id" property="userId" />
+        <result column="user_name" property="userName" />
+        <result column="tag_type" property="tagType" />
+        <result column="change_reason" property="changeReason" />
+        <result column="merchant_code" property="merchantCode" />
+        <result column="change_time" property="changeTime" />
+        <result column="change_type" property="changeType" />
+        <result column="change_manner" property="changeManner" />
+        <result column="change_before" property="changeBefore" />
+        <result column="change_after" property="changeAfter" />
+        <result column="change_detail" property="changeDetail" />
+        <result column="change_value" property="changeValue" />
+
+        <result column="reality_value" property="realityValue" />
+        <result column="change_suggest" property="changeSuggest" />
+        <result column="status" property="status" />
+        <result column="operate_time" property="operateTime" />
+        <result column="remark" property="remark" />
+        <result column="change_tag" property="changeTag" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, user_id, change_time, change_type, change_manner, change_before, change_after, change_detail, change_value, user_name, tag_type, change_reason, merchant_code
+    </sql>
+
+    <select id="queryRecordList" resultType="com.panda.sport.rcs.common.vo.api.response.UserProfileUserTagChangeRecordResVo">
+        SELECT
+            cr.id as id,
+            cr.user_id as userId,
+            cr.user_name as userName,
+            cr.merchant_code as merchantCode,
+            g.group_name as groupName,
+            (select t.tag_name from user_profile_tags t where t.id = cr.change_before) as changeBefore,
+            (select t.tag_name from user_profile_tags t where t.id = cr.change_after) as changeAfter,
+            cr.change_time as changeTime,
+            cr.change_type as changeType,
+            cr.change_manner as changeManner,
+            cr.change_reason as changeReason
+        FROM
+            user_profile_user_tag_change_record cr
+            LEFT JOIN user_profile_group_user_relation ur ON ur.user_id = cr.user_id
+            LEFT JOIN user_profile_group g ON g.id = ur.group_id
+        WHERE 1=1
+        and cr.tag_type = 4
+        <if test="vo.userName != null">
+            and cr.user_id = #{vo.userName} or cr.user_name = #{vo.userName}
+        </if>
+        <if test="vo.groupId != null and vo.groupId.length > 0">
+            and g.id IN
+            <foreach item="item" index="index" collection="vo.groupId" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="vo.changeTime != null">
+            and cr.change_time >= #{vo.changeTime}
+        </if>
+        <if test="vo.changeType != null">
+            and cr.change_type = #{vo.changeType}
+        </if>
+        order by cr.change_time desc
+    </select>
+
+    <!--查询玩家组-->
+    <select id="selectByUserId" resultType="com.panda.sport.rcs.common.vo.api.response.UserProfileUserTagChangeRecordResVo">
+        SELECT
+            t.username AS userName,
+            t.merchant_code AS merchant_code
+        FROM
+            tybss_merchant_common.t_user t
+        WHERE
+            t.uid = #{userId}
+    </select>
+<!--    (select u.fake_name from tybss_merchant_common.t_user u where u.uid = cr.user_id) as userName,-->
+    <select id="queryBetTagChangeRecord" resultType="com.panda.sport.rcs.common.vo.api.response.UserBetTagChangeRecordResVo">
+        SELECT
+            cr.id as id,
+            cr.user_id as userId,
+            cr.user_name as userName,
+            cr.merchant_code as merchantCode,
+            cr.change_time as changeTime,
+            (case when cr.change_suggest = 1 then cr.change_after else cr.change_before end) as tagId,
+            (select t.tag_name from user_profile_tags t where t.id = (case when cr.change_suggest = 1 then cr.change_after else cr.change_before end)) as tagName,
+            cr.reality_value as realityValue,
+            cr.change_suggest as changeSuggest,
+            cr.status as status,
+            cr.operate_time as operateTime,
+            cr.change_manner as changeManner,
+            cr.remark as remark,
+            cr.change_tag as changeTag
+        FROM
+            user_profile_user_tag_change_record cr
+        WHERE 1=1
+        and cr.change_type=2
+        and cr.tag_type = 2
+        <if test="vo.changeTime != null">
+            and cr.change_time >= #{vo.changeTime}
+        </if>
+        <if test="vo.status != null">
+            and cr.status = #{vo.status}
+        </if>
+        <if test="vo.tagId != null and vo.tagId.length > 0">
+            and (CASE
+            when cr.change_suggest = 1 then cr.change_after in
+            <foreach item="item" index="index" collection="vo.tagId" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+            else cr.change_before in
+            <foreach item="item" index="index" collection="vo.tagId" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+            END)
+        </if>
+        and cr.change_suggest is not null
+        order by cr.change_time desc
+    </select>
+<!--    (select u.fake_name from tybss_merchant_common.t_user u where u.uid = cr.user_id) as userName,-->
+    <select id="queryAutoTagLogRecord" resultType="com.panda.sport.rcs.common.vo.api.response.AutoTagLogRecordResVo">
+        SELECT
+        cr.id as id,
+        cr.user_id as userId,
+        cr.user_name as userName,
+        cr.change_manner as changeManner,
+        cr.merchant_code as merchantCode,
+        cr.operate_time as operateTime,
+        cr.change_tag as changeTag,
+        (select t.tag_name from user_profile_tags t where t.id = cr.change_tag) as changeTagName,
+        cr.change_before as beforeTagId,
+        (select t.tag_name from user_profile_tags t where t.id = cr.change_before) as beforeTagName,
+        cr.tag_type as tagType,
+        cr.reality_value as realityValue
+        FROM
+        user_profile_user_tag_change_record cr
+        WHERE 1=1
+        and cr.tag_type = 2
+        and cr.status = 1
+        and ((cr.change_suggest = 1 and cr.change_type  =1) ||  cr.change_type=2)
+        <if test="vo.startTime != null">
+            and cr.change_time &gt;= #{vo.startTime}
+        </if>
+        <if test="vo.merchantCode != null">
+            and cr.merchant_code = #{vo.merchantCode}
+        </if>
+        <if test="vo.changeManner != null">
+            and cr.change_manner = #{vo.changeManner}
+        </if>
+        <if test="vo.endTime != null">
+            and cr.change_time &lt;= #{vo.endTime}
+        </if>
+        <if test="vo.userId != null">
+            and cr.user_id = #{vo.userId}
+        </if>
+        <if test="vo.changeLogType != null">
+            and cr.tag_type = #{vo.changeLogType}
+        </if>
+        <if test="vo.beforeTags != null and vo.beforeTags.length > 0">
+            and cr.change_before in
+            <foreach item="item" index="index" collection="vo.beforeTags" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="vo.changeTags != null and vo.changeTags.length > 0">
+            and cr.change_tag in
+            <foreach item="item" index="index" collection="vo.changeTags" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        order by cr.change_time desc
+    </select>
+
+
+    <select id="queryUserExceptionRecord" resultType="com.panda.sport.rcs.common.vo.api.response.UserExceptionResVo">
+        SELECT cr.id as id,
+               cr.user_id as userId,
+               cr.user_name as userName,
+               cr.merchant_code as merchantCode,
+               cr.operate_time as operateTime,
+               cr.change_after as changeTag,
+              (select t.tag_name from user_profile_tags t where t.id = cr.change_after) as changeTagName,
+               cr.tag_type as tagType,
+               cr.remark  as remark,
+               cr.remark1  as remark1
+        FROM user_profile_user_tag_change_record cr
+        WHERE  cr.tag_type = 2
+             and cr.status = 1
+             and ((cr.change_suggest = 1 and cr.change_type =1) || cr.change_type=2)
+        <if test="vo.startTime != null">
+            and cr.change_time &gt;= #{vo.startTime}
+        </if>
+        <if test="vo.endTime != null">
+            and cr.change_time &lt;= #{vo.endTime}
+        </if>
+        <if test="vo.userId != null">
+            and cr.user_id = #{vo.userId}
+        </if>
+        <if test="vo.userName != null">
+            and cr.user_name like "%"#{vo.userName}"%"
+        </if>
+        <if test="vo.merchantCode != null">
+            and cr.merchant_code = #{vo.merchantCode}
+        </if>
+        <if test="vo.nameTags != null and vo.nameTags.length > 0">
+            and cr.change_after in
+            <foreach item="item" index="index" collection="vo.nameTags" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="vo.merchantCodes != null and vo.merchantCodes.length > 0">
+            and cr.merchant_code in
+            <foreach item="item" index="index" collection="vo.merchantCodes" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        order by cr.change_time desc
+    </select>
+<!--    (select u.fake_name from tybss_merchant_common.t_user u where u.uid = cr.user_id) as userName,-->
+    <select id="queryBetTagChangeRecordByUserId" resultType="com.panda.sport.rcs.common.vo.api.response.UserBetTagChangeRecordResVo">
+        SELECT
+            cr.id as id,
+            cr.user_id as userId,
+            cr.user_name as userName,
+            cr.merchant_code as merchantCode,
+            cr.change_time as changeTime,
+            (case when cr.change_suggest = 1 then cr.change_after else cr.change_before end) as tagId,
+            (select t.tag_name from user_profile_tags t where t.id = (case when cr.change_suggest = 1 then cr.change_after else cr.change_before end)) as tagName,
+            cr.reality_value as realityValue,
+            cr.change_suggest as changeSuggest,
+            cr.status as status,
+            cr.operate_time as operateTime,
+            cr.change_manner as changeManner,
+            cr.remark as remark,
+            cr.change_tag as changeTag
+        FROM
+            user_profile_user_tag_change_record cr
+        WHERE 1=1
+        and cr.tag_type = 2
+        <if test="vo.userId != null">
+            and cr.user_id = #{vo.userId}
+        </if>
+        <if test="vo.status != null">
+            and cr.status IN
+            <foreach item="item" index="index" collection="vo.status" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        and cr.change_suggest is not null
+        order by cr.change_time desc
+    </select>
+
+    <select id="queryNewBetTagChangeRecordByUserId" resultType="com.panda.sport.rcs.common.vo.api.response.UserBetTagChangeRecordResVo">
+        SELECT
+            cr.id as id,
+            cr.user_id as userId,
+            cr.user_name as userName,
+            cr.merchant_code as merchantCode,
+            cr.change_time as changeTime,
+            (case when cr.change_suggest = 1 then cr.change_after else cr.change_before end) as tagId,
+            (select t.tag_name from user_profile_tags t where t.id = (case when cr.change_suggest = 1 then cr.change_after else cr.change_before end)) as tagName,
+            cr.reality_value as realityValue,
+            cr.change_suggest as changeSuggest,
+            cr.status as status,
+            cr.operate_time as operateTime,
+            cr.change_manner as changeManner,
+            cr.remark as remark,
+            cr.change_tag as changeTag
+        FROM
+            user_profile_user_tag_change_record cr
+        WHERE 1=1
+          and cr.tag_type = 2
+          and cr.status = 0
+          and cr.change_suggest is not null
+
+    </select>
+
+    <select id="queryUserInfoByUserId" resultType="com.panda.sport.rcs.common.vo.api.response.UserInfoResVo">
+        SELECT
+            u.uid as userId,
+            u.fake_name as username,
+            u.merchant_code as merchantCode,
+            u.user_level as tagId,
+            (select t.tag_name from user_profile_tags t where t.id = u.user_level) as tagName
+        FROM
+            tybss_merchant_common.t_user u
+        WHERE
+            u.uid = #{vo.userId}
+    </select>
+
+    <update id="updateUserBetTagChangeRecord">
+        update user_profile_user_tag_change_record t
+        set t.operate_time = unix_timestamp(now()),
+            t.change_manner = #{vo.changeManner},
+            t.remark =
+        (CASE
+            WHEN #{vo.changeSuggest} = 1 AND t.change_after  = #{vo.tagId} AND #{vo.status} = 1 THEN #{vo.remark}
+            WHEN #{vo.changeSuggest} = 2 AND t.change_before = #{vo.tagId} AND #{vo.status} = 1 THEN #{vo.remark}
+            ELSE null
+        END),
+            t.change_tag =
+        (CASE
+            WHEN #{vo.changeSuggest} = 1 AND t.change_after  = #{vo.tagId} AND #{vo.status} = 1 THEN #{vo.changeTag}
+            WHEN #{vo.changeSuggest} = 2 AND t.change_before = #{vo.tagId} AND #{vo.status} = 1 THEN #{vo.changeTag}
+            ELSE null
+        END),
+            t.status =
+        (CASE
+            WHEN #{vo.changeSuggest} = 1 AND t.change_after  = #{vo.tagId} THEN 1
+            WHEN #{vo.changeSuggest} = 2 AND t.change_before = #{vo.tagId} THEN 1
+            ELSE 2
+        END)
+        where t.user_id = #{vo.userId,jdbcType=VARCHAR}
+        and t.status = 0
+    </update>
+
+    <select id="selectUserLevelRelationHistoryCount" resultType="java.lang.Integer">
+        select
+           count(1)
+        from tybss_merchant_common.t_user_level_relation_history rh
+        left join tybss_merchant_common.t_user u on rh.uid = u.uid
+        WHERE rh.type = 1
+    </select>
+
+    <select id="selectUserLevelRelationHistoryList" resultType="com.panda.sport.rcs.db.entity.UserProfileUserTagChangeRecord">
+         select
+            rh.sid as changeDetail,
+            u.uid as userId,
+            u.username userName,
+            rh.modify_time changeTime,
+            rh.level_id changeBefore,
+            u.merchant_code merchantCode,
+            rh.create_user changeManner
+        from tybss_merchant_common.t_user_level_relation_history rh
+        left join tybss_merchant_common.t_user u on rh.uid = u.uid
+        WHERE rh.type = 1
+        order by rh.modify_time desc
+    </select>
+
+    <select id="selectUserLevelId" resultType="java.lang.Long">
+        select user_level from tybss_merchant_common.t_user u  where u.uid = #{uid}
+    </select>
+
+</mapper>

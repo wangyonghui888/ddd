@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.console.dao.StandardMatchInfoDTOMapper">
+
+    <select id="queryMatchAndMarketInfo" resultType="com.panda.sport.rcs.console.dto.StandardMatchInfoDTO">
+        SELECT info.id as matchId,
+        info.sport_id as sportId,
+        info.standard_tournament_id as standardTournamentId,
+        info.third_match_id as thirdMatchId,
+        info.seconds_match_start as secondsMatchStart,
+        info.pre_match_business as preMatchBusiness,
+        info.live_odd_business as liveOddBusiness,
+        info.operate_match_status as operateMatchStatus,
+        info.begin_time as beginTime,
+        info.match_status as matchStatus,
+        info.match_manage_id as matchManageId,
+        info.data_source_code as dataSourceCode,
+        info.third_match_source_id as thirdMatchSourceId,
+        info.home_away_info as homeAwayInfo,
+        info.match_period_id as matchPeriodId,
+        info.update_time as updateTime,
+        sell.pre_risk_manager_code as preRiskManagerCode,
+        sell.pre_match_data_provider_code as preMatchDataProviderCode,
+        sell.live_risk_manager_code as liveRiskManagerCode,
+        sell.live_match_data_provider_code as liveMatchDataProviderCode,
+        sell.live_odd_business as sellLiveOddBusiness,
+        sell.pre_match_time as preMatchTime,
+        sell.live_odd_time as liveOddTime,
+        sell.business_event as businessEvent,
+        sell.pre_match_sell_status as preMatchSellStatus,
+        sell.live_match_sell_status as liveMatchSellStatus,
+        sell.video as videoSource,
+        sell.tournament_name_cn as tournamentNameCn,
+        sell.tournament_name_en as tournamentNameEn,
+        sell.update_time as sellUpdateTime,
+        market.id as marketId,
+        market.standard_match_info_id as standardMatchInfoId,
+        market.market_category_id as playId,
+        market.market_type as marketType,
+        (SELECT c.data_source FROM rcs_trade_config c
+        WHERE c.match_id = market.standard_match_info_id
+        AND c.data_source IS NOT NULL
+        AND (
+        (c.trader_level = 1 AND c.targer_data = market.standard_match_info_id )
+        OR (c.trader_level = 2 AND c.targer_data = market.market_category_id )
+        OR (c.trader_level = 3 AND c.targer_data = market.id )
+        )
+        ORDER BY crt_time DESC LIMIT 1
+        ) as operationType,
+        market.order_type as orderType,
+        market.odds_metric as oddsMetric,
+        market.addition1 as addition1,
+        market.addition2 as addition2,
+        market.addition3 as addition3,
+        market.addition4 as addition4,
+        market.data_source_code as marketDataSourceCode
+        FROM standard_match_info info
+        LEFT JOIN rcs_standard_sport_market_sell sell ON info.id = sell.match_info_id
+        LEFT JOIN standard_sport_market market ON info.id = market.standard_match_info_id
+        <where>
+            <if test="matchInfo.matchId != null and matchInfo.matchId != ''">
+                and info.id = #{matchInfo.matchId,jdbcType=VARCHAR}
+            </if>
+            <if test="matchInfo.playId != null and matchInfo.playId != ''">
+                AND market.market_category_id = #{matchInfo.playId,jdbcType=VARCHAR}
+            </if>
+            <if test="matchInfo.marketValue != null and matchInfo.marketValue != ''">
+                AND market.odds_value = #{matchInfo.marketValue,jdbcType=VARCHAR}
+            </if>
+            <if test="matchInfo.marketId != null and matchInfo.marketId != ''">
+                AND market.id = #{matchInfo.marketId,jdbcType=VARCHAR}
+            </if>
+            <if test="matchInfo.matchManageId != null and matchInfo.matchManageId != ''">
+                AND info.match_manage_id = #{matchInfo.matchManageId,jdbcType=VARCHAR}
+            </if>
+        </where>
+        ORDER BY info.update_time DESC
+        limit 1
+    </select>
+    <select id="queryMatchTeams" resultType="com.panda.sport.rcs.console.dto.MatchHomeAwayDTO">
+        SELECT i.text as teamName,
+                r.match_position teamPosition,
+                i.language_type as languageType
+        FROM standard_match_info t
+        INNER JOIN standard_match_team_relation r ON t.id = r.standard_match_id
+        INNER JOIN standard_sport_team team ON r.standard_team_id = team.id
+        INNER JOIN language_internation i ON i.name_code = team.name_code
+        and (i.language_type = 'zs' or i.language_type = 'en')
+        WHERE t.id = #{matchId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="setAddNewBusinessData" parameterType="java.util.HashMap" statementType="CALLABLE">
+         {
+            call add_new_business_data(
+                #{params.in_businessName,jdbcType=VARCHAR, mode=IN},
+                #{params.in_businessId,jdbcType=BIGINT, mode=IN},
+                #{params.out_ret,mode=OUT,jdbcType=BIGINT,mode=OUT},
+                #{params.out_desc,jdbcType=VARCHAR ,mode=OUT}
+                )
+         }
+    </select>
+</mapper>

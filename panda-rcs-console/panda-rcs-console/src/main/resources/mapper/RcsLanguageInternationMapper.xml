@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.console.dao.RcsLanguageInternationMapper">
+
+
+  <insert id="batchInsertOrUpdate" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into rcs_language_internation
+    (name_code, `text`)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.nameCode,jdbcType=VARCHAR}, #{item.text,jdbcType=VARCHAR})
+    </foreach>
+    on duplicate key update
+    <trim suffixOverrides=",">
+      `text` =json_merge_patch(text,values (`text`)) ,
+    </trim>
+  </insert>
+
+  <select id="selectIds" resultType="com.panda.sport.rcs.console.pojo.LanguageInternation">
+    select id, name_code nameCode,text from rcs_language_internation where id in
+    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </select>
+
+  <update id="updateRLIN">
+    <foreach item="item" index="index" collection="list">
+      UPDATE rcs_language_internation  set name_code =#{item.nameCode}  WHERE id =#{item.id};
+    </foreach>
+  </update>
+
+  <update id="updatesRMCSN">
+    <foreach item="item" index="index" collection="list">
+      UPDATE rcs_market_category_set  set name_code =#{item.nameCode}  WHERE name_code =#{item.oldNameCode};
+    </foreach>
+  </update>
+</mapper>

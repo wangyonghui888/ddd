@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.mapper.tourTemplate.RcsTournamentTemplatePlayMargainRefMapper">
+    <resultMap id="BaseResultMap" type="com.panda.sport.rcs.pojo.tourTemplate.RcsTournamentTemplatePlayMargainRef">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="margain_id" jdbcType="INTEGER" property="margainId" />
+        <result column="time_type" jdbcType="INTEGER" property="timeType" />
+        <result column="time_val" jdbcType="INTEGER" property="timeVal" />
+        <result column="minute_time_val" jdbcType="INTEGER" property="minuteTimeVal" />
+        <result column="margain" jdbcType="VARCHAR" property="margain" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, margain_id, time_type, time_val, minute_time_val, margain, create_time, update_time
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from rcs_tournament_template_play_margain_ref
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from rcs_tournament_template_play_margain_ref
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.panda.sport.rcs.pojo.tourTemplate.RcsTournamentTemplatePlayMargainRef" useGeneratedKeys="true">
+    insert into rcs_tournament_template_play_margain_ref (margain_id, time_type, time_val,
+      minute_time_val, margain, create_time,
+      update_time)
+    values (#{margainId,jdbcType=INTEGER}, #{timeType,jdbcType=INTEGER}, #{timeVal,jdbcType=INTEGER},
+      #{minuteTimeVal,jdbcType=INTEGER}, #{margain,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+
+
+
+    <insert id="insertOrUpdateBatch" keyColumn="id" keyProperty="id" parameterType="list" useGeneratedKeys="true">
+        insert into rcs_tournament_template_play_margain_ref (margain_id, time_type, time_val,
+        minute_time_val, margain, create_time,
+        update_time)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.margainId,jdbcType=INTEGER}, #{item.timeType,jdbcType=INTEGER}, #{item.timeVal,jdbcType=INTEGER},
+            #{item.minuteTimeVal,jdbcType=INTEGER}, #{item.margain,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP},
+            #{item.updateTime,jdbcType=TIMESTAMP})
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+            margain = VALUES(margain),
+            update_time = now()
+    </insert>
+
+
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.panda.sport.rcs.pojo.tourTemplate.RcsTournamentTemplatePlayMargainRef" useGeneratedKeys="true">
+        insert into rcs_tournament_template_play_margain_ref
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="margainId != null">
+                margain_id,
+            </if>
+            <if test="timeType != null">
+                time_type,
+            </if>
+            <if test="timeVal != null">
+                time_val,
+            </if>
+            <if test="minuteTimeVal != null">
+                minute_time_val,
+            </if>
+            <if test="margain != null">
+                margain,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="margainId != null">
+                #{margainId,jdbcType=INTEGER},
+            </if>
+            <if test="timeType != null">
+                #{timeType,jdbcType=INTEGER},
+            </if>
+            <if test="timeVal != null">
+                #{timeVal,jdbcType=INTEGER},
+            </if>
+            <if test="minuteTimeVal != null">
+                #{minuteTimeVal,jdbcType=INTEGER},
+            </if>
+            <if test="margain != null">
+                #{margain,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.panda.sport.rcs.pojo.tourTemplate.RcsTournamentTemplatePlayMargainRef">
+        update rcs_tournament_template_play_margain_ref
+        <set>
+            <if test="margainId != null">
+                margain_id = #{margainId,jdbcType=INTEGER},
+            </if>
+            <if test="timeType != null">
+                time_type = #{timeType,jdbcType=INTEGER},
+            </if>
+            <if test="timeVal != null">
+                time_val = #{timeVal,jdbcType=INTEGER},
+            </if>
+            <if test="minuteTimeVal != null">
+                minute_time_val = #{minuteTimeVal,jdbcType=INTEGER},
+            </if>
+            <if test="margain != null">
+                margain = #{margain,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.panda.sport.rcs.pojo.tourTemplate.RcsTournamentTemplatePlayMargainRef">
+    update rcs_tournament_template_play_margain_ref
+    set margain_id = #{margainId,jdbcType=INTEGER},
+      time_type = #{timeType,jdbcType=INTEGER},
+      time_val = #{timeVal,jdbcType=INTEGER},
+      minute_time_val = #{minuteTimeVal,jdbcType=INTEGER},
+      margain = #{margain,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: htmlhead" th:with="title='赛事信息'">
+<!--    <style type="text/css">-->
+<!--        th {text-align: right;}-->
+<!--    </style>-->
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <!--头-->
+    <div th:replace="fragments/head :: header"></div>
+
+    <div class="layui-body" style="margin: 1%">
+        <form id="userSearch" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
+            <div class="layui-form-item">
+                <label class="layui-form-label">标准赛事ID</label>
+                <div class="layui-input-inline">
+                    <input id="matchId" name="matchId" autocomplete="off" class="layui-input" type="text"/>
+                </div>
+                <label class="layui-form-label">标准玩法ID</label>
+                <div class="layui-input-inline">
+                    <input id="playId" name="playId" autocomplete="off" class="layui-input" type="text"/>
+                </div>
+<!--                <label class="layui-form-label">盘口值</label>-->
+<!--                <div class="layui-input-inline">-->
+<!--                    <input id="marketValue" name="marketValue" autocomplete="off" class="layui-input" type="text"/>-->
+<!--                </div>-->
+                <label class="layui-form-label">标准盘口ID</label>
+                <div class="layui-input-inline">
+                    <input id="marketId" name="marketId" autocomplete="off" class="layui-input" type="text"/>
+                </div>
+                <label class="layui-form-label">赛事管理ID</label>
+                <div class="layui-input-inline">
+                    <input id="matchManageId" name="matchManageId" autocomplete="off" class="layui-input" type="text"/>
+                </div>
+            </div>
+            <div class="layui-form-item" style="text-align: center;">
+                <div class="layui-inline">
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    <button class="layui-btn" lay-submit="" lay-filter="searchSubmit" type="button" onclick="match_info_search()">提交</button>
+                </div>
+            </div>
+        </form>
+
+        <!--<hr class="layui-bg-blue"/>-->
+        <hr class="layui-bg-black"/>
+
+        <div style="display:none;" id="currentUser">
+            <shiro:principal property="id"></shiro:principal>
+        </div>
+        <div class="layui-collapse">
+            <div class="layui-colla-item">
+                <h2 class="layui-colla-title">标准赛事信息</h2>
+                <div class="layui-colla-content layui-show">
+                    <table class="layui-table" lay-even lay-skin="nob">
+                        <tbody>
+                            <tr>
+                                <th>赛事id：</th>
+                                <td><span id="match_id"></span></td>
+                                <th id="th_sport_id">体用种类：</th>
+                                <td><span id="sport_id"></span></td>
+                                <th>标准联赛id：</th>
+                                <td><span id="standard_tournament_id"></span></td>
+                                <th>第三方比赛id：</th>
+                                <td><span id="third_match_id"></span></td>
+                            </tr>
+                            <tr>
+                                <th>比赛进行时间：</th>
+                                <td><span id="seconds_match_start"></span></td>
+                                <th id="th_pre_match_business">是否开放赛前盘：</th>
+                                <td><span id="pre_match_business"></span></td>
+                                <th id="th_live_odd_business">是否开放滚球：</th>
+                                <td><span id="live_odd_business"></span></td>
+                                <th id="th_operate_match_status">比赛开盘标识：</th>
+                                <td><span id="operate_match_status"></span></td>
+                            </tr>
+                            <tr>
+                                <th>比赛开始时间：</th>
+                                <td><span id="begin_time"></span></td>
+                                <th id="th_match_status">赛事状态：</th>
+                                <td><span id="match_status"></span></td>
+                                <th>赛事管理id：</th>
+                                <td><span id="match_manage_id"></span></td>
+                                <th>数据编码：</th>
+                                <td><span id="data_source_code"></span></td>
+                            </tr>
+                            <tr>
+                                <th>第三方赛事原始id：</th>
+                                <td><span id="third_match_source_id"></span></td>
+                                <th>赛事双方对阵信息：</th>
+                                <td><span id="home_away_info"></span></td>
+                                <th id="th_match_period_id">比赛阶段id：</th>
+                                <td><span id="match_period_id"></span></td>
+                                <th>修改时间：</th>
+                                <td><span id="update_time"></span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="layui-colla-item">
+                <h2 class="layui-colla-title">开售信息</h2>
+                <div class="layui-colla-content layui-show">
+                    <table class="layui-table" lay-even lay-skin="nob">
+                        <tbody>
+                        <tr>
+                            <th>赛前操盘平台：</th>
+                            <td><span id="pre_risk_manager_code"></span></td>
+                            <th>赛前数据服务商：</th>
+                            <td><span id="pre_match_data_provider_code"></span></td>
+                            <th>滚球操盘平台：</th>
+                            <td><span id="live_risk_manager_code"></span></td>
+                            <th>滚球数据服务商：</th>
+                            <td><span id="live_match_data_provider_code"></span></td>
+                        </tr>
+                        <tr>
+                            <th id="th_sell_live_odd_business">是否支持滚球：</th>
+                            <td><span id="sell_live_odd_business"></span></td>
+                            <th>赛前开售时间：</th>
+                            <td><span id="pre_match_time"></span></td>
+                            <th>滚球开售时间：</th>
+                            <td><span id="live_odd_time"></span></td>
+                            <th>商业事件源编码：</th>
+                            <td><span id="business_event"></span></td>
+                        </tr>
+                        <tr>
+                            <th id="th_pre_match_sell_status">赛前开售状态：</th>
+                            <td><span id="pre_match_sell_status"></span></td>
+                            <th id="th_live_match_sell_status">滚球开售状态：</th>
+                            <td><span id="live_match_sell_status"></span></td>
+                            <th>视频源：</th>
+                            <td><span id="video_source"></span></td>
+                            <th>联赛中文名：</th>
+                            <td><span id="tournament_name_cn"></span></td>
+                        </tr>
+                        <tr>
+                            <th>联赛英文名：</th>
+                            <td><span id="tournament_name_en"></span></td>
+                            <th>修改时间：</th>
+                            <td><span id="sell_update_time"></span></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="layui-colla-item">
+                <h2 class="layui-colla-title">盘口信息</h2>
+                <div class="layui-colla-content layui-show">
+                    <table class="layui-table" lay-even lay-skin="nob">
+                        <tbody>
+                        <tr>
+                            <th>盘口id：</th>
+                            <td><span id="market_id"></span></td>
+                            <th>标准比赛id：</th>
+                            <td><span id="standard_match_info_id"></span></td>
+                            <th>标准玩法id：</th>
+                            <td><span id="market_category_id"></span></td>
+                            <th id="th_market_type">盘口类型：</th>
+                            <td><span id="market_type"></span></td>
+                        </tr>
+                        <tr>
+                            <th id="th_operation_type">操盘方式：</th>
+                            <td><span id="operation_type"></span></td>
+                            <th>排序类型：</th>
+                            <td><span id="order_type"></span></td>
+                            <th>盘口级别：</th>
+                            <td><span id="odds_metric"></span></td>
+                            <th>附加字段1：</th>
+                            <td><span id="addition_1"></span></td>
+                        </tr>
+                        <tr>
+                            <th>附加字段2：</th>
+                            <td><span id="addition_2"></span></td>
+                            <th>附加字段3：</th>
+                            <td><span id="addition_3"></span></td>
+                            <th>附加字段4：</th>
+                            <td><span id="addition_4"></span></td>
+                            <th>数据源：</th>
+                            <td><span id="market_data_source_code"></span></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--底部-->
+    <div th:replace="fragments/footer :: footer"></div>
+    <script src="/js/dateUtils.js"></script>
+    <script src="/js/matchInfo/match.js"></script>
+    <script>
+        //注意：折叠面板 依赖 element 模块，否则无法进行功能性操作
+        layui.use('element', function(){
+            var element = layui.element;
+
+            //…
+        });
+        $("table").on('mouseover', 'th',function() {
+            if(this.id == undefined || this.id == '') return;
+            var tip_msg = show_tips(this.id);
+            layer.tips(tip_msg, this);
+        })
+    </script>
+</div>
+</body>
+<!--    <style type="text/css">-->
+<!--        .layui-table th{text-align: right;}-->
+<!--    </style>-->
+</html>

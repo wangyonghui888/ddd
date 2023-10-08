@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.mapper.RcsQuotaLimitOtherDataMapper">
+    <select id="selectBySportId" resultType="com.panda.sport.rcs.pojo.RcsQuotaLimitOtherData">
+        SELECT
+            *
+        FROM
+            rcs_quota_limit_other_data
+        WHERE
+            (type IN ( 2, 3,103,104,105,106,107,108,109,110 )
+            OR sport_id = #{sportId})
+            and status=1
+    </select>
+</mapper>

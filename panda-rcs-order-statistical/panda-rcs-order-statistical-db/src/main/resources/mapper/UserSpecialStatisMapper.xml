@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.db.mapper.UserSpecialStatisMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.panda.sport.rcs.db.entity.UserSpecialStatis">
+        <id column="id" property="id"/>
+        <result column="statis_day" property="statisDay"/>
+        <result column="user_id" property="userId"/>
+        <result column="parent_type" property="parentType"/>
+        <result column="child_type" property="childType"/>
+        <result column="value" property="value"/>
+        <result column="finance_value" property="financeValue"/>
+        <result column="profit" property="profit"/>
+        <result column="bet_num" property="betNum"/>
+        <result column="bet_profit_num" property="betProfitNum"/>
+    </resultMap>
+
+    <insert id="insertOrUpdate" parameterType="com.panda.sport.rcs.db.entity.UserSpecialStatis">
+        INSERT INTO
+            `user_special_statis`
+            (
+              `statis_day`,
+              `user_id`,
+              `parent_type`,
+              `child_type`,
+              `value`,
+              `finance_value`,
+              `profit`,
+              `bet_num`,
+              `bet_profit_num`,
+              `win_bet_num`
+            )
+        VALUES
+            (
+                #{statisDay},
+                #{userId},
+                #{parentType},
+                #{childType},
+                #{value},
+                #{financeValue},
+                #{profit},
+                #{betNum},
+                #{betProfitNum},
+                #{winBetNum}
+            )
+        ON DUPLICATE KEY UPDATE
+            `value` = `value` + #{value},
+             `finance_value`= `finance_value` + #{financeValue},
+             `profit` = `profit` + #{profit},
+             `bet_num` = `bet_num` + #{betNum},
+             `bet_profit_num` = `bet_profit_num` + #{betProfitNum},
+             `win_bet_num`= `win_bet_num` + #{winBetNum}
+    </insert>
+</mapper>

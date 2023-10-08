@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.mapper.StandardSportTeamMapper">
+    <select id="selectTeamsByMatchId" parameterType="Long" resultType="com.panda.sport.rcs.vo.SportTeam">
+		SELECT spot.* FROM standard_match_info smi
+		LEFT JOIN (
+		SELECT
+		smtr.standard_match_id,
+		smtr.match_position,
+		sst.id,
+		sst.sport_id,
+		sst.third_team_id,
+		sst.region_id,
+		sst.related_data_source_coder_num,
+		sst.related_data_source_coder_list,
+		sst.logo_url,
+		sst.logo_url_thumb,
+		sst.team_manage_id,
+		sst.name_code,
+		sst.coach,
+		sst.statium,
+		sst.introduction,
+		sst.remark,
+		sst.create_time,
+		sst.modify_time,
+		sst.name_spell,
+		sst.NAME,
+		sst.data_source_code,
+		sst.update_time
+		FROM
+		standard_match_team_relation smtr
+		LEFT JOIN standard_sport_team sst ON sst.id = smtr.standard_team_id
+		) spot ON smi.id = spot.standard_match_id
+		AND smi.sport_id = spot.sport_id
+		WHERE
+		smi.id = #{matchId}
+    </select>
+
+</mapper>

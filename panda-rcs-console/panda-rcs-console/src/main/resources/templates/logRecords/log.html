@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: htmlhead" th:with="title='操盘记录'"></head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <!--头-->
+    <div th:replace="fragments/head :: header"></div>
+
+    <div class="layui-body" style="margin: 1%">
+
+        <form id="userSearch" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
+            <div class="layui-form-item">
+                <label class="layui-form-label">接口地址</label>
+                <div class="layui-input-inline">
+                    <input id="url" name="url" lay-filter="requestValShow" autocomplete="off" class="layui-input"
+                           type="text"/>
+                </div>
+                <label class="layui-form-label">用户ID</label>
+                <div class="layui-input-inline">
+                    <input id="userId" name="userId" autocomplete="off" class="layui-input" type="text"/>
+                </div>
+                <label class="layui-form-label">操作人IP</label>
+                <div class="layui-input-inline">
+                    <input id="ip" name="ip" autocomplete="off" class="layui-input" type="text"/>
+                </div>
+                <label class="layui-form-label">时间</label>
+                <div class="layui-input-inline" style="width: 175px;">
+                    <input  name="startTime" id="startTime" placeholder="yyyy-MM-dd hh:mm:ss" autocomplete="off" class="layui-input" type="text"/>
+                </div>
+                <div class="layui-form-mid">-</div>
+                <div class="layui-input-inline" style="width: 175px;">
+                    <input name="endTime" id="endTime" placeholder="yyyy-MM-dd hh:mm:ss" autocomplete="off" class="layui-input" type="text"/>
+                </div>
+                <div class="layui-inline">
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    <button class="layui-btn" lay-submit="" lay-filter="searchSubmit">查询</button>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div id="requestDiv" style="display: none">
+                    <label class="layui-form-label">请求参数1</label>
+                    <div class="layui-input-inline" style="width: 100px;">
+                        <input type="text" name="requestKey1" placeholder="key" autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="layui-form-mid">:</div>
+                    <div class="layui-input-inline" style="width: 100px;">
+                        <input type="text" name="requestValue1" placeholder="value" autocomplete="off"
+                               class="layui-input">
+                    </div>
+                    <div class="layui-input-inline" style="width: 100px;">
+                        <input type="checkbox" name="valueType1" lay-skin="switch" lay-text="Number|String">
+                    </div>
+                    <label class="layui-form-label">请求参数2</label>
+                    <div class="layui-input-inline" style="width: 100px;">
+                        <input type="text" name="requestKey2" placeholder="key" autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="layui-form-mid">:</div>
+                    <div class="layui-input-inline" style="width: 100px;">
+                        <input type="text" name="requestValue2" placeholder="value" autocomplete="off"
+                               class="layui-input">
+                    </div>
+                    <div class="layui-input-inline" style="width: 100px;">
+                        <input type="checkbox" name="valueType2" lay-skin="switch" lay-text="Number|String">
+                    </div>
+                    <label class="layui-form-label">请求参数3</label>
+                    <div class="layui-input-inline" style="width: 100px;">
+                        <input type="text" name="requestKey3" placeholder="key" autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="layui-form-mid">:</div>
+                    <div class="layui-input-inline" style="width: 100px;">
+                        <input type="text" name="requestValue3" placeholder="value" autocomplete="off"
+                               class="layui-input">
+                    </div>
+                    <div class="layui-input-inline" style="width: 100px;">
+                        <input type="checkbox" name="valueType3" lay-skin="switch" lay-text="Number|String">
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <!--<hr class="layui-bg-blue"/>-->
+        <hr class="layui-bg-black"/>
+
+        <div style="display:none;" id="currentUser">
+            <shiro:principal property="id"></shiro:principal>
+        </div>
+
+        <table id="uesrList" lay-filter="userTable"></table>
+
+    </div>
+
+    <!--底部-->
+    <div th:replace="fragments/footer :: footer"></div>
+    <script src="/js/dateUtils.js"></script>
+    <script src="/js/logRecords/log.js"></script>
+
+</div>
+</body>
+</html>

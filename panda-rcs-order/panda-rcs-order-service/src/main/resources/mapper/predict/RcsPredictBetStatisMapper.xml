@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.mapper.predict.RcsPredictBetStatisMapper">
+
+    <insert id="saveOrUpdate" parameterType="com.panda.sport.rcs.pojo.vo.predict.RcsPredictBetStatis">
+        INSERT INTO rcs_predict_bet_statis( sport_id, match_id, match_type, play_id, market_id, odds_item, bet_score, bet_amount, bet_num, odds_sum, create_time, market_value_complete
+                                          , market_value_current, play_options
+                                          , bet_amount_pay, bet_amount_complex, sub_play_id, hash_unique)
+        VALUES ( #{sportId}, #{matchId}, #{matchType}, #{playId}, #{marketId}, #{oddsItem}, #{betScore}, #{betAmount}, #{betNum}, #{oddsSum}, #{createTime}, #{marketValueComplete}
+               , #{marketValueCurrent}, #{playOptions}
+               , #{betAmountPay}, #{betAmountComplex}, #{subPlayId}, #{hashUnique})
+        ON DUPLICATE KEY UPDATE
+        sport_id=  #{sportId} ,
+        match_id=  #{matchId} ,
+        match_type= #{matchType},
+        play_id= #{playId},
+        market_id= #{marketId},
+        odds_item= #{oddsItem},
+                             bet_score= #{betScore},
+                             bet_amount= #{betAmount},
+                             bet_num= #{betNum},
+                             odds_sum= #{oddsSum},
+                             create_time= #{createTime},
+                             market_value_complete= #{marketValueComplete},
+                             market_value_current= #{marketValueCurrent},
+                             play_options= #{playOptions},
+                             bet_amount_pay= #{betAmountPay},
+                             bet_amount_complex= #{betAmountComplex},
+                             sub_play_id = #{subPlayId}
+    </insert>
+
+    <select id="selectBetForMarket" resultType="com.panda.sport.rcs.pojo.vo.api.response.BetForMarketResVo">
+        SELECT
+        a.market_id AS id,
+        a.market_id AS marketId,
+        a.bet_score AS betScore,
+        a.match_type AS matchType,
+        a.market_value_complete AS marketValueComplete,
+        a.market_value_current AS marketValueCurrent,
+        ifnull( b.bet_amount, 0 ) AS homeBetAmount,
+        IFNULL( b.bet_amount_pay, 0 ) AS homeBetAmountPay,
+        IFNULL( b.bet_amount_complex, 0 ) AS homeBetAmountComplex,
+        IFNULL( c.bet_amount, 0 ) AS awayBetAmount,
+        IFNULL( c.bet_amount_pay, 0 ) AS awayBetAmountPay,
+        IFNULL( c.bet_amount_complex, 0 ) AS awayBetAmountComplex,
+        ifnull( b.bet_amount, 0 ) - ifnull( c.bet_amount, 0 ) AS betAmountEquilibriumValue,
+        ifnull( b.bet_amount_pay, 0 ) - ifnull( c.bet_amount_pay, 0 ) AS betAmountPayEquilibriumValue,
+        ifnull( b.bet_amount_complex, 0 ) - ifnull( c.bet_amount_complex, 0 ) AS betAmountComplexEquilibriumValue
+        FROM
+        (
+        SELECT
+        market_id,
+        bet_score,
+        match_type,
+        market_value_complete,
+        market_value_current
+        FROM
+        rcs_predict_bet_statis t
+        WHERE
+        sport_id = #{sportId}
+        AND t.match_id = #{matchId}
+        AND t.play_id = #{playId}
+        <if test="matchType != null">
+        AND match_type = #{matchType}
+        </if>
+        and t.hash_unique is not null
+        GROUP BY
+        market_id,
+        bet_score,
+        match_type,
+        market_value_complete,
+        market_value_current
+        ) a
+        LEFT JOIN ( SELECT * FROM rcs_predict_bet_statis WHERE odds_item = #{oddsItemForHome}
+        <if test="matchType != null">
+            AND match_type = #{matchType}
+        </if>
+        and hash_unique is not null
+        ) b ON a.market_id = b.market_id
+        AND a.bet_score = b.bet_score
+        LEFT JOIN ( SELECT * FROM rcs_predict_bet_statis WHERE odds_item = #{oddsItemForAway}
+        <if test="matchType != null">
+            AND match_type = #{matchType}
+        </if>
+        and hash_unique is not null
+        ) c ON a.market_id = c.market_id
+        AND a.bet_score = c.bet_score
+    </select>
+
+
+    <select id="getRcsPredictBetStatisVo" resultType="com.panda.sport.rcs.pojo.vo.ActualVolumeVO">
+        SELECT
+        s.match_id,
+        s.match_type,
+        s.play_id,
+        s.sub_play_id,
+        s.market_id,
+        s.odds_item,
+        SUM( s.bet_num ) bet_num,
+        SUM( s.bet_amount ) bet_amount,
+        SUM( s.bet_amount_pay ) bet_amount_pay,
+        SUM( s.bet_amount_complex ) bet_amount_complex,
+        s.market_value_current market_value_complete,
+        c.place_num market_index,
+        i.match_status,
+        i.match_length
+        FROM
+        rcs_predict_bet_statis s
+        LEFT JOIN rcs_standard_place_ref c ON c.market_id=s.market_id AND place_num=1
+        LEFT JOIN standard_match_info i ON s.match_id=i.id
+        WHERE
+        s.market_id = #{marketId}
+        <if test="matchType!=-1">
+            AND s.match_type = #{matchType}
+        </if>
+        GROUP BY
+        s.match_id,
+        s.play_id,
+        s.sub_play_id,
+        s.market_id,
+        s.odds_item,
+        s.market_value_current
+    </select>
+
+
+    <select id="getRcsPredictBetStatisVo1" resultType="com.panda.sport.rcs.pojo.vo.ActualVolumeApiVO">
+        SELECT
+        s.match_id,
+        s.match_type,
+        s.play_id,
+        s.sub_play_id,
+        s.market_id,
+        s.odds_item,
+        s.bet_score,
+        SUM( s.bet_num ) bet_num,
+        SUM( s.bet_amount ) bet_amount,
+        SUM( s.bet_amount_pay ) bet_amount_pay,
+        SUM( s.bet_amount_complex ) bet_amount_complex,
+        s.market_value_current market_value_complete,
+
+        (SELECT place_num FROM rcs_standard_place_ref c
+        WHERE c.market_id=s.market_id limit 1 ) market_index
+        FROM
+        rcs_predict_bet_statis s
+
+        WHERE
+        s.match_id = #{matchId}
+        AND bet_num!=0
+        <if test="matchType!=-1">
+            AND s.match_type = #{matchType}
+        </if>
+        AND s.sub_play_id IN
+        <foreach close=")" collection="playIds" item="item" open="(" separator=", ">
+            #{item,jdbcType=BIGINT}
+        </foreach>
+        AND s.hash_unique is not null
+        GROUP BY
+        s.match_id,
+        s.play_id,
+        s.sub_play_id,
+        s.market_id,
+        s.odds_item,
+        s.market_value_current
+
+        order by s.market_value_complete desc
+    </select>
+</mapper>
+

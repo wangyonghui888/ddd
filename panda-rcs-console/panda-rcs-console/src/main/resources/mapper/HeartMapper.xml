@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.console.dao.HeartMapper">
+
+    <sql id="querySQL">
+        <where>
+            <if test="bean.ip != null and bean.ip != ''">
+                and h.ip = #{bean.ip,jdbcType=VARCHAR}
+            </if>
+            <if test="bean.pid != null and bean.pid != ''">
+                AND h.pid = #{bean.pid,jdbcType=VARCHAR}
+            </if>
+            <if test="bean.serverName != null and bean.serverName != ''">
+                AND h.server_name = #{bean.serverName,jdbcType=VARCHAR}
+            </if>
+            <if test="bean.startTime != null and bean.startTime != ''">
+                AND h.`current_time` &gt;= (unix_timestamp(#{bean.startTime,jdbcType=VARCHAR}) * 1000)
+            </if>
+            <if test="bean.endTime != null and bean.endTime != ''">
+                AND h.`current_time` &lt; (unix_timestamp(#{bean.endTime,jdbcType=VARCHAR}) * 1000)
+            </if>
+        </where>
+    </sql>
+
+    <sql id="queryServiceSQL">
+        <if test="bean.ip != null and bean.ip != ''">
+            and h.ip = #{bean.ip,jdbcType=VARCHAR}
+        </if>
+        <if test="bean.pid != null and bean.pid != ''">
+            AND h.pid = #{bean.pid,jdbcType=VARCHAR}
+        </if>
+        <if test="bean.serverName != null and bean.serverName != ''">
+            AND h.server_name = #{bean.serverName,jdbcType=VARCHAR}
+        </if>
+    </sql>
+
+    <select id="queryServiceList" resultType="com.panda.sport.rcs.console.pojo.HeartMqBean">
+        SELECT serverName,currentTime,startNode, 
+		SUM(case when i.topic = 'MQ_CONSUMER_RADIO' then 0 ELSE IFNULL(i.diff,0) END ) sumDiff,
+		SUM(case when i.topic = 'MQ_CONSUMER_RADIO' then FLOOR(i.diff * 100) /100 ELSE 0 END ) tps
+		fROM (
+			SELECT  c.server_name as serverName,
+		                h.`current_time` as currentTime,
+		                0 as instanceCount,IFNULL(c.start_node,'-1') startNode ,
+		                (SELECT MAX(version_id) FROM rcs_monitor_mq_info t WHERE t.server_name = c.server_name) version_id
+		        FROM rcs_monitor_config c
+		        LEFT JOIN (SELECT * FROM (select server_name,max(`current_time`) `current_time` from rcs_monitor_heart_log 
+				where `current_time` >= ((unix_timestamp(NOW()) - 30) *1000) group by server_name ) t) h 	on c.server_name = h.server_name
+			) t1 
+		LEFT JOIN rcs_monitor_mq_info i ON i.version_id = t1.version_id
+		GROUP BY serverName,currentTime,startNode
+    </select>
+
+    <select id="heartList" resultType="com.panda.sport.rcs.console.pojo.HeartMqBean">
+        SELECT  h.ip as ip,
+                h.pid as pid,
+                h.server_name as serverName,
+                max(h.`current_time`) as currentTime
+        FROM rcs_monitor_heart_log h
+        where h.`current_time` >= ((unix_timestamp(NOW()) - 30) *1000)
+         GROUP BY h.server_name,h.ip,h.pid
+        ORDER BY h.`current_time` DESC
+    </select>
+
+    <select id="heartListCount" resultType="long">
+        SELECT COUNT(1) FROM (SELECT  count(1)
+            FROM rcs_monitor_heart_log h
+            where h.`current_time` >= ((unix_timestamp(NOW()) - 30) *1000)
+             GROUP BY h.server_name,h.ip,h.pid) t
+    </select>
+
+    <select id="heartDetailList" resultType="com.panda.sport.rcs.console.pojo.HeartMqBean">
+        SELECT  h.ip as ip,
+                h.pid as pid,
+                h.server_name as serverName,
+                h.`current_time` as currentTime
+        FROM rcs_monitor_heart_log h
+        <include refid="querySQL"></include>
+        ORDER BY h.`current_time` DESC
+        limit #{pageStart},#{pageSize}
+    </select>
+
+    <select id="heartDetailListCount" resultType="long">
+        SELECT  count(1)
+        FROM rcs_monitor_heart_log h
+        <include refid="querySQL"></include>
+    </select>
+
+    <select id="heartServiceListCount" resultType="long">
+        SELECT COUNT(1) FROM (SELECT  count(1)
+        FROM rcs_monitor_heart_log h
+        where h.`current_time` >= ((unix_timestamp(NOW()) - 30) *1000)
+        <include refid="queryServiceSQL"></include>
+        GROUP BY h.server_name,h.ip,h.pid) t
+    </select>
+
+    <select id="heartServiceList" resultType="com.panda.sport.rcs.console.pojo.HeartMqBean">
+        SELECT  h.ip as ip,
+                h.pid as pid,
+                h.server_name as serverName,
+                h.`current_time` as currentTime
+        FROM rcs_monitor_heart_log h
+        where h.`current_time` >= ((unix_timestamp(NOW()) - 30) *1000)
+        <include refid="queryServiceSQL"></include>
+        GROUP BY h.server_name,h.ip,h.pid
+        ORDER BY h.`current_time` DESC
+        limit #{pageStart},#{pageSize}
+    </select>
+
+
+    <insert id="saveHeart">
+        INSERT INTO rcs_monitor_heart_log(
+                        ip,
+                        pid,
+                        server_name,
+                        created_time,
+                        `current_time`)
+        VALUES(
+            #{bean.ip,jdbcType=VARCHAR},
+            #{bean.pid,jdbcType=VARCHAR},
+            #{bean.serverName,jdbcType=VARCHAR},
+            now(),
+            #{bean.currentTime}
+        )
+    </insert>
+
+</mapper>

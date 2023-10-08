@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.console.dao.SystemServiceInfoMapper">
+
+  <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into rcs_monitor_service_info
+    (pid, user, pr, ni, virt, res, shr,s,cpu,mem,time,uuid,system_type,sever_name,ip,stack_info)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.pid},
+      #{item.user},
+      #{item.pr},
+      #{item.ni},
+      #{item.virt},
+      #{item.res},
+      #{item.shr},
+      #{item.s},
+      #{item.cpu},
+      #{item.mem},
+      #{item.time},
+      #{item.uuid},
+      #{item.systemType},
+      #{item.severName},
+      #{item.ip},
+      #{item.stackInfo})
+    </foreach>
+  </insert>
+</mapper>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.mapper.tourTemplate.RcsTournamentTemplateMapper">
+<!--    <update id="updateTemplateById"></update>-->
+
+    <select id="queryTemplateByMatchId" resultType="com.panda.sport.rcs.pojo.tourTemplate.RcsTournamentTemplate">
+        SELECT
+        *
+        FROM
+        rcs_tournament_template t
+         LEFT JOIN standard_match_info i ON i.id = t.type_val
+        WHERE
+        t.type = 3
+        AND  t.type_val = #{matchId}
+        AND ( CASE WHEN i.match_status IN ( 1, 2, 10 ) THEN t.match_type = 0 ELSE t.match_type = 1 END )
+    </select>
+
+    <update id="updateTemplateById" parameterType="com.panda.sport.rcs.pojo.tourTemplate.RcsTournamentTemplate">
+        update rcs_tournament_template
+        <trim prefix="set" suffixOverrides=",">
+            <if test="businesPendingOrderPayVal != null">
+                busines_pending_order_pay_val = #{businesPendingOrderPayVal,jdbcType=BIGINT},
+            </if>
+            <if test="userPendingOrderPayVal != null">
+                user_pending_order_pay_val = #{userPendingOrderPayVal,jdbcType=BIGINT},
+            </if>
+            <if test="userPendingOrderCount != null">
+                user_pending_order_count = #{userPendingOrderCount,jdbcType=INTEGER},
+            </if>
+            <if test="pendingOrderRate != null">
+                pending_order_rate = #{pendingOrderRate,jdbcType=INTEGER},
+            </if>
+            <if test="dataSourceCode != null">
+                data_source_code = #{dataSourceCode,jdbcType=VARCHAR},
+            </if>
+            <if test="pendingOrderStatus != null">
+                pending_order_status = #{pendingOrderStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="businesMatchPayVal != null">
+                busines_match_pay_val = #{businesMatchPayVal,jdbcType=BIGINT},
+            </if>
+            <if test="userMatchPayVal != null">
+                user_match_pay_val = #{userMatchPayVal,jdbcType=BIGINT},
+            </if>
+            <if test="copyTemplateId != null">
+                copy_template_id = #{copyTemplateId,jdbcType=BIGINT},
+            </if>
+            <if test="templateName != null">
+                template_name = #{templateName,jdbcType=VARCHAR},
+            </if>
+            <if test="normalWaitTime != null">
+                normal_wait_time = #{normalWaitTime,jdbcType=INTEGER},
+            </if>
+            <if test="pauseWaitTime != null">
+                pause_wait_time = #{pauseWaitTime,jdbcType=INTEGER},
+            </if>
+            <if test="matchPreStatus != null">
+                match_pre_status = #{matchPreStatus,jdbcType=INTEGER},
+            </if>
+            <if test="oddsChangeStatus != null">
+                odds_change_status = #{oddsChangeStatus,jdbcType=INTEGER},
+            </if>
+            <if test="baijiaConfigValue != null">
+                baijia_config_value = #{baijiaConfigValue,jdbcType=VARCHAR},
+            </if>
+            <if test="aoConfigValue != null">
+                ao_config_value=#{aoConfigValue,jdbcType=VARCHAR},
+            </if>
+            <if test="cautionValue != null">
+                caution_value = #{cautionValue,jdbcType=DECIMAL},
+            </if>
+            <if test="ifWarnSuspended != null">
+                if_warn_suspended = #{ifWarnSuspended,jdbcType=INTEGER},
+            </if>
+            <if test="mtsConfigValue!=null">
+                mts_config_value=#{mtsConfigValue,jdbcType=VARCHAR},
+            </if>
+            <if test="distanceSwitch!=null">
+                distance_switch=#{distanceSwitch,jdbcType=INTEGER},
+            </if>
+            <if test="earlySettStr!=null and earlySettStr!=''">
+                early_sett_str=#{earlySettStr,jdbcType=VARCHAR},
+            </if>
+            <if test="scoreSource!=null">
+                score_source = #{scoreSource,jdbcType=INTEGER}
+            </if>
+        </trim>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <select id="getTournamentTemplateList" resultType="com.panda.sport.rcs.pojo.tourTemplate.RcsTournamentTemplate">
+        SELECT * from rcs_tournament_template where match_type = 1
+    </select>
+</mapper>

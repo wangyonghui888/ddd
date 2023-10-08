@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.mapper.RcsBroadCastMapper">
+
+    <select id="selectSportIdByMatchId" resultType="java.lang.Integer">
+        SELECT sport_id FROM standard_match_info WHERE id=#{matchId}
+    </select>
+
+    <select id="selectUserIdByCollection" resultType="java.lang.Integer">
+        SELECT
+            user_id userID
+        FROM
+            rcs_match_collection
+        WHERE
+            match_id = #{matchId}
+            AND `status` = 1
+            AND type = 1 UNION ALL
+        SELECT
+            c.user_id userID
+        FROM
+            standard_match_info i
+            LEFT JOIN rcs_match_collection c ON c.tournament_id = i.standard_tournament_id
+        WHERE
+            i.id = #{matchId}
+            AND c.`status` = 1
+            AND c.type = 2 UNION ALL
+        SELECT
+            pre_trader_id userID
+        FROM
+            rcs_standard_sport_market_sell
+        WHERE
+            match_info_id = #{matchId} UNION ALL
+        SELECT
+            live_trader_id userID
+        FROM
+            rcs_standard_sport_market_sell
+        WHERE
+            match_info_id = #{matchId}
+    </select>
+</mapper>

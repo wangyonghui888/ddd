@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.rcs.cleanup.mapper.OrderMapper">
+
+    <delete id="deleteOrderDetailExt">
+        DELETE FROM t_order_detail_ext WHERE max_accept_time &lt; #{ expiredTime }
+    </delete>
+
+    <delete id="deleteOrder">
+        DELETE FROM t_order WHERE create_time &lt; #{ expiredTime }
+    </delete>
+
+    <delete id="deleteOrderDetail">
+        DELETE FROM t_order_detail WHERE bet_time &lt; #{ expiredTime }
+    </delete>
+
+    <select id="getOrderNoByMatchIds" resultType="java.lang.String">
+        SELECT
+            order_no
+        FROM panda_rcs.t_order_detail WHERE match_id IN
+        <foreach item="matchId" index="index" collection="matchIds" open="(" separator="," close=")">
+            #{ matchId }
+        </foreach>
+    </select>
+
+    <!-- 删除订单数据 -->
+    <delete id="deleteOrderByOrderNo">
+        DELETE FROM t_order WHERE order_no IN
+        <foreach item="orderNo" index="index" collection="orderNos" open="(" separator="," close=")">
+            #{ orderNo }
+        </foreach>
+    </delete>
+
+
+    <!-- 删除订单数据 -->
+    <delete id="deleteOrderDetailByMatchIds">
+        DELETE FROM t_order_detail WHERE match_id IN
+        <foreach item="matchId" index="index" collection="matchIds" open="(" separator="," close=")">
+            #{ matchId }
+        </foreach>
+    </delete>
+
+    <!-- 删除订单数据 -->
+    <delete id="deleteOrderDetailByMatchIdsByLimit">
+        DELETE FROM t_order_detail WHERE match_id IN
+        <foreach item="matchId" index="index" collection="matchIds" open="(" separator="," close=")">
+            #{ matchId }
+        </foreach>
+        LIMIT #{ rows }
+    </delete>
+    
+    <delete id="deleteMtsOrderExt">
+        DELETE FROM rcs_mts_order_ext WHERE update_time &lt; #{ cleanupTime }
+    </delete>
+
+
+    <!-- 预约投注订单清理 -->
+    <delete id="deletePendingOrderByMatchIds">
+        DELETE FROM rcs_pending_order WHERE match_id IN
+        <foreach item="matchId" index="index" collection="matchIds" open="(" separator="," close=")">
+            #{ matchId }
+        </foreach>
+    </delete>
+
+    <delete id="deletePendingBetPredictByMatchIds">
+        DELETE FROM rcs_predict_pending_bet_statis WHERE match_id IN
+        <foreach item="matchId" index="index" collection="matchIds" open="(" separator="," close=")">
+            #{ matchId }
+        </foreach>
+    </delete>
+
+    <delete id="deletePendingForecastByMatchIds">
+        DELETE FROM rcs_predict_pending_forecast WHERE match_id IN
+        <foreach item="matchId" index="index" collection="matchIds" open="(" separator="," close=")">
+            #{ matchId }
+        </foreach>
+    </delete>
+
+    <delete id="deletePendingForecastPlayByMatchIds">
+        DELETE FROM rcs_predict_pending_forecast_play WHERE match_id IN
+        <foreach item="matchId" index="index" collection="matchIds" open="(" separator="," close=")">
+            #{ matchId }
+        </foreach>
+    </delete>
+
+    <delete id="deleteOrderVolumeByTime">
+        DELETE FROM rcs_order_hide WHERE create_time &lt; #{ deleteTime }
+    </delete>
+
+    <delete id="deleteForecastSnapshotByMatchIds">
+        DELETE FROM rcs_predict_forecast_snapshot WHERE match_id IN
+        <foreach item="matchId" index="index" collection="matchIds" open="(" separator="," close=")">
+            #{ matchId }
+        </foreach>
+    </delete>
+
+    <select id="getOrderNoByMatchId" resultType="java.lang.String">
+        SELECT order_no FROM t_order_detail WHERE match_id = #{ matchId }
+    </select>
+
+    <!-- 删除订单数据 -->
+    <delete id="deleteOrderDetailByMatchIdByLimit">
+        DELETE FROM t_order_detail WHERE match_id = #{ matchId } LIMIT #{ rows }
+    </delete>
+
+    <!-- 删除订单数据 -->
+    <delete id="deleteOrderByMatchIdByLimit">
+        DELETE FROM t_order WHERE order_no IN (SELECT order_no FROM t_order_detail WHERE match_id = #{ matchId }) LIMIT #{ rows }
+    </delete>
+
+</mapper>

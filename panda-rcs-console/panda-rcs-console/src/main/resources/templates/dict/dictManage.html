@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" type="text/css" href="/css/formSelects-v4.css"/>
+<head th:include="layout :: htmlhead" th:with="title='字典管理'"></head>
+<script type="text/javascript" src="/js/dateUtils.js"></script>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <!--头-->
+    <div th:replace="fragments/head :: header"></div>
+
+    <div class="layui-body" style="margin: 1%">
+        <form id="dictSearch" class="layui-form layui-form-pane" method="get" action="" style="margin-top: 20px;">
+            <div class="layui-form-item">
+                <label class="layui-form-label">字典类型</label>
+                <div class="layui-input-inline">
+                    <input id="parentTypeId" name="parentTypeId" autocomplete="off" class="layui-input" type="text"/>
+                </div>
+                <label class="layui-form-label">项目编码</label>
+                <div class="layui-input-inline">
+                    <input id="code" name="code" autocomplete="off" class="layui-input" type="text"/>
+                </div>
+                <label class="layui-form-label">是否激活</label>
+                <div class="layui-input-inline">
+                    <select name="active" id="active" >
+                        <option value=1>激活</option>
+                        <option value=0>未激活</option>
+                    </select>
+                </div>
+                <label class="layui-form-label">描述</label>
+                <div class="layui-input-inline">
+                    <input id="description" name="description" autocomplete="off" class="layui-input" type="text"/>
+                </div>
+                <label class="layui-form-label">备注</label>
+                <div class="layui-input-inline">
+                    <input id="remark" name="remark" autocomplete="off" class="layui-input" type="text"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">创建时间</label>
+                    <div class="layui-input-inline" style="width: 175px;">
+                        <input  name="createTimeStart" id="createTimeStart" placeholder="yyyy-MM-dd HH:mm:ss" autocomplete="off" class="layui-input" type="text"/>
+                    </div>
+                    <div class="layui-form-mid">-</div>
+                    <div class="layui-input-inline" style="width: 175px;">
+                        <input name="createTimeEnd" id="createTimeEnd" placeholder="yyyy-MM-dd HH:mm:ss" autocomplete="off" class="layui-input" type="text"/>
+                    </div>
+                    <label class="layui-form-label">更新时间</label>
+                    <div class="layui-input-inline" style="width: 175px;">
+                        <input  name="updateTimeStart" id="updateTimeStart" placeholder="yyyy-MM-dd HH:mm:ss" autocomplete="off" class="layui-input" type="text"/>
+                    </div>
+                    <div class="layui-form-mid">-</div>
+                    <div class="layui-input-inline" style="width: 175px;">
+                        <input name="updateTimeEnd" id="updateTimeEnd" placeholder="yyyy-MM-dd HH:mm:ss" autocomplete="off" class="layui-input" type="text"/>
+                    </div>
+                </div>
+            </div>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            <button class="layui-btn"  lay-submit="" lay-filter="searchSubmit">提交</button>
+        </form>
+
+        <hr class="layui-bg-black"/>
+        <button type="button" class="layui-btn layui-btn-sm" id="uploadExcel">
+            <i class="layui-icon"></i>上传Excel
+        </button>
+        <table id="dictList" lay-filter="dictTable"></table>
+        <script type="text/html" id="optBar">
+            <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+        </script>
+    </div>
+
+
+    <!--添加或编辑-->
+    <div id="setDict" class="layer_self_wrap" style="width:500px;display:none;">
+        <form id="dictForm" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
+            <input id="pageNum" type="hidden" name="pageNum"/>
+            <input id="id" type="hidden" name="id"/>
+            <div class="layui-form-item">
+                <label class="layui-form-label">字典类型</label>
+                <div class="layui-input-inline">
+                    <input id="parentTypeIdNew" name="parentTypeIdNew" lay-verify="required" autocomplete="off" class="layui-input" type="text"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">项目编码</label>
+                <div class="layui-input-inline">
+                    <input id="codeNew" name="codeNew" lay-verify="required" autocomplete="off" class="layui-input" type="text"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">项目值</label>
+                <div class="layui-input-inline">
+                    <input id="valueNew" name="valueNew" lay-verify="required" autocomplete="off" class="layui-input" type="text"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">附加值1</label>
+                <div class="layui-input-inline">
+                    <input id="addition1New" name="addition1New" lay-verify="required" autocomplete="off" class="layui-input" type="text"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">描述</label>
+                <div class="layui-input-inline">
+                    <input id="descriptionNew" name="descriptionNew" lay-verify="required" autocomplete="off" class="layui-input" type="text"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">备注</label>
+                <div class="layui-input-inline">
+                    <input id="remarkNew" name="remarkNew" lay-verify="required" autocomplete="off" class="layui-input" type="text"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block" style="margin-left: 10px;">
+                    <button class="layui-btn"  lay-submit="" lay-filter="dictSubmit">提交</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!--底部-->
+    <div th:replace="fragments/footer :: footer"></div>
+    <script src="/js/dict/dictManage.js"></script>
+
+</div>
+</body>
+</html>

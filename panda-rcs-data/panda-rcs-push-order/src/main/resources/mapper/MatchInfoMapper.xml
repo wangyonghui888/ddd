@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.rcs.push.mapper.MatchInfoMapper">
+
+    <select id="getFinishMatch" resultType="com.panda.rcs.order.entity.vo.MatchInfoBaseVo">
+        SELECT
+            id matchId,
+            modify_time modifyTime
+        FROM standard_match_info WHERE (match_status IN(3,4) OR match_period_id = 999) AND modify_time > #{ selectTime }
+    </select>
+
+</mapper>

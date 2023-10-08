@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.rcs.cleanup.mapper.LoggingMapper">
+
+    <delete id="deleteOperateLogByMatchIds">
+        DELETE FROM rcs_operate_log WHERE match_id IN
+        <foreach item="matchId" index="index" collection="matchIds" open="(" separator="," close=")">
+            #{ matchId }
+        </foreach>
+    </delete>
+
+    <delete id="deleteTraderMessageByTime">
+        DELETE FROM rcs_trader_message WHERE create_time &lt; #{ deleteTime }
+    </delete>
+
+    <delete id="deleteLogRecordByTime">
+        DELETE FROM rcs_log_record WHERE create_time &lt; #{ deleteTime }
+    </delete>
+
+    <delete id="deleteLogFomatByTime">
+        DELETE FROM rcs_log_fomat WHERE create_time &lt; #{ deleteTime }
+    </delete>
+
+    <delete id="deleteOperationLogByTime">
+        DELETE FROM rcs_operation_log WHERE crt_time &lt; #{ deleteTime }
+    </delete>
+
+</mapper>

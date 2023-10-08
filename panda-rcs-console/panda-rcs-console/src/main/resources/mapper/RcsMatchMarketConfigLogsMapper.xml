@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.console.dao.RcsMatchMarketConfigLogsMapper">
+    <resultMap id="BaseResultMap" type="com.panda.sport.rcs.console.pojo.RcsMatchMarketConfigLogs">
+        <result column="id" jdbcType="BIGINT" property="id"/>
+        <result column="match_id" jdbcType="BIGINT" property="matchId"/>
+        <result column="tournament_id" jdbcType="BIGINT" property="tournamentId"/>
+        <result column="play_id" jdbcType="BIGINT" property="playId"/>
+        <result column="market_id" jdbcType="BIGINT" property="marketId"/>
+        <result column="update_odds" jdbcType="BIGINT" property="updateOdds"/>
+        <result column="home_market_value" jdbcType="BIGINT" property="homeMarketValue"/>
+        <result column="away_market_value" jdbcType="BIGINT" property="awayMarketValue"/>
+        <result column="margin" jdbcType="BIGINT" property="margin"/>
+        <result column="home_level_first_max_amount" jdbcType="BIGINT" property="homeLevelFirstMaxAmount"/>
+        <result column="home_level_first_odds_rate" jdbcType="BIGINT" property="homeLevelFirstOddsRate"/>
+        <result column="home_level_second_max_amount" jdbcType="BIGINT" property="homeLevelSecondMaxAmount"/>
+        <result column="home_level_second_odds_rate" jdbcType="BIGINT" property="homeLevelSecondOddsRate"/>
+        <result column="max_single_bet_amou" jdbcType="BIGINT" property="maxSingleBetAmount"/>
+        <result column="max_odds" jdbcType="BIGINT" property="maxOdds"/>
+        <result column="min_odds" jdbcType="BIGINT" property="minOdds"/>
+        <result column="data_source" jdbcType="BIGINT" property="dataSource"/>
+        <result column="create_user" jdbcType="BIGINT" property="createUser"/>
+        <result column="modify_user" jdbcType="BIGINT" property="modifyUser"/>
+        <result column="modify_time" jdbcType="DOUBLE" property="awayLevelFirstMaxAmount"/>
+        <result column="away_level_first_max_amount" jdbcType="DOUBLE" property="awayLevelSecondMaxAmount"/>
+        <result column="away_level_second_max_amount" jdbcType="DOUBLE" property="awayLevelFirstOddsRate"/>
+        <result column="away_level_first_odds_rate" jdbcType="DOUBLE" property="awayLevelSecondOddsRate"/>
+        <result column="market_status" jdbcType="INTEGER" property="marketStatus"/>
+        <result column="balance" jdbcType="VARCHAR" property="balance"/>
+        <result column="market_type" jdbcType="VARCHAR" property="marketType"/>
+        <result column="home_auto_change_rate" jdbcType="VARCHAR" property="homeAutoChangeRate"/>
+        <result column="away_auto_change_rate" jdbcType="VARCHAR" property="awayAutoChangeRate"/>
+        <result column="tie_auto_change_rate" jdbcType="VARCHAR" property="tieAutoChangeRate"/>
+        <result column="auto_bet_stop" jdbcType="VARCHAR" property="autoBetStop"/>
+        <result column="change_level" jdbcType="VARCHAR" property="changeLevel"/>
+        <result column="odds_value" jdbcType="VARCHAR" property="oddsValue"/>
+    </resultMap>
+
+
+    <select id="selectById" resultType="Map">
+        SELECT * from rcs_match_market_config_logs
+        <if test="matchId == null">
+            <if test="marketId != null">
+                WHERE market_id= #{marketId}
+            </if>
+        </if>
+        <if test="matchId != null">
+            <if test="marketId == null">
+                WHERE match_id=#{matchId}
+            </if>
+            <if test="marketId !=null ">
+                WHERE match_id=#{matchId} AND market_id=#{marketId}
+            </if>
+        </if>
+        ORDER BY modify_time DESC
+    </select>
+</mapper>

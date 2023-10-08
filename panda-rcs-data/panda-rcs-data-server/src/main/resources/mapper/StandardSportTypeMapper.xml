@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.data.mapper.StandardSportTypeMapper">
+  <resultMap id="BaseResultMap" type="com.panda.sport.rcs.pojo.StandardSportType">
+    <!--@mbg.generated-->
+    <!--@Table standard_sport_type-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="name_code" jdbcType="BIGINT" property="nameCode" />
+    <result column="introduction" jdbcType="VARCHAR" property="introduction" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="modify_time" jdbcType="BIGINT" property="modifyTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, name_code, introduction, remark, create_time, modify_time
+  </sql>
+
+  <insert id="insertOrUpdate" keyColumn="id" keyProperty="id" parameterType="com.panda.sport.rcs.pojo.StandardSportType" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into standard_sport_type
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      id, name_code, introduction, remark, create_time, modify_time
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      #{id,jdbcType=BIGINT},
+      #{nameCode,jdbcType=BIGINT},
+      #{introduction,jdbcType=VARCHAR},
+      #{remark,jdbcType=VARCHAR},
+      #{createTime,jdbcType=BIGINT},
+      #{modifyTime,jdbcType=BIGINT},
+    </trim>
+    on duplicate key update
+    <trim suffixOverrides=",">
+      name_code = VALUES (name_code),
+      introduction = VALUES (introduction),
+      remark = VALUES (remark),
+      modify_time = VALUES (modify_time),
+    </trim>
+  </insert>
+</mapper>

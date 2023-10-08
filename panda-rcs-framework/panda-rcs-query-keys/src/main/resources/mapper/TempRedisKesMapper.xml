@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.rcs.cleanup.mapper.TempRedisKesMapper">
+    <insert id="saveInfo" parameterType="com.panda.rcs.cleanup.entity.STempRedisKey" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        INSERT INTO s_temp_redis_key(
+            redis_key,
+            save_date,
+            create_time
+        ) VALUES (
+                     #{ redisKey },
+                     #{ saveDate },
+                     #{ createTime }
+                 )
+    </insert>
+
+</mapper>

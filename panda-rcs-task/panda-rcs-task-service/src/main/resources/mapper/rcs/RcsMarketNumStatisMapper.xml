@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.mapper.RcsMarketNumStatisMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.panda.sport.rcs.pojo.RcsMarketNumStatis">
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, sport_id, match_id, market_category_id, place_num, odds_type, bet_order_num, bet_amount, profit_value, standard_tournament_id, modify_time, match_type, paid_amount
+    </sql>
+
+    <insert id="insertOrUpdate" parameterType="com.panda.sport.rcs.pojo.RcsMarketNumStatis">
+     insert into rcs_market_num_statis (sport_id, match_id, market_category_id, place_num, odds_type,
+      bet_order_num, bet_amount, profit_value,match_type,standard_tournament_id,paid_amount) values (#{sportId}, #{matchId}, #{marketCategoryId}, #{placeNum}, #{oddsType},
+      #{betOrderNum},#{betAmount} ,#{profitValue},#{matchType},#{standardTournamentId},#{paidAmount})
+      ON DUPLICATE KEY UPDATE
+       bet_order_num=#{betOrderNum},
+       bet_amount=#{betAmount}
+  </insert>
+
+
+</mapper>

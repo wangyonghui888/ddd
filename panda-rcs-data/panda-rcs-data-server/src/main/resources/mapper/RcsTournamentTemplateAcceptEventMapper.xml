@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.data.mapper.RcsTournamentTemplateAcceptEventMapper">
+    <resultMap id="BaseResultMap" type="com.panda.sport.rcs.pojo.tourTemplate.RcsTournamentTemplateAcceptEvent">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="template_id" jdbcType="INTEGER" property="templateId" />
+        <result column="event_code" jdbcType="VARCHAR" property="eventCode" />
+        <result column="event_desc" jdbcType="VARCHAR" property="eventDesc" />
+        <result column="delay_time" jdbcType="INTEGER" property="delayTime" />
+        <result column="sort_no" jdbcType="INTEGER" property="sortNo" />
+        <result column="status" jdbcType="INTEGER" property="status" />
+        <result column="crt_time" jdbcType="TIMESTAMP" property="crtTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, template_id, event_code, event_desc, delay_time, sort_no,status, crt_time, update_time,status,status
+  </sql>
+
+    <select id="selectOrderAcceptEvent" resultType="com.panda.sport.rcs.pojo.tourTemplate.RcsTournamentTemplateAcceptConfig">
+        select
+            a.event_type as eventType,
+            a.event_code as eventCode,
+            b.data_source as dataSource,
+            b.category_set_id categorySetId,
+            CASE a.event_type
+            WHEN 'safety' THEN
+            b.normal
+            WHEN 'danger' THEN
+            b.min_wait
+            WHEN 'closing' THEN
+            b.max_wait
+            END waitTime,
+            a.event_name as eventName,
+            a.`status` as status
+
+        from rcs_tournament_template_accept_event a
+        left join rcs_tournament_template_accept_config b on a.accept_config_id=b.id
+        left join rcs_tournament_template c on b.template_id=c.id where c.type=3 and c.type_val=#{matchId,jdbcType=BIGINT}
+        and b.category_set_id=#{playSetId,jdbcType=INTEGER} and a.event_code = #{eventCode,jdbcType=VARCHAR}
+        and c.match_type = 0 AND a.event_type is NOT null
+        AND a.`status` = 1 limit 1
+    </select>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from rcs_tournament_template_accept_event
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from rcs_tournament_template_accept_event
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.panda.sport.rcs.pojo.tourTemplate.RcsTournamentTemplateAcceptEvent" useGeneratedKeys="true">
+    insert into rcs_tournament_template_accept_event (template_id, event_code, event_desc,
+      delay_time, sort_no, crt_time,
+      update_time,status)
+    values (#{templateId,jdbcType=INTEGER}, #{eventCode,jdbcType=VARCHAR}, #{eventDesc,jdbcType=VARCHAR},
+      #{delayTime,jdbcType=INTEGER}, #{sortNo,jdbcType=INTEGER}, #{crtTime,jdbcType=TIMESTAMP},
+      #{updateTime,jdbcType=TIMESTAMP},#{status,jdbcType=INTEGER})
+  </insert>
+
+    <insert id="insertOrUpdateBatch" keyColumn="id" keyProperty="id" parameterType="list" useGeneratedKeys="true">
+        insert into rcs_tournament_template_accept_event (template_id, event_code, event_desc,
+        delay_time, sort_no, crt_time,
+        update_time,`status`)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.templateId,jdbcType=INTEGER}, #{item.eventCode,jdbcType=VARCHAR}, #{item.eventDesc,jdbcType=VARCHAR},
+            #{item.delayTime,jdbcType=INTEGER}, #{item.sortNo,jdbcType=INTEGER}, #{item.crtTime,jdbcType=TIMESTAMP},
+            #{item.updateTime,jdbcType=TIMESTAMP},#{item.status,jdbcType=INTEGER})
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+            event_desc = Values(event_desc),
+            delay_time = Values(delay_time),
+            status= Values(status),
+            update_time = now()
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.panda.sport.rcs.pojo.tourTemplate.RcsTournamentTemplateAcceptEvent" useGeneratedKeys="true">
+        insert into rcs_tournament_template_accept_event
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="templateId != null">
+                template_id,
+            </if>
+            <if test="eventCode != null">
+                event_code,
+            </if>
+            <if test="eventDesc != null">
+                event_desc,
+            </if>
+            <if test="delayTime != null">
+                delay_time,
+            </if>
+            <if test="sortNo != null">
+                sort_no,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="crtTime != null">
+                crt_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="templateId != null">
+                #{templateId,jdbcType=INTEGER},
+            </if>
+            <if test="eventCode != null">
+                #{eventCode,jdbcType=VARCHAR},
+            </if>
+            <if test="eventDesc != null">
+                #{eventDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="delayTime != null">
+                #{delayTime,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="sortNo != null">
+                #{sortNo,jdbcType=INTEGER},
+            </if>
+            <if test="crtTime != null">
+                #{crtTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.panda.sport.rcs.pojo.tourTemplate.RcsTournamentTemplateAcceptEvent">
+        update rcs_tournament_template_accept_event
+        <set>
+            <if test="templateId != null">
+                template_id = #{templateId,jdbcType=INTEGER},
+            </if>
+            <if test="eventCode != null">
+                event_code = #{eventCode,jdbcType=VARCHAR},
+            </if>
+            <if test="eventDesc != null">
+                event_desc = #{eventDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="delayTime != null">
+                delay_time = #{delayTime,jdbcType=INTEGER},
+            </if>
+            <if test="sortNo != null">
+                sort_no = #{sortNo,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="crtTime != null">
+                crt_time = #{crtTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.panda.sport.rcs.pojo.tourTemplate.RcsTournamentTemplateAcceptEvent">
+    update rcs_tournament_template_accept_event
+    set template_id = #{templateId,jdbcType=INTEGER},
+      event_code = #{eventCode,jdbcType=VARCHAR},
+      event_desc = #{eventDesc,jdbcType=VARCHAR},
+      delay_time = #{delayTime,jdbcType=INTEGER},
+      sort_no = #{sortNo,jdbcType=INTEGER},
+      status= #{status,jdbcType=INTEGER},
+      crt_time = #{crtTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+    <select id="queryByTournamentId" resultMap="BaseResultMap">
+        SELECT
+            t.type_val,e.*
+        FROM
+            rcs_tournament_template t
+            left join rcs_tournament_template_accept_event e on t.id=e.template_id
+            LEFT JOIN rcs_tournament_template_ref r ON e.template_id = r.tournament_id
+            where t.type=2 and t.type_val=#{tournamentId} and sport_id=#{sportId}
+    </select>
+
+    <select id="queryByTournamentLevel" resultMap="BaseResultMap">
+        SELECT
+            e.*
+        FROM
+            rcs_tournament_template t
+            inner join rcs_tournament_template_accept_event e on t.id=e.template_id
+            LEFT JOIN rcs_tournament_template_ref r ON e.template_id = r.tournament_id
+            where t.type=1 and t.type_val=#{tournamentLevel} and sport_id=#{sportId}
+    </select>
+</mapper>

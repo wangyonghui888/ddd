@@ -1,0 +1,14 @@
+#启动配置
+server:
+  port: 10609
+spring:
+  application:
+    name: panda-rcs-mts-pinnacle
+  cloud:
+    nacos:
+      config:
+        server-addr: 172.18.178.194:8848
+        file-extension: properties
+        namespace: 12a3aa53-4cae-45cb-a014-f9dd0399898c
+  profiles:
+    active: dev

@@ -1,0 +1,5 @@
+server:
+  port: 18085
+
+service.data.collect: true
+spring.application.name: test_monotor

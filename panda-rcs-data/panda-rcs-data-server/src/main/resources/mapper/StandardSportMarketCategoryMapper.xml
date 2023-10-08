@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.data.mapper.StandardSportMarketCategoryMapper">
+    <resultMap id="BaseResultMap" type="com.panda.sport.rcs.pojo.StandardSportMarketCategory">
+        <!--@mbg.generated-->
+        <!--@Table standard_sport_market_category-->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="sport_id" jdbcType="BIGINT" property="sportId"/>
+        <result column="type" jdbcType="VARCHAR" property="type"/>
+        <result column="type_identify" jdbcType="VARCHAR" property="typeIdentify"/>
+        <result column="name_code" jdbcType="BIGINT" property="nameCode"/>
+        <result column="status" jdbcType="TINYINT" property="status"/>
+        <result column="multi_market" jdbcType="TINYINT" property="multiMarket"/>
+        <result column="order_no" jdbcType="INTEGER" property="orderNo"/>
+        <result column="fields_num" jdbcType="INTEGER" property="fieldsNum"/>
+        <result column="addition1" jdbcType="VARCHAR" property="addition1"/>
+        <result column="addition2" jdbcType="VARCHAR" property="addition2"/>
+        <result column="addition3" jdbcType="VARCHAR" property="addition3"/>
+        <result column="addition4" jdbcType="VARCHAR" property="addition4"/>
+        <result column="addition5" jdbcType="VARCHAR" property="addition5"/>
+        <result column="data_formate" jdbcType="VARCHAR" property="dataFormate"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="create_time" jdbcType="BIGINT" property="createTime"/>
+        <result column="modify_time" jdbcType="BIGINT" property="modifyTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, sport_id, `type`, type_identify, active, name_code, `status`, multi_market, order_no,
+        fields_num, addition1, addition2, addition3, addition4, addition5, odds_switch, option_to_show,
+        template_showing, their_time, data_formate, description, remark, create_time, modify_time
+    </sql>
+
+
+    <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into standard_sport_market_category
+        (id,sport_id, `type`, type_identify, active, name_code, `status`, multi_market, order_no,
+        fields_num, addition1, addition2, addition3, addition4, addition5, odds_switch,
+        option_to_show, template_showing, their_time, data_formate, description, remark,
+        create_time, modify_time)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.id,jdbcType=BIGINT},#{item.sportId,jdbcType=BIGINT}, #{item.type,jdbcType=VARCHAR},
+            #{item.typeIdentify,jdbcType=VARCHAR},
+            #{item.active,jdbcType=TINYINT}, #{item.nameCode,jdbcType=BIGINT}, #{item.status,jdbcType=TINYINT},
+            #{item.multiMarket,jdbcType=TINYINT}, #{item.orderNo,jdbcType=INTEGER}, #{item.fieldsNum,jdbcType=INTEGER},
+            #{item.addition1,jdbcType=VARCHAR}, #{item.addition2,jdbcType=VARCHAR}, #{item.addition3,jdbcType=VARCHAR},
+            #{item.addition4,jdbcType=VARCHAR}, #{item.addition5,jdbcType=VARCHAR}, #{item.oddsSwitch,jdbcType=VARCHAR},
+            #{item.optionToShow,jdbcType=VARCHAR}, #{item.templateShowing,jdbcType=BIGINT},
+            #{item.theirTime,jdbcType=BIGINT}, #{item.dataFormate,jdbcType=VARCHAR},
+            #{item.description,jdbcType=VARCHAR},
+            #{item.remark,jdbcType=VARCHAR}, #{item.createTime,jdbcType=BIGINT}, #{item.modifyTime,jdbcType=BIGINT}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="batchInsertOrUpdate" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="false">
+        <!--@mbg.generated-->
+        insert into standard_sport_market_category
+        (id,sport_id, `type`, type_identify, active, name_code, `status`, multi_market, order_no,
+        fields_num, addition1, addition2, addition3, addition4, addition5, odds_switch,
+        option_to_show, template_showing, their_time, data_formate, description, remark,
+        create_time, modify_time, template_pc, template_h5)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.id,jdbcType=BIGINT},#{item.sportId,jdbcType=BIGINT}, #{item.type,jdbcType=VARCHAR},
+            #{item.typeIdentify,jdbcType=VARCHAR},
+            #{item.active,jdbcType=TINYINT}, #{item.nameCode,jdbcType=BIGINT}, #{item.status,jdbcType=TINYINT},
+            #{item.multiMarket,jdbcType=TINYINT}, #{item.orderNo,jdbcType=INTEGER}, #{item.fieldsNum,jdbcType=INTEGER},
+            #{item.addition1,jdbcType=VARCHAR}, #{item.addition2,jdbcType=VARCHAR}, #{item.addition3,jdbcType=VARCHAR},
+            #{item.addition4,jdbcType=VARCHAR}, #{item.addition5,jdbcType=VARCHAR}, #{item.oddsSwitch,jdbcType=VARCHAR},
+            #{item.optionToShow,jdbcType=VARCHAR}, #{item.templateShowing,jdbcType=BIGINT},
+            #{item.theirTime,jdbcType=BIGINT}, #{item.dataFormate,jdbcType=VARCHAR},
+            #{item.description,jdbcType=VARCHAR},
+            #{item.remark,jdbcType=VARCHAR}, #{item.createTime,jdbcType=BIGINT}, #{item.modifyTime,jdbcType=BIGINT},
+            #{item.templatePc,jdbcType=INTEGER},#{item.templateH5,jdbcType=INTEGER}
+            )
+        </foreach>
+        on duplicate key update
+        <trim suffixOverrides=",">
+            sport_id = values (sport_id),
+            `type` = values (`type`),
+            type_identify = values (type_identify),
+            active = values (active),
+            name_code = values (name_code),
+            `status` = values (`status`),
+            multi_market = values (multi_market),
+            order_no = values (order_no),
+            fields_num = values (fields_num),
+            addition1 = values (addition1),
+            addition2 = values (addition2),
+            addition3 = values (addition3),
+            addition4 = values (addition4),
+            addition5 = values (addition5),
+            odds_switch = values (odds_switch),
+            option_to_show = values (option_to_show),
+            template_showing = values (template_showing),
+            their_time = values (their_time),
+            data_formate = values (data_formate),
+            description = values (description),
+            remark = values (remark),
+            modify_time = values (modify_time),
+            template_pc = values (template_pc),
+            template_h5 = values (template_h5),
+        </trim>
+    </insert>
+    <insert id="batchInsertOrUpdateCategoryRef" keyColumn="id" keyProperty="id" parameterType="map"
+            useGeneratedKeys="false">
+        insert into standard_sport_market_category_ref
+        (category_id, `sport_id`, scope_id, name_code, status,order_no)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.category_id},#{item.sport_id}, #{item.scope_id}, #{item.name_code},#{item.status},#{item.order_no})
+        </foreach>
+        on duplicate key update
+        <trim suffixOverrides=",">
+            category_id = values (category_id),
+            `sport_id` = values (`sport_id`),
+            scope_id = values (scope_id),
+            name_code = values (name_code),
+            status = values (status),
+            order_no = values (order_no),
+        </trim>
+    </insert>
+
+
+</mapper>

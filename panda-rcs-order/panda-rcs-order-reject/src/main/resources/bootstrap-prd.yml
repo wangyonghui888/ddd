@@ -1,0 +1,16 @@
+#启动配置
+spring:
+  application:
+    name: panda-rcs-order-reject
+  cloud:
+    nacos:
+      config:
+        server-addr: 10.5.160.241:8848
+        file-extension: properties
+        namespace: 78b3feba-001d-4080-8408-5c65b23aaab2
+  profiles:
+    active: pro
+
+spring.cloud.nacos.discovery.serverAddr: ${spring.cloud.nacos.config.server-addr}
+spring.cloud.nacos.discovery.namespace: ${spring.cloud.nacos.config.namespace}
+

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.rcs.cleanup.mapper.TUserMapper">
+
+    <select id="getUserByMerchantCodeAndTimeAndUserName">
+        SELECT uid  FROM t_user WHERE merchant_code = #{ merchantCode } AND username LIKE concat('%',#{ userName },'%')
+    </select>
+
+    <delete id="deleteUserByUserIds">
+        DELETE FROM t_user WHERE uid IN
+        <foreach item="userId" index="index" collection="userIds" open="(" separator="," close=")">
+            #{ userId }
+        </foreach>
+    </delete>
+
+    <delete id="deleteUserLabelByUserIds">
+        DELETE FROM t_user_label WHERE uid IN
+        <foreach item="userId" index="index" collection="userIds" open="(" separator="," close=")">
+            #{ userId }
+        </foreach>
+    </delete>
+
+    <delete id="deleteUserConfigByUserIds">
+        DELETE FROM rcs_user_config_new WHERE user_id IN
+        <foreach item="userId" index="index" collection="userIds" open="(" separator="," close=")">
+            #{ userId }
+        </foreach>
+    </delete>
+
+</mapper>

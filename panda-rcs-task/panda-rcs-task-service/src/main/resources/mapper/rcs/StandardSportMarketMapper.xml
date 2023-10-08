@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.mapper.StandardSportMarketMapper">
+
+    <select id="queryMatchMarketInfo" parameterType="Map" resultType="Map">
+        SELECT m.name_code market_name_code FROM standard_sport_market_category m
+        left join standard_sport_market_category_ref r on r.category_id = m.id
+        WHERE m.id = #{marketCategoryId}
+        <if test="sportId != null and sportId != ''">
+            and r.sport_id = #{sportId}
+        </if>
+        limit 1
+    </select>
+
+    <select id="queryOddTemplateInfo" parameterType="String" resultType="String">
+		SELECT name_code FROM standard_sport_odds_fields_templet WHERE id = #{templateCode}
+	</select>
+
+
+    <select id="selectStandardSportMarketByMatchIdAndPlayId" resultType="com.panda.sport.rcs.pojo.StandardSportMarket">
+		SELECT
+		s.market_category_id,
+		i.standard_tournament_id,
+		s.id,
+		s.standard_match_info_id
+		FROM
+		standard_sport_market s LEFT JOIN standard_match_info i ON s.standard_match_info_id=i.id
+		WHERE
+		standard_match_info_id = #{matchId} AND market_category_id
+		IN (SELECT child_key FROM rcs_code WHERE remark= #{playId} AND father_key="play_phase")
+	</select>
+
+    <select id="selectStandardSportMarketIdByMarketValue" resultType="java.lang.Long">
+		SELECT id FROM standard_sport_market WHERE standard_match_info_id=#{matchId} AND market_category_id=#{playId} AND addition1=${marketValue}
+	</select>
+
+    <select id="selectMarketIdByState" resultType="java.lang.Long">
+        SELECT
+	    id
+        FROM
+	    standard_sport_market
+        WHERE
+	    standard_match_info_id = #{matchId}
+	    AND market_category_id IN ( SELECT child_key FROM rcs_code WHERE father_key = 'play_phase' AND remark = #{state} )
+    </select>
+
+    <select id="selectMarketIdByMatchId" resultType="java.lang.Long">
+		SELECT * FROM standard_sport_market WHERE standard_match_info_id=#{matchId}
+	</select>
+
+    <select id="selectPlayIdByMatchId" resultType="java.lang.Long">
+		SELECT DISTINCT(market_category_id) FROM standard_sport_market WHERE standard_match_info_id=#{matchId}
+	</select>
+
+    <select id="selectStandardSportMarketByGiveWay" resultType="com.panda.sport.rcs.pojo.StandardSportMarketOdds">
+		SELECT
+	*
+FROM
+	standard_sport_market_odds o
+WHERE
+	market_id IN ( SELECT id FROM standard_sport_market s WHERE s.standard_match_info_id = #{matchId} AND  s.market_category_id = #{playId})
+
+	</select>
+
+    <select id="getOtherMarketInfo" parameterType="Map" resultType="Map">
+			SELECT * FROM (
+			SELECT t.id , t.addition1 ,MAX(t.odds) max_odds_value , MIN(odds) min_odds_value ,hdc FROM (
+			SELECT m.*,o.odds_value odds,m.addition1 hdc FROM standard_sport_market m
+			inner JOIN standard_sport_market_odds o ON o.market_id = m.id
+			WHERE m.standard_match_info_id = #{matchId} AND m.market_category_id = #{playId}
+			AND  m.market_type =  (SELECT case when i.match_status = 1 then 0 ELSE 1 END FROM standard_match_info i WHERE i.id = m.standard_match_info_id LIMIT 1 )
+			) t GROUP BY t.id , t.addition1 ,t.addition1
+			) t2 ORDER BY ABS(max_odds_value - min_odds_value) LIMIT 1
+			
+	</select>
+
+    <select id="queryRelatedDataList" parameterType="Map" resultType="Map">
+		SELECT c.play_id , c.market_id ,m.addition1 FROM rcs_match_market_config c
+		inner JOIN standard_sport_market m ON c.market_id = m.id
+		WHERE c.match_id = #{matchId} AND play_id IN (${playIds}) AND relevance_type = 1
+		AND m.addition1 IS NOT null
+	</select>
+
+    <select id="selectMatchStatisticsInfoDetail" resultType="com.panda.sport.rcs.pojo.MatchStatisticsInfoDetail">
+		SELECT * FROM  match_statistics_info_detail WHERE code='match_score' AND  standard_match_id=#{matchId}  AND  first_num=0
+		order by id desc
+	</select>
+
+    <select id="selectStandardSportMarket" resultType="com.panda.sport.rcs.pojo.StandardSportMarket">
+		SELECT * FROM standard_sport_market WHERE standard_match_info_id =#{matchId} AND market_category_id=#{playId} AND addition2=#{addition2} * 1
+	</select>
+
+    <select id="selectStandardSportMarketByMatchIdAndPlayIdAndPlayId" resultType="com.panda.sport.rcs.pojo.StandardSportMarket">
+		SELECT
+			*
+		FROM
+			standard_sport_market s
+		WHERE
+			s.standard_match_info_id = #{matchId}
+			AND s.market_category_id IN ( 4, 19 )
+	</select>
+
+    <select id="selectStandardSportMarketByMarketId" resultType="com.panda.sport.rcs.pojo.StandardSportMarket">
+        SELECT i.sport_id,i.id standard_match_info_id,s.market_category_id,s.id FROM standard_sport_market s LEFT JOIN standard_match_info i on s.standard_match_info_id=i.id
+        WHERE s.id=#{marketId} 
+    </select>
+
+    <select id="selectMarketOddsByMarketIds" resultType="com.panda.sport.rcs.pojo.odds.RcsStandardMarketDTO">
+		SELECT  r.place_num as placeNum,
+				m.id as id
+		from standard_sport_market m
+		JOIN rcs_standard_place_ref r ON r.market_id = m.id
+		JOIN (
+			SELECT r.version_id FROM standard_match_info i
+			LEFT JOIN rcs_standard_place_ref r ON r.standard_match_info_id = i.id
+			WHERE i.id = #{config.matchId,jdbcType=BIGINT} AND r.place_num = 1 AND r.market_category_id = #{config.playId,jdbcType=BIGINT}
+			) t
+			ON t.version_id = r.version_id
+		WHERE r.market_category_id = #{config.playId,jdbcType=BIGINT}
+		AND m.third_market_source_status in (0,1)
+		AND r.standard_match_info_id = #{config.matchId,jdbcType=BIGINT}
+		order BY r.place_num
+    </select>
+</mapper>

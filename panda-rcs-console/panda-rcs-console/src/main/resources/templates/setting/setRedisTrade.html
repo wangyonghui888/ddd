@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: htmlhead" th:with="title='操盘记录'"></head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <!--头-->
+    <div th:replace="fragments/head :: header"></div>
+
+    <div class="layui-body" style="margin: 1%">
+        <form id="userSearch1" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width:200px;">set HashKey Value</label>
+                <div class="layui-input-inline">
+                    <input id="time1" name="time1" autocomplete="off" class="layui-input" type="text" />
+                </div>
+                <div class="layui-input-inline">
+                    <input id="time2" name="time2" autocomplete="off" class="layui-input" type="text" />
+                </div>
+                <div class="layui-input-inline">
+                    <input id="time3" name="time3" autocomplete="off" class="layui-input" type="text" />
+                </div>
+                <button type="button" class="layui-btn layui-btn-primary" onclick="setReidsTrade(1)">提交</button>
+            </div>
+        </form>
+
+        <form id="userSearch3" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width:200px;">delete HashKey</label>
+                <div class="layui-input-inline">
+                    <input id="time6" name="time1" autocomplete="off" class="layui-input" type="text" />
+                </div>
+                <div class="layui-input-inline">
+                    <input id="time7" name="time2" autocomplete="off" class="layui-input" type="text" />
+                </div>
+                <button type="button" class="layui-btn layui-btn-primary" onclick="setReidsTrade(3)">提交</button>
+            </div>
+        </form>
+
+        <!--<hr class="layui-bg-blue"/>-->
+        <hr class="layui-bg-gray"/>
+        <form id="userSearch4" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width:200px;" >set Key Value</label>
+                <div class="layui-input-inline">
+                    <input id="time4" name="time4" autocomplete="off" class="layui-input" type="text" />
+                </div>
+                <div class="layui-input-inline">
+                    <input id="time5" name="time5" autocomplete="off" class="layui-input" type="text" />
+                </div>
+                <button type="button" class="layui-btn layui-btn-primary" onclick="setReidsTrade(2)">提交</button>
+            </div>
+        </form>
+
+        <form id="userSearch2" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width:200px;" >delete Key </label>
+                <div class="layui-input-inline">
+                    <input id="time9" name="time4" autocomplete="off" class="layui-input" type="text" />
+                </div>
+                <button type="button" class="layui-btn layui-btn-primary" onclick="setReidsTrade(4)">提交</button>
+            </div>
+        </form>
+    </div>
+
+    <!--底部-->
+    <div th:replace="fragments/footer :: footer"></div>
+    <script src="/js/dateUtils.js"></script>
+    <script src="/js/setting/setRedis.js"></script>
+
+</div>
+</body>
+</html>

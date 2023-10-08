@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.customdb.mapper.RiskUserVisitIpExtMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.panda.sport.rcs.db.entity.RiskUserVisitIp">
+    </resultMap>
+
+    <!--赔率区间统计-->
+    <select id="getUserOrderIp" resultMap="BaseResultMap">
+        SELECT DISTINCT ip_area area, uid userId, ip FROM tybss_merchant_common.t_order  WHERE create_time &gt;= #{beginTime} and create_time &lt;  #{endTime}
+    </select>
+
+
+</mapper>

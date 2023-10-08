@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://dubbo.apache.org/schema/dubbo" xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-4.3.xsd        
+    http://dubbo.apache.org/schema/dubbo        
+    http://dubbo.apache.org/schema/dubbo/dubbo.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+    <!-- 提供方应用信息，用于计算依赖关系 -->
+    <dubbo:application name="${spring.application.name}"  />
+
+    <dubbo:registry address="${dubbo.address}"  protocol="zookeeper" />
+
+    <dubbo:protocol name="dubbo" port="${dubbo.port}" threads="${dubbo.threads}" />
+
+    <!-- rest协议只供内部测试 -->
+    <dubbo:protocol name="rest" port="${risk.server.port}" threads="10" server="servlet" path="dubbo"/>
+
+<!--     <dubbo:service interface="com.panda.sport.data.rcs.api.CategoryListService" ref="categoryListService" protocol="dubbo"/>
+    <bean id="categoryListService" class="com.panda.sport.rcs.mgr.service.impl.CategoryListServiceImpl" /> -->
+
+<!--    <dubbo:service interface="com.panda.sport.rcs.mgr.wrapper.MarketOddsChangeCalculationService" ref="marketOddsChangeCalculationService" protocol="dubbo"/>-->
+<!--    <bean id="marketOddsChangeCalculationService" class="com.panda.sport.rcs.mgr.service.impl.MarketOddsChangeCalculationServiceImpl" />-->
+    
+    <bean id="orderPaidApi" class="com.panda.sport.rcs.mgr.service.impl.OrderPaidApiImpl" />
+	<!-- <dubbo:service interface="com.panda.sport.data.rcs.api.OrderPaidApiService" ref="orderPaidApi" protocol="rest"/> -->
+
+    <dubbo:service interface="com.panda.sport.data.rcs.api.matrix.MatchMatrixService" ref="matchMatrixService" protocol="dubbo"/>
+    <bean id="matchMatrixService" class="com.panda.sport.rcs.mgr.service.impl.matrix.MatchMatrixServiceImpl" />
+
+    <dubbo:service interface="com.panda.sport.data.rcs.api.BalanceValueService" ref="balanceValueService" protocol="dubbo"/>
+    <bean id="balanceValueService" class="com.panda.sport.rcs.mgr.wrapper.impl.BalanceValueServiceImpl" />
+
+    <dubbo:service interface="com.panda.sport.data.rcs.api.order.RiskApiService" ref="riskApiService" protocol="dubbo"/>
+    <bean id="riskApiService" class="com.panda.sport.rcs.mgr.service.impl.RiskApiServiceImpl" />
+
+    <dubbo:service interface="com.panda.sport.data.rcs.api.trade.RedisApiService" ref="redisApiService" protocol="dubbo"/>
+    <bean id="redisApiService" class="com.panda.sport.rcs.mgr.service.impl.RedisApiServiceImpl" />
+
+    <bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+        <property name="corePoolSize" value="5" />
+        <property name="maxPoolSize" value="100" />
+        <property name="queueCapacity" value="25" />
+    </bean>
+
+    <bean id="taskExecutorOrder" class="com.panda.sport.rcs.mgr.service.impl.TaskExecutorOrder">
+        <constructor-arg ref="taskExecutor" />
+    </bean>
+
+    <!-- <task:annotation-driven scheduler="taskScheduler"/>
+     &lt;!&ndash; 添加定时器详细配置，这里只配置了个数限制&ndash;&gt;
+     <task:scheduler id="taskScheduler" pool-size="5"/>-->
+
+</beans>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.data.mapper.StandardSportMarketOddsMapper">
+
+    <insert id="batchSaveOrUpdate" keyColumn="id" keyProperty="id" parameterType="java.util.List" useGeneratedKeys="false">
+        insert into standard_sport_market_odds
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            id,
+            market_id,
+            odds_fields_templet_id,
+            settlement_result_text,
+            settlement_result,
+            bet_settlement_certainty,
+            odds_type,
+            active,
+            addition1,
+            addition2,
+            addition3,
+            addition4,
+            addition5,
+            `name`,
+            name_expression_value,
+            odds_value,
+            previous_odds_value,
+            third_template_source_id,
+            original_odds_value,
+            target_side,
+            order_odds,
+            data_source_code,
+            third_odds_field_source_id,
+            i18n_names,
+            remark,
+            margin,
+            extra_info,
+            create_time,
+            modify_time,
+            market_diff_value,
+            probability,
+            probability_odds,
+            anchor,
+            margin_probability_odds,
+            name_code,
+            third_source_active,
+            `status`
+        </trim>
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.id,jdbcType=BIGINT},#{item.marketId,jdbcType=BIGINT}, #{item.oddsFieldsTempletId,jdbcType=BIGINT},
+            #{item.settlementResultText,jdbcType=VARCHAR},
+            #{item.settlementResult,jdbcType=VARCHAR}, #{item.betSettlementCertainty,jdbcType=VARCHAR},
+            #{item.oddsType,jdbcType=VARCHAR}, #{item.active,jdbcType=TINYINT}, 
+            #{item.addition1,jdbcType=VARCHAR},
+            #{item.addition2,jdbcType=VARCHAR}, #{item.addition3,jdbcType=VARCHAR}, #{item.addition4,jdbcType=VARCHAR},
+            #{item.addition5,jdbcType=VARCHAR},  #{item.name,jdbcType=VARCHAR},
+            #{item.nameExpressionValue,jdbcType=VARCHAR}, #{item.oddsValue,jdbcType=INTEGER},#{item.previousOddsValue},
+            #{item.thirdTemplateSourceId,jdbcType=VARCHAR}, #{item.originalOddsValue,jdbcType=INTEGER},
+            #{item.targetSide,jdbcType=VARCHAR}, #{item.orderOdds,jdbcType=INTEGER},
+            #{item.dataSourceCode,jdbcType=VARCHAR},
+            #{item.thirdOddsFieldSourceId,jdbcType=VARCHAR},
+            #{item.i18nNamesStr,jdbcType=VARCHAR}, #{item.remark,jdbcType=VARCHAR},#{item.margin},#{item.extraInfo,jdbcType=VARCHAR}, #{item.createTime,jdbcType=BIGINT},
+            #{item.modifyTime,jdbcType=BIGINT},#{item.marketDiffValue},#{item.probability},#{item.probabilityOdds},#{item.anchor},#{item.marginProbabilityOdds},#{item.nameCode},
+            #{item.thirdSourceActive},#{item.status}
+          )
+        </foreach>
+        on duplicate key update
+        <trim suffixOverrides=",">
+            market_id = VALUES(market_id),
+            odds_fields_templet_id = VALUES(odds_fields_templet_id),
+            settlement_result_text = VALUES(settlement_result_text),
+            settlement_result = VALUES(settlement_result),
+            bet_settlement_certainty = VALUES(bet_settlement_certainty),
+            odds_type = VALUES(odds_type),
+            active = VALUES(active),
+            addition1 = VALUES(addition1),
+            addition2 = VALUES(addition2),
+            addition3 = VALUES(addition3),
+            addition4 = VALUES(addition4),
+            addition5 = VALUES(addition5),
+            `name` = VALUES(`name`),
+            name_expression_value = VALUES(name_expression_value),
+            odds_value = VALUES(odds_value),
+            previous_odds_value = VALUES(previous_odds_value),
+            third_template_source_id = VALUES(third_template_source_id),
+            original_odds_value = VALUES(original_odds_value),
+            target_side = VALUES(target_side),
+            order_odds = VALUES(order_odds),
+            data_source_code = VALUES(data_source_code),
+            third_odds_field_source_id = VALUES(third_odds_field_source_id),
+            i18n_names = VALUES(i18n_names),
+            remark = VALUES(remark),
+            margin = IFNULL(VALUES(margin),margin),
+            extra_info = VALUES(extra_info),
+            modify_time = VALUES(modify_time),
+            market_diff_value = values(market_diff_value),
+            probability = values(probability),
+            probability_odds = values(probability_odds),
+            anchor = values(anchor),
+            margin_probability_odds = values(margin_probability_odds),
+            name_code = values(name_code),
+            third_source_active = values(third_source_active),
+            `status` = values(`status`),
+        </trim>
+    </insert>
+
+</mapper>

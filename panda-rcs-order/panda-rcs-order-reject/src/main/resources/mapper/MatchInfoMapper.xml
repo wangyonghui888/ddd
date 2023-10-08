@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.rcs.order.reject.mapper.MatchInfoMapper">
+
+    <select id="queryOddsChangeInfo" resultType="com.panda.rcs.order.reject.entity.OddsChangeInfo">
+		SELECT t1.odds_change_value as oddsValue,t1.odds_change_status as oddsStatus from rcs_tournament_template t LEFT JOIN  rcs_tournament_template_play_margain t1
+		on t.id=t1.template_id where t.type_val=#{matchId} and t.match_type=#{matchType} and t1.play_id=#{playId} and t1.odds_change_status=1
+	</select>
+
+	<select id="queryMtsTemplateConfig" resultType="java.lang.String">
+        select mts_config_value from  rcs_tournament_template
+        where type_val=#{matchId} and match_type=#{matchType}
+    </select>
+    <select id="queryDataSourceCode" resultType="java.lang.String">
+        SELECT c.data_source as dataSource
+        FROM rcs_tournament_template_accept_config c
+        JOIN  rcs_tournament_template t ON c.template_id = t.id AND t.type = 3 AND t.match_type = 0
+        WHERE t.type_val = #{matchId}
+        AND c.category_set_id = #{categorySetId}
+    </select>
+    <select id="queryPreSettleDataSourceCode" resultType="java.lang.String">
+        SELECT c.data_source as dataSource
+        FROM rcs_tournament_template_accept_config_settle c
+        JOIN  rcs_tournament_template t ON c.template_id = t.id AND t.type = 3 AND t.match_type = 0
+        WHERE t.type_val = #{matchId}
+        AND c.category_set_id = #{categorySetId}
+    </select>
+    <select id="queryWaitSecondsInfo" resultType="com.panda.rcs.order.reject.entity.RcsTournamentTemplateAcceptConfigDto">
+        SELECT wait_seconds as waitSeconds from  rcs_match_market_config where match_id =#{obj.matchId} and play_id=#{obj.playId} and market_index=#{obj.placeNum};
+    </select>
+    <select id="querySubWaitSecondsInfo" resultType="com.panda.rcs.order.reject.entity.RcsTournamentTemplateAcceptConfigDto">
+          SELECT wait_seconds as waitSeconds from  rcs_match_market_config_sub where match_id =#{obj.matchId} and play_id=#{obj.playId} and sub_play_id=#{obj.subPlayId} and market_index=#{obj.placeNum};
+    </select>
+    <select id="querWaitTimeInfo" resultType="com.panda.rcs.order.reject.entity.RcsTournamentTemplateAcceptConfigRps">
+        SELECT  * FROM rcs_tournament_template_accept_config c  JOIN rcs_tournament_template t ON c.template_id = t.id AND t.type = 3 AND t.match_type = 0
+        WHERE t.type_val =#{matchId}
+          AND t.sport_id = 1
+          and category_set_id =#{categorySetId}
+    </select>
+    <select id="querSettleWaitTimeInfo" resultType="com.panda.rcs.order.reject.entity.RcsTournamentTemplateAcceptConfigRps">
+        SELECT  * FROM rcs_tournament_template_accept_config_settle c  JOIN rcs_tournament_template t ON c.template_id = t.id AND t.type = 3 AND t.match_type = 0
+        WHERE t.type_val =#{matchId}
+          AND t.sport_id = 1
+          and category_set_id =#{categorySetId}
+    </select>
+
+
+    <select id="getVarSwitchStatus" resultType="java.lang.String">
+        SELECT type_status
+        FROM rcs_var_acquiring_status
+        WHERE type_id = #{typeId}
+          AND type_value = #{typeValue}
+    </select>
+</mapper>

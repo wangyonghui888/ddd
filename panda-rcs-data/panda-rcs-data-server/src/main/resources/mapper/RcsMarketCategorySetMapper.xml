@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.data.mapper.MarketCategorySetMapper">
+
+    <!-- 开启本mapper所在namespace的二级缓存-->
+    <cache eviction="FIFO" flushInterval="300000" size="1024" readOnly="true"/>
+
+    <select id="queryPlaySetCode" parameterType="Long" resultType="com.panda.sport.rcs.pojo.RcsMarketCategorySet">
+		 SELECT * FROM `rcs_market_category_set`
+        WHERE sport_id = 1 and type = 1 and `status` = 2 and play_set_code='FOOTBALL_GOAL';
+    </select>
+
+    <select id="getPerformanceSetPlays" resultType="com.panda.sport.rcs.pojo.bo.GetPerformanceSetPlaysBO">
+        SELECT rmcsr.market_category_id playId,rmcs.id setNo from  rcs_market_category_set rmcs
+        LEFT JOIN rcs_market_category_set_relation  rmcsr on rmcs.id =rmcsr.market_category_set_id
+        LEFT JOIN standard_sport_market_category_ref  ssmcr on rmcsr.market_category_id =ssmcr.category_id
+        WHERE rmcs.sport_id=#{sportId} and ssmcr.sport_id =#{sportId} and  rmcs.type=2 and rmcs.`status` = 2
+    </select>
+
+    <select id="findMarketCategoryListAndNames" parameterType="List" resultType="com.panda.sport.rcs.pojo.bo.FindMarketCategoryListAndNamesBO">
+        SELECT
+        *
+        FROM
+        (
+        select
+        rel.market_category_set_id marketCategorySetId,
+        category.category_id id,
+        category.sport_id sportId,
+        category.name_code nameCode,
+        li.text,
+        row_number() over ( PARTITION BY category.name_code ORDER BY category.crt_time DESC ) AS plus_aux
+        from standard_sport_market_category_ref category
+        LEFT JOIN rcs_market_category_set_relation rel  on category.category_id=rel.market_category_id
+        left join rcs_language_internation li on category.name_code = li.name_code
+        where category.sport_id=#{sportId}
+        <if test="list != null and list.size() != 0">
+            and rel.market_category_set_id in
+            <foreach item="idList" index="index" collection="list" open="(" separator="," close=")">
+                #{idList}
+            </foreach>
+        </if>
+        ) ot
+        WHERE
+        ot.plus_aux =1
+    </select>
+</mapper>

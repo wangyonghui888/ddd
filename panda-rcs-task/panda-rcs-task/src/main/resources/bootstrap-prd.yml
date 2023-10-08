@@ -1,0 +1,14 @@
+#启动配置
+server:
+  port: 10604
+spring:
+  application:
+    name: panda-rcs-task
+  cloud:
+    nacos:
+      config:
+        server-addr: 10.5.17.171:8848,10.5.17.172:8848,10.5.17.171:8848
+        file-extension: properties
+        namespace: 78b3feba-001d-4080-8408-5c65b23aaab2
+  profiles:
+    active: pro

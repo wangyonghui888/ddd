@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.data.mapper.StandardSportTeamMapper">
+  <resultMap id="BaseResultMap" type="com.panda.sport.rcs.pojo.StandardSportTeam">
+    <!--@mbg.generated-->
+    <!--@Table standard_sport_team-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="sport_id" jdbcType="BIGINT" property="sportId" />
+    <result column="third_team_id" jdbcType="BIGINT" property="thirdTeamId" />
+    <result column="region_id" jdbcType="BIGINT" property="regionId" />
+    <result column="related_data_source_coder_num" jdbcType="INTEGER" property="relatedDataSourceCoderNum" />
+    <result column="related_data_source_coder_list" jdbcType="VARCHAR" property="relatedDataSourceCoderList" />
+    <result column="logo_url" jdbcType="VARCHAR" property="logoUrl" />
+    <result column="logo_url_thumb" jdbcType="VARCHAR" property="logoUrlThumb" />
+    <result column="team_manage_id" jdbcType="VARCHAR" property="teamManageId" />
+    <result column="name_code" jdbcType="BIGINT" property="nameCode" />
+    <result column="coach" jdbcType="VARCHAR" property="coach" />
+    <result column="statium" jdbcType="VARCHAR" property="statium" />
+    <result column="introduction" jdbcType="VARCHAR" property="introduction" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="modify_time" jdbcType="BIGINT" property="modifyTime" />
+    <result column="name_spell" jdbcType="VARCHAR" property="nameSpell" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="data_source_code" jdbcType="VARCHAR" property="dataSourceCode" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, sport_id, third_team_id, region_id, related_data_source_coder_num, related_data_source_coder_list, 
+    logo_url, logo_url_thumb, team_manage_id, name_code, coach, statium, introduction, 
+    remark, create_time, modify_time, name_spell, `name`, data_source_code
+  </sql>
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update standard_sport_team
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="sport_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.sportId,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="third_team_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.thirdTeamId,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="region_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.regionId,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="related_data_source_coder_num = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.relatedDataSourceCoderNum,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+      <trim prefix="related_data_source_coder_list = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.relatedDataSourceCoderList,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="logo_url = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.logoUrl,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="logo_url_thumb = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.logoUrlThumb,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="team_manage_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.teamManageId,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="name_code = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.nameCode,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="coach = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.coach,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="statium = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.statium,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="introduction = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.introduction,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="remark = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.remark,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="create_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.createTime,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="modify_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.modifyTime,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="name_spell = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.nameSpell,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="`name` = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.name,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="data_source_code = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.dataSourceCode,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id,jdbcType=BIGINT}
+    </foreach>
+  </update>
+  <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into standard_sport_team
+    (id,sport_id, third_team_id, region_id, related_data_source_coder_num, related_data_source_coder_list,
+      logo_url, logo_url_thumb, team_manage_id, name_code, coach, statium, introduction, 
+      remark, create_time, modify_time, name_spell, `name`, data_source_code)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.id,jdbcType=BIGINT},#{item.sportId,jdbcType=BIGINT}, #{item.thirdTeamId,jdbcType=BIGINT}, #{item.regionId,jdbcType=BIGINT},
+        #{item.relatedDataSourceCoderNum,jdbcType=INTEGER}, #{item.relatedDataSourceCoderList,jdbcType=VARCHAR}, 
+        #{item.logoUrl,jdbcType=VARCHAR}, #{item.logoUrlThumb,jdbcType=VARCHAR}, #{item.teamManageId,jdbcType=VARCHAR},
+        #{item.nameCode,jdbcType=BIGINT}, #{item.coach,jdbcType=VARCHAR}, #{item.statium,jdbcType=VARCHAR}, 
+        #{item.introduction,jdbcType=VARCHAR}, #{item.remark,jdbcType=VARCHAR}, #{item.createTime,jdbcType=BIGINT}, 
+        #{item.modifyTime,jdbcType=BIGINT}, #{item.nameSpell,jdbcType=VARCHAR}, #{item.name,jdbcType=VARCHAR}, 
+        #{item.dataSourceCode,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+
+  <insert id="batchInsertOrUpdate" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into standard_sport_team
+    (id,sport_id, third_team_id, region_id, related_data_source_coder_num, related_data_source_coder_list,
+    logo_url, logo_url_thumb, team_manage_id, name_code, coach, statium, introduction,
+    remark, create_time, modify_time, name_spell, `name`, data_source_code)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.id,jdbcType=BIGINT},#{item.sportId,jdbcType=BIGINT}, #{item.thirdTeamId,jdbcType=BIGINT}, #{item.regionId,jdbcType=BIGINT},
+      #{item.relatedDataSourceCoderNum,jdbcType=INTEGER}, #{item.relatedDataSourceCoderList,jdbcType=VARCHAR},
+      #{item.logoUrl,jdbcType=VARCHAR}, #{item.logoUrlThumb,jdbcType=VARCHAR}, #{item.teamManageId,jdbcType=VARCHAR},
+      #{item.nameCode,jdbcType=BIGINT}, #{item.coach,jdbcType=VARCHAR}, #{item.statium,jdbcType=VARCHAR},
+      #{item.introduction,jdbcType=VARCHAR}, #{item.remark,jdbcType=VARCHAR}, #{item.createTime,jdbcType=BIGINT},
+      #{item.modifyTime,jdbcType=BIGINT}, #{item.nameSpell,jdbcType=VARCHAR}, #{item.name,jdbcType=VARCHAR},
+      #{item.dataSourceCode,jdbcType=VARCHAR})
+    </foreach>
+    on duplicate key update
+    <trim suffixOverrides=",">
+      sport_id = values (sport_id),
+      third_team_id = values (third_team_id),
+      region_id = values (region_id),
+      related_data_source_coder_num = values (related_data_source_coder_num),
+      related_data_source_coder_list = values (related_data_source_coder_list),
+      logo_url = values (logo_url),
+      logo_url_thumb = values (logo_url_thumb),
+      team_manage_id = values (team_manage_id),
+      name_code = values (name_code),
+      coach = values (coach),
+      statium = values (statium),
+      introduction = values (introduction),
+      remark = values (remark),
+      modify_time = values (modify_time),
+      name_spell = values (name_spell),
+      `name` = values (`name`),
+      data_source_code = values (data_source_code),
+    </trim>
+  </insert>
+</mapper>

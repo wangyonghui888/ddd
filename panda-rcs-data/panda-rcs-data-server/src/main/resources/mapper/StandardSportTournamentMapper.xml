@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.data.mapper.StandardSportTournamentMapper">
+  <resultMap id="BaseResultMap" type="com.panda.sport.rcs.pojo.StandardSportTournament">
+    <!--@mbg.generated-->
+    <!--@Table standard_sport_tournament-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="sport_id" jdbcType="BIGINT" property="sportId" />
+    <result column="third_tournament_id" jdbcType="BIGINT" property="thirdTournamentId" />
+    <result column="region_id" jdbcType="BIGINT" property="regionId" />
+    <result column="tournament_level" jdbcType="TINYINT" property="tournamentLevel" />
+    <result column="tournament_manager_id" jdbcType="VARCHAR" property="tournamentManagerId" />
+    <result column="third_tournament_source_id" jdbcType="VARCHAR" property="thirdTournamentSourceId" />
+    <result column="name_code" jdbcType="BIGINT" property="nameCode" />
+    <result column="data_source_code" jdbcType="VARCHAR" property="dataSourceCode" />
+    <result column="logo_url" jdbcType="VARCHAR" property="logoUrl" />
+    <result column="logo_url_thumb" jdbcType="VARCHAR" property="logoUrlThumb" />
+    <result column="related_data_source_coder_num" jdbcType="INTEGER" property="relatedDataSourceCoderNum" />
+    <result column="related_data_source_coder_list" jdbcType="VARCHAR" property="relatedDataSourceCoderList" />
+    <result column="introduction" jdbcType="VARCHAR" property="introduction" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="modify_time" jdbcType="BIGINT" property="modifyTime" />
+    <result column="name_spell" jdbcType="VARCHAR" property="nameSpell" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, sport_id, third_tournament_id, region_id, tournament_level, tournament_manager_id, 
+    third_tournament_source_id, name_code, data_source_code, logo_url, logo_url_thumb, 
+    related_data_source_coder_num, related_data_source_coder_list, introduction, remark, 
+    create_time, modify_time, name_spell, `name`
+  </sql>
+
+  <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into standard_sport_tournament
+    (id,sport_id, third_tournament_id, region_id, tournament_level, tournament_manager_id,
+      third_tournament_source_id, name_code, data_source_code, logo_url, logo_url_thumb, 
+      related_data_source_coder_num, related_data_source_coder_list, introduction, remark, 
+      create_time, modify_time, name_spell, `name`,name_concat)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.id,jdbcType=BIGINT},#{item.sportId,jdbcType=BIGINT}, #{item.thirdTournamentId,jdbcType=BIGINT}, #{item.regionId,jdbcType=BIGINT},
+        #{item.tournamentLevel,jdbcType=TINYINT}, #{item.tournamentManagerId,jdbcType=VARCHAR},
+        #{item.thirdTournamentSourceId,jdbcType=VARCHAR}, #{item.nameCode,jdbcType=BIGINT}, 
+        #{item.dataSourceCode,jdbcType=VARCHAR}, #{item.logoUrl,jdbcType=VARCHAR}, #{item.logoUrlThumb,jdbcType=VARCHAR}, 
+        #{item.relatedDataSourceCoderNum,jdbcType=INTEGER}, #{item.relatedDataSourceCoderList,jdbcType=VARCHAR}, 
+        #{item.introduction,jdbcType=VARCHAR}, #{item.remark,jdbcType=VARCHAR}, #{item.createTime,jdbcType=BIGINT}, 
+        #{item.modifyTime,jdbcType=BIGINT}, #{item.nameSpell,jdbcType=VARCHAR}, #{item.name,jdbcType=VARCHAR}, #{item.nameConcat,jdbcType=VARCHAR}
+        )
+    </foreach>
+  </insert>
+
+
+  <insert id="batchInsertOrUpdate" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into standard_sport_tournament
+    (id,sport_id, third_tournament_id, region_id, tournament_level, tournament_manager_id,
+    third_tournament_source_id, name_code, data_source_code, logo_url, logo_url_thumb,
+    related_data_source_coder_num, related_data_source_coder_list, introduction, remark,
+    create_time, modify_time, name_spell, `name`,name_concat,
+    current_season_id,father_tournament_id,simple_flage,current_round_type,current_round_number,current_round_name,hot_status,has_relation)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.id,jdbcType=BIGINT},#{item.sportId,jdbcType=BIGINT}, #{item.thirdTournamentId,jdbcType=BIGINT}, #{item.regionId,jdbcType=BIGINT},
+      #{item.tournamentLevel,jdbcType=TINYINT}, #{item.tournamentManagerId,jdbcType=VARCHAR},
+      #{item.thirdTournamentSourceId,jdbcType=VARCHAR}, #{item.nameCode,jdbcType=BIGINT},
+      #{item.dataSourceCode,jdbcType=VARCHAR}, #{item.logoUrl,jdbcType=VARCHAR}, #{item.logoUrlThumb,jdbcType=VARCHAR},
+      #{item.relatedDataSourceCoderNum,jdbcType=INTEGER}, #{item.relatedDataSourceCoderList,jdbcType=VARCHAR},
+      #{item.introduction,jdbcType=VARCHAR}, #{item.remark,jdbcType=VARCHAR}, #{item.createTime,jdbcType=BIGINT},
+      #{item.modifyTime,jdbcType=BIGINT}, #{item.nameSpell,jdbcType=VARCHAR}, #{item.name,jdbcType=VARCHAR}, #{item.nameConcat,jdbcType=VARCHAR},
+      #{item.currenSeasonId},#{item.fatherTournamentId},#{item.simpleFlage},#{item.currentRoundType},#{item.currentRoundNumber},#{item.currentRoundName},#{item.hotStatus},#{item.hasRelation}
+      )
+    </foreach>
+    on duplicate key update
+    <trim suffixOverrides=",">
+      sport_id = values (sport_id),
+      third_tournament_id = values (third_tournament_id),
+      region_id = values (region_id),
+      tournament_manager_id = values (tournament_manager_id),
+      third_tournament_source_id = values (third_tournament_source_id),
+      name_code = values (name_code),
+      data_source_code = values (data_source_code),
+      logo_url = values (logo_url),
+      logo_url_thumb = values (logo_url_thumb),
+      related_data_source_coder_num = values (related_data_source_coder_num),
+      related_data_source_coder_list = values (related_data_source_coder_list),
+      introduction = values (introduction),
+      remark = values (remark),
+      modify_time = values (modify_time),
+      name_spell = values (name_spell),
+      `name` = values (`name`),
+      current_season_id = values (current_season_id),
+      father_tournament_id = values (father_tournament_id),
+      simple_flage = values (simple_flage),
+      current_round_type = values (current_round_type),
+      current_round_number = values (current_round_number),
+      current_round_name = values (current_round_name),
+      hot_status = values (hot_status),
+      has_relation = values (has_relation)
+    </trim>
+  </insert>
+
+</mapper>

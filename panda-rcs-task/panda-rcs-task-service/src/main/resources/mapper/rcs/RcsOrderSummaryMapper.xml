@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.mapper.RcsOrderSummaryMapper">
+    <update id="insertOrUpdateOddsValueMax">
+        <foreach collection="orderSummaryVos" index="index" item="item" separator=";">
+            INSERT INTO `panda_rcs`.`rcs_order_summary` ( `sport_id`, `match_id`, `play_id`, `market_id`, `odds_id`, `odds_value_max` )
+            VALUES
+            ( #{item.sportId}, #{item.matchId}, #{item.playId}, #{item.marketId}, #{item.playOptionsId}, #{item.oddsValue})ON DUPLICATE KEY UPDATE
+            odds_value_max=#{item.oddsValue}
+        </foreach>
+    </update>
+
+    <update id="updateOrInsertOrOddsValueMax">
+        <foreach collection="rcsOrderSummaries" index="index" item="item" separator=";">
+            INSERT IGNORE INTO `panda_rcs`.`rcs_order_summary` ( `sport_id`, `match_id`, `play_id`, `market_id`, `odds_id`, `odds_value_max` )
+            VALUES
+            ( #{sportId}, #{matchId}, #{playId}, #{marketId}, #{item.oddsId}, #{item.oddsValueMax})
+        </foreach>
+    </update>
+</mapper>

@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.console.dao.RcsTournamentTemplateMapper">
+  <select id="selectTournamentSpecialOddsIntervalInitData" resultType="com.panda.sport.rcs.console.pojo.RcsTournamentTemplatePlayMargain">
+    select m.id as id,
+           m.match_type as matchType,
+           (SELECT order_single_pay_val
+            from rcs_tournament_template_play_margain_ref r
+            where r.margain_id = m.id
+              and case when m.match_type = 1 then r.time_val = 2592000 else r.time_val = 0 end) as orderSinglePayVal
+    from rcs_tournament_template_play_margain m
+    where template_id
+      in (SELECT id FROM `rcs_tournament_template` where sport_id = 1 and type in (1,2))
+      and play_id = #{playId}
+  </select>
+
+    <select id="selectListByInfo" resultType="com.panda.sport.rcs.console.dto.RcsTournamentTemplate">
+        select
+            *,match_type as matchType
+        from rcs_tournament_template
+        where type != 3
+        and sport_id = #{vo.sportId}
+        <if test="vo.matchType!=null">
+            AND match_type = #{vo.matchType}
+        </if>
+        <if test="vo.typeVal!=null">
+            AND type_val = #{vo.typeVal}
+        </if>
+    </select>
+
+    <select id="selectPlayMarginByInfo" resultType="com.panda.sport.rcs.console.dto.TournamentTemplatePlayMargainParam">
+        select
+        *
+        from rcs_tournament_template_play_margain
+        where template_id = #{vo.templateId}
+        and play_id = #{vo.playId}
+    </select>
+
+    <select id="selectPlayMarginRefByInfo" resultType="com.panda.sport.rcs.console.dto.RcsTournamentTemplatePlayMargainRef">
+        select
+            *
+        from rcs_tournament_template_play_margain_ref
+        where margain_id = #{margainId}
+          and time_val = #{timeVal}
+    </select>
+
+    <insert id="batchInsertMarginPlay" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+        insert into rcs_tournament_template_play_margain (template_id,play_id,
+        match_type,market_type,is_sell,market_count,auto_close_market,match_progress_time,injury_time,market_warn,is_series,vice_market_ratio,market_near_diff,market_near_odds_diff,odds_adjust_range,market_adjust_range,create_time,update_time,
+        head_market_near_odds_diff,data_source,odds_max_value,market_max_value,manual_market_near_diff,manual_market_near_odds_diff,is_special_pumping,special_odds_interval,reject_market_diff,reject_odds_diff,
+        min_ball_head,max_ball_head,competition_win_value,odds_change_value,odds_change_status,special_odds_interval_high,special_odds_interval_low,special_odds_interval_status,if_warn_suspended,special_betting_interval_high,pending_order_status)
+        values
+            (#{templateId,jdbcType=INTEGER},#{playId,jdbcType=INTEGER},#{matchType,jdbcType=INTEGER},#{marketType,jdbcType=INTEGER},#{isSell,jdbcType=INTEGER},
+            #{marketCount,jdbcType=INTEGER},#{autoCloseMarket,jdbcType=INTEGER},#{matchProgressTime,jdbcType=INTEGER},
+            #{injuryTime,jdbcType=INTEGER},#{marketWarn,jdbcType=INTEGER},#{isSeries,jdbcType=INTEGER},#{viceMarketRatio,jdbcType=VARCHAR},
+            #{marketNearDiff,jdbcType=DECIMAL},#{marketNearOddsDiff,jdbcType=DECIMAL},#{oddsAdjustRange,jdbcType=DECIMAL},#{marketAdjustRange,jdbcType=DECIMAL},now(),now(),
+            #{headMarketNearOddsDiff,jdbcType=DECIMAL},#{dataSource,jdbcType=VARCHAR},#{oddsMaxValue,jdbcType=DECIMAL},#{marketMaxValue,jdbcType=DECIMAL},#{manualMarketNearDiff,jdbcType=DECIMAL},
+            #{manualMarketNearOddsDiff,jdbcType=DECIMAL},#{isSpecialPumping,jdbcType=INTEGER},#{specialOddsInterval,jdbcType=VARCHAR},#{rejectMarketDiff,jdbcType=DECIMAL},#{rejectOddsDiff,jdbcType=DECIMAL},
+            #{minBallHead,jdbcType=DECIMAL},#{maxBallHead,jdbcType=DECIMAL},#{competitionWinValue,jdbcType=INTEGER},#{oddsChangeValue,jdbcType=DECIMAL},#{oddsChangeStatus,jdbcType=INTEGER},
+            #{specialOddsIntervalHigh,jdbcType=VARCHAR},#{specialOddsIntervalLow,jdbcType=VARCHAR},#{specialOddsIntervalStatus,jdbcType=VARCHAR},#{ifWarnSuspended,jdbcType=INTEGER},#{specialBettingIntervalHigh,jdbcType=VARCHAR},#{pendingOrderStatus})
+    </insert>
+
+    <insert id="batchInsertMarginRefPlay" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+        insert into rcs_tournament_template_play_margain_ref
+        (margain_id,time_val,margain,balance_option,max_odds,min_odds,odd_change_rule,home_multi_max_amount,home_single_max_amount,home_multi_odds_rate,
+        home_single_odds_rate,away_multi_odds_rate,away_single_odds_rate,order_single_pay_val,order_single_bet_val,user_multi_pay_val,multi_diff_val,multi_odds_rate,home_level_first_max_amount,
+        home_level_second_max_amount,home_level_first_odds_rate,home_level_second_odds_rate,away_level_first_odds_rate,away_level_second_odds_rate,is_market_config,
+        is_quota_config,pause_margain,normal_wait_time,pause_wait_time,create_time,update_time,status,level_first_market_amount,level_second_market_amount,home_level_first_market_rate,
+        home_level_second_market_rate,away_level_first_market_rate,away_level_second_market_rate,market_single_max_amount,market_cumulative_max_amount,home_single_market_rate,
+        home_cumulative_market_rate,away_single_market_rate,away_cumulative_market_rate,pumping_option,category_pre_status,cash_out_margin,market_count,vice_market_ratio,pending_order_pay_val,single_hedge_amount)
+        values
+            (#{margainId,jdbcType=BIGINT},#{timeVal,jdbcType=BIGINT},#{margain,jdbcType=VARCHAR},#{balanceOption,jdbcType=INTEGER},#{maxOdds,jdbcType=DECIMAL},
+            #{minOdds,jdbcType=DECIMAL},#{oddChangeRule,jdbcType=INTEGER},#{homeMultiMaxAmount,jdbcType=BIGINT},#{homeSingleMaxAmount,jdbcType=BIGINT},#{homeMultiOddsRate,jdbcType=DECIMAL},
+            #{homeSingleOddsRate,jdbcType=DECIMAL},#{awayMultiOddsRate,jdbcType=DECIMAL},#{awaySingleOddsRate,jdbcType=DECIMAL},#{orderSinglePayVal,jdbcType=BIGINT},#{orderSingleBetVal,jdbcType=BIGINT},
+            #{userMultiPayVal,jdbcType=BIGINT},#{multiDiffVal,jdbcType=BIGINT},#{multiOddsRate,jdbcType=BIGINT},#{homeLevelFirstMaxAmount,jdbcType=BIGINT},#{homeLevelSecondMaxAmount,jdbcType=BIGINT},
+            #{homeLevelFirstOddsRate,jdbcType=DECIMAL},#{homeLevelSecondOddsRate,jdbcType=DECIMAL},#{awayLevelFirstOddsRate,jdbcType=DECIMAL},#{awayLevelSecondOddsRate,jdbcType=DECIMAL},
+            #{isMarketConfig,jdbcType=INTEGER},#{isQuotaConfig,jdbcType=INTEGER},#{pauseMargain,jdbcType=VARCHAR},#{normalWaitTime,jdbcType=VARCHAR},#{pauseWaitTime,jdbcType=VARCHAR},
+            now(),now(),#{status,jdbcType=INTEGER},#{levelFirstMarketAmount,jdbcType=DECIMAL},#{levelSecondMarketAmount,jdbcType=DECIMAL},#{homeLevelFirstMarketRate,jdbcType=DECIMAL},#{homeLevelSecondMarketRate,jdbcType=DECIMAL},
+            #{awayLevelFirstMarketRate,jdbcType=DECIMAL},#{awayLevelSecondMarketRate,jdbcType=DECIMAL},#{marketSingleMaxAmount,jdbcType=DECIMAL},#{marketCumulativeMaxAmount,jdbcType=DECIMAL},
+            #{homeSingleMarketRate,jdbcType=DECIMAL},#{homeCumulativeMarketRate,jdbcType=DECIMAL},#{awaySingleMarketRate,jdbcType=DECIMAL},#{awayCumulativeMarketRate,jdbcType=DECIMAL},#{pumpingOption,jdbcType=INTEGER},
+            #{categoryPreStatus,jdbcType=INTEGER},#{cashOutMargin,jdbcType=BIGINT},#{marketCount,jdbcType=INTEGER},#{viceMarketRatio,jdbcType=VARCHAR},#{pendingOrderPayVal,jdbcType=BIGINT},#{singleHedgeAmount,jdbcType=DECIMAL})
+    </insert>
+
+    <update id="batchUpdateSpecialOddsInterval" parameterType="java.util.List">
+        UPDATE rcs_tournament_template_play_margain
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="is_special_pumping = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id} then #{item.isSpecialPumping}
+                </foreach>
+            </trim>
+            <trim prefix="special_odds_interval = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id} then #{item.specialOddsInterval}
+                </foreach>
+            </trim>
+            <trim prefix="special_odds_interval_high = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id} then #{item.specialOddsIntervalHigh}
+                </foreach>
+            </trim>
+
+            <trim prefix="special_odds_interval_low = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id} then #{item.specialOddsIntervalLow}
+                </foreach>
+            </trim>
+            <trim prefix="special_odds_interval_status = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id} then #{item.specialOddsIntervalStatus}
+                </foreach>
+            </trim>
+            <trim prefix="special_betting_interval_high = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id} then #{item.specialBettingIntervalHigh}
+                </foreach>
+            </trim>
+        </trim>
+        where id in
+        <foreach close=")" collection="list" item="item" open="(" separator=", ">
+            #{item.id,jdbcType=BIGINT}
+        </foreach>
+
+    </update>
+
+    <insert id="batchInsertTemplate" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+        insert into rcs_tournament_template
+        (sport_id,type,type_val,match_type,data_source_code,busines_match_pay_val,user_match_pay_val,score_source,template_name,copy_template_id,normal_wait_time,pause_wait_time,match_pre_status,create_time,update_time,odds_change_status,caution_value,baijia_config_value,if_warn_suspended,ao_config_value,mts_config_value,distance_switch,pending_order_status
+        ,busines_pending_order_pay_val,user_pending_order_pay_val,user_pending_order_count,pending_order_rate,early_sett_str)
+        values
+        (#{sportId,jdbcType=INTEGER},#{type,jdbcType=INTEGER},#{typeVal,jdbcType=BIGINT},#{matchType,jdbcType=INTEGER},#{dataSourceCode,jdbcType=VARCHAR},
+         #{businesMatchPayVal,jdbcType=BIGINT},#{userMatchPayVal,jdbcType=BIGINT},#{scoreSource,jdbcType=INTEGER},#{templateName,jdbcType=VARCHAR},
+         #{copyTemplateId,jdbcType=BIGINT},#{normalWaitTime,jdbcType=INTEGER},#{pauseWaitTime,jdbcType=INTEGER},#{matchPreStatus,jdbcType=INTEGER},now(),now(),#{oddsChangeStatus,jdbcType=INTEGER},
+         #{cautionValue,jdbcType=DECIMAL},#{baijiaConfigValue,jdbcType=VARCHAR},#{ifWarnSuspended,jdbcType=INTEGER},#{aoConfigValue,jdbcType=VARCHAR},#{mtsConfigValue,jdbcType=VARCHAR},#{distanceSwitch,jdbcType=INTEGER},#{pendingOrderStatus,jdbcType=INTEGER},
+         #{businesPendingOrderPayVal,jdbcType=BIGINT},#{userPendingOrderPayVal,jdbcType=BIGINT},#{userPendingOrderCount,jdbcType=INTEGER},#{pendingOrderRate,jdbcType=INTEGER},#{earlySettStr,jdbcType=VARCHAR})
+    </insert>
+
+    <select id="queryPlayTemplateInitData" resultType="com.panda.sport.rcs.console.dto.RcsTournamentPlayMarginTemplate">
+        SELECT
+            sport_id sportId
+             ,play_id playId
+             ,play_name playName
+             ,level level
+             ,match_type matchType
+             ,market_type marketType
+             ,is_sell isSell
+             ,market_count marketCount
+             ,vice_market_ratio viceMarketRatio
+             ,auto_close_market autoCloseMarket
+             ,match_progress_time matchProgressTime
+             ,injury_time injuryTime
+             ,market_warn marketWarn
+             ,is_series isSeries
+             ,market_near_diff marketNearDiff
+             ,market_near_odds_diff marketNearOddsDiff
+             ,odds_adjust_range oddsAdjustRange
+             ,market_adjust_range marketAdjustRange
+             ,margain margain
+             ,order_single_pay_val orderSinglePayVal
+             ,user_multi_pay_val userMultiPayVal
+             ,balance_option balanceOption
+             ,max_odds maxOdds
+             ,min_odds minOdds
+             ,odd_change_rule oddChangeRule
+             ,home_multi_max_amount homeMultiMaxAmount
+             ,home_single_max_amount homeSingleMaxAmount
+             ,home_multi_odds_rate homeMultiOddsRate
+             ,home_single_odds_rate homeSingleOddsRate
+             ,away_multi_odds_rate awayMultiOddsRate
+             ,away_single_odds_rate awaySingleOddsRate
+             ,multi_diff_val multiDiffVal
+             ,multi_odds_rate multiOddsRate
+             ,home_level_first_max_amount homeLevelFirstMaxAmount
+             ,home_level_second_max_amount homeLevelSecondMaxAmount
+             ,home_level_first_odds_rate homeLevelFirstOddsRate
+             ,home_level_second_odds_rate homeLevelSecondOddsRate
+             ,away_level_first_odds_rate awayLevelFirstOddsRate
+             ,away_level_second_odds_rate awayLevelSecondOddsRate
+             ,pause_margain pauseMargain
+             ,normal_wait_time normalWaitTime
+             ,pause_wait_time pauseWaitTime
+             ,reject_market_diff rejectMarketDiff
+             ,reject_odds_diff rejectOddsDiff
+             ,odds_max_value oddsMaxValue
+             ,market_max_value marketMaxValue
+             ,min_ball_head minBallHead
+             ,max_ball_head maxBallHead
+             ,competition_win_value competitionWinValue
+        FROM
+            rcs_tournament_play_margin_template t
+        WHERE
+            t.sport_id = #{sportId}
+          AND t.match_type = #{matchType}
+          AND ( t.`level` = #{level} OR t.`level` IS NULL )
+        order by t.play_id
+    </select>
+
+    <insert id="batchInsertEvent" keyColumn="id" keyProperty="id" parameterType="list" useGeneratedKeys="true">
+        insert into rcs_tournament_template_event (template_id, event_code, event_desc,event_handle_time,
+        settle_handle_time, sort_no,create_time,update_time)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.templateId,jdbcType=INTEGER},#{item.eventCode,jdbcType=VARCHAR},#{item.eventDesc,jdbcType=VARCHAR},#{item.eventHandleTime,jdbcType=INTEGER},#{item.settleHandleTime,jdbcType=INTEGER},
+            #{item.sortNo,jdbcType=INTEGER},now(),now())
+        </foreach>
+    </insert>
+
+    <select id="selectEventListBySportId" resultType="com.panda.sport.rcs.console.dto.RcsTournamentEventTemplate">
+        SELECT
+            id id,
+            sport_id sportId,
+            order_no orderNo,
+            event_code eventCode,
+            template_text templateText,
+            audit_time auditTime,
+            bill_time billTime
+        FROM
+            rcs_tournament_event_template t
+        WHERE
+            t.sport_id = #{sportId}
+        order by order_no asc
+    </select>
+
+    <insert id="batchImportTemplate"
+            parameterType="com.panda.sport.rcs.console.pojo.TournamentTemplateExcelVO"
+            useGeneratedKeys="true"
+            keyProperty="id">
+        insert into rcs_tournament_play_margin_template(
+        sport_id
+        ,play_id
+        ,play_name
+        ,level
+        ,match_type
+        ,market_type
+        ,is_sell
+        ,market_count
+        ,vice_market_ratio
+        ,auto_close_market
+        ,match_progress_time
+        ,injury_time
+        ,market_warn
+        ,is_series
+        ,market_near_diff
+        ,market_near_odds_diff
+        ,odds_adjust_range
+        ,market_adjust_range
+        ,margain
+        ,order_single_pay_val
+        ,user_multi_pay_val
+        ,balance_option
+        ,max_odds
+        ,min_odds
+        ,odd_change_rule
+        ,home_multi_max_amount
+        ,home_single_max_amount
+        ,home_multi_odds_rate
+        ,home_single_odds_rate
+        ,away_multi_odds_rate
+        ,away_single_odds_rate
+        ,multi_diff_val
+        ,multi_odds_rate
+        ,home_level_first_max_amount
+        ,home_level_second_max_amount
+        ,home_level_first_odds_rate
+        ,home_level_second_odds_rate
+        ,away_level_first_odds_rate
+        ,away_level_second_odds_rate
+        ,pause_margain
+        ,normal_wait_time
+        ,pause_wait_time
+        ,reject_market_diff
+        ,reject_odds_diff
+        ,odds_max_value
+        ,market_max_value
+        ,min_ball_head
+        ,max_ball_head
+        ,competition_win_value)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.sportId},
+            #{item.playId},
+            #{item.playName},
+            #{item.level},
+            #{item.matchType},
+            #{item.marketType},
+            #{item.isSell},
+            #{item.marketCount},
+            #{item.viceMarketRatio},
+            #{item.autoCloseMarket},
+            #{item.matchProgressTime},
+            #{item.injuryTime},
+            #{item.marketWarn},
+            #{item.isSeries},
+            #{item.marketNearDiff},
+            #{item.marketNearOddsDiff},
+            #{item.oddsAdjustRange},
+            #{item.marketAdjustRange},
+            #{item.margain},
+            #{item.orderSinglePayVal},
+            #{item.userMultiPayVal},
+            #{item.balanceOption},
+            #{item.maxOdds},
+            #{item.minOdds},
+            #{item.oddChangeRule},
+            #{item.homeMultiMaxAmount},
+            #{item.homeSingleMaxAmount},
+            #{item.homeMultiOddsRate},
+            #{item.homeSingleOddsRate},
+            #{item.awayMultiOddsRate},
+            #{item.awaySingleOddsRate},
+            #{item.multiDiffVal},
+            #{item.multiOddsRate},
+            #{item.homeLevelFirstMaxAmount},
+            #{item.homeLevelSecondMaxAmount},
+            #{item.homeLevelFirstOddsRate},
+            #{item.homeLevelSecondOddsRate},
+            #{item.awayLevelFirstOddsRate},
+            #{item.awayLevelSecondOddsRate},
+            #{item.pauseMargain},
+            #{item.normalWaitTime},
+            #{item.pauseWaitTime},
+            #{item.rejectMarketDiff},
+            #{item.rejectOddsDiff},
+            #{item.oddsMaxValue},
+            #{item.marketMaxValue},
+            #{item.minBallHead},
+            #{item.maxBallHead},
+            #{item.competitionWinValue}
+            )
+        </foreach>
+    </insert>
+
+</mapper>

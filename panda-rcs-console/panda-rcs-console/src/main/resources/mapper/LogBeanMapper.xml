@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.console.dao.LogBeanMapper">
+    <insert id="insert">
+        INSERT INTO rcs_log_record ( id, exe_time, url, `code`, uuid, `name`, title, `values`, request_val, return_val,
+        create_time, user_id, ip )
+        VALUES(null,
+        #{bean.exeTime},
+        #{bean.url},
+        #{bean.code},
+        #{bean.uuid},
+        #{bean.name},
+        #{bean.title},
+        #{bean.values},
+        #{bean.requestVal},
+        #{bean.returnVal},
+        #{bean.createTime},
+        #{bean.userId},
+        #{bean.ip}
+        )
+    </insert>
+
+
+    <sql id="querySQL">
+        <where>
+            <if test="bean.ip != null and bean.ip != ''">
+                and h.ip = #{bean.ip,jdbcType=VARCHAR}
+            </if>
+            <if test="bean.uuid != null and bean.uuid != ''">
+                and h.uuid = #{bean.uuid,jdbcType=VARCHAR}
+            </if>
+            <if test="bean.url != null and bean.url != ''">
+                AND h.url = #{bean.url,jdbcType=VARCHAR}
+            </if>
+            <if test="bean.name != null and bean.name != ''">
+                AND h.name = #{bean.name,jdbcType=VARCHAR}
+            </if>
+
+            <if test="bean.requestKey1 != null and bean.requestKey1 != '' and bean.requestValue1 != null and bean.requestValue1 != ''">
+               <choose>
+                   <when test="bean.valueType1=='on'">
+                       AND h.request_val ->'$.${bean.requestKey1}' = ${bean.requestValue1}
+                   </when>
+                   <otherwise>
+                       AND h.request_val ->'$.${bean.requestKey1}' = #{bean.requestValue1}
+                   </otherwise>
+               </choose>
+            </if>
+            <if test="bean.requestKey2 != null and bean.requestKey2 != '' and bean.requestValue2 != null and bean.requestValue2 != ''">
+                <choose>
+                    <when test="bean.valueType2=='on'">
+                        AND h.request_val ->'$.${bean.requestKey2}' = ${bean.requestValue2}
+                    </when>
+                    <otherwise>
+                        AND h.request_val ->'$.${bean.requestKey2}' = #{bean.requestValue2}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="bean.requestKey3 != null and bean.requestKey3 != '' and bean.requestValue3 != null and bean.requestValue3 != ''">
+                <choose>
+                    <when test="bean.valueType3=='on'">
+                        AND h.request_val ->'$.${bean.requestKey3}' = ${bean.requestValue3}
+                    </when>
+                    <otherwise>
+                        AND h.request_val ->'$.${bean.requestKey3}' = #{bean.requestValue3}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="bean.userId != null and bean.userId != ''">
+                AND h.`user_id` = #{bean.userId,jdbcType=VARCHAR}
+            </if>
+            <if test="bean.startTime != null and bean.startTime != ''">
+                AND h.create_time &gt;= #{bean.startTime,jdbcType=VARCHAR}
+            </if>
+            <if test="bean.endTime != null and bean.endTime != ''">
+                AND h.create_time &lt; #{bean.endTime,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </sql>
+
+    <select id="logRecordsCount" resultType="long">
+        SELECT count(1)
+        FROM rcs_log_record h
+        <include refid="querySQL"></include>
+    </select>
+
+    <select id="selectLogRecords" resultType="com.panda.sport.rcs.log.interceptors.LogBean">
+        SELECT h.id, h.exe_time as exeTime, h.url, h.`code`, h.uuid, h.`name`, h.title, h.`values`, h.request_val as
+        requestVal, h.return_val as returnVal, h.create_time as createTime, h.user_id as userId, h.ip
+        FROM rcs_log_record h
+        <include refid="querySQL"></include>
+        ORDER BY h.create_time DESC
+    </select>
+    
+    <select id="queryTitleByCode" resultType="Map">
+    	SELECT * FROM rcs_log_record WHERE url = #{code} ORDER BY id DESC  LIMIT 1 
+    </select>
+</mapper>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.db.mapper.UserProfileSecondTagsMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.panda.sport.rcs.db.entity.UserProfileSecondTags">
+        <id column="id" property="id"/>
+        <result column="tag_name" property="tagName"/>
+        <result column="tag_detail" property="tagDetail"/>
+        <result column="english_tag_name" property="englishTagName"/>
+        <result column="english_tag_detail" property="englishTagDetail"/>
+        <result column="update_user_id" property="updateUserId"/>
+        <result column="update_user_name" property="updateUserName"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.panda.sport.rcs.db.entity.UserProfileSecondTags">
+        INSERT INTO
+            `user_profile_second_tags`
+            (
+              `tag_name`,
+              `tag_detail`,
+              `update_user_id`,
+              `update_user_name`,
+              `update_time`,
+              `english_tag_name`,
+              `english_tag_detail`
+            )
+        VALUES
+            (
+                #{tagName},
+                #{tagDetail},
+                #{updateUserId},
+                #{updateUserName},
+                #{updateTime},
+                #{englishTagName},
+                #{englishTagDetail}
+            )
+    </insert>
+</mapper>

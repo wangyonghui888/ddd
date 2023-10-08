@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.mapper.RcsPredictBetStatisMapper">
+    <select id="getRcsPredictBetStatisVo1" resultType="com.panda.sport.rcs.pojo.vo.ActualVolumeVO">
+        SELECT
+        a.match_id,
+        a.match_type,
+        a.play_id,
+        a.market_id,
+        a.odds_item,
+        a.bet_num,
+        a.bet_amount,
+        a.market_value_complete,
+        c.place_num market_index
+        FROM
+        (
+        SELECT
+        s.match_id,
+        s.match_type,
+        s.play_id,
+        s.market_id,
+        s.odds_item,
+        SUM( s.bet_num ) bet_num,
+        SUM( s.bet_amount ) bet_amount,
+        s.market_value_current market_value_complete
+        FROM
+        rcs_predict_bet_statis s
+	WHERE
+		s.match_id = #{matchId}
+		AND (s.odds_item=1 OR s.odds_item=2)
+        <if test="matchType!=-1">
+            AND s.match_type = #{matchType}
+        </if>
+        AND s.play_id IN
+        <foreach close=")" collection="playIds" item="item" open="(" separator=", ">
+            #{item,jdbcType=BIGINT}
+        </foreach>
+	GROUP BY
+		s.match_id,
+        <if test="matchType!=-1">
+            s.match_type,
+        </if>
+        s.play_id,
+        s.market_id,
+        s.odds_item,
+        s.market_value_current
+	) a
+        LEFT JOIN rcs_standard_place_ref c ON c.market_id=a.market_id AND place_num=1
+        ORDER BY
+	a.market_value_complete + 0,
+	a.market_id
+    </select>
+
+    <select id="getRcsPredictBetStatisVo2" resultType="com.panda.sport.rcs.pojo.vo.ActualVolumeVO">
+        SELECT
+        a.match_id,
+        a.match_type,
+        a.play_id,
+        a.market_id,
+        a.odds_item,
+        a.bet_num,
+        a.bet_amount,
+        a.market_value_complete,
+        c.place_num market_index
+        FROM
+        (
+        SELECT
+        s.match_id,
+        s.match_type,
+        s.play_id,
+        s.market_id,
+        s.odds_item,
+        SUM( s.bet_num ) bet_num,
+        SUM( s.bet_amount ) bet_amount,
+        s.market_value_current market_value_complete
+        FROM
+        rcs_predict_bet_statis s
+        WHERE
+        s.match_id = #{matchId}
+        AND s.odds_item !=1
+        and s.odds_item !=2
+        <if test="matchType!=-1">
+            AND s.match_type = #{matchType}
+        </if>
+        AND s.play_id IN
+        <foreach close=")" collection="playIds" item="item" open="(" separator=", ">
+            #{item,jdbcType=BIGINT}
+        </foreach>
+        GROUP BY
+        s.match_id,
+        <if test="matchType!=-1">
+            s.match_type,
+        </if>
+        s.play_id,
+        s.market_id,
+        s.odds_item,
+        s.market_value_current
+        ) a
+        LEFT JOIN rcs_standard_place_ref c ON c.market_id=a.market_id AND place_num=1
+        ORDER BY
+        a.market_value_complete + 0 DESC,
+        a.market_id
+    </select>
+    <select id="getRcsPredictBetStatisVo" resultType="com.panda.sport.rcs.pojo.vo.ActualVolumeVO">
+        SELECT
+        s.match_id,
+        s.match_type,
+        s.play_id,
+        s.sub_play_id,
+        s.market_id,
+        s.odds_item,
+        SUM( s.bet_num ) bet_num,
+        SUM( s.bet_amount ) bet_amount,
+        SUM( s.bet_amount_pay ) bet_amount_pay,
+        SUM( s.bet_amount_complex ) bet_amount_complex,
+        s.market_value_current market_value_complete,
+        c.place_num market_index,
+        i.match_status,
+        i.match_length
+        FROM
+        rcs_predict_bet_statis s
+        LEFT JOIN rcs_standard_place_ref c ON c.market_id=s.market_id AND place_num=1
+        LEFT JOIN standard_match_info i ON s.match_id=i.id
+        WHERE
+            s.market_id = #{marketId}
+             <if test="matchType!=-1">
+                 AND s.match_type = #{matchType}
+             </if>
+        GROUP BY
+            s.match_id,
+            s.play_id,
+            s.sub_play_id,
+            s.market_id,
+            s.odds_item,
+            s.market_value_current
+    </select>
+
+    <select id="selectBetForMarket" resultType="com.panda.sport.rcs.pojo.BetForMarketResVo">
+        SELECT
+        t.match_type AS matchType,
+        t.bet_score AS betScore,
+        t.market_value_complete AS marketValueComplete,
+        t.market_value_current AS marketValueCurrent,
+        t.bet_amount AS homeBetAmount,
+        b.bet_amount AS awayBetAmount,
+        t.bet_amount_pay AS homeBetAmountPay,
+        b.bet_amount_pay AS awayBetAmountPay,
+        t.bet_amount_complex AS homeBetAmountComplex,
+        b.bet_amount_complex AS awayBetAmountComplex,
+        t.bet_amount - b.bet_amount AS betAmountEquilibriumValue,
+        t.bet_amount_pay - b.bet_amount_pay AS betAmountPayEquilibriumValue,
+        t.bet_amount_complex - b.bet_amount_complex AS betAmountComplexEquilibriumValue
+        FROM
+        rcs_predict_bet_statis t
+        LEFT JOIN ( SELECT * FROM rcs_predict_bet_statis WHERE match_id = #{matchId} AND play_id = #{playId} AND sport_id = #{sportId} AND odds_item = #{oddsItemForAway}
+        <if test="matchType != null">
+            AND match_type = #{matchType}
+        </if>
+        ) b
+        ON t.bet_score = b.bet_score AND t.market_value_complete = b.market_value_complete
+        WHERE
+        t.match_id = #{matchId}
+        AND t.play_id = #{playId}
+        AND t.sport_id = #{sportId}
+        AND t.odds_item = #{oddsItemForHome}
+        <if test="matchType != null">
+            AND t.match_type = #{matchType}
+        </if>
+    </select>
+</mapper>

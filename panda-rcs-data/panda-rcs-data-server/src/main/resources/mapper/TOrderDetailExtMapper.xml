@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.data.mapper.TOrderDetailExtMapper">
+    <!--  <resultMap id="BaseResultMap" type="com.panda.sport.rcs.pojo.TOrderDetailExt">-->
+    <!--    &lt;!&ndash;@mbg.generated&ndash;&gt;-->
+    <!--    &lt;!&ndash;@Table t_order_detail_ext&ndash;&gt;-->
+    <!--    <id column="id" jdbcType="BIGINT" property="id" />-->
+    <!--    <result column="bet_no" jdbcType="BIGINT" property="betNo" />-->
+    <!--    <result column="order_no" jdbcType="BIGINT" property="orderNo" />-->
+    <!--    <result column="match_id" jdbcType="BIGINT" property="matchId" />-->
+    <!--    <result column="order_status" jdbcType="TINYINT" property="orderStatus" />-->
+    <!--    <result column="bet_time" jdbcType="BIGINT" property="betTime" />-->
+    <!--    <result column="max_accept_time" jdbcType="BIGINT" property="maxAcceptTime" />-->
+    <!--    <result column="max_wait" jdbcType="SMALLINT" property="maxWait" />-->
+    <!--    <result column="current_event" jdbcType="VARCHAR" property="currentEvent" />-->
+    <!--    <result column="crt_time" jdbcType="TIMESTAMP" property="crtTime" />-->
+    <!--    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />-->
+    <!--    <result column="mode" jdbcType="TINYINT" property="mode" />-->
+    <!--    <result column="handle_status" jdbcType="TINYINT" property="handleStatus" />-->
+    <!--  </resultMap>-->
+    <!--  <sql id="Base_Column_List">-->
+    <!--    &lt;!&ndash;@mbg.generated&ndash;&gt;-->
+    <!--    id, bet_no, order_no, match_id, order_status, bet_time, max_accept_time, max_wait, -->
+    <!--    current_event, crt_time, update_time, `mode`, handle_status-->
+    <!--  </sql>-->
+    <!--  <update id="updateBatch" parameterType="java.util.List">-->
+    <!--    &lt;!&ndash;@mbg.generated&ndash;&gt;-->
+    <!--    update t_order_detail_ext-->
+    <!--    <trim prefix="set" suffixOverrides=",">-->
+    <!--      <trim prefix="bet_no = case" suffix="end,">-->
+    <!--        <foreach collection="list" index="index" item="item">-->
+    <!--          when id = #{item.id,jdbcType=BIGINT} then #{item.betNo,jdbcType=BIGINT}-->
+    <!--        </foreach>-->
+    <!--      </trim>-->
+    <!--      <trim prefix="order_no = case" suffix="end,">-->
+    <!--        <foreach collection="list" index="index" item="item">-->
+    <!--          when id = #{item.id,jdbcType=BIGINT} then #{item.orderNo,jdbcType=BIGINT}-->
+    <!--        </foreach>-->
+    <!--      </trim>-->
+    <!--      <trim prefix="match_id = case" suffix="end,">-->
+    <!--        <foreach collection="list" index="index" item="item">-->
+    <!--          when id = #{item.id,jdbcType=BIGINT} then #{item.matchId,jdbcType=BIGINT}-->
+    <!--        </foreach>-->
+    <!--      </trim>-->
+    <!--      <trim prefix="order_status = case" suffix="end,">-->
+    <!--        <foreach collection="list" index="index" item="item">-->
+    <!--          when id = #{item.id,jdbcType=BIGINT} then #{item.orderStatus,jdbcType=OTHER}-->
+    <!--        </foreach>-->
+    <!--      </trim>-->
+    <!--      <trim prefix="bet_time = case" suffix="end,">-->
+    <!--        <foreach collection="list" index="index" item="item">-->
+    <!--          when id = #{item.id,jdbcType=BIGINT} then #{item.betTime,jdbcType=BIGINT}-->
+    <!--        </foreach>-->
+    <!--      </trim>-->
+    <!--      <trim prefix="max_accept_time = case" suffix="end,">-->
+    <!--        <foreach collection="list" index="index" item="item">-->
+    <!--          when id = #{item.id,jdbcType=BIGINT} then #{item.maxAcceptTime,jdbcType=BIGINT}-->
+    <!--        </foreach>-->
+    <!--      </trim>-->
+    <!--      <trim prefix="max_wait = case" suffix="end,">-->
+    <!--        <foreach collection="list" index="index" item="item">-->
+    <!--          when id = #{item.id,jdbcType=BIGINT} then #{item.maxWait,jdbcType=SMALLINT}-->
+    <!--        </foreach>-->
+    <!--      </trim>-->
+    <!--      <trim prefix="current_event = case" suffix="end,">-->
+    <!--        <foreach collection="list" index="index" item="item">-->
+    <!--          when id = #{item.id,jdbcType=BIGINT} then #{item.currentEvent,jdbcType=VARCHAR}-->
+    <!--        </foreach>-->
+    <!--      </trim>-->
+    <!--      <trim prefix="crt_time = case" suffix="end,">-->
+    <!--        <foreach collection="list" index="index" item="item">-->
+    <!--          when id = #{item.id,jdbcType=BIGINT} then #{item.crtTime,jdbcType=TIMESTAMP}-->
+    <!--        </foreach>-->
+    <!--      </trim>-->
+    <!--      <trim prefix="update_time = case" suffix="end,">-->
+    <!--        <foreach collection="list" index="index" item="item">-->
+    <!--          when id = #{item.id,jdbcType=BIGINT} then #{item.updateTime,jdbcType=TIMESTAMP}-->
+    <!--        </foreach>-->
+    <!--      </trim>-->
+    <!--      <trim prefix="`mode` = case" suffix="end,">-->
+    <!--        <foreach collection="list" index="index" item="item">-->
+    <!--          when id = #{item.id,jdbcType=BIGINT} then #{item.mode,jdbcType=TINYINT}-->
+    <!--        </foreach>-->
+    <!--      </trim>-->
+    <!--      <trim prefix="handle_status = case" suffix="end,">-->
+    <!--        <foreach collection="list" index="index" item="item">-->
+    <!--          when id = #{item.id,jdbcType=BIGINT} then #{item.handleStatus,jdbcType=VARCHAR}-->
+    <!--        </foreach>-->
+    <!--      </trim>-->
+    <!--    </trim>-->
+    <!--    where id in-->
+    <!--    <foreach close=")" collection="list" item="item" open="(" separator=", ">-->
+    <!--      #{item.id,jdbcType=BIGINT}-->
+    <!--    </foreach>-->
+    <!--  </update>-->
+    <!--  <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">-->
+    <!--    &lt;!&ndash;@mbg.generated&ndash;&gt;-->
+    <!--    insert into t_order_detail_ext-->
+    <!--    (bet_no, order_no, match_id, order_status, bet_time, max_accept_time, max_wait, current_event, -->
+    <!--      crt_time, update_time, `mode`, handle_status)-->
+    <!--    values-->
+    <!--    <foreach collection="list" item="item" separator=",">-->
+    <!--      (#{item.betNo,jdbcType=BIGINT}, #{item.orderNo,jdbcType=BIGINT}, #{item.matchId,jdbcType=BIGINT}, -->
+    <!--        #{item.orderStatus,jdbcType=OTHER}, #{item.betTime,jdbcType=BIGINT}, #{item.maxAcceptTime,jdbcType=BIGINT}, -->
+    <!--        #{item.maxWait,jdbcType=SMALLINT}, #{item.currentEvent,jdbcType=VARCHAR}, #{item.crtTime,jdbcType=TIMESTAMP}, -->
+    <!--        #{item.updateTime,jdbcType=TIMESTAMP}, #{item.mode,jdbcType=TINYINT}, #{item.handleStatus,jdbcType=VARCHAR}-->
+    <!--        )-->
+    <!--    </foreach>-->
+    <!--  </insert>-->
+    <!--  <insert id="insertOrUpdate" keyColumn="id" keyProperty="id" parameterType="com.panda.sport.rcs.pojo.TOrderDetailExt" useGeneratedKeys="true">-->
+    <!--    &lt;!&ndash;@mbg.generated&ndash;&gt;-->
+    <!--    insert into t_order_detail_ext-->
+    <!--    <trim prefix="(" suffix=")" suffixOverrides=",">-->
+    <!--      <if test="id != null">-->
+    <!--        id,-->
+    <!--      </if>-->
+    <!--      bet_no,-->
+    <!--      order_no,-->
+    <!--      match_id,-->
+    <!--      order_status,-->
+    <!--      bet_time,-->
+    <!--      max_accept_time,-->
+    <!--      max_wait,-->
+    <!--      current_event,-->
+    <!--      crt_time,-->
+    <!--      update_time,-->
+    <!--      `mode`,-->
+    <!--      handle_status,-->
+    <!--    </trim>-->
+    <!--    values-->
+    <!--    <trim prefix="(" suffix=")" suffixOverrides=",">-->
+    <!--      <if test="id != null">-->
+    <!--        #{id,jdbcType=BIGINT},-->
+    <!--      </if>-->
+    <!--      #{betNo,jdbcType=BIGINT},-->
+    <!--      #{orderNo,jdbcType=BIGINT},-->
+    <!--      #{matchId,jdbcType=BIGINT},-->
+    <!--      #{orderStatus,jdbcType=OTHER},-->
+    <!--      #{betTime,jdbcType=BIGINT},-->
+    <!--      #{maxAcceptTime,jdbcType=BIGINT},-->
+    <!--      #{maxWait,jdbcType=SMALLINT},-->
+    <!--      #{currentEvent,jdbcType=VARCHAR},-->
+    <!--      #{crtTime,jdbcType=TIMESTAMP},-->
+    <!--      #{updateTime,jdbcType=TIMESTAMP},-->
+    <!--      #{mode,jdbcType=TINYINT},-->
+    <!--      #{handleStatus,jdbcType=VARCHAR},-->
+    <!--    </trim>-->
+    <!--    on duplicate key update -->
+    <!--    <trim suffixOverrides=",">-->
+    <!--      <if test="id != null">-->
+    <!--        id = #{id,jdbcType=BIGINT},-->
+    <!--      </if>-->
+    <!--      bet_no = #{betNo,jdbcType=BIGINT},-->
+    <!--      order_no = #{orderNo,jdbcType=BIGINT},-->
+    <!--      match_id = #{matchId,jdbcType=BIGINT},-->
+    <!--      order_status = #{orderStatus,jdbcType=OTHER},-->
+    <!--      bet_time = #{betTime,jdbcType=BIGINT},-->
+    <!--      max_accept_time = #{maxAcceptTime,jdbcType=BIGINT},-->
+    <!--      max_wait = #{maxWait,jdbcType=SMALLINT},-->
+    <!--      current_event = #{currentEvent,jdbcType=VARCHAR},-->
+    <!--      crt_time = #{crtTime,jdbcType=TIMESTAMP},-->
+    <!--      update_time = #{updateTime,jdbcType=TIMESTAMP},-->
+    <!--      `mode` = #{mode,jdbcType=TINYINT},-->
+    <!--      handle_status = #{handleStatus,jdbcType=VARCHAR},-->
+    <!--    </trim>-->
+    <!--  </insert>-->
+    <!--  <insert id="insertOrUpdateSelective" keyColumn="id" keyProperty="id" parameterType="com.panda.sport.rcs.pojo.TOrderDetailExt" useGeneratedKeys="true">-->
+    <!--    &lt;!&ndash;@mbg.generated&ndash;&gt;-->
+    <!--    insert into t_order_detail_ext-->
+    <!--    <trim prefix="(" suffix=")" suffixOverrides=",">-->
+    <!--      <if test="id != null">-->
+    <!--        id,-->
+    <!--      </if>-->
+    <!--      <if test="betNo != null">-->
+    <!--        bet_no,-->
+    <!--      </if>-->
+    <!--      <if test="orderNo != null">-->
+    <!--        order_no,-->
+    <!--      </if>-->
+    <!--      <if test="matchId != null">-->
+    <!--        match_id,-->
+    <!--      </if>-->
+    <!--      <if test="orderStatus != null">-->
+    <!--        order_status,-->
+    <!--      </if>-->
+    <!--      <if test="betTime != null">-->
+    <!--        bet_time,-->
+    <!--      </if>-->
+    <!--      <if test="maxAcceptTime != null">-->
+    <!--        max_accept_time,-->
+    <!--      </if>-->
+    <!--      <if test="maxWait != null">-->
+    <!--        max_wait,-->
+    <!--      </if>-->
+    <!--      <if test="currentEvent != null">-->
+    <!--        current_event,-->
+    <!--      </if>-->
+    <!--      <if test="crtTime != null">-->
+    <!--        crt_time,-->
+    <!--      </if>-->
+    <!--      <if test="updateTime != null">-->
+    <!--        update_time,-->
+    <!--      </if>-->
+    <!--      <if test="mode != null">-->
+    <!--        `mode`,-->
+    <!--      </if>-->
+    <!--      <if test="handleStatus != null">-->
+    <!--        handle_status,-->
+    <!--      </if>-->
+    <!--    </trim>-->
+    <!--    values-->
+    <!--    <trim prefix="(" suffix=")" suffixOverrides=",">-->
+    <!--      <if test="id != null">-->
+    <!--        #{id,jdbcType=BIGINT},-->
+    <!--      </if>-->
+    <!--      <if test="betNo != null">-->
+    <!--        #{betNo,jdbcType=BIGINT},-->
+    <!--      </if>-->
+    <!--      <if test="orderNo != null">-->
+    <!--        #{orderNo,jdbcType=BIGINT},-->
+    <!--      </if>-->
+    <!--      <if test="matchId != null">-->
+    <!--        #{matchId,jdbcType=BIGINT},-->
+    <!--      </if>-->
+    <!--      <if test="orderStatus != null">-->
+    <!--        #{orderStatus,jdbcType=OTHER},-->
+    <!--      </if>-->
+    <!--      <if test="betTime != null">-->
+    <!--        #{betTime,jdbcType=BIGINT},-->
+    <!--      </if>-->
+    <!--      <if test="maxAcceptTime != null">-->
+    <!--        #{maxAcceptTime,jdbcType=BIGINT},-->
+    <!--      </if>-->
+    <!--      <if test="maxWait != null">-->
+    <!--        #{maxWait,jdbcType=SMALLINT},-->
+    <!--      </if>-->
+    <!--      <if test="currentEvent != null">-->
+    <!--        #{currentEvent,jdbcType=VARCHAR},-->
+    <!--      </if>-->
+    <!--      <if test="crtTime != null">-->
+    <!--        #{crtTime,jdbcType=TIMESTAMP},-->
+    <!--      </if>-->
+    <!--      <if test="updateTime != null">-->
+    <!--        #{updateTime,jdbcType=TIMESTAMP},-->
+    <!--      </if>-->
+    <!--      <if test="mode != null">-->
+    <!--        #{mode,jdbcType=TINYINT},-->
+    <!--      </if>-->
+    <!--      <if test="handleStatus != null">-->
+    <!--        #{handleStatus,jdbcType=VARCHAR},-->
+    <!--      </if>-->
+    <!--    </trim>-->
+    <!--    on duplicate key update -->
+    <!--    <trim suffixOverrides=",">-->
+    <!--      <if test="id != null">-->
+    <!--        id = #{id,jdbcType=BIGINT},-->
+    <!--      </if>-->
+    <!--      <if test="betNo != null">-->
+    <!--        bet_no = #{betNo,jdbcType=BIGINT},-->
+    <!--      </if>-->
+    <!--      <if test="orderNo != null">-->
+    <!--        order_no = #{orderNo,jdbcType=BIGINT},-->
+    <!--      </if>-->
+    <!--      <if test="matchId != null">-->
+    <!--        match_id = #{matchId,jdbcType=BIGINT},-->
+    <!--      </if>-->
+    <!--      <if test="orderStatus != null">-->
+    <!--        order_status = #{orderStatus,jdbcType=OTHER},-->
+    <!--      </if>-->
+    <!--      <if test="betTime != null">-->
+    <!--        bet_time = #{betTime,jdbcType=BIGINT},-->
+    <!--      </if>-->
+    <!--      <if test="maxAcceptTime != null">-->
+    <!--        max_accept_time = #{maxAcceptTime,jdbcType=BIGINT},-->
+    <!--      </if>-->
+    <!--      <if test="maxWait != null">-->
+    <!--        max_wait = #{maxWait,jdbcType=SMALLINT},-->
+    <!--      </if>-->
+    <!--      <if test="currentEvent != null">-->
+    <!--        current_event = #{currentEvent,jdbcType=VARCHAR},-->
+    <!--      </if>-->
+    <!--      <if test="crtTime != null">-->
+    <!--        crt_time = #{crtTime,jdbcType=TIMESTAMP},-->
+    <!--      </if>-->
+    <!--      <if test="updateTime != null">-->
+    <!--        update_time = #{updateTime,jdbcType=TIMESTAMP},-->
+    <!--      </if>-->
+    <!--      <if test="mode != null">-->
+    <!--        `mode` = #{mode,jdbcType=TINYINT},-->
+    <!--      </if>-->
+    <!--      <if test="handleStatus != null">-->
+    <!--        handle_status = #{handleStatus,jdbcType=VARCHAR},-->
+    <!--      </if>-->
+    <!--    </trim>-->
+    <!--  </insert>-->
+    <!--  	eventType事件类型-1等待事件0-安全;1-危险;2-封盘;3拒单-->
+    <update id="updateOrderEextWaitTime">
+        UPDATE t_order_detail_ext e SET e.update_time = #{config.updateTimeStr,jdbcType=VARCHAR},
+        e.order_status =
+        (CASE
+        WHEN #{config.eventTypeNumber,jdbcType=INTEGER} = 0 AND e.current_event_type IN (1,2) THEN 1
+        WHEN #{config.eventTypeNumber,jdbcType=INTEGER} IN (2,3) THEN 2
+        WHEN #{config.eventTypeNumber,jdbcType=INTEGER} = 0 AND #{currentTime,jdbcType=BIGINT} > (e.bet_time + e.min_wait * 1000)  and e.current_event_type = 0 THEN 1
+        ELSE e.order_status
+        END),
+        e.max_wait =
+        (CASE
+        WHEN #{config.eventTypeNumber,jdbcType=INTEGER} = 1 AND e.current_event_type = 0 THEN #{config.maxWaitTime}
+        ELSE e.max_wait
+        END),
+        e.current_event =
+        (CASE
+        WHEN #{config.eventTypeNumber,jdbcType=INTEGER} = 1 AND e.current_event_type = 0 THEN #{config.eventCode,jdbcType=VARCHAR}
+        WHEN #{config.eventTypeNumber,jdbcType=INTEGER} IN (2,3) then #{config.eventCode,jdbcType=VARCHAR}
+        ELSE e.current_event
+        END),
+        e.max_accept_time =
+        (CASE
+        WHEN #{config.eventTypeNumber,jdbcType=INTEGER} = 1 AND e.current_event_type = 0 THEN (#{currentTime,jdbcType=BIGINT}+ #{config.maxWaitTime} * 1000)
+        WHEN #{config.eventTypeNumber,jdbcType=INTEGER} = 0 AND e.current_event_type IN (1,2) THEN #{currentTime,jdbcType=BIGINT}
+        ELSE  e.max_accept_time
+        END),
+        e.current_event_type =
+        (CASE
+        WHEN #{config.eventTypeNumber,jdbcType=INTEGER} = 1 AND e.current_event_type = 0 THEN #{config.eventTypeNumber,jdbcType=INTEGER}
+        WHEN #{config.eventTypeNumber,jdbcType=INTEGER} IN (2,3) then #{config.eventTypeNumber,jdbcType=INTEGER}
+        ELSE e.current_event_type
+        END)
+        WHERE e.handle_status = 0
+        AND e.order_status = 0
+        AND e.play_set_id = #{config.categorySetId,jdbcType=INTEGER}
+        AND e.match_id = #{config.matchId,jdbcType=BIGINT}
+
+
+
+        <!--2021.09.29之前原逻辑
+        <update id="updateOrderEextWaitTime">
+            UPDATE t_order_detail_ext e SET e.update_time = #{config.updateTimeStr,jdbcType=VARCHAR},
+            e.order_status =
+            (CASE
+                WHEN #{config.eventTypeNumber,jdbcType=INTEGER} = 0 AND e.current_event_type IN (1,2) THEN 1
+                WHEN #{config.eventTypeNumber,jdbcType=INTEGER} = 3 THEN 2
+                WHEN #{config.eventTypeNumber,jdbcType=INTEGER} = 0 AND #{currentTime,jdbcType=BIGINT} > (e.bet_time + e.min_wait * 1000)  and e.current_event_type = 0 THEN 1
+                ELSE e.order_status
+            END),
+            e.max_wait =
+            (CASE
+                WHEN #{config.eventTypeNumber,jdbcType=INTEGER} = 1 AND e.current_event_type = 0 THEN #{config.maxWaitTime}
+                WHEN #{config.eventTypeNumber,jdbcType=INTEGER} = 2 AND e.current_event_type IN (0,1) THEN #{config.maxWaitTime}
+                ELSE e.max_wait
+            END),
+            e.current_event =
+            (CASE
+                WHEN #{config.eventTypeNumber,jdbcType=INTEGER} = 1 AND e.current_event_type = 0 THEN #{config.eventCode,jdbcType=VARCHAR}
+                WHEN #{config.eventTypeNumber,jdbcType=INTEGER} = 2 AND e.current_event_type IN (0,1) then #{config.eventCode,jdbcType=VARCHAR}
+                WHEN #{config.eventTypeNumber,jdbcType=INTEGER} = 3 then #{config.eventCode,jdbcType=VARCHAR}
+                ELSE e.current_event
+            END),
+            e.max_accept_time =
+            (CASE
+                WHEN #{config.eventTypeNumber,jdbcType=INTEGER} = 1 AND e.current_event_type = 0 THEN (#{currentTime,jdbcType=BIGINT}+ #{config.maxWaitTime} * 1000)
+                WHEN #{config.eventTypeNumber,jdbcType=INTEGER} = 2 AND e.current_event_type IN (0,1) then (#{currentTime,jdbcType=BIGINT}+ #{config.maxWaitTime} * 1000)
+                ELSE e.max_accept_time
+            END),
+            e.current_event_type =
+            (CASE
+                WHEN #{config.eventTypeNumber,jdbcType=INTEGER} = 1 AND e.current_event_type = 0 THEN #{config.eventTypeNumber,jdbcType=INTEGER}
+                WHEN #{config.eventTypeNumber,jdbcType=INTEGER} = 2 AND e.current_event_type IN (0,1) then #{config.eventTypeNumber,jdbcType=INTEGER}
+                WHEN #{config.eventTypeNumber,jdbcType=INTEGER} = 3 then #{config.eventTypeNumber,jdbcType=INTEGER}
+                ELSE e.current_event_type
+            END)
+            WHERE e.handle_status = 0
+            AND e.order_status = 0
+            AND e.play_set_id = #{config.categorySetId,jdbcType=INTEGER}
+            AND e.match_id = #{config.matchId,jdbcType=BIGINT}-->
+    </update>
+</mapper>

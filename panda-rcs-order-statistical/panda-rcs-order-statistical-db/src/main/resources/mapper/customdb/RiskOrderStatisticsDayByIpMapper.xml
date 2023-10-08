@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.db.mapper.RiskOrderStatisticsDayByIpMapper">
+    <!--根据时间查询总投注额-->
+    <select id="queryProductAmountTotal" resultType="com.panda.sport.rcs.db.entity.RiskOrderStatisticsByIp">
+        SELECT
+        o.ip AS ip,
+        sum( o.product_amount_total ) AS betAmount,
+        max( o.create_time ) AS finalBetTime
+        FROM
+        tybss_merchant_common.t_order o
+        WHERE 1=1
+        <if test="startTime != null">
+            AND o.create_time >= #{startTime} and o.create_time <![CDATA[< ]]> #{endTime}
+        </if>
+        AND o.order_status in (0,1)
+        GROUP BY
+        o.ip
+    </select>
+
+    <!--根据时间查询总盈利额-->
+    <select id="queryProfitAmount" resultType="com.panda.sport.rcs.db.entity.RiskOrderStatisticsByIp">
+        SELECT
+        o.ip AS ip,
+        sum( s.profit_amount ) AS profitAmount,
+        max( o.create_time ) AS finalBetTime
+        FROM
+        tybss_merchant_common.t_settle s
+        LEFT JOIN tybss_merchant_common.t_order o on o.order_no = s.order_no
+        WHERE 1=1
+        <if test="startTime != null">
+            AND s.create_time >= #{startTime} and s.create_time <![CDATA[< ]]> #{endTime}
+        </if>
+        GROUP BY
+        o.ip
+    </select>
+
+    <!--根据IP查询IP对应的基本信息-->
+    <select id="queryVisitByIp" resultType="com.panda.sport.rcs.common.vo.api.response.ListByVisitInfoResVo">
+        SELECT
+            i.ip ip,
+            max( i.area ) area,
+            max(i.tag_id)  tagId
+        FROM
+            risk_user_visit_ip i
+        WHERE
+            1=1
+            <if test="ips != null and ips.size() > 0">
+                and i.ip IN
+                <foreach item="item" index="index" collection="ips" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        GROUP BY
+            i.ip
+    </select>
+
+    <update id="updateByIpAndStaticTime" parameterType="com.panda.sport.rcs.db.entity.RiskOrderStatisticsDayByIp">
+        update risk_order_statistics_day_by_ip
+        <set>
+            <if test="riskOrderStatisticsDayByIp.betAmount != null">
+                bet_amount = bet_amount + #{riskOrderStatisticsDayByIp.betAmount},
+            </if>
+            <if test="riskOrderStatisticsDayByIp.profitAmount != null">
+                profit_amount = profit_amount + #{riskOrderStatisticsDayByIp.profitAmount},
+            </if>
+        </set>
+        where ip = #{riskOrderStatisticsDayByIp.ip} and static_time = #{riskOrderStatisticsDayByIp.staticTime}
+    </update>
+
+</mapper>

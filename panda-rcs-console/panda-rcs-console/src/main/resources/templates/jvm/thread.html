@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: htmlhead" th:with="title='线程监控'"></head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <!--头-->
+    <div th:replace="fragments/head :: header"></div>
+
+   <div id="app" class="layui-body" style="margin: 1%" >
+    
+    	<form id="userSearch" class="layui-form layui-form-pane"  >
+            <label class="layui-form-label" style="width:200px ">服务名/IP/PID</label>
+            <div class="layui-input-inline" style="width:400px ">
+                <select name="serverType" id="serverType" lay-verify="" lay-filter="serverType" >
+                </select>
+            </div>
+            <div class="layui-input-inline" style="margin-left: 20px;">
+                <label>服务名:</label>
+                <input type="text" id="currentServer"></input>
+            </div>
+        </form>
+
+        <el-main class="app-main">
+            <el-card>
+                <el-alert title="线程监控" type="success" show-icon :closable="false"></el-alert>
+                <br/>
+                <el-card>
+                    <div id="thread-daemon" style="display: inline-block;width:48%;"></div>
+                    <div id="thread-count" style="display: inline-block;width:48%;"></div>
+                </el-card>
+            </el-card>
+        </el-main>
+    </div> 
+
+    <!--底部-->
+    <div th:replace="fragments/footer :: footer"></div>
+    <script src="/js/dateUtils.js"></script>
+</div>
+<div th:replace="common/js"></div>
+<script data-th-src="@{/lib/highchart/highcharts.js}"></script>
+<script data-th-src="@{/lib/highchart/exporting.js}"></script>
+<script data-th-src="@{/lib/highchart/highcharts-zh_CN.js}"></script>
+<script type="text/javascript" th:src="@{/js/jvm/thread.js}"></script>
+</body>
+</html>

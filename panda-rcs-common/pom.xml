@@ -1,0 +1,1096 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+ 
+    <groupId>com.panda.sport.rcs</groupId>
+    <artifactId>rcs-parent</artifactId>
+    <packaging>pom</packaging>
+    <version>2.5.0-SNAPSHOT</version>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.1.6.RELEASE</version>
+    </parent>
+
+    <modules>
+        <module>panda-rcs-common</module>
+        <module>panda-rcs-api</module>
+        <module>panda-rcs-pojo</module>
+        <module>panda-rcs-core</module>
+        <module>panda-rcs-redis</module>
+    </modules>
+
+    <properties>
+
+        <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <maven-plugin-version>1.0.0</maven-plugin-version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+
+        <!-- panda-rcs start -->
+        <panda-rcs-pojo-version>2.5.0-SNAPSHOT</panda-rcs-pojo-version>
+        <panda-rcs-common-version>2.5.0-SNAPSHOT</panda-rcs-common-version>
+        <panda-rcs-core-version>2.5.0-SNAPSHOT</panda-rcs-core-version>
+        <panda-rcs-api-version>2.5.0-SNAPSHOT</panda-rcs-api-version>
+
+        <panda-rcs-trade-group-version>1.0.0-SNAPSHOT</panda-rcs-trade-group-version>
+        <panda-rcs-mgr-trade-version>0.0.1-SNAPSHOT</panda-rcs-mgr-trade-version>
+        <panda-rcs-trade-pojo-version>2.0.0-SNAPSHOT</panda-rcs-trade-pojo-version>
+        <panda-rcs-trade-service-version>2.0.0-SNAPSHOT</panda-rcs-trade-service-version>
+        <panda-rcs-trade-warning-version>1.0.0-SNAPSHOT</panda-rcs-trade-warning-version>
+
+        <panda-rcs-order-group-version>1.0.0-SNAPSHOT</panda-rcs-order-group-version>
+        <panda-rcs-credit-version>1.0.0-SNAPSHOT</panda-rcs-credit-version>
+        <panda-rcs-dj-version>1.0.0-SNAPSHOT</panda-rcs-dj-version>
+        <panda-rcs-mgr-risk-version>0.0.1-SNAPSHOT</panda-rcs-mgr-risk-version>
+        <panda-rcs-mts-version>1.0.0-SNAPSHOT</panda-rcs-mts-version>
+        <panda-rcs-order-limit-version>1.0.0-SNAPSHOT</panda-rcs-order-limit-version>
+        <panda-rcs-order-pojo-version>1.0.0-SNAPSHOT</panda-rcs-order-pojo-version>
+        <panda-rcs-order-reject-version>1.0.0-SNAPSHOT</panda-rcs-order-reject-version>
+        <panda-rcs-order-service-version>1.0.0-SNAPSHOT</panda-rcs-order-service-version>
+        <panda-rcs-pending-order-version>1.0.0-SNAPSHOT</panda-rcs-pending-order-version>
+        <panda-rcs-predict-version>1.0.0-SNAPSHOT</panda-rcs-predict-version>
+        <panda-rcs-sdk-client-version>1.0.1-SNAPSHOT</panda-rcs-sdk-client-version>
+        <panda-rcs-sdk-server-version>1.0.0-SNAPSHOT</panda-rcs-sdk-server-version>
+        <panda-rcs-stray-limit-version>1.0.0-SNAPSHOT</panda-rcs-stray-limit-version>
+        <panda-rcs-virtual-version>1.0.0-SNAPSHOT</panda-rcs-virtual-version>
+
+        <panda-rcs-task-group-version>1.0.0-SNAPSHOT</panda-rcs-task-group-version>
+        <panda-rcs-task-version>1.0.0-SNAPSHOT</panda-rcs-task-version>
+        <panda-rcs-task-pojo-version>1.0.0-SNAPSHOT</panda-rcs-task-pojo-version>
+        <panda-rcs-task-service-version>2.0.0-SNAPSHOT</panda-rcs-task-service-version>
+
+        <panda-rcs-data-group-version>1.0.0-SNAPSHOT</panda-rcs-data-group-version>
+        <panda-rcs-data-pojo-version>1.0.0-SNAPSHOT</panda-rcs-data-pojo-version>
+        <panda-rcs-data-server-version>1.0.0</panda-rcs-data-server-version>
+        <panda-rcs-data-service-version>2.0.0-SNAPSHOT</panda-rcs-data-service-version>
+        <panda-rcs-push-version>1.0.0-SNAPSHOT</panda-rcs-push-version>
+        <panda-rcs-push-order-version>1.0.0-SNAPSHOT</panda-rcs-push-order-version>
+        <!-- panda-rcs end -->
+
+        <spring-boot-version>2.1.6.RELEASE</spring-boot-version>
+        <alibaba-dubbo-version>2.1.1.RELEASE</alibaba-dubbo-version>
+        <alibaba-nacos-version>2.1.0.RELEASE</alibaba-nacos-version>
+        <zkclient-version>0.11</zkclient-version>
+        <spring-commons-version>2.1.1.RELEASE</spring-commons-version>
+        <spring-cloud-context-version>2.1.0.RELEASE</spring-cloud-context-version>
+        <mysql-connector-java-version>8.0.17</mysql-connector-java-version>
+        <spring-tx-version>5.1.8.RELEASE</spring-tx-version>
+        <alibaba-druid-version>1.1.17</alibaba-druid-version>
+        <log4j-api-version>2.20.0</log4j-api-version>
+        <log4j-slf4j-version>2.20.0</log4j-slf4j-version>
+        <poi-ooxml-version>5.2.3</poi-ooxml-version>
+        <lombok-version>1.18.8</lombok-version>
+        <spring-context-version>5.1.9.RELEASE</spring-context-version>
+        <hystrix-core-version>1.5.18</hystrix-core-version>
+        <guava-version>28.0-jre</guava-version>
+        <google-gson-version>2.8.5</google-gson-version>
+        <panda_frame_common-version>0.4</panda_frame_common-version>
+        <mybatis-plus-boot-starter-version>3.5.1</mybatis-plus-boot-starter-version>
+        <bigfraction-version>1.1.0-java7</bigfraction-version>
+        <apache-dubbo-version>2.7.3</apache-dubbo-version>
+        <commons-io-version>2.4</commons-io-version>
+        <resteasy-client-version>3.0.26.Final</resteasy-client-version>
+        <pinyin4j-version>2.5.0</pinyin4j-version>
+        <caffeine-version>2.8.8</caffeine-version>
+        <commons-fileupload-version>1.3.1</commons-fileupload-version>
+        <alibaba-fastjson-version>1.2.83</alibaba-fastjson-version>
+        <pagehelper-version>5.3.0</pagehelper-version>
+        <jedis-version>2.9.0</jedis-version>
+        <redisson-version>3.11.1</redisson-version>
+        <spring-data-redis-version>2.1.9.RELEASE</spring-data-redis-version>
+        <cglib-version>3.2.5</cglib-version>
+        <reflectasm-version>1.11.7</reflectasm-version>
+        <orika-spring-boot-starter-version>1.8.0</orika-spring-boot-starter-version>
+        <archaius-core-version>0.7.6</archaius-core-version>
+        <commons-lang3-version>3.12.0</commons-lang3-version>
+        <spring-boot-autoconfigure-version>2.7.11</spring-boot-autoconfigure-version>
+        <aspectjweaver-version>1.9.7</aspectjweaver-version>
+        <spring-boot-starter-aop-version>2.3.4.RELEASE</spring-boot-starter-aop-version>
+        <spring-boot-starter-data-mongodb-version>2.1.9.RELEASE</spring-boot-starter-data-mongodb-version>
+        <grpc.version>1.54.0</grpc.version>
+        <gson-fire-version>1.8.0</gson-fire-version>
+        <swagger-core-version>1.5.18</swagger-core-version>
+        <okhttp-version>2.7.5</okhttp-version>
+        <gson-version>2.8.1</gson-version>
+        <threetenbp-version>1.3.5</threetenbp-version>
+        <junit-version>4.12</junit-version>
+        <netty.vsersion>4.1.36.Final</netty.vsersion>
+        <rocketmq.spring.boot.version>2.1.0</rocketmq.spring.boot.version>
+        <rocketmq-version>4.6.0</rocketmq-version>
+    </properties>
+
+    <!--    构建依赖全局管理-->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-test</artifactId>
+                <scope>test</scope>
+                <version>${spring-boot-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter</artifactId>
+                <version>${spring-boot-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-web</artifactId>
+                <version>${spring-boot-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-starter-dubbo</artifactId>
+                <version>${alibaba-dubbo-version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>log4j</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+                <version>${alibaba-nacos-version}</version>
+            </dependency>
+            <!--zk注册中心客户端-->
+            <dependency>
+                <groupId>com.101tec</groupId>
+                <artifactId>zkclient</artifactId>
+                <version>${zkclient-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-actuator</artifactId>
+                <version>${spring-boot-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-commons</artifactId>
+                <version>${spring-commons-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-context</artifactId>
+                <version>${spring-cloud-context-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-configuration-processor</artifactId>
+                <version>${spring-boot-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.panda.sport.rcs</groupId>
+                <artifactId>panda-rcs-pojo</artifactId>
+                <version>${panda-rcs-pojo-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.panda.sport.rcs</groupId>
+                <artifactId>panda-rcs-redis</artifactId>
+                <version>2.5.1-SNAPSHOT</version>
+            </dependency>
+            <!--jdbc -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-jdbc</artifactId>
+                <version>${spring-boot-version}</version>
+            </dependency>
+            <!-- mysql驱动 -->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql-connector-java-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.panda.sport.rcs</groupId>
+                <artifactId>panda-rcs-common</artifactId>
+                <version>${panda-rcs-common-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-tx</artifactId>
+                <version>${spring-tx-version}</version>
+            </dependency>
+
+            <!--druid依赖-->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid</artifactId>
+                <version>${alibaba-druid-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.panda.sport.rcs</groupId>
+                <artifactId>panda-rcs-core</artifactId>
+                <version>${panda-rcs-core-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.panda.sport.rcs</groupId>
+                <artifactId>panda-rcs-api</artifactId>
+                <version>${panda-rcs-api-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-api</artifactId>
+                <version>${log4j-api-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-to-slf4j</artifactId>
+                <version>${log4j-slf4j-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi-ooxml</artifactId>
+                <version>${poi-ooxml-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>${spring-context-version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/com.netflix.hystrix/hystrix-core -->
+            <dependency>
+                <groupId>com.netflix.hystrix</groupId>
+                <artifactId>hystrix-core</artifactId>
+                <version>${hystrix-core-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.code.gson</groupId>
+                <artifactId>gson</artifactId>
+                <version>${google-gson-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.panda.common</groupId>
+                <artifactId>panda_frame_common</artifactId>
+                <version>${panda_frame_common-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus-boot-starter-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.kiprobinson</groupId>
+                <artifactId>bigfraction</artifactId>
+                <version>${bigfraction-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo</artifactId>
+                <version>${apache-dubbo-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons-io-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.resteasy</groupId>
+                <artifactId>resteasy-client</artifactId>
+                <version>${resteasy-client-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.belerweb</groupId>
+                <artifactId>pinyin4j</artifactId>
+                <version>${pinyin4j-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.ben-manes.caffeine</groupId>
+                <artifactId>caffeine</artifactId>
+                <version>${caffeine-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-fileupload</groupId>
+                <artifactId>commons-fileupload</artifactId>
+                <version>${commons-fileupload-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${alibaba-fastjson-version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper</artifactId>
+                <version>${pagehelper-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>redis.clients</groupId>
+                <artifactId>jedis</artifactId>
+                <version>${jedis-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson</artifactId>
+                <version>${redisson-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-redis</artifactId>
+                <version>${spring-data-redis-version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>cglib</groupId>
+                <artifactId>cglib</artifactId>
+                <version>${cglib-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.esotericsoftware</groupId>
+                <artifactId>reflectasm</artifactId>
+                <version>${reflectasm-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.rakugakibox.spring.boot</groupId>
+                <artifactId>orika-spring-boot-starter</artifactId>
+                <version>${orika-spring-boot-starter-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.netflix.archaius</groupId>
+                <artifactId>archaius-core</artifactId>
+                <version>${archaius-core-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.grpc</groupId>
+                <artifactId>grpc-stub</artifactId>
+                <version>${grpc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.grpc</groupId>
+                <artifactId>grpc-netty-shaded</artifactId>
+                <version>${grpc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.grpc</groupId>
+                <artifactId>grpc-protobuf</artifactId>
+                <version>${grpc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.grpc</groupId>
+                <artifactId>grpc-services</artifactId>
+                <version>${grpc.version}</version>
+            </dependency>
+
+
+            <!-- panda-rcs-mgr-trade start -->
+            <dependency>
+                <groupId>com.xuxueli</groupId>
+                <artifactId>xxl-job-core</artifactId>
+                <version>2.1.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+                <version>2.1.0.RELEASE</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-netflix-zuul</artifactId>
+                <version>2.1.0.RELEASE</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi</artifactId>
+                <version>5.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>easyexcel</artifactId>
+                <version>2.1.6</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.panda.sport.rcs</groupId>
+                <artifactId>panda-rcs-trade-service</artifactId>
+                <version>${panda-rcs-trade-service-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-test</artifactId>
+                <version>5.1.10.RELEASE</version>
+            </dependency>
+            <dependency>
+                <groupId>com.panda.sport.data</groupId>
+                <artifactId>data-association-api</artifactId>
+                <version>1.0.6-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.janino</groupId>
+                <artifactId>janino</artifactId>
+                <version>3.0.9</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.groovy</groupId>
+                <artifactId>groovy</artifactId>
+                <version>2.5.7</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.panda.aoodds</groupId>
+                <artifactId>aoodds-data-api</artifactId>
+                <version>1.0.6-SNAPSHOT</version>
+            </dependency>
+            <!--  panda-rcs-mgr-trade end -->
+
+            <!--  panda-rcs-trade-pojo start -->
+            <!--  panda-rcs-trade-pojo end -->
+
+            <!--  panda-rcs-trade-service start -->
+            <dependency>
+                <groupId>com.panda.sport.rcs</groupId>
+                <artifactId>panda-rcs-trade-pojo</artifactId>
+                <version>${panda-rcs-trade-pojo-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-collections</groupId>
+                <artifactId>commons-collections</artifactId>
+                <version>3.2.2</version>
+            </dependency>
+            <!--  panda-rcs-trade-service end -->
+
+            <!--  panda-rcs-trade start -->
+            <dependency>
+                <groupId>com.panda.sports.auth</groupId>
+                <artifactId>panda-auth-sso</artifactId>
+                <version>1.0.2-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.panda.sports.auth</groupId>
+                <artifactId>panda-auth-api</artifactId>
+                <version>1.0.2-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.panda.merge</groupId>
+                <artifactId>panda-api</artifactId>
+                <version>1.9.2-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.panda.sport.data.manager</groupId>
+                <artifactId>data-manager-api</artifactId>
+                <version>3.0.13-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.panda.sport.rcs</groupId>
+                <artifactId>panda-rcs-mq</artifactId>
+                <version>2.0.2-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>2.13.4</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.datatype</groupId>
+                <artifactId>jackson-datatype-jdk8</artifactId>
+                <version>2.13.4</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.datatype</groupId>
+                <artifactId>jackson-datatype-jsr310</artifactId>
+                <version>2.13.4</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.module</groupId>
+                <artifactId>jackson-module-parameter-names</artifactId>
+                <version>2.13.4</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.module</groupId>
+                <artifactId>jackson-module-afterburner</artifactId>
+                <version>2.13.4</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>2.13.4</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>2.13.4</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.dataformat</groupId>
+                <artifactId>jackson-dataformat-yaml</artifactId>
+                <version>2.13.4</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-core</artifactId>
+                <version>2.20.0</version>
+            </dependency>
+            <!--  panda-rcs-trade end -->
+
+
+            <!--  panda-rcs-trade-warning end -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>1.1.21</version>
+            </dependency>
+            <!-- swagger -->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>2.9.2</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>2.9.2</version>
+            </dependency>
+
+            <dependency>
+                <groupId>net.logstash.logback</groupId>
+                <artifactId>logstash-logback-encoder</artifactId>
+                <version>6.4</version>
+            </dependency>
+            <!--  panda-rcs-trade-warning end -->
+
+
+            <!--  panda-rcs-order-group start -->
+            <!--  panda-rcs-order-group end -->
+
+            <!--  panda-rcs-credit start -->
+            <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-openfeign -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-openfeign</artifactId>
+                <version>2.1.5.RELEASE</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.panda.sport.rcs</groupId>
+                <artifactId>panda-rcs-order-service</artifactId>
+                <version>2.0.0-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>1.1.11</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.resteasy</groupId>
+                <artifactId>jaxrs-api</artifactId>
+                <version>3.0.12.Final</version>
+            </dependency>
+            <!--  panda-rcs-credit end -->
+
+            <!--  panda-rcs-dj start -->
+
+            <!--三方demo包-->
+            <dependency>
+                <groupId>io.swagger</groupId>
+                <artifactId>swagger-annotations</artifactId>
+                <version>${swagger-core-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.squareup.okhttp</groupId>
+                <artifactId>okhttp</artifactId>
+                <version>${okhttp-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.squareup.okhttp</groupId>
+                <artifactId>logging-interceptor</artifactId>
+                <version>${okhttp-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.gsonfire</groupId>
+                <artifactId>gson-fire</artifactId>
+                <version>${gson-fire-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.threeten</groupId>
+                <artifactId>threetenbp</artifactId>
+                <version>${threetenbp-version}</version>
+            </dependency>
+            <!-- test dependencies -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.arronlong</groupId>
+                <artifactId>httpclientutil</artifactId>
+                <version>1.0.4</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.panda.sports</groupId>
+                <artifactId>goldenrace-wallet-api</artifactId>
+                <version>2.0.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.validation</groupId>
+                <artifactId>validation-api</artifactId>
+                <version>2.0.1.Final</version>
+            </dependency>
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>5.0.1.Final</version>
+            </dependency>
+            <!--  panda-rcs-dj end -->
+
+            <!--  panda-rcs-mgr-risk start -->
+            <dependency>
+                <groupId>com.panda.sports.bss</groupId>
+                <artifactId>panda-bss-spi</artifactId>
+                <version>1.6</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.dataformat</groupId>
+                <artifactId>jackson-dataformat-avro</artifactId>
+                <version>2.9.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jetbrains</groupId>
+                <artifactId>annotations</artifactId>
+                <version>20.1.0</version>
+            </dependency>
+            <!--  panda-rcs-mgr-risk end -->
+
+            <!--  panda-rcs-mts start -->
+            <dependency>
+                <groupId>com.panda.sport.rcs</groupId>
+                <artifactId>panda-rcs-mts</artifactId>
+                <version>2.3.6.0</version>
+            </dependency>
+            <dependency>
+                <artifactId>panda-rcs-zk</artifactId>
+                <groupId>com.panda.sport.rcs</groupId>
+                <version>2.0.0-SNAPSHOT</version>
+            </dependency>
+            <!--  panda-rcs-mts end -->
+
+            <!--  panda-rcs-order-limit start -->
+            <!--  panda-rcs-order-limit end -->
+
+            <!--  panda-rcs-order-pojo start -->
+            <!--  panda-rcs-order-pojo end -->
+
+            <!--  panda-rcs-order-reject start -->
+            <!--  panda-rcs-order-reject end -->
+
+            <!--  panda-rcs-order-service start -->
+            <dependency>
+                <groupId>com.panda.sport.rcs</groupId>
+                <artifactId>panda-rcs-order-pojo</artifactId>
+                <version>2.0.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>5.4.0</version>
+            </dependency>
+            <!--  panda-rcs-order-service end -->
+
+            <!--  panda-rcs-pending-order start -->
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>swagger-bootstrap-ui</artifactId>
+                <version>1.9.6</version>
+            </dependency>
+            <!--  panda-rcs-pending-order end -->
+
+            <!--  panda-rcs-predict start -->
+            <!--  panda-rcs-predict end -->
+
+            <!--  panda-rcs-sdk-client start -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-jpa</artifactId>
+                <version>2.1.6.RELEASE</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.inject</groupId>
+                <artifactId>guice</artifactId>
+                <version>4.2.2</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>4.5.9</version>
+            </dependency>
+            <!--  panda-rcs-sdk-client end -->
+
+            <!--  panda-rcs-sdk-server start -->
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>javax.servlet-api</artifactId>
+                <version>4.0.1</version>
+            </dependency>
+            <dependency>
+                <artifactId>panda-rcs-sdk-client</artifactId>
+                <groupId>com.panda.sport.rcs.sdk</groupId>
+                <version>2.0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.nacos</groupId>
+                <artifactId>nacos-client</artifactId>
+                <version>1.1.4</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-logging</artifactId>
+                <version>2.1.6.RELEASE</version>
+            </dependency>
+            <dependency>
+                <groupId>com.panda.sport.rcs</groupId>
+                <artifactId>panda-rcs-monitor</artifactId>
+                <version>2.0.0-SNAPSHOT</version>
+            </dependency>
+            <!--  panda-rcs-sdk-server end -->
+
+            <!--  panda-rcs-stray-limit start -->
+            <!--  panda-rcs-stray-limit end -->
+
+            <!--  panda-rcs-virtual start -->
+            <!--  panda-rcs-virtual end -->
+
+            <!--  panda-rcs-task-group start -->
+            <!--  panda-rcs-task-group end -->
+
+            <!--  panda-rcs-task start -->
+            <dependency>
+                <groupId>com.panda.sport.rcs</groupId>
+                <artifactId>panda-rcs-task-service</artifactId>
+                <version>${panda-rcs-task-service-version}</version>
+            </dependency>
+            <!--  panda-rcs-task end -->
+
+            <!--  panda-rcs-task-pojo start -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-generator</artifactId>
+                <version>3.1.2</version>
+            </dependency>
+            <!--  panda-rcs-task-pojo end -->
+
+            <!--  panda-rcs-task-service start -->
+            <dependency>
+                <groupId>com.panda.sport.rcs</groupId>
+                <artifactId>panda-rcs-task-pojo</artifactId>
+                <version>2.0.0-SNAPSHOT</version>
+            </dependency>
+            <!--  panda-rcs-task-service end -->
+
+
+            <!--  panda-rcs-data-group start -->
+            <dependency>
+                <groupId>com.panda.virtual</groupId>
+                <artifactId>panda-api</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <!--  panda-rcs-data-group end -->
+
+            <!--  panda-rcs-data-pojo start -->
+            <!--  panda-rcs-data-pojo end -->
+
+            <!--  panda-rcs-data-server start -->
+            <!--  panda-rcs-data-server end -->
+
+            <!--  panda-rcs-data-service start -->
+            <dependency>
+                <groupId>com.panda.sport.rcs</groupId>
+                <artifactId>panda-rcs-data-pojo</artifactId>
+                <version>2.0.0-SNAPSHOT</version>
+            </dependency>
+            <!--  panda-rcs-data-service end -->
+
+            <!--  panda-rcs-push start -->
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-all</artifactId>
+                <version>${netty.vsersion}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-transport</artifactId>
+                <version>${netty.vsersion}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-codec-http</artifactId>
+                <version>${netty.vsersion}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.rocketmq</groupId>
+                <artifactId>rocketmq-spring-boot</artifactId>
+                <version>${rocketmq.spring.boot.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.rocketmq</groupId>
+                <artifactId>rocketmq-client</artifactId>
+                <version>${rocketmq-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.rocketmq</groupId>
+                <artifactId>rocketmq-acl</artifactId>
+                <version>${rocketmq-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.panda.sport.rcs</groupId>
+                <artifactId>panda-rcs-data-service</artifactId>
+                <version>${panda-rcs-data-service-version}</version>
+            </dependency>
+            <!--  panda-rcs-push end -->
+
+            <!--  panda-rcs-push-order start -->
+            <!--  panda-rcs-push-order end -->
+
+            <!--  panda-rcs-mq start -->
+            <dependency>
+                <groupId>org.apache.rocketmq</groupId>
+                <artifactId>rocketmq-spring-boot-starter</artifactId>
+                <version>2.1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.rocketmq</groupId>
+                <artifactId>rocketmq-tools</artifactId>
+                <version>4.6.0</version>
+            </dependency>
+            <!--  panda-rcs-mq end -->
+
+            <!--  panda-rcs-zk start -->
+            <dependency>
+                <groupId>org.apache.curator</groupId>
+                <artifactId>curator-recipes</artifactId>
+                <version>4.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.zookeeper</groupId>
+                <artifactId>zookeeper</artifactId>
+                <version>3.4.8</version>
+            </dependency>
+            <!--  panda-rcs-zk end -->
+
+
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-to-slf4j</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-autoconfigure</artifactId>
+                </exclusion>
+
+                <exclusion>
+                    <artifactId>log4j-api</artifactId>
+                    <groupId>org.apache.logging.log4j</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>log4j-to-slf4j</artifactId>
+                    <groupId>org.apache.logging.log4j</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>com.panda.common</groupId>
+            <artifactId>panda_frame_common</artifactId>
+        </dependency>
+    </dependencies>
+
+	<distributionManagement>
+        <repository>
+            <id>panda</id>
+            <name>Releases</name>
+            <url>http://idc-pub-nexus.sportxxxr1pub.com/repository/maven-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>panda-snapshots</id>
+            <name>panda-snapshots</name>
+            <url>http://idc-pub-nexus.sportxxxr1pub.com/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>repository.spring.release</id>
+            <name>Spring GA Repository</name>
+            <url>https://repo.spring.io/plugins-release/</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>jcenter-snapshots</id>
+            <name>jcenter</name>
+            <url>http://oss.jfrog.org/artifactory/oss-snapshot-local/</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>jcenter-releases</id>
+            <name>jcenter</name>
+            <url>http://jcenter.bintray.com</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+
+        </resources>
+
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>2.3.1</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.codehaus.plexus</groupId>
+                            <artifactId>plexus-compiler-javac</artifactId>
+                            <version>1.8.1</version>
+                        </dependency>
+                    </dependencies>
+                    <configuration>
+                        <source>1.8</source>
+                        <target>1.8</target>
+                        <encoding>UTF-8</encoding>
+                        <compilerArguments>
+                            <verbose/>
+                        </compilerArguments>
+                        <meminitial>2048m</meminitial>
+                        <maxmem>4096m</maxmem>
+
+                    </configuration>
+                </plugin>
+				<plugin>
+	                <artifactId>maven-source-plugin</artifactId>
+	                <version>3.0.1</version>
+	                <configuration>
+	                    <attach>true</attach>
+	                </configuration>
+	                <executions>
+	                    <execution>
+	                        <phase>compile</phase>
+	                        <goals>
+	                            <goal>jar</goal>
+	                        </goals>
+	                    </execution>
+	                </executions>
+	            </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>findbugs-maven-plugin</artifactId>
+                    <version>3.0.1</version>
+                    <configuration>
+                        <excludeFilterFile>findbugs-exclude.xml</excludeFilterFile>
+                        <threshold>High</threshold>
+                        <effort>Default</effort>
+                        <findbugsXmlOutput>true</findbugsXmlOutput>
+                        <findbugsXmlOutputDirectory>target/site</findbugsXmlOutputDirectory>
+                    </configuration>
+                </plugin>
+
+                <!--    打包的时候,过滤掉测试类-->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <configuration>
+                        <skip>true</skip>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+</project>

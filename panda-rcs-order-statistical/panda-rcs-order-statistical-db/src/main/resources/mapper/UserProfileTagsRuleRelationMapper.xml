@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.db.mapper.UserProfileTagsRuleRelationMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.panda.sport.rcs.db.entity.UserProfileTagsRuleRelation">
+        <id column="id" property="id" />
+        <result column="tag_id" property="tagId" />
+        <result column="rule_id" property="ruleId" />
+        <result column="parameter1" property="parameter1" />
+        <result column="parameter2" property="parameter2" />
+        <result column="parameter3" property="parameter3" />
+        <result column="parameter4" property="parameter4" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, tag_id, rule_id, parameter1, parameter2, parameter3, parameter4
+    </sql>
+
+</mapper>

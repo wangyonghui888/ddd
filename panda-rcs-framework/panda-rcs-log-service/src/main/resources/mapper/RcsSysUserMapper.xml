@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.rcs.logService.mapper.RcsSysUserMapper">
+    <resultMap id="BaseResultMap" type="com.panda.rcs.logService.vo.RcsSysUser">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="user_code" jdbcType="VARCHAR" property="userCode" />
+        <result column="work_code" jdbcType="VARCHAR" property="workCode" />
+        <result column="org_id" jdbcType="BIGINT" property="orgId" />
+        <result column="app_name" jdbcType="VARCHAR" property="appName" />
+        <result column="position_id" jdbcType="BIGINT" property="positionId" />
+        <result column="user_flag" jdbcType="VARCHAR" property="userFlag" />
+        <result column="roles" jdbcType="VARCHAR" property="roles" />
+        <result column="enabled" jdbcType="INTEGER" property="enabled" />
+        <result column="logic_delete" jdbcType="INTEGER" property="logicDelete" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, user_code, work_code, org_id, app_name, position_id, user_flag, roles, enabled,
+    logic_delete, create_time, update_time
+    </sql>
+
+</mapper>

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.db.mapper.OrderStaticsForIpMapper">
+
+    <select id="queryAmountByFinalBetTimeCount" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM
+        risk_order_statistics_by_ip si
+        WHERE
+        si.final_bet_time >= #{finalBeginTime} AND si.final_bet_time <![CDATA[ < ]]> #{finalEndTime}
+    </select>
+
+    <select id="queryAmountByFinalBetTime" resultType="com.panda.sport.rcs.db.entity.RiskOrderStatisticsByIp">
+        SELECT si.ip as ip,
+        sum( di.bet_amount ) as sevenDaysBetAmount,
+        sum( di.profit_amount ) as sevenDaysProfitAmount
+        FROM
+        risk_order_statistics_by_ip si
+        left join risk_order_statistics_day_by_ip di on di.ip = si.ip and di.static_time >= #{staticBeginTime} AND di.static_time <![CDATA[ < ]]> #{staticEndTime}
+        WHERE
+        si.final_bet_time >= #{finalBeginTime} AND si.final_bet_time <![CDATA[ < ]]> #{finalEndTime}
+        group by si.ip
+        limit #{num},1000
+    </select>
+
+    <update id="updateByIp" parameterType="com.panda.sport.rcs.db.entity.RiskOrderStatisticsByIp">
+        update risk_order_statistics_by_ip
+        <set>
+            <if test="riskOrderStatisticsByIp.tagId != null">
+                tag_id = #{riskOrderStatisticsByIp.tagId},
+            </if>
+            <if test="riskOrderStatisticsByIp.area != null">
+                area = #{riskOrderStatisticsByIp.area},
+            </if>
+            <if test="riskOrderStatisticsByIp.betAmount != null">
+                bet_amount = bet_amount + #{riskOrderStatisticsByIp.betAmount},
+            </if>
+            <if test="riskOrderStatisticsByIp.profitAmount != null">
+                profit_amount = profit_amount + #{riskOrderStatisticsByIp.profitAmount},
+            </if>
+            <if test="riskOrderStatisticsByIp.profitAmount != null || riskOrderStatisticsByIp.betAmount != null">
+                profit_probability =
+                CASE
+                WHEN bet_amount = 0 THEN 0
+                ELSE 100 * (profit_amount / bet_amount)
+                END,
+            </if>
+            <if test="riskOrderStatisticsByIp.sevenDaysBetAmount != null">
+                seven_days_bet_amount = seven_days_bet_amount + #{riskOrderStatisticsByIp.sevenDaysBetAmount},
+            </if>
+            <if test="riskOrderStatisticsByIp.sevenDaysProfitAmount != null">
+                seven_days_profit_amount = seven_days_profit_amount + #{riskOrderStatisticsByIp.sevenDaysProfitAmount},
+            </if>
+            <if test="riskOrderStatisticsByIp.finalBetTime != null">
+                final_bet_time = #{riskOrderStatisticsByIp.finalBetTime},
+            </if>
+        </set>
+        where ip = #{riskOrderStatisticsByIp.ip}
+    </update>
+
+    <select id="queryIpList" resultType="com.panda.sport.rcs.common.vo.api.response.IpListResVo">
+        SELECT
+        i.id AS id,
+        i.ip AS ip,
+        i.area AS area,
+        ( SELECT tag FROM risk_user_visit_ip_tag it WHERE it.id = i.tag_id ) tagName,
+        ( SELECT count( t.user_id ) FROM risk_order_tag_ip t WHERE t.ip = i.ip ) userNum,
+        i.tag_id AS tagId,
+        i.bet_amount AS betAmount,
+        i.profit_amount AS profitAmount,
+        i.profit_probability AS profitProbability,
+        ifnull(i.seven_days_bet_amount,0) AS sevenDaysBetAmount,
+        ifnull(i.seven_days_profit_amount,0) AS sevenDaysProfitAmount,
+        i.final_bet_time AS finalBetTime,
+        i.remark AS remark
+        FROM
+        risk_order_statistics_by_ip i
+        WHERE
+        i.final_bet_time >= #{vo.startFinalTime}
+        AND i.final_bet_time <![CDATA[ < ]]> #{vo.endFinalTime}
+
+        <if test="vo.ip != null">
+            AND i.ip like concat('%' , #{vo.ip} , '%')
+        </if>
+
+        <if test="ips != null and ips.size() > 0">
+            and i.ip IN
+            <foreach item="item" index="index" collection="ips" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="vo.profitAmount != null">
+            AND i.profit_amount >= #{vo.profitAmount} * 100
+        </if>
+        <if test="vo.sevenDaysProfitAmount != null">
+            AND i.seven_days_profit_amount >= #{vo.sevenDaysProfitAmount} * 100
+        </if>
+        <if test="vo.tagId != null and vo.tagId.length > 0">
+            and i.tag_id IN
+            <foreach item="item" index="index" collection="vo.tagId" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="vo.sortName == 'tagId'">
+            ORDER By tagId
+        </if>
+        <if test="vo.sortName == 'userNum'">
+            ORDER By userNum
+        </if>
+        <if test="vo.sortName == 'betAmount'">
+            ORDER By betAmount
+        </if>
+        <if test="vo.sortName == 'profitAmount'">
+            ORDER By profitAmount
+        </if>
+        <if test="vo.sortName == 'profitProbability'">
+            ORDER By profitProbability
+        </if>
+        <if test="vo.sortName == 'sevenDaysBetAmount'">
+            ORDER By sevenDaysBetAmount
+        </if>
+        <if test="vo.sortName == 'sevenDaysProfitAmount'">
+            ORDER By sevenDaysProfitAmount
+        </if>
+        <if test="vo.sortName == 'finalBetTime'">
+            ORDER By finalBetTime
+        </if>
+        <if test="vo.sortName == 'area'">
+            ORDER By area
+        </if>
+
+        <if test="vo.sortType == 1">
+            ASC
+        </if>
+        <if test="vo.sortType == 2">
+            DESC
+        </if>
+    </select>
+
+</mapper>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.mapper.RcsCodeMapper">
+    <select id="selectPlayIdsByList" resultType="String">
+        SELECT DISTINCT(child_key) FROM rcs_code WHERE father_key="play_phase" AND remark in
+        <foreach close=")" collection="stateIds" item="item" open="(" separator=", ">
+            #{item,jdbcType=BIGINT}
+        </foreach>
+    </select>
+    <select id="getBusinessList" resultType="com.panda.sport.rcs.pojo.RcsCode">
+        SELECT * FROM rcs_code WHERE  father_key="business"
+    </select>
+
+    <insert id="insertOrUpdate">
+        INSERT INTO `panda_rcs`.`rcs_code` ( `father_key`, `child_key`, `value`, `status` )
+        VALUES
+            ( #{fatherKey}, #{childKey}, #{value}, 1 )
+            ON DUPLICATE KEY UPDATE father_key = #{fatherKey},
+            child_key = #{childKey},
+            `value` = #{value},
+            `status` = #{status}
+    </insert>
+
+    <insert id="insertOrUpdateRcsMerchants">
+        INSERT INTO rcs_operate_merchants_set ( status,merchants_id, merchants_code, valid_status, limit_type)
+        VALUES
+            ( 1, #{merchantsId}, #{merchantsCode}, #{validStatus}, #{limitType})
+            ON DUPLICATE KEY UPDATE valid_status =#{validStatus}
+    </insert>
+
+    <update id="updateRcsCode">
+        UPDATE rcs_code SET child_key=#{childKey} ,`status`= #{status} WHERE `value`= #{value} AND father_key="business"
+    </update>
+</mapper>

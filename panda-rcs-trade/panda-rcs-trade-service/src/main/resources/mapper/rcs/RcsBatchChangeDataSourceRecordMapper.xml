@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.mapper.RcsBatchChangeDataSourceRecordMapper">
+    <insert id="batchSave" parameterType="com.panda.sport.rcs.pojo.RcsBatchChangeDataSourceRecord">
+        INSERT INTO `rcs_batch_change_data_source_record` (
+        `match_id`,
+        `play_id`,
+        `old_data_source_code`,
+        `new_data_source_code`,
+        `create_time`)
+        values
+        <foreach collection="list" item="item" separator=",">
+            ( #{item.matchId},
+            #{item.playId},
+            #{item.oldDataSourceCode},
+            #{item.newDataSourceCode},
+            #{item.createTime}
+            )
+        </foreach>
+        on duplicate key update
+        create_time = values (create_time),
+        old_data_source_code = values (old_data_source_code),
+        new_data_source_code = values (new_data_source_code)
+    </insert>
+</mapper>

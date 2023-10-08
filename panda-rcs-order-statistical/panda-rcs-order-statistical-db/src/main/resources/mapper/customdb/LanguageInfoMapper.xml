@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.customdb.mapper.LanguageInfoMapper">
+
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="LanguageResultMap" type="com.panda.sport.rcs.customdb.entity.LanguageInfo">
+        <result column="name" property="name"/>
+    </resultMap>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="DataResultMap" type="com.panda.sport.rcs.customdb.entity.DataEntity">
+        <result column="sport_id" property="sportId"/>
+        <result column="play_id" property="playId"/>
+        <result column="name" property="name"/>
+    </resultMap>
+
+    <resultMap id="userDataResultMap" type="com.panda.sport.rcs.common.vo.api.response.UserResVo">
+    </resultMap>
+
+
+    <!-- 查询语言表 -->
+    <select id="getLanguageInfo" resultMap="LanguageResultMap" parameterType="java.util.Set">
+        SELECT
+        name_code, zs as name
+        FROM
+        tybss_new.s_language
+        WHERE
+        name_code in
+        <foreach item="nameCodeSet" index="index" collection="nameCodeSet" open="(" separator="," close=")">
+            #{nameCodeSet}
+        </foreach>;
+    </select>
+
+    <!-- 查询语言表 -->
+    <select id="getEsportLanguageInfo" resultMap="LanguageResultMap" parameterType="java.util.Set">
+        SELECT
+        name_code, zs as name
+        FROM
+        tybss_new.s_esport_language
+        WHERE
+        name_code in
+        <foreach item="nameCodeSet" index="index" collection="nameCodeSet" open="(" separator="," close=")">
+            #{nameCodeSet}
+        </foreach>;
+    </select>
+
+
+    <select id="getSportName" resultMap="DataResultMap">
+        SELECT
+        id as sport_id, name
+        FROM
+        tybss_new.s_sport
+
+         UNION ALL  SELECT  id as sport_id, introduction as name  FROM   tybss_new.s_virtual_sport_type
+    </select>
+
+
+    <!-- 查询语言表 -->
+    <select id="getPlayNameCode" resultMap="DataResultMap">
+        SELECT
+        play_id, sport_id, play_name_code as name_code
+        FROM
+        tybss_merchant_common.s_betting_play
+        UNION ALL
+         SELECT
+        play_id, sport_id, play_name_code as name_code
+        FROM
+        tybss_merchant_common.s_esport_betting_play;
+    </select>
+
+
+    <select id="getTournamentCodeNameById" resultMap="DataResultMap" parameterType="java.lang.Long">
+        SELECT
+        id, name_code,sport_id
+        FROM
+        tybss_new.s_tournament
+        where id=#{id};
+    </select>
+
+
+    <select id="getTeamNameCodeById" resultMap="DataResultMap" parameterType="java.lang.Long">
+        SELECT
+        id, name_code,sport_id
+        FROM
+        tybss_new.s_team
+        where id=#{id};
+    </select>
+
+    <select id="getUser" resultMap="userDataResultMap" parameterType="java.lang.Long">
+        SELECT uid userId, username userName FROM  tybss_merchant_common.t_user  WHERE uid =#{uid};
+    </select>
+
+</mapper>

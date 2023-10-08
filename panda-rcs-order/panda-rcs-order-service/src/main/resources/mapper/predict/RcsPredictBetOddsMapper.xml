@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.mapper.predict.RcsPredictBetOddsMapper">
+    <insert id="insertOrUpdate">
+            INSERT INTO panda_rcs.rcs_predict_bet_odds (
+                sport_id,
+                match_id,
+                play_id,
+        data_type,
+        data_type_value,
+        odds_type,
+        bet_order_num,
+        bet_amount,
+        bet_amount_pay,
+        bet_amount_complex,
+        profit_value,
+        standard_tournament_id,
+        modify_time,
+        is_home,
+        match_type,
+        paid_amount,
+        sub_play_id,
+        series_type,
+        bet_order_num_temp,
+        bet_amount_temp,
+        bet_amount_pay_temp,
+        bet_amount_complex_temp,
+        hash_unique
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.sportId},
+            #{item.matchId},
+            #{item.playId},
+            #{item.dataType},
+            #{item.dataTypeValue},
+            #{item.oddsType},
+            #{item.betOrderNum},
+            #{item.betAmount},
+            #{item.betAmountPay},
+            #{item.betAmountComplex},
+            #{item.profitValue},
+            #{item.standardTournamentId},
+            #{item.modifyTime},
+            #{item.isHome},
+            #{item.matchType},
+            #{item.paidAmount},
+            #{item.subPlayId},
+            #{item.seriesType},
+            #{item.betOrderNumTemp},
+            #{item.betAmountTemp},
+            #{item.betAmountPayTemp},
+            #{item.betAmountComplexTemp},
+            #{item.hashUnique}
+            )
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+        bet_order_num = values (bet_order_num),
+        bet_amount=values (bet_amount),
+        bet_amount_pay=values (bet_amount_pay),
+        bet_amount_complex=values (bet_amount_complex),
+        profit_value=values (profit_value),
+        paid_amount=values (paid_amount),
+        modify_time=values (modify_time),
+        bet_order_num_temp=values (bet_order_num_temp),
+        bet_amount_temp=values (bet_amount_temp),
+        bet_amount_pay_temp=values (bet_amount_pay_temp),
+        bet_amount_complex_temp=values (bet_amount_complex_temp),
+        hash_unique =values (hash_unique)
+    </insert>
+    <update id="updateData">
+        update rcs_predict_bet_odds set bet_order_num_temp=bet_order_num,bet_amount_temp=bet_amount,bet_amount_pay_temp=bet_amount_pay,bet_amount_complex_temp=bet_amount_complex
+        where match_id= #{matchId} and play_id= #{playId}
+    </update>
+
+    <select id="selectBetForPlace" resultType="com.panda.sport.rcs.pojo.vo.api.response.BetForPlaceResVo">
+        SELECT
+        t.id AS id,
+        t.match_type AS matchType,
+        t.bet_amount AS homeBetAmount,
+        b.bet_amount AS awayBetAmount,
+        t.bet_amount_pay AS homeBetAmountPay,
+        b.bet_amount_pay AS awayBetAmountPay,
+        t.bet_amount_complex AS homeBetAmountComplex,
+        b.bet_amount_complex AS awayBetAmountComplex,
+        t.bet_amount - b.bet_amount AS betAmountEquilibriumValue,
+        t.bet_amount_pay - b.bet_amount_pay AS betAmountPayEquilibriumValue,
+        t.bet_amount_complex - b.bet_amount_complex AS betAmountComplexEquilibriumValue,
+        t.data_type_value AS dataTypeValue
+        FROM
+        rcs_predict_bet_odds t
+        LEFT JOIN ( SELECT * FROM rcs_predict_bet_odds WHERE match_id = #{matchId} AND data_type = 2 AND play_id =
+        #{playId} AND sport_id = #{sportId} AND odds_type = #{oddsTypeForAway}
+        <if test="matchType != null">
+            AND match_type = #{matchType}
+        </if>
+        AND series_type = 1
+        and hash_unique is not null
+        ) b
+        ON t.data_type_value = b.data_type_value
+        WHERE
+        t.match_id = #{matchId}
+        AND t.data_type = 2
+        AND t.play_id = #{playId}
+        AND t.sport_id = #{sportId}
+        AND t.odds_type = #{oddsTypeForHome}
+        <if test="matchType != null">
+            AND t.match_type = #{matchType}
+        </if>
+        AND t.series_type = 1
+        AND t.hash_unique is not null
+    </select>
+
+</mapper>

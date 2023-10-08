@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.mapper.predict.RcsPredictBetStatisMapper">
+
+    <insert id="saveOrUpdate" parameterType="com.panda.sport.rcs.pojo.RcsPredictBetStatis">
+        INSERT INTO rcs_predict_bet_statis(sport_id,match_id,match_type,play_id,market_id,odds_item,bet_score,bet_amount,bet_num,odds_sum,create_time,market_value_complete,market_value_current,play_options)
+        VALUES(#{sportId},#{matchId},#{matchType},#{playId},#{marketId},#{oddsItem},#{betScore},#{betAmount},#{betNum},#{oddsSum},#{createTime},#{marketValueComplete},#{marketValueCurrent},#{playOptions})
+        ON DUPLICATE KEY UPDATE
+        sport_id=  #{sportId} ,
+        match_id=  #{matchId} ,
+        match_type= #{matchType},
+        play_id= #{playId},
+        market_id= #{marketId},
+        odds_item= #{oddsItem},
+        bet_score= #{betScore},
+        bet_amount= #{betAmount},
+        bet_num= #{betNum},
+        odds_sum= #{oddsSum},
+        create_time= #{createTime},
+        market_value_complete= #{marketValueComplete},
+        market_value_current= #{marketValueCurrent},
+        play_options= #{playOptions}
+    </insert>
+
+
+</mapper>

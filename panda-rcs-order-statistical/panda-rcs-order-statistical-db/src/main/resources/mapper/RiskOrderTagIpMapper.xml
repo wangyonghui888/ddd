@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.db.mapper.RiskOrderTagIpMapper">
+
+    <select id="queryListByUserId" resultType="com.panda.sport.rcs.db.entity.RiskOrderTagIp">
+        SELECT
+            t.ip as ip,
+            count( 1 ) AS count
+        FROM
+            risk_order_tag_ip t
+        WHERE 1=1
+        <if test="ids != null and ids.length > 0">
+            AND t.user_id in
+            <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        GROUP BY
+            t.ip
+        HAVING
+            count >= #{count}
+	</select>
+
+</mapper>

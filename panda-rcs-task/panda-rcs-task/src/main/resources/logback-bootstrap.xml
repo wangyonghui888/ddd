@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="20 seconds">
+
+	<!-- <conversionRule conversionWord="name" converterClass="com.panda.sport.rcs.logback.RcsHostNameLogBack" /> -->
+    <property name="app.name" value="panda-rcs-task"/>
+    <property name="log.path" value="/opt/logs/panda-rcs/"/>
+<!--	<springProperty scope="context" name="log.path" source="log.path"/>-->
+    <property name="charset" value="utf-8"/>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter" >
+            <level>INFO</level>
+        </filter>
+        <encoder charset="UTF-8" class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <jsonFactoryDecorator class="net.logstash.logback.decorate.CharacterEscapesJsonFactoryDecorator">
+                <escape>
+                    <targetCharacterCode>10</targetCharacterCode>
+                    <escapeSequence>\u2028</escapeSequence>
+                </escape>
+            </jsonFactoryDecorator>
+            <providers>
+                <pattern>
+                    <pattern>
+                        {
+                        "serviceName": "${app.name}",
+                        "date":"%d{yyyy-MM-dd HH:mm:ss.SSS}",
+                        "logLevel": "%level",
+                        "pid": "${PID:-}",
+                        "traceId":"%X{TRACE_ID:-}",
+                        "linkId":"%X{linkId:-}",
+                        "thread": "%thread",
+                        "class": "%logger{40}",
+                        "msg":"%msg",
+                        "stackTrace" : "%exception"
+                        }
+                    </pattern>
+                </pattern>
+            </providers>
+        </encoder>
+    </appender>
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter" >
+            <level>INFO</level>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!--日志文件输出的文件名 -->
+            <FileNamePattern>${log.path}/panda-rcs-task/%d{yyyy-MM-dd}/${app.name}-info-%d{yyyy-MM-dd}.%i.log.gz</FileNamePattern>
+            <!--日志文件保留天数 -->
+            <MaxHistory>3</MaxHistory>
+            <MaxFileSize>1GB</MaxFileSize>
+        </rollingPolicy>
+        <encoder charset="UTF-8" class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <jsonFactoryDecorator class="net.logstash.logback.decorate.CharacterEscapesJsonFactoryDecorator">
+                <escape>
+                    <targetCharacterCode>10</targetCharacterCode>
+                    <escapeSequence>\u2028</escapeSequence>
+                </escape>
+            </jsonFactoryDecorator>
+            <providers>
+                <pattern>
+                    <pattern>
+                        {
+                        "serviceName": "panda-rcs-task",
+                        "date":"%d{yyyy-MM-dd HH:mm:ss.SSS}",
+                        "logLevel": "%level",
+                        "pid": "${PID:-}",
+                        "traceId":"%X{TRACE_ID:-}",
+                        "thread": "%thread",
+                        "class": "%logger{40}",
+                        "msg":"%msg",
+                        "stackTrace" : "%exception"
+                        }
+                    </pattern>
+                </pattern>
+            </providers>
+        </encoder>
+    </appender>
+
+    <appender name="ERROR" isStartMonitor="true" class="com.panda.sport.rcs.monitor.task.log.LogbackMonitorAppender">
+    	<filter class="ch.qos.logback.classic.filter.ThresholdFilter" >
+            <level>ERROR</level>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--日志文件输出的文件名 -->
+            <FileNamePattern>${log.path}/panda-rcs-task/%d{yyyy-MM-dd}/${app.name}-error-%d{yyyy-MM-dd}.log.gz
+            </FileNamePattern>
+            <!--日志文件保留天数 -->
+            <MaxHistory>3</MaxHistory>
+        </rollingPolicy>
+        <encoder charset="UTF-8" class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <jsonFactoryDecorator class="net.logstash.logback.decorate.CharacterEscapesJsonFactoryDecorator">
+                <escape>
+                    <targetCharacterCode>10</targetCharacterCode>
+                    <escapeSequence>\u2028</escapeSequence>
+                </escape>
+            </jsonFactoryDecorator>
+            <providers>
+                <pattern>
+                    <pattern>
+                        {
+                        "serviceName": "panda-rcs-task",
+                        "date":"%d{yyyy-MM-dd HH:mm:ss.SSS}",
+                        "logLevel": "%level",
+                        "pid": "${PID:-}",
+                        "traceId":"%X{TRACE_ID:-}",
+                        "thread": "%thread",
+                        "class": "%logger{40}",
+                        "msg":"%msg",
+                        "stackTrace" : "%exception"
+                        }
+                    </pattern>
+                </pattern>
+            </providers>
+        </encoder>
+    </appender>
+
+    <appender name="MQ_INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    	<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!--日志文件输出的文件名 -->
+            <FileNamePattern>${log.path}/panda-rcs-task/%d{yyyy-MM-dd}/${app.name}-mq-%d{yyyy-MM-dd}.%i.log.gz</FileNamePattern>
+            <!--日志文件保留天数 -->
+            <MaxHistory>3</MaxHistory>
+            <MaxFileSize>1GB</MaxFileSize>
+        </rollingPolicy>
+        <encoder charset="UTF-8" class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <jsonFactoryDecorator class="net.logstash.logback.decorate.CharacterEscapesJsonFactoryDecorator">
+                <escape>
+                    <targetCharacterCode>10</targetCharacterCode>
+                    <escapeSequence>\u2028</escapeSequence>
+                </escape>
+            </jsonFactoryDecorator>
+            <providers>
+                <pattern>
+                    <pattern>
+                        {
+                        "serviceName": "panda-rcs-task",
+                        "date":"%d{yyyy-MM-dd HH:mm:ss.SSS}",
+                        "logLevel": "%level",
+                        "pid": "${PID:-}",
+                        "traceId":"%X{TRACE_ID:-}",
+                        "thread": "%thread",
+                        "class": "%logger{40}",
+                        "msg":"%msg",
+                        "stackTrace" : "%exception"
+                        }
+                    </pattern>
+                </pattern>
+            </providers>
+        </encoder>
+    </appender>
+
+    <logger name="org.mybatis.spring" level="WARN"/>
+    <logger name="org.springframework" level="WARN"/>
+    <logger name="RocketmqClient" level="WARN"/>
+
+    <logger name="com.panda.sport.rcs.log.LogFilter" level="OFF"/>
+    <logger name="com.panda.sport.rcs.log.LogAspect" level="OFF"/>
+    <logger name="com.panda.sport.rcs.log.DubboLogFilter" level="OFF"/>
+
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="FILE"/>
+        <appender-ref ref="ERROR"/>
+        <appender-ref ref="MQ_INFO"/>
+    </root>
+
+</configuration>

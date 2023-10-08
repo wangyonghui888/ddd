@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.mapper.statistics.RcsMatchPlayConfigMapper">
+    <select id="inserOrUpdate">
+        INSERT INTO `panda_rcs`.`rcs_match_play_config` ( `match_id`, `play_id`, `status`, `data_source`)
+        VALUES
+        ( #{matchId}, #{playId}, #{status}, #{dataSource} )
+        ON DUPLICATE KEY UPDATE
+        match_id=#{matchId}
+        <if test="status!=null">
+            ,status=#{status}
+        </if>
+        <if test="dataSource!=null">
+            ,data_source=#{dataSource}
+        </if>
+    </select>
+
+    <select id="inserOrUpdateList">
+        <foreach collection="playIds" index="index" item="item" separator=";">
+            INSERT INTO `panda_rcs`.`rcs_match_play_config` ( `match_id`, `play_id`, `status`, `data_source`)
+            VALUES
+            ( #{matchId}, #{item}, #{status}, #{dataSource} )
+            ON DUPLICATE KEY UPDATE
+            match_id=#{matchId}
+            <if test="status!=null">
+                ,status=#{status}
+            </if>
+            <if test="dataSource!=null">
+                ,data_source=#{dataSource}
+            </if>
+        </foreach>
+    </select>
+    <update id="updateZero">
+       UPDATE rcs_match_play_config set market_head_gap  = 0 WHERE match_id = #{matchId}
+    </update>
+</mapper>

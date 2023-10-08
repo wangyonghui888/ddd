@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.mapper.RcsPredictBetOddsMapper">
+    <select id="selectBetForPlace" resultType="com.panda.sport.rcs.pojo.BetForPlaceResVo">
+        SELECT
+        t.match_type as matchType,
+        t.data_type_value AS data_type_value,
+        t.bet_amount AS homeBetAmount,
+        b.bet_amount AS awayBetAmount,
+        t.bet_amount_pay AS homeBetAmountPay,
+        b.bet_amount_pay AS awayBetAmountPay,
+        t.bet_amount_complex AS homeBetAmountComplex,
+        b.bet_amount_complex AS awayBetAmountComplex,
+        t.bet_amount - b.bet_amount AS betAmountEquilibriumValue,
+        t.bet_amount_pay - b.bet_amount_pay AS betAmountPayEquilibriumValue,
+        t.bet_amount_complex - b.bet_amount_complex AS betAmountComplexEquilibriumValue,
+        t.data_type_value AS dataTypeValue
+        FROM
+        rcs_predict_bet_odds t
+        LEFT JOIN ( SELECT * FROM rcs_predict_bet_odds WHERE match_id = #{matchId} AND data_type = 2 AND play_id = #{playId} AND sport_id = #{sportId} AND odds_type = #{oddsTypeForAway}
+        <if test="matchType != null">
+            AND match_type = #{matchType}
+        </if>
+        ) b
+        ON t.data_type_value = b.data_type_value
+        WHERE
+        t.match_id = #{matchId}
+        AND t.data_type = 2
+        AND t.play_id = #{playId}
+        AND t.sport_id = #{sportId}
+        AND t.odds_type = #{oddsTypeForHome}
+        <if test="matchType != null">
+            AND t.match_type = #{matchType}
+        </if>
+    </select>
+</mapper>

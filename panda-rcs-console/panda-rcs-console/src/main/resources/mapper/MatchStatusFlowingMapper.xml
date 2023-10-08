@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.console.dao.MatchStatusFlowingMapper">
+  <resultMap id="BaseResultMap" type="com.panda.sport.rcs.console.pojo.MatchStatusFlowing">
+    <!--@mbg.generated-->
+    <!--@Table match_status_flowing-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="link_id" jdbcType="VARCHAR" property="linkId" />
+    <result column="o_id" jdbcType="BIGINT" property="oId" />
+    <result column="standard_match_id" jdbcType="BIGINT" property="standardMatchId" />
+    <result column="sport_id" jdbcType="VARCHAR" property="sportId" />
+    <result column="begin_time" jdbcType="BIGINT" property="beginTime" />
+    <result column="match_status" jdbcType="TINYINT" property="matchStatus" />
+    <result column="neutral_ground" jdbcType="TINYINT" property="neutralGround" />
+    <result column="data_source_code" jdbcType="VARCHAR" property="dataSourceCode" />
+    <result column="third_match_source_id" jdbcType="VARCHAR" property="thirdMatchSourceId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="bet_status" jdbcType="TINYINT" property="betStatus" />
+    <result column="match_period_id" jdbcType="BIGINT" property="matchPeriodId" />
+    <result column="insert_time" jdbcType="TIMESTAMP" property="insertTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, link_id, o_id, standard_match_id, sport_id, begin_time, match_status, neutral_ground, 
+    data_source_code, third_match_source_id, parent_id, bet_status, match_period_id, 
+    insert_time
+  </sql>
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update match_status_flowing
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="link_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.linkId,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="o_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.oId,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="standard_match_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.standardMatchId,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="sport_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.sportId,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="begin_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.beginTime,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="match_status = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.matchStatus,jdbcType=TINYINT}
+        </foreach>
+      </trim>
+      <trim prefix="neutral_ground = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.neutralGround,jdbcType=TINYINT}
+        </foreach>
+      </trim>
+      <trim prefix="data_source_code = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.dataSourceCode,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="third_match_source_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.thirdMatchSourceId,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="parent_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.parentId,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="bet_status = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.betStatus,jdbcType=TINYINT}
+        </foreach>
+      </trim>
+      <trim prefix="match_period_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.matchPeriodId,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="insert_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.insertTime,jdbcType=TIMESTAMP}
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id,jdbcType=BIGINT}
+    </foreach>
+  </update>
+  <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into match_status_flowing
+    (link_id, o_id, standard_match_id, sport_id, begin_time, match_status, neutral_ground, 
+      data_source_code, third_match_source_id, parent_id, bet_status, match_period_id, 
+      insert_time)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.linkId,jdbcType=VARCHAR}, #{item.oId,jdbcType=BIGINT}, #{item.standardMatchId,jdbcType=BIGINT}, 
+        #{item.sportId,jdbcType=VARCHAR}, #{item.beginTime,jdbcType=BIGINT}, #{item.matchStatus,jdbcType=TINYINT}, 
+        #{item.neutralGround,jdbcType=TINYINT}, #{item.dataSourceCode,jdbcType=VARCHAR}, 
+        #{item.thirdMatchSourceId,jdbcType=VARCHAR}, #{item.parentId,jdbcType=BIGINT}, 
+        #{item.betStatus,jdbcType=TINYINT}, #{item.matchPeriodId,jdbcType=BIGINT}, #{item.insertTime,jdbcType=TIMESTAMP}
+        )
+    </foreach>
+  </insert>
+  <insert id="insertOrUpdate" keyColumn="id" keyProperty="id" parameterType="com.panda.sport.rcs.console.pojo.MatchStatusFlowing" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into match_status_flowing
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      link_id,
+      o_id,
+      standard_match_id,
+      sport_id,
+      begin_time,
+      match_status,
+      neutral_ground,
+      data_source_code,
+      third_match_source_id,
+      parent_id,
+      bet_status,
+      match_period_id,
+      insert_time,
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      #{linkId,jdbcType=VARCHAR},
+      #{oId,jdbcType=BIGINT},
+      #{standardMatchId,jdbcType=BIGINT},
+      #{sportId,jdbcType=VARCHAR},
+      #{beginTime,jdbcType=BIGINT},
+      #{matchStatus,jdbcType=TINYINT},
+      #{neutralGround,jdbcType=TINYINT},
+      #{dataSourceCode,jdbcType=VARCHAR},
+      #{thirdMatchSourceId,jdbcType=VARCHAR},
+      #{parentId,jdbcType=BIGINT},
+      #{betStatus,jdbcType=TINYINT},
+      #{matchPeriodId,jdbcType=BIGINT},
+      #{insertTime,jdbcType=TIMESTAMP},
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        id = #{id,jdbcType=BIGINT},
+      </if>
+      link_id = #{linkId,jdbcType=VARCHAR},
+      o_id = #{oId,jdbcType=BIGINT},
+      standard_match_id = #{standardMatchId,jdbcType=BIGINT},
+      sport_id = #{sportId,jdbcType=VARCHAR},
+      begin_time = #{beginTime,jdbcType=BIGINT},
+      match_status = #{matchStatus,jdbcType=TINYINT},
+      neutral_ground = #{neutralGround,jdbcType=TINYINT},
+      data_source_code = #{dataSourceCode,jdbcType=VARCHAR},
+      third_match_source_id = #{thirdMatchSourceId,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      bet_status = #{betStatus,jdbcType=TINYINT},
+      match_period_id = #{matchPeriodId,jdbcType=BIGINT},
+      insert_time = #{insertTime,jdbcType=TIMESTAMP},
+    </trim>
+  </insert>
+  <insert id="insertOrUpdateSelective" keyColumn="id" keyProperty="id" parameterType="com.panda.sport.rcs.console.pojo.MatchStatusFlowing" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into match_status_flowing
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="linkId != null">
+        link_id,
+      </if>
+      <if test="oId != null">
+        o_id,
+      </if>
+      <if test="standardMatchId != null">
+        standard_match_id,
+      </if>
+      <if test="sportId != null">
+        sport_id,
+      </if>
+      <if test="beginTime != null">
+        begin_time,
+      </if>
+      <if test="matchStatus != null">
+        match_status,
+      </if>
+      <if test="neutralGround != null">
+        neutral_ground,
+      </if>
+      <if test="dataSourceCode != null">
+        data_source_code,
+      </if>
+      <if test="thirdMatchSourceId != null">
+        third_match_source_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="betStatus != null">
+        bet_status,
+      </if>
+      <if test="matchPeriodId != null">
+        match_period_id,
+      </if>
+      <if test="insertTime != null">
+        insert_time,
+      </if>
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="linkId != null">
+        #{linkId,jdbcType=VARCHAR},
+      </if>
+      <if test="oId != null">
+        #{oId,jdbcType=BIGINT},
+      </if>
+      <if test="standardMatchId != null">
+        #{standardMatchId,jdbcType=BIGINT},
+      </if>
+      <if test="sportId != null">
+        #{sportId,jdbcType=VARCHAR},
+      </if>
+      <if test="beginTime != null">
+        #{beginTime,jdbcType=BIGINT},
+      </if>
+      <if test="matchStatus != null">
+        #{matchStatus,jdbcType=TINYINT},
+      </if>
+      <if test="neutralGround != null">
+        #{neutralGround,jdbcType=TINYINT},
+      </if>
+      <if test="dataSourceCode != null">
+        #{dataSourceCode,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdMatchSourceId != null">
+        #{thirdMatchSourceId,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="betStatus != null">
+        #{betStatus,jdbcType=TINYINT},
+      </if>
+      <if test="matchPeriodId != null">
+        #{matchPeriodId,jdbcType=BIGINT},
+      </if>
+      <if test="insertTime != null">
+        #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        id = #{id,jdbcType=BIGINT},
+      </if>
+      <if test="linkId != null">
+        link_id = #{linkId,jdbcType=VARCHAR},
+      </if>
+      <if test="oId != null">
+        o_id = #{oId,jdbcType=BIGINT},
+      </if>
+      <if test="standardMatchId != null">
+        standard_match_id = #{standardMatchId,jdbcType=BIGINT},
+      </if>
+      <if test="sportId != null">
+        sport_id = #{sportId,jdbcType=VARCHAR},
+      </if>
+      <if test="beginTime != null">
+        begin_time = #{beginTime,jdbcType=BIGINT},
+      </if>
+      <if test="matchStatus != null">
+        match_status = #{matchStatus,jdbcType=TINYINT},
+      </if>
+      <if test="neutralGround != null">
+        neutral_ground = #{neutralGround,jdbcType=TINYINT},
+      </if>
+      <if test="dataSourceCode != null">
+        data_source_code = #{dataSourceCode,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdMatchSourceId != null">
+        third_match_source_id = #{thirdMatchSourceId,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="betStatus != null">
+        bet_status = #{betStatus,jdbcType=TINYINT},
+      </if>
+      <if test="matchPeriodId != null">
+        match_period_id = #{matchPeriodId,jdbcType=BIGINT},
+      </if>
+      <if test="insertTime != null">
+        insert_time = #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+</mapper>

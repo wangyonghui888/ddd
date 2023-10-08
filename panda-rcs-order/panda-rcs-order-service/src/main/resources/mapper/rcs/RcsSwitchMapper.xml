@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.mapper.RcsSwitchMapper">
+
+    <select id="selectByCode" resultType="com.panda.sport.rcs.pojo.RcsSwitch">
+        SELECT
+        sw.id,
+        sw.switch_code,
+        sw.remark,
+        sw.crt_time,
+        sw.update_time,
+        sw.switch_status
+        FROM rcs_switch sw
+        <where>
+            <if test="switchCode != null">
+                AND switch_code = #{switchCode}
+            </if>
+        </where>
+    </select>
+
+    <update id="updateStatus">
+        update rcs_switch
+        <set>
+            <if test="switchStatus != null">
+                switch_status = #{switchStatus},
+            </if>
+        </set>
+        where switch_code = #{switchCode}
+    </update>
+
+
+
+
+</mapper>

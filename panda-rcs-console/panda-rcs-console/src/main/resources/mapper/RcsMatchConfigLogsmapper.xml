@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.console.dao.RcsMatchConfigLogsmapper">
+
+    <select id="selectById" resultType="Map">
+        SELECT id,match_id,trade_type data_source,operate_match_status market_status,modify_time,modify_user FROM rcs_match_config_logs where match_id=#{matchId}
+        ORDER BY modify_time DESC
+    </select>
+    
+    <select id="queryMarketInfo" resultType="Map" parameterType="Map">
+		SELECT standard_match_info_id matchId,market_category_id playId FROM standard_sport_market m WHERE m.id = #{marketId} 
+    </select>
+    
+    <select id="queryTradeList" parameterType="Map" resultType="Map">
+		SELECT c.id,c.match_id,c.trader_level,c.targer_data,c.data_source,c.`status` ,DATE_FORMAT(c.crt_time, '%Y-%m-%d %H:%i:%s') crt_time
+		from rcs_trade_config c
+		WHERE c.match_id = #{matchId} 
+		<if test="marketId != null and marketId != ''">
+			AND (
+		        ( c.trader_level = 1 AND c.targer_data = #{matchId} )
+		        OR ( c.trader_level = 2 AND c.targer_data = #{playId} )
+		        OR ( c.trader_level = 3 AND c.targer_data = #{marketId} )
+			)
+		</if>
+		ORDER BY crt_time DESC
+    </select>
+
+
+	<insert id="batchAddOrUpdateUserConfig"
+			parameterType="com.panda.sport.rcs.console.pojo.ExcelVO"
+			useGeneratedKeys="true"
+			keyProperty="id">
+		insert into t_user_bet_rate(
+		user_id,
+		sport_id,
+		bet_rate)
+		values
+		<foreach collection="list" item="item" index="index" separator=",">
+			(
+			#{item.userId},
+			#{item.sportId},
+			#{item.percentAge}
+			)
+		</foreach>
+		ON DUPLICATE KEY UPDATE
+		user_id=VALUES(user_id),
+		sport_id=VALUES(sport_id),
+		bet_rate=VALUES(bet_rate)
+	</insert>
+
+	<select id="getUserBetRate" resultType="java.lang.String">
+		select distinct user_id from t_user_bet_rate
+	</select>
+
+	<delete id="deleteUserBetRate" >
+		delete from t_user_bet_rate
+	</delete>
+
+
+</mapper>

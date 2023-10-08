@@ -1,0 +1,1048 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.console.dao.RcsStandardSportMarketSellFlowingMapper">
+  <resultMap id="BaseResultMap" type="com.panda.sport.rcs.console.pojo.RcsStandardSportMarketSellFlowing">
+    <!--@mbg.generated-->
+    <!--@Table rcs_standard_sport_market_sell_flowing-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="link_id" jdbcType="VARCHAR" property="linkId" />
+    <result column="o_id" jdbcType="BIGINT" property="oId" />
+    <result column="match_info_id" jdbcType="BIGINT" property="matchInfoId" />
+    <result column="match_manage_id" jdbcType="VARCHAR" property="matchManageId" />
+    <result column="sport_id" jdbcType="BIGINT" property="sportId" />
+    <result column="live_odd_business" jdbcType="TINYINT" property="liveOddBusiness" />
+    <result column="tournament_id" jdbcType="BIGINT" property="tournamentId" />
+    <result column="tournament_name_cn" jdbcType="VARCHAR" property="tournamentNameCn" />
+    <result column="tournament_name_en" jdbcType="VARCHAR" property="tournamentNameEn" />
+    <result column="team_home_id" jdbcType="BIGINT" property="teamHomeId" />
+    <result column="team_home_name_cn" jdbcType="VARCHAR" property="teamHomeNameCn" />
+    <result column="team_home_name_en" jdbcType="VARCHAR" property="teamHomeNameEn" />
+    <result column="team_away_id" jdbcType="BIGINT" property="teamAwayId" />
+    <result column="team_away_name_cn" jdbcType="VARCHAR" property="teamAwayNameCn" />
+    <result column="team_away_name_en" jdbcType="VARCHAR" property="teamAwayNameEn" />
+    <result column="pre_match_time" jdbcType="BIGINT" property="preMatchTime" />
+    <result column="live_odd_time" jdbcType="BIGINT" property="liveOddTime" />
+    <result column="begin_time" jdbcType="BIGINT" property="beginTime" />
+    <result column="pre_trader_id" jdbcType="VARCHAR" property="preTraderId" />
+    <result column="pre_trader" jdbcType="VARCHAR" property="preTrader" />
+    <result column="pre_trader_status" jdbcType="VARCHAR" property="preTraderStatus" />
+    <result column="live_trader_id" jdbcType="VARCHAR" property="liveTraderId" />
+    <result column="live_trader" jdbcType="VARCHAR" property="liveTrader" />
+    <result column="live_trader_status" jdbcType="VARCHAR" property="liveTraderStatus" />
+    <result column="auditor_id" jdbcType="VARCHAR" property="auditorId" />
+    <result column="auditor" jdbcType="VARCHAR" property="auditor" />
+    <result column="auditor_status" jdbcType="VARCHAR" property="auditorStatus" />
+    <result column="neutral_ground" jdbcType="VARCHAR" property="neutralGround" />
+    <result column="business_event" jdbcType="VARCHAR" property="businessEvent" />
+    <result column="pre_match_sell_status" jdbcType="VARCHAR" property="preMatchSellStatus" />
+    <result column="live_match_sell_status" jdbcType="VARCHAR" property="liveMatchSellStatus" />
+    <result column="video" jdbcType="VARCHAR" property="video" />
+    <result column="animation" jdbcType="VARCHAR" property="animation" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="market_count" jdbcType="INTEGER" property="marketCount" />
+    <result column="corner_show" jdbcType="BOOLEAN" property="cornerShow" />
+    <result column="card_show" jdbcType="BOOLEAN" property="cardShow" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="modify_time" jdbcType="BIGINT" property="modifyTime" />
+    <result column="pre_risk_manager_code" jdbcType="VARCHAR" property="preRiskManagerCode" />
+    <result column="live_risk_manager_code" jdbcType="VARCHAR" property="liveRiskManagerCode" />
+    <result column="pre_match_data_provider_code" jdbcType="VARCHAR" property="preMatchDataProviderCode" />
+    <result column="live_match_data_provider_code" jdbcType="VARCHAR" property="liveMatchDataProviderCode" />
+    <result column="platform" jdbcType="VARCHAR" property="platform" />
+    <result column="tournament_level" jdbcType="INTEGER" property="tournamentLevel" />
+    <result column="round_type" jdbcType="TINYINT" property="roundType" />
+    <result column="pre_trader_department_id" jdbcType="TINYINT" property="preTraderDepartmentId" />
+    <result column="live_trader_department_id" jdbcType="TINYINT" property="liveTraderDepartmentId" />
+    <result column="auditor_department_id" jdbcType="TINYINT" property="auditorDepartmentId" />
+    <result column="video_id" jdbcType="VARCHAR" property="videoId" />
+    <result column="animation_id" jdbcType="VARCHAR" property="animationId" />
+    <result column="insert_time" jdbcType="TIMESTAMP" property="insertTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, link_id, o_id, match_info_id, match_manage_id, sport_id, live_odd_business, tournament_id, 
+    tournament_name_cn, tournament_name_en, team_home_id, team_home_name_cn, team_home_name_en, 
+    team_away_id, team_away_name_cn, team_away_name_en, pre_match_time, live_odd_time, 
+    begin_time, pre_trader_id, pre_trader, pre_trader_status, live_trader_id, live_trader, 
+    live_trader_status, auditor_id, auditor, auditor_status, neutral_ground, business_event, 
+    pre_match_sell_status, live_match_sell_status, video, animation, `status`, market_count, 
+    corner_show, card_show, create_time, modify_time, pre_risk_manager_code, live_risk_manager_code, 
+    pre_match_data_provider_code, live_match_data_provider_code, platform, tournament_level, 
+    round_type, pre_trader_department_id, live_trader_department_id, auditor_department_id, 
+    video_id, animation_id, insert_time
+  </sql>
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update rcs_standard_sport_market_sell_flowing
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="link_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.linkId,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="o_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.oId,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="match_info_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.matchInfoId,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="match_manage_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.matchManageId,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="sport_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.sportId,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="live_odd_business = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.liveOddBusiness,jdbcType=TINYINT}
+        </foreach>
+      </trim>
+      <trim prefix="tournament_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.tournamentId,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="tournament_name_cn = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.tournamentNameCn,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="tournament_name_en = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.tournamentNameEn,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="team_home_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.teamHomeId,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="team_home_name_cn = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.teamHomeNameCn,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="team_home_name_en = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.teamHomeNameEn,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="team_away_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.teamAwayId,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="team_away_name_cn = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.teamAwayNameCn,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="team_away_name_en = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.teamAwayNameEn,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="pre_match_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.preMatchTime,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="live_odd_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.liveOddTime,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="begin_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.beginTime,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="pre_trader_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.preTraderId,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="pre_trader = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.preTrader,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="pre_trader_status = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.preTraderStatus,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="live_trader_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.liveTraderId,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="live_trader = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.liveTrader,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="live_trader_status = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.liveTraderStatus,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="auditor_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.auditorId,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="auditor = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.auditor,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="auditor_status = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.auditorStatus,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="neutral_ground = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.neutralGround,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="business_event = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.businessEvent,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="pre_match_sell_status = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.preMatchSellStatus,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="live_match_sell_status = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.liveMatchSellStatus,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="video = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.video,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="animation = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.animation,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="`status` = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.status,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="market_count = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.marketCount,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+      <trim prefix="corner_show = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.cornerShow,jdbcType=BOOLEAN}
+        </foreach>
+      </trim>
+      <trim prefix="card_show = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.cardShow,jdbcType=BOOLEAN}
+        </foreach>
+      </trim>
+      <trim prefix="create_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.createTime,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="modify_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.modifyTime,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="pre_risk_manager_code = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.preRiskManagerCode,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="live_risk_manager_code = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.liveRiskManagerCode,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="pre_match_data_provider_code = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.preMatchDataProviderCode,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="live_match_data_provider_code = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.liveMatchDataProviderCode,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="platform = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.platform,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="tournament_level = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.tournamentLevel,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+      <trim prefix="round_type = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.roundType,jdbcType=TINYINT}
+        </foreach>
+      </trim>
+      <trim prefix="pre_trader_department_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.preTraderDepartmentId,jdbcType=TINYINT}
+        </foreach>
+      </trim>
+      <trim prefix="live_trader_department_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.liveTraderDepartmentId,jdbcType=TINYINT}
+        </foreach>
+      </trim>
+      <trim prefix="auditor_department_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.auditorDepartmentId,jdbcType=TINYINT}
+        </foreach>
+      </trim>
+      <trim prefix="video_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.videoId,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="animation_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.animationId,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="insert_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.insertTime,jdbcType=TIMESTAMP}
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id,jdbcType=BIGINT}
+    </foreach>
+  </update>
+  <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into rcs_standard_sport_market_sell_flowing
+    (link_id, o_id, match_info_id, match_manage_id, sport_id, live_odd_business, tournament_id, 
+      tournament_name_cn, tournament_name_en, team_home_id, team_home_name_cn, team_home_name_en, 
+      team_away_id, team_away_name_cn, team_away_name_en, pre_match_time, live_odd_time, 
+      begin_time, pre_trader_id, pre_trader, pre_trader_status, live_trader_id, live_trader, 
+      live_trader_status, auditor_id, auditor, auditor_status, neutral_ground, business_event, 
+      pre_match_sell_status, live_match_sell_status, video, animation, `status`, market_count, 
+      corner_show, card_show, create_time, modify_time, pre_risk_manager_code, live_risk_manager_code, 
+      pre_match_data_provider_code, live_match_data_provider_code, platform, tournament_level, 
+      round_type, pre_trader_department_id, live_trader_department_id, auditor_department_id, 
+      video_id, animation_id, insert_time)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.linkId,jdbcType=VARCHAR}, #{item.oId,jdbcType=BIGINT}, #{item.matchInfoId,jdbcType=BIGINT}, 
+        #{item.matchManageId,jdbcType=VARCHAR}, #{item.sportId,jdbcType=BIGINT}, #{item.liveOddBusiness,jdbcType=TINYINT}, 
+        #{item.tournamentId,jdbcType=BIGINT}, #{item.tournamentNameCn,jdbcType=VARCHAR}, 
+        #{item.tournamentNameEn,jdbcType=VARCHAR}, #{item.teamHomeId,jdbcType=BIGINT}, 
+        #{item.teamHomeNameCn,jdbcType=VARCHAR}, #{item.teamHomeNameEn,jdbcType=VARCHAR}, 
+        #{item.teamAwayId,jdbcType=BIGINT}, #{item.teamAwayNameCn,jdbcType=VARCHAR}, #{item.teamAwayNameEn,jdbcType=VARCHAR}, 
+        #{item.preMatchTime,jdbcType=BIGINT}, #{item.liveOddTime,jdbcType=BIGINT}, #{item.beginTime,jdbcType=BIGINT}, 
+        #{item.preTraderId,jdbcType=VARCHAR}, #{item.preTrader,jdbcType=VARCHAR}, #{item.preTraderStatus,jdbcType=VARCHAR}, 
+        #{item.liveTraderId,jdbcType=VARCHAR}, #{item.liveTrader,jdbcType=VARCHAR}, #{item.liveTraderStatus,jdbcType=VARCHAR}, 
+        #{item.auditorId,jdbcType=VARCHAR}, #{item.auditor,jdbcType=VARCHAR}, #{item.auditorStatus,jdbcType=VARCHAR}, 
+        #{item.neutralGround,jdbcType=VARCHAR}, #{item.businessEvent,jdbcType=VARCHAR}, 
+        #{item.preMatchSellStatus,jdbcType=VARCHAR}, #{item.liveMatchSellStatus,jdbcType=VARCHAR}, 
+        #{item.video,jdbcType=VARCHAR}, #{item.animation,jdbcType=VARCHAR}, #{item.status,jdbcType=VARCHAR}, 
+        #{item.marketCount,jdbcType=INTEGER}, #{item.cornerShow,jdbcType=BOOLEAN}, #{item.cardShow,jdbcType=BOOLEAN}, 
+        #{item.createTime,jdbcType=BIGINT}, #{item.modifyTime,jdbcType=BIGINT}, #{item.preRiskManagerCode,jdbcType=VARCHAR}, 
+        #{item.liveRiskManagerCode,jdbcType=VARCHAR}, #{item.preMatchDataProviderCode,jdbcType=VARCHAR}, 
+        #{item.liveMatchDataProviderCode,jdbcType=VARCHAR}, #{item.platform,jdbcType=VARCHAR}, 
+        #{item.tournamentLevel,jdbcType=INTEGER}, #{item.roundType,jdbcType=TINYINT}, #{item.preTraderDepartmentId,jdbcType=TINYINT}, 
+        #{item.liveTraderDepartmentId,jdbcType=TINYINT}, #{item.auditorDepartmentId,jdbcType=TINYINT}, 
+        #{item.videoId,jdbcType=VARCHAR}, #{item.animationId,jdbcType=VARCHAR}, #{item.insertTime,jdbcType=TIMESTAMP}
+        )
+    </foreach>
+  </insert>
+  <insert id="insertOrUpdate" keyColumn="id" keyProperty="id" parameterType="com.panda.sport.rcs.console.pojo.RcsStandardSportMarketSellFlowing" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into rcs_standard_sport_market_sell_flowing
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      link_id,
+      o_id,
+      match_info_id,
+      match_manage_id,
+      sport_id,
+      live_odd_business,
+      tournament_id,
+      tournament_name_cn,
+      tournament_name_en,
+      team_home_id,
+      team_home_name_cn,
+      team_home_name_en,
+      team_away_id,
+      team_away_name_cn,
+      team_away_name_en,
+      pre_match_time,
+      live_odd_time,
+      begin_time,
+      pre_trader_id,
+      pre_trader,
+      pre_trader_status,
+      live_trader_id,
+      live_trader,
+      live_trader_status,
+      auditor_id,
+      auditor,
+      auditor_status,
+      neutral_ground,
+      business_event,
+      pre_match_sell_status,
+      live_match_sell_status,
+      video,
+      animation,
+      `status`,
+      market_count,
+      corner_show,
+      card_show,
+      create_time,
+      modify_time,
+      pre_risk_manager_code,
+      live_risk_manager_code,
+      pre_match_data_provider_code,
+      live_match_data_provider_code,
+      platform,
+      tournament_level,
+      round_type,
+      pre_trader_department_id,
+      live_trader_department_id,
+      auditor_department_id,
+      video_id,
+      animation_id,
+      insert_time,
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      #{linkId,jdbcType=VARCHAR},
+      #{oId,jdbcType=BIGINT},
+      #{matchInfoId,jdbcType=BIGINT},
+      #{matchManageId,jdbcType=VARCHAR},
+      #{sportId,jdbcType=BIGINT},
+      #{liveOddBusiness,jdbcType=TINYINT},
+      #{tournamentId,jdbcType=BIGINT},
+      #{tournamentNameCn,jdbcType=VARCHAR},
+      #{tournamentNameEn,jdbcType=VARCHAR},
+      #{teamHomeId,jdbcType=BIGINT},
+      #{teamHomeNameCn,jdbcType=VARCHAR},
+      #{teamHomeNameEn,jdbcType=VARCHAR},
+      #{teamAwayId,jdbcType=BIGINT},
+      #{teamAwayNameCn,jdbcType=VARCHAR},
+      #{teamAwayNameEn,jdbcType=VARCHAR},
+      #{preMatchTime,jdbcType=BIGINT},
+      #{liveOddTime,jdbcType=BIGINT},
+      #{beginTime,jdbcType=BIGINT},
+      #{preTraderId,jdbcType=VARCHAR},
+      #{preTrader,jdbcType=VARCHAR},
+      #{preTraderStatus,jdbcType=VARCHAR},
+      #{liveTraderId,jdbcType=VARCHAR},
+      #{liveTrader,jdbcType=VARCHAR},
+      #{liveTraderStatus,jdbcType=VARCHAR},
+      #{auditorId,jdbcType=VARCHAR},
+      #{auditor,jdbcType=VARCHAR},
+      #{auditorStatus,jdbcType=VARCHAR},
+      #{neutralGround,jdbcType=VARCHAR},
+      #{businessEvent,jdbcType=VARCHAR},
+      #{preMatchSellStatus,jdbcType=VARCHAR},
+      #{liveMatchSellStatus,jdbcType=VARCHAR},
+      #{video,jdbcType=VARCHAR},
+      #{animation,jdbcType=VARCHAR},
+      #{status,jdbcType=VARCHAR},
+      #{marketCount,jdbcType=INTEGER},
+      #{cornerShow,jdbcType=BOOLEAN},
+      #{cardShow,jdbcType=BOOLEAN},
+      #{createTime,jdbcType=BIGINT},
+      #{modifyTime,jdbcType=BIGINT},
+      #{preRiskManagerCode,jdbcType=VARCHAR},
+      #{liveRiskManagerCode,jdbcType=VARCHAR},
+      #{preMatchDataProviderCode,jdbcType=VARCHAR},
+      #{liveMatchDataProviderCode,jdbcType=VARCHAR},
+      #{platform,jdbcType=VARCHAR},
+      #{tournamentLevel,jdbcType=INTEGER},
+      #{roundType,jdbcType=TINYINT},
+      #{preTraderDepartmentId,jdbcType=TINYINT},
+      #{liveTraderDepartmentId,jdbcType=TINYINT},
+      #{auditorDepartmentId,jdbcType=TINYINT},
+      #{videoId,jdbcType=VARCHAR},
+      #{animationId,jdbcType=VARCHAR},
+      #{insertTime,jdbcType=TIMESTAMP},
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        id = #{id,jdbcType=BIGINT},
+      </if>
+      link_id = #{linkId,jdbcType=VARCHAR},
+      o_id = #{oId,jdbcType=BIGINT},
+      match_info_id = #{matchInfoId,jdbcType=BIGINT},
+      match_manage_id = #{matchManageId,jdbcType=VARCHAR},
+      sport_id = #{sportId,jdbcType=BIGINT},
+      live_odd_business = #{liveOddBusiness,jdbcType=TINYINT},
+      tournament_id = #{tournamentId,jdbcType=BIGINT},
+      tournament_name_cn = #{tournamentNameCn,jdbcType=VARCHAR},
+      tournament_name_en = #{tournamentNameEn,jdbcType=VARCHAR},
+      team_home_id = #{teamHomeId,jdbcType=BIGINT},
+      team_home_name_cn = #{teamHomeNameCn,jdbcType=VARCHAR},
+      team_home_name_en = #{teamHomeNameEn,jdbcType=VARCHAR},
+      team_away_id = #{teamAwayId,jdbcType=BIGINT},
+      team_away_name_cn = #{teamAwayNameCn,jdbcType=VARCHAR},
+      team_away_name_en = #{teamAwayNameEn,jdbcType=VARCHAR},
+      pre_match_time = #{preMatchTime,jdbcType=BIGINT},
+      live_odd_time = #{liveOddTime,jdbcType=BIGINT},
+      begin_time = #{beginTime,jdbcType=BIGINT},
+      pre_trader_id = #{preTraderId,jdbcType=VARCHAR},
+      pre_trader = #{preTrader,jdbcType=VARCHAR},
+      pre_trader_status = #{preTraderStatus,jdbcType=VARCHAR},
+      live_trader_id = #{liveTraderId,jdbcType=VARCHAR},
+      live_trader = #{liveTrader,jdbcType=VARCHAR},
+      live_trader_status = #{liveTraderStatus,jdbcType=VARCHAR},
+      auditor_id = #{auditorId,jdbcType=VARCHAR},
+      auditor = #{auditor,jdbcType=VARCHAR},
+      auditor_status = #{auditorStatus,jdbcType=VARCHAR},
+      neutral_ground = #{neutralGround,jdbcType=VARCHAR},
+      business_event = #{businessEvent,jdbcType=VARCHAR},
+      pre_match_sell_status = #{preMatchSellStatus,jdbcType=VARCHAR},
+      live_match_sell_status = #{liveMatchSellStatus,jdbcType=VARCHAR},
+      video = #{video,jdbcType=VARCHAR},
+      animation = #{animation,jdbcType=VARCHAR},
+      `status` = #{status,jdbcType=VARCHAR},
+      market_count = #{marketCount,jdbcType=INTEGER},
+      corner_show = #{cornerShow,jdbcType=BOOLEAN},
+      card_show = #{cardShow,jdbcType=BOOLEAN},
+      create_time = #{createTime,jdbcType=BIGINT},
+      modify_time = #{modifyTime,jdbcType=BIGINT},
+      pre_risk_manager_code = #{preRiskManagerCode,jdbcType=VARCHAR},
+      live_risk_manager_code = #{liveRiskManagerCode,jdbcType=VARCHAR},
+      pre_match_data_provider_code = #{preMatchDataProviderCode,jdbcType=VARCHAR},
+      live_match_data_provider_code = #{liveMatchDataProviderCode,jdbcType=VARCHAR},
+      platform = #{platform,jdbcType=VARCHAR},
+      tournament_level = #{tournamentLevel,jdbcType=INTEGER},
+      round_type = #{roundType,jdbcType=TINYINT},
+      pre_trader_department_id = #{preTraderDepartmentId,jdbcType=TINYINT},
+      live_trader_department_id = #{liveTraderDepartmentId,jdbcType=TINYINT},
+      auditor_department_id = #{auditorDepartmentId,jdbcType=TINYINT},
+      video_id = #{videoId,jdbcType=VARCHAR},
+      animation_id = #{animationId,jdbcType=VARCHAR},
+      insert_time = #{insertTime,jdbcType=TIMESTAMP},
+    </trim>
+  </insert>
+  <insert id="insertOrUpdateSelective" keyColumn="id" keyProperty="id" parameterType="com.panda.sport.rcs.console.pojo.RcsStandardSportMarketSellFlowing" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into rcs_standard_sport_market_sell_flowing
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="linkId != null">
+        link_id,
+      </if>
+      <if test="oId != null">
+        o_id,
+      </if>
+      <if test="matchInfoId != null">
+        match_info_id,
+      </if>
+      <if test="matchManageId != null">
+        match_manage_id,
+      </if>
+      <if test="sportId != null">
+        sport_id,
+      </if>
+      <if test="liveOddBusiness != null">
+        live_odd_business,
+      </if>
+      <if test="tournamentId != null">
+        tournament_id,
+      </if>
+      <if test="tournamentNameCn != null">
+        tournament_name_cn,
+      </if>
+      <if test="tournamentNameEn != null">
+        tournament_name_en,
+      </if>
+      <if test="teamHomeId != null">
+        team_home_id,
+      </if>
+      <if test="teamHomeNameCn != null">
+        team_home_name_cn,
+      </if>
+      <if test="teamHomeNameEn != null">
+        team_home_name_en,
+      </if>
+      <if test="teamAwayId != null">
+        team_away_id,
+      </if>
+      <if test="teamAwayNameCn != null">
+        team_away_name_cn,
+      </if>
+      <if test="teamAwayNameEn != null">
+        team_away_name_en,
+      </if>
+      <if test="preMatchTime != null">
+        pre_match_time,
+      </if>
+      <if test="liveOddTime != null">
+        live_odd_time,
+      </if>
+      <if test="beginTime != null">
+        begin_time,
+      </if>
+      <if test="preTraderId != null">
+        pre_trader_id,
+      </if>
+      <if test="preTrader != null">
+        pre_trader,
+      </if>
+      <if test="preTraderStatus != null">
+        pre_trader_status,
+      </if>
+      <if test="liveTraderId != null">
+        live_trader_id,
+      </if>
+      <if test="liveTrader != null">
+        live_trader,
+      </if>
+      <if test="liveTraderStatus != null">
+        live_trader_status,
+      </if>
+      <if test="auditorId != null">
+        auditor_id,
+      </if>
+      <if test="auditor != null">
+        auditor,
+      </if>
+      <if test="auditorStatus != null">
+        auditor_status,
+      </if>
+      <if test="neutralGround != null">
+        neutral_ground,
+      </if>
+      <if test="businessEvent != null">
+        business_event,
+      </if>
+      <if test="preMatchSellStatus != null">
+        pre_match_sell_status,
+      </if>
+      <if test="liveMatchSellStatus != null">
+        live_match_sell_status,
+      </if>
+      <if test="video != null">
+        video,
+      </if>
+      <if test="animation != null">
+        animation,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+      <if test="marketCount != null">
+        market_count,
+      </if>
+      <if test="cornerShow != null">
+        corner_show,
+      </if>
+      <if test="cardShow != null">
+        card_show,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifyTime != null">
+        modify_time,
+      </if>
+      <if test="preRiskManagerCode != null">
+        pre_risk_manager_code,
+      </if>
+      <if test="liveRiskManagerCode != null">
+        live_risk_manager_code,
+      </if>
+      <if test="preMatchDataProviderCode != null">
+        pre_match_data_provider_code,
+      </if>
+      <if test="liveMatchDataProviderCode != null">
+        live_match_data_provider_code,
+      </if>
+      <if test="platform != null">
+        platform,
+      </if>
+      <if test="tournamentLevel != null">
+        tournament_level,
+      </if>
+      <if test="roundType != null">
+        round_type,
+      </if>
+      <if test="preTraderDepartmentId != null">
+        pre_trader_department_id,
+      </if>
+      <if test="liveTraderDepartmentId != null">
+        live_trader_department_id,
+      </if>
+      <if test="auditorDepartmentId != null">
+        auditor_department_id,
+      </if>
+      <if test="videoId != null">
+        video_id,
+      </if>
+      <if test="animationId != null">
+        animation_id,
+      </if>
+      <if test="insertTime != null">
+        insert_time,
+      </if>
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="linkId != null">
+        #{linkId,jdbcType=VARCHAR},
+      </if>
+      <if test="oId != null">
+        #{oId,jdbcType=BIGINT},
+      </if>
+      <if test="matchInfoId != null">
+        #{matchInfoId,jdbcType=BIGINT},
+      </if>
+      <if test="matchManageId != null">
+        #{matchManageId,jdbcType=VARCHAR},
+      </if>
+      <if test="sportId != null">
+        #{sportId,jdbcType=BIGINT},
+      </if>
+      <if test="liveOddBusiness != null">
+        #{liveOddBusiness,jdbcType=TINYINT},
+      </if>
+      <if test="tournamentId != null">
+        #{tournamentId,jdbcType=BIGINT},
+      </if>
+      <if test="tournamentNameCn != null">
+        #{tournamentNameCn,jdbcType=VARCHAR},
+      </if>
+      <if test="tournamentNameEn != null">
+        #{tournamentNameEn,jdbcType=VARCHAR},
+      </if>
+      <if test="teamHomeId != null">
+        #{teamHomeId,jdbcType=BIGINT},
+      </if>
+      <if test="teamHomeNameCn != null">
+        #{teamHomeNameCn,jdbcType=VARCHAR},
+      </if>
+      <if test="teamHomeNameEn != null">
+        #{teamHomeNameEn,jdbcType=VARCHAR},
+      </if>
+      <if test="teamAwayId != null">
+        #{teamAwayId,jdbcType=BIGINT},
+      </if>
+      <if test="teamAwayNameCn != null">
+        #{teamAwayNameCn,jdbcType=VARCHAR},
+      </if>
+      <if test="teamAwayNameEn != null">
+        #{teamAwayNameEn,jdbcType=VARCHAR},
+      </if>
+      <if test="preMatchTime != null">
+        #{preMatchTime,jdbcType=BIGINT},
+      </if>
+      <if test="liveOddTime != null">
+        #{liveOddTime,jdbcType=BIGINT},
+      </if>
+      <if test="beginTime != null">
+        #{beginTime,jdbcType=BIGINT},
+      </if>
+      <if test="preTraderId != null">
+        #{preTraderId,jdbcType=VARCHAR},
+      </if>
+      <if test="preTrader != null">
+        #{preTrader,jdbcType=VARCHAR},
+      </if>
+      <if test="preTraderStatus != null">
+        #{preTraderStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="liveTraderId != null">
+        #{liveTraderId,jdbcType=VARCHAR},
+      </if>
+      <if test="liveTrader != null">
+        #{liveTrader,jdbcType=VARCHAR},
+      </if>
+      <if test="liveTraderStatus != null">
+        #{liveTraderStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="auditorId != null">
+        #{auditorId,jdbcType=VARCHAR},
+      </if>
+      <if test="auditor != null">
+        #{auditor,jdbcType=VARCHAR},
+      </if>
+      <if test="auditorStatus != null">
+        #{auditorStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="neutralGround != null">
+        #{neutralGround,jdbcType=VARCHAR},
+      </if>
+      <if test="businessEvent != null">
+        #{businessEvent,jdbcType=VARCHAR},
+      </if>
+      <if test="preMatchSellStatus != null">
+        #{preMatchSellStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="liveMatchSellStatus != null">
+        #{liveMatchSellStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="video != null">
+        #{video,jdbcType=VARCHAR},
+      </if>
+      <if test="animation != null">
+        #{animation,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="marketCount != null">
+        #{marketCount,jdbcType=INTEGER},
+      </if>
+      <if test="cornerShow != null">
+        #{cornerShow,jdbcType=BOOLEAN},
+      </if>
+      <if test="cardShow != null">
+        #{cardShow,jdbcType=BOOLEAN},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=BIGINT},
+      </if>
+      <if test="preRiskManagerCode != null">
+        #{preRiskManagerCode,jdbcType=VARCHAR},
+      </if>
+      <if test="liveRiskManagerCode != null">
+        #{liveRiskManagerCode,jdbcType=VARCHAR},
+      </if>
+      <if test="preMatchDataProviderCode != null">
+        #{preMatchDataProviderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="liveMatchDataProviderCode != null">
+        #{liveMatchDataProviderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="platform != null">
+        #{platform,jdbcType=VARCHAR},
+      </if>
+      <if test="tournamentLevel != null">
+        #{tournamentLevel,jdbcType=INTEGER},
+      </if>
+      <if test="roundType != null">
+        #{roundType,jdbcType=TINYINT},
+      </if>
+      <if test="preTraderDepartmentId != null">
+        #{preTraderDepartmentId,jdbcType=TINYINT},
+      </if>
+      <if test="liveTraderDepartmentId != null">
+        #{liveTraderDepartmentId,jdbcType=TINYINT},
+      </if>
+      <if test="auditorDepartmentId != null">
+        #{auditorDepartmentId,jdbcType=TINYINT},
+      </if>
+      <if test="videoId != null">
+        #{videoId,jdbcType=VARCHAR},
+      </if>
+      <if test="animationId != null">
+        #{animationId,jdbcType=VARCHAR},
+      </if>
+      <if test="insertTime != null">
+        #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        id = #{id,jdbcType=BIGINT},
+      </if>
+      <if test="linkId != null">
+        link_id = #{linkId,jdbcType=VARCHAR},
+      </if>
+      <if test="oId != null">
+        o_id = #{oId,jdbcType=BIGINT},
+      </if>
+      <if test="matchInfoId != null">
+        match_info_id = #{matchInfoId,jdbcType=BIGINT},
+      </if>
+      <if test="matchManageId != null">
+        match_manage_id = #{matchManageId,jdbcType=VARCHAR},
+      </if>
+      <if test="sportId != null">
+        sport_id = #{sportId,jdbcType=BIGINT},
+      </if>
+      <if test="liveOddBusiness != null">
+        live_odd_business = #{liveOddBusiness,jdbcType=TINYINT},
+      </if>
+      <if test="tournamentId != null">
+        tournament_id = #{tournamentId,jdbcType=BIGINT},
+      </if>
+      <if test="tournamentNameCn != null">
+        tournament_name_cn = #{tournamentNameCn,jdbcType=VARCHAR},
+      </if>
+      <if test="tournamentNameEn != null">
+        tournament_name_en = #{tournamentNameEn,jdbcType=VARCHAR},
+      </if>
+      <if test="teamHomeId != null">
+        team_home_id = #{teamHomeId,jdbcType=BIGINT},
+      </if>
+      <if test="teamHomeNameCn != null">
+        team_home_name_cn = #{teamHomeNameCn,jdbcType=VARCHAR},
+      </if>
+      <if test="teamHomeNameEn != null">
+        team_home_name_en = #{teamHomeNameEn,jdbcType=VARCHAR},
+      </if>
+      <if test="teamAwayId != null">
+        team_away_id = #{teamAwayId,jdbcType=BIGINT},
+      </if>
+      <if test="teamAwayNameCn != null">
+        team_away_name_cn = #{teamAwayNameCn,jdbcType=VARCHAR},
+      </if>
+      <if test="teamAwayNameEn != null">
+        team_away_name_en = #{teamAwayNameEn,jdbcType=VARCHAR},
+      </if>
+      <if test="preMatchTime != null">
+        pre_match_time = #{preMatchTime,jdbcType=BIGINT},
+      </if>
+      <if test="liveOddTime != null">
+        live_odd_time = #{liveOddTime,jdbcType=BIGINT},
+      </if>
+      <if test="beginTime != null">
+        begin_time = #{beginTime,jdbcType=BIGINT},
+      </if>
+      <if test="preTraderId != null">
+        pre_trader_id = #{preTraderId,jdbcType=VARCHAR},
+      </if>
+      <if test="preTrader != null">
+        pre_trader = #{preTrader,jdbcType=VARCHAR},
+      </if>
+      <if test="preTraderStatus != null">
+        pre_trader_status = #{preTraderStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="liveTraderId != null">
+        live_trader_id = #{liveTraderId,jdbcType=VARCHAR},
+      </if>
+      <if test="liveTrader != null">
+        live_trader = #{liveTrader,jdbcType=VARCHAR},
+      </if>
+      <if test="liveTraderStatus != null">
+        live_trader_status = #{liveTraderStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="auditorId != null">
+        auditor_id = #{auditorId,jdbcType=VARCHAR},
+      </if>
+      <if test="auditor != null">
+        auditor = #{auditor,jdbcType=VARCHAR},
+      </if>
+      <if test="auditorStatus != null">
+        auditor_status = #{auditorStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="neutralGround != null">
+        neutral_ground = #{neutralGround,jdbcType=VARCHAR},
+      </if>
+      <if test="businessEvent != null">
+        business_event = #{businessEvent,jdbcType=VARCHAR},
+      </if>
+      <if test="preMatchSellStatus != null">
+        pre_match_sell_status = #{preMatchSellStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="liveMatchSellStatus != null">
+        live_match_sell_status = #{liveMatchSellStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="video != null">
+        video = #{video,jdbcType=VARCHAR},
+      </if>
+      <if test="animation != null">
+        animation = #{animation,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="marketCount != null">
+        market_count = #{marketCount,jdbcType=INTEGER},
+      </if>
+      <if test="cornerShow != null">
+        corner_show = #{cornerShow,jdbcType=BOOLEAN},
+      </if>
+      <if test="cardShow != null">
+        card_show = #{cardShow,jdbcType=BOOLEAN},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="modifyTime != null">
+        modify_time = #{modifyTime,jdbcType=BIGINT},
+      </if>
+      <if test="preRiskManagerCode != null">
+        pre_risk_manager_code = #{preRiskManagerCode,jdbcType=VARCHAR},
+      </if>
+      <if test="liveRiskManagerCode != null">
+        live_risk_manager_code = #{liveRiskManagerCode,jdbcType=VARCHAR},
+      </if>
+      <if test="preMatchDataProviderCode != null">
+        pre_match_data_provider_code = #{preMatchDataProviderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="liveMatchDataProviderCode != null">
+        live_match_data_provider_code = #{liveMatchDataProviderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="platform != null">
+        platform = #{platform,jdbcType=VARCHAR},
+      </if>
+      <if test="tournamentLevel != null">
+        tournament_level = #{tournamentLevel,jdbcType=INTEGER},
+      </if>
+      <if test="roundType != null">
+        round_type = #{roundType,jdbcType=TINYINT},
+      </if>
+      <if test="preTraderDepartmentId != null">
+        pre_trader_department_id = #{preTraderDepartmentId,jdbcType=TINYINT},
+      </if>
+      <if test="liveTraderDepartmentId != null">
+        live_trader_department_id = #{liveTraderDepartmentId,jdbcType=TINYINT},
+      </if>
+      <if test="auditorDepartmentId != null">
+        auditor_department_id = #{auditorDepartmentId,jdbcType=TINYINT},
+      </if>
+      <if test="videoId != null">
+        video_id = #{videoId,jdbcType=VARCHAR},
+      </if>
+      <if test="animationId != null">
+        animation_id = #{animationId,jdbcType=VARCHAR},
+      </if>
+      <if test="insertTime != null">
+        insert_time = #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+</mapper>

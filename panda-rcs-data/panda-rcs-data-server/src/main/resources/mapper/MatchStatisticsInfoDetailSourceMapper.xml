@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.data.mapper.MatchStatisticsInfoDetailSourceMapper">
+  <resultMap id="BaseResultMap" type="com.panda.sport.rcs.pojo.MatchStatisticsInfoDetailSource">
+    <!--@mbg.generated-->
+    <!--@Table match_statistics_info_detail_source-->
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="standard_match_id" jdbcType="BIGINT" property="standardMatchId" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="first_num" jdbcType="INTEGER" property="firstNum" />
+    <result column="second_num" jdbcType="INTEGER" property="secondNum" />
+    <result column="t1" jdbcType="INTEGER" property="t1" />
+    <result column="t2" jdbcType="INTEGER" property="t2" />
+    <result column="data_source_code" jdbcType="VARCHAR" property="dataSourceCode" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="modify_time" jdbcType="BIGINT" property="modifyTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+
+  <insert id="insertSelective" parameterType="com.panda.sport.rcs.pojo.MatchStatisticsInfoDetailSource">
+    <!--@mbg.generated-->
+    insert into match_statistics_info_detail_source
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="standardMatchId != null">
+        standard_match_id,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="firstNum != null">
+        first_num,
+      </if>
+      <if test="secondNum != null">
+        second_num,
+      </if>
+      <if test="t1 != null">
+        t1,
+      </if>
+      <if test="t2 != null">
+        t2,
+      </if>
+      <if test="dataSourceCode != null">
+        data_source_code,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifyTime != null">
+        modify_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="standardMatchId != null">
+        #{standardMatchId,jdbcType=BIGINT},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="firstNum != null">
+        #{firstNum,jdbcType=INTEGER},
+      </if>
+      <if test="secondNum != null">
+        #{secondNum,jdbcType=INTEGER},
+      </if>
+      <if test="t1 != null">
+        #{t1,jdbcType=INTEGER},
+      </if>
+      <if test="t2 != null">
+        #{t2,jdbcType=INTEGER},
+      </if>
+      <if test="dataSourceCode != null">
+        #{dataSourceCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <insert id="batchInsert" parameterType="map">
+    <!--@mbg.generated-->
+    insert into match_statistics_info_detail_source
+    (id, standard_match_id, code, first_num, second_num, t1, t2, data_source_code, create_time, 
+      modify_time, update_time)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.id,jdbcType=INTEGER}, #{item.standardMatchId,jdbcType=BIGINT}, #{item.code,jdbcType=VARCHAR}, 
+        #{item.firstNum,jdbcType=INTEGER}, #{item.secondNum,jdbcType=INTEGER}, #{item.t1,jdbcType=INTEGER}, 
+        #{item.t2,jdbcType=INTEGER}, #{item.dataSourceCode,jdbcType=VARCHAR}, #{item.createTime,jdbcType=BIGINT}, 
+        #{item.modifyTime,jdbcType=BIGINT}, #{item.updateTime,jdbcType=TIMESTAMP})
+    </foreach>
+  </insert>
+  <insert id="insertOrUpdate" parameterType="com.panda.sport.rcs.pojo.MatchStatisticsInfoDetailSource">
+    <!--@mbg.generated-->
+    insert into match_statistics_info_detail_source
+    (id, standard_match_id, code, first_num, second_num, t1, t2, data_source_code, create_time, 
+      modify_time, update_time)
+    values
+    (#{id,jdbcType=INTEGER}, #{standardMatchId,jdbcType=BIGINT}, #{code,jdbcType=VARCHAR}, 
+      #{firstNum,jdbcType=INTEGER}, #{secondNum,jdbcType=INTEGER}, #{t1,jdbcType=INTEGER}, 
+      #{t2,jdbcType=INTEGER}, #{dataSourceCode,jdbcType=VARCHAR}, #{createTime,jdbcType=BIGINT}, 
+      #{modifyTime,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP})
+    on duplicate key update 
+    id = #{id,jdbcType=INTEGER}, 
+    standard_match_id = #{standardMatchId,jdbcType=BIGINT}, 
+    code = #{code,jdbcType=VARCHAR}, 
+    first_num = #{firstNum,jdbcType=INTEGER}, 
+    second_num = #{secondNum,jdbcType=INTEGER}, 
+    t1 = #{t1,jdbcType=INTEGER}, 
+    t2 = #{t2,jdbcType=INTEGER}, 
+    data_source_code = #{dataSourceCode,jdbcType=VARCHAR}, 
+    create_time = #{createTime,jdbcType=BIGINT}, 
+    modify_time = #{modifyTime,jdbcType=BIGINT}, 
+    update_time = #{updateTime,jdbcType=TIMESTAMP}
+  </insert>
+  <insert id="insertOrUpdateSelective" parameterType="com.panda.sport.rcs.pojo.MatchStatisticsInfoDetailSource">
+    <!--@mbg.generated-->
+    insert into match_statistics_info_detail_source
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="standardMatchId != null">
+        standard_match_id,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="firstNum != null">
+        first_num,
+      </if>
+      <if test="secondNum != null">
+        second_num,
+      </if>
+      <if test="t1 != null">
+        t1,
+      </if>
+      <if test="t2 != null">
+        t2,
+      </if>
+      <if test="dataSourceCode != null">
+        data_source_code,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifyTime != null">
+        modify_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="standardMatchId != null">
+        #{standardMatchId,jdbcType=BIGINT},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="firstNum != null">
+        #{firstNum,jdbcType=INTEGER},
+      </if>
+      <if test="secondNum != null">
+        #{secondNum,jdbcType=INTEGER},
+      </if>
+      <if test="t1 != null">
+        #{t1,jdbcType=INTEGER},
+      </if>
+      <if test="t2 != null">
+        #{t2,jdbcType=INTEGER},
+      </if>
+      <if test="dataSourceCode != null">
+        #{dataSourceCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        id = #{id,jdbcType=INTEGER},
+      </if>
+      <if test="standardMatchId != null">
+        standard_match_id = #{standardMatchId,jdbcType=BIGINT},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="firstNum != null">
+        first_num = #{firstNum,jdbcType=INTEGER},
+      </if>
+      <if test="secondNum != null">
+        second_num = #{secondNum,jdbcType=INTEGER},
+      </if>
+      <if test="t1 != null">
+        t1 = #{t1,jdbcType=INTEGER},
+      </if>
+      <if test="t2 != null">
+        t2 = #{t2,jdbcType=INTEGER},
+      </if>
+      <if test="dataSourceCode != null">
+        data_source_code = #{dataSourceCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="modifyTime != null">
+        modify_time = #{modifyTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <insert id="batchInsertOrUpdate" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into match_statistics_info_detail_source
+    (standard_match_id,  `code`, first_num, second_num, t1, t2,data_source_code,
+    create_time, modify_time,period)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.standardMatchId,jdbcType=BIGINT},
+      #{item.code,jdbcType=VARCHAR}, #{item.firstNum,jdbcType=INTEGER}, #{item.secondNum,jdbcType=INTEGER},
+      #{item.t1,jdbcType=INTEGER}, #{item.t2,jdbcType=INTEGER}, #{item.dataSourceCode,jdbcType=VARCHAR},#{item.createTime,jdbcType=BIGINT},
+      #{item.modifyTime,jdbcType=BIGINT},
+      #{item.period})
+    </foreach>
+    on duplicate key update
+    <trim suffixOverrides=",">
+      t1 = VALUES (t1),
+      t2 = VALUES (t2),
+      modify_time =VALUES (modify_time),
+      period =VALUES (period),
+    </trim>
+  </insert>
+</mapper>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.mapper.RcsMarketCategorySetRelationMapper">
+
+    <select id="queryCategorySetByPlayId" resultType="string">
+        SELECT t.market_category_set_id
+        FROM rcs_market_category_set_relation t
+        JOIN rcs_market_category_set c ON t.market_category_set_id = c.id
+        WHERE t.market_category_id = #{item.playId,jdbcType=INTEGER}
+        AND c.sport_id = #{item.sportId,jdbcType=INTEGER}
+        AND c.type =1
+        AND c.`status` = 2
+        LIMIT 1
+    </select>
+
+    <select id="queryMatchEventInfo" resultType="com.panda.sport.data.rcs.vo.MatchEventInfo">
+        select * from match_event_info t where t.standard_match_id=#{matchId}
+        ORDER BY create_time desc LIMIT 1
+    </select>
+
+    <select id="queryMatchPeriodInfo" resultType="java.lang.String">
+        SELECT match_period_id from standard_match_info WHERE id=#{matchId}
+    </select>
+
+    <select id="queryPreCategorySetByPlayId" resultType="java.lang.String">
+        SELECT t.market_category_set_id
+        FROM rcs_market_category_set_relation t
+                 JOIN rcs_market_category_set c ON t.market_category_set_id = c.id
+        WHERE t.market_category_id = #{item.playId,jdbcType=INTEGER}
+          AND c.sport_id = #{item.sportId,jdbcType=INTEGER}
+          AND c.type = 1
+          AND c.`status` = 2 LIMIT 1
+    </select>
+</mapper>

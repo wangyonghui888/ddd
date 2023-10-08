@@ -1,0 +1,39 @@
+{
+	"timestampUtc": 1516093745718,
+	"bets": [{
+		"stake": {
+			"value": 10000,
+			"type": "total"
+		},
+		"id": "B-29316071004846",
+		"selectedSystems": [2],
+		"sumOfWins": 0
+	}],
+	"ticketId": "Example3-29316070870359",
+	"selections": [{
+		"eventId": "11050343",
+		"id": "lcoo:42/1/*/X",
+		"odds": 28700
+	},
+	{
+		"eventId": "10784408",
+		"id": "lcoo:53/1/0.25/1",
+		"odds": 16600
+	}],
+	"sender": {
+		"currency": "EUR",
+		"channel": "internet",
+		"bookmakerId": 7669,
+		"endCustomer": {
+			"ip": "1.2.3.4",
+			"languageId": "EN",
+			"deviceId": "deviceId-123",
+			"id": "Customer-29316070948180",
+			"confidence": 10000
+		},
+		"limitId": 424
+	},
+	"version": "2.0",
+	"testSource": false,
+	"oddsChange": "any"
+}

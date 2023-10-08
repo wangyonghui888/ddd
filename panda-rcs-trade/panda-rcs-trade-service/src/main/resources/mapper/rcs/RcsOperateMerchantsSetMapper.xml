@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.mapper.RcsOperateMerchantsSetMapper">
+    <select id="selectRcsOperateMerchantsSet" resultType="com.panda.sport.rcs.pojo.vo.RcsOperateMerchantsSetVo">
+		SELECT
+            c.`value` id,
+            c.child_key name,
+            s.`status`
+        FROM
+            rcs_code c
+            LEFT JOIN rcs_operate_merchants_set s ON s.merchants_id = c.`value`
+        WHERE
+            father_key = "business"
+			AND c.`status`=1
+
+    </select>
+    <select id="selectAllMerchants" resultType="com.panda.sport.rcs.pojo.RcsOperateMerchantsSet" >
+        SELECT  *  FROM rcs_operate_merchants_set WHERE  `credit_parent_id` = 0
+    </select>
+
+    <update id="updatePojoList" parameterType="java.util.List">
+        update rcs_operate_merchants_set s RIGHT JOIN rcs_code c ON s.merchants_id = c.`value`
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="s.status = case" suffix="end,">
+                <foreach collection="list" item="item">
+                    <if test="item.status != null">
+                        when s.merchants_id = #{item.id} then #{item.status}
+                    </if>
+                </foreach>
+            </trim>
+        </trim>
+        where c.father_key = "business" AND c.`status`=1
+    </update>
+</mapper>

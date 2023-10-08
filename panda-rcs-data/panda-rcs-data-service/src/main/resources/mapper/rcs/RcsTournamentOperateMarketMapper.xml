@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.mapper.RcsTournamentOperateMarketMapper">
+
+    <select id="queryMatchAndTournamentMaxBetAmount" resultType="com.panda.sport.rcs.pojo.RcsTournamentMarketConfig">
+    	<if test="order.itemBean.marketId != null and order.itemBean.marketId != ''">
+    	SELECT s.max_single_bet_amount maxSingleBetAmount
+                FROM rcs_match_market_config s
+                WHERE s.match_id = #{order.matchId,jdbcType=VARCHAR}
+                AND s.play_id = #{order.playId,jdbcType=VARCHAR}
+                AND s.market_id = #{order.itemBean.marketId,jdbcType=VARCHAR}
+
+         UNION all
+    	</if>        
+        SELECT m.max_single_bet_amount maxSingleBetAmount
+                FROM rcs_tournament_market_config m
+                WHERE m.tournament_id = #{order.tournamentId,jdbcType=BIGINT}
+                AND   m.play_id = #{order.playId,jdbcType=VARCHAR}
+
+         LIMIT 1
+    </select>
+    <select id="queryMarketWaterHeadConfig" resultType="com.panda.sport.data.rcs.dto.ThreewayOverLoadTriggerItem">
+            SELECT s.play_id,
+                    s.match_id,
+                    s.market_id,
+                    s.home_auto_change_rate,
+                    s.away_auto_change_rate,
+                    s.tie_auto_change_rate,
+                    s.switch_auto_change_rate,
+                    s.tournament_id,
+                    s.play_phase_type
+                FROM rcs_match_market_config s
+                WHERE s.match_id = #{item.matchId,jdbcType=BIGINT}
+                AND s.play_phase_type = #{item.playPhaseType,jdbcType=INTEGER}
+    </select>
+    <select id="queryMarketOddsList" resultType="com.panda.sport.data.rcs.dto.ThreewayOverLoadTriggerItem">
+        SELECT
+            sm.standard_match_info_id as matchId,
+            mi.standard_tournament_id as tournamentId,
+            sm.market_category_id as playId,
+            smo.market_id as marketId,
+            smo.odds_type as oddsType,
+            smo.odds_value as maxOdds,
+            c.remark as playPhaseType,
+            c.`value` as rollType,
+            sm.addition1 as nameExpressionValue
+        FROM
+            standard_sport_market sm
+            JOIN rcs_code c ON sm.market_category_id = c.child_key
+            AND c.father_key = 'play_phase' AND c.remark = #{item.playPhaseType,jdbcType=INTEGER}
+            JOIN standard_sport_market_odds smo ON smo.market_id = sm.id
+            LEFT JOIN standard_match_info mi ON sm.standard_match_info_id = mi.id
+        WHERE sm.standard_match_info_id = #{item.matchId,jdbcType=BIGINT}
+        AND smo.odds_value > 0
+        ORDER BY sm.id ASC
+    </select>
+    <select id="queryMarketCount" resultType="long">
+	    SELECT t.market_count FROM rcs_standard_sport_market_sell t WHERE t.match_info_id = #{item.matchId,jdbcType=BIGINT}
+    </select>
+
+    <insert id="saveAndUpdateMarketWaterHeadConfig" parameterType="java.util.List">
+        <foreach collection="list" index="index" item="item" separator=";">
+            INSERT INTO `panda_rcs`.`rcs_match_market_config`(
+            `match_id`,
+            `tournament_id`,
+            `play_id`,
+            `market_id`,
+            `home_auto_change_rate`,
+            `away_auto_change_rate`,
+            `tie_auto_change_rate`,
+            `switch_auto_change_rate`,
+            play_phase_type
+            )
+            VALUES (
+            #{item.matchId,jdbcType=BIGINT},
+            #{item.tournamentId,jdbcType=INTEGER},
+            #{item.playId,jdbcType=INTEGER},
+            #{item.marketId,jdbcType=BIGINT},
+            #{item.homeAutoChangeRate,jdbcType=DOUBLE},
+            #{item.awayAutoChangeRate,jdbcType=DOUBLE},
+            #{item.tieAutoChangeRate,jdbcType=DOUBLE},
+            #{item.switchAutoChangeRate,jdbcType=INTEGER},
+            #{item.playPhaseType,jdbcType=INTEGER}
+            )
+            ON DUPLICATE KEY UPDATE
+            home_auto_change_rate = #{item.homeAutoChangeRate,jdbcType=DOUBLE},
+            away_auto_change_rate = #{item.awayAutoChangeRate,jdbcType=DOUBLE},
+            tie_auto_change_rate = #{item.tieAutoChangeRate,jdbcType=DOUBLE},
+            switch_auto_change_rate = #{item.switchAutoChangeRate,jdbcType=INTEGER},
+            play_phase_type = #{item.playPhaseType,jdbcType=INTEGER}
+        </foreach>
+    </insert>
+</mapper>

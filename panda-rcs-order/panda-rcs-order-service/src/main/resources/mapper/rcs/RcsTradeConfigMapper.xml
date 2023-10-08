@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.mapper.RcsTradeConfigMapper">
+
+    <!-- 通用查询映射结果 -->
+    <select id="selectRcsTradeConfig" resultType="com.panda.sport.rcs.pojo.RcsTradeConfig">
+        SELECT
+        *
+        FROM
+        rcs_trade_config c
+        WHERE
+        c.match_id = #{matchId}
+        AND c.data_source IS NOT NULL
+        AND (
+        ( c.trader_level = 1 AND c.targer_data = #{matchId} )
+        OR ( c.trader_level = 2 AND c.targer_data = #{playId} )
+        OR ( c.trader_level = 3 AND c.targer_data = #{marketId} )
+        )
+        ORDER BY
+        crt_time DESC
+        LIMIT 1
+    </select>
+
+    <select id="getRcsTradeConfig" resultType="com.panda.sport.rcs.pojo.RcsTradeConfig">
+        SELECT
+        *
+        FROM
+        rcs_trade_config c
+        WHERE
+        c.match_id = #{config.matchId}
+        AND c.trader_level = #{config.traderLevel} AND c.targer_data = #{config.targerData}
+        ORDER BY
+        crt_time DESC
+        LIMIT 1
+    </select>
+    <select id="getPlaySetStatusByPlayId" resultType="com.panda.sport.rcs.pojo.RcsTradeConfig">
+        SELECT
+            c.*
+        FROM
+            rcs_trade_config c
+        WHERE
+            c.match_id = #{matchId}
+            AND c.`status` IS NOT NULL
+            AND c.trader_level = 4
+            AND c.targer_data IN (
+            SELECT
+                r.market_category_set_id
+            FROM
+                rcs_market_category_set_relation r
+                LEFT JOIN rcs_market_category_set s ON r.market_category_set_id = s.id
+            WHERE
+                r.market_category_id = #{playId}
+                AND s.type = 1
+                AND s.`status` = 2
+            )
+        ORDER BY
+            c.id DESC
+            LIMIT 1
+    </select>
+    <select id="getMarketPlaceStatus" resultType="com.panda.sport.rcs.pojo.RcsTradeConfig">
+        SELECT
+            c2.*
+        FROM
+            (
+            SELECT
+                MAX( c1.id ) id
+            FROM
+                rcs_trade_config c1
+            WHERE
+                c1.match_id = #{matchId}
+                AND c1.`status` IS NOT NULL
+                AND c1.trader_level = 3
+                <if test="playIds != null and playIds.size > 0">
+                    AND c1.addition1 IN
+                    <foreach collection="playIds" item="playId" open="(" separator="," close=")">
+                        #{playId}
+                    </foreach>
+                </if>
+            GROUP BY
+                c1.addition1,
+                c1.targer_data
+            ) temp
+            LEFT JOIN rcs_trade_config c2 ON temp.id = c2.id
+        ORDER BY
+            c2.addition1,
+            c2.targer_data
+    </select>
+</mapper>

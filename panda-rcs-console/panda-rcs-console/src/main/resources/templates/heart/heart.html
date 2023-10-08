@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: htmlhead" th:with="title='心跳'"></head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <!--头-->
+    <div th:replace="fragments/head :: header"></div>
+
+    <div class="layui-body" style="margin: 1%">
+
+        <form id="userSearch" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
+            <div class="layui-form-item" style="text-align: right;">
+                <button class="layui-btn" lay-submit="" lay-filter="searchSubmit" type="button" onclick="init_heart_search()">服务初始化</button>
+                <button class="layui-btn"  lay-submit="" lay-filter="searchSubmit">刷新</button>
+            </div>
+        </form>
+
+        <!--<hr class="layui-bg-blue"/>-->
+        <hr class="layui-bg-black"/>
+
+        <div style="display:none;" id="currentUser"><shiro:principal property="id"></shiro:principal></div>
+
+        <table id="uesrList" lay-filter="usersTable"></table>
+
+    </div>
+
+    <!--底部-->
+    <div th:replace="fragments/footer :: footer"></div>
+    <script src="/js/dateUtils.js"></script>
+    <script src="/js/heart/heart.js"></script>
+
+</div>
+</body>
+</html>

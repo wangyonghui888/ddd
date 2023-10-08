@@ -1,0 +1,153 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: htmlhead" th:with="title='操盘记录'"></head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <!--头-->
+    <div th:replace="fragments/head :: header"></div>
+
+    <div class="layui-body" style="margin: 1%">
+        <form id="userSearch1" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width:200px;">体育种类开始时间戳</label>
+                <div class="layui-input-inline">
+                    <input id="time1" name="time1" autocomplete="off" class="layui-input" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')"
+                           onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
+                </div>
+                <button type="button" class="layui-btn layui-btn-primary" onclick="modifyTime(1)">提交</button>
+            </div>
+        </form>
+        <!--<hr class="layui-bg-blue"/>-->
+        <hr class="layui-bg-gray"/>
+        <form id="userSearch2" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width:200px;">体育区域开始时间戳</label>
+                <div class="layui-input-inline">
+                    <input id="time2" name="time2" autocomplete="off" class="layui-input" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')"
+                           onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
+                </div>
+                <button type="button" class="layui-btn layui-btn-primary" onclick="modifyTime(2)">提交</button>
+            </div>
+        </form>
+        <hr class="layui-bg-gray"/>
+        <form id="userSearch3" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width:200px;">标准联赛开始时间戳</label>
+                <div class="layui-input-inline">
+                    <input id="time3" name="time3" autocomplete="off" class="layui-input" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')"
+                           onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
+                </div>
+                <button type="button" class="layui-btn layui-btn-primary" onclick="modifyTime(3)">提交</button>
+            </div>
+        </form>
+        <hr class="layui-bg-gray"/>
+        <form id="userSearch4" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width:200px;">赛事球队开始时间戳</label>
+                <div class="layui-input-inline">
+                    <input id="time4" name="time4" autocomplete="off" class="layui-input" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')"
+                           onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
+                </div>
+                <button type="button" class="layui-btn layui-btn-primary" onclick="modifyTime(4)">提交</button>
+            </div>
+        </form>
+        <hr class="layui-bg-gray"/>
+        <form id="userSearch5" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width:200px;">玩法/投注项开始时间戳</label>
+                <div class="layui-input-inline">
+                    <input id="time5" name="time5" autocomplete="off" class="layui-input" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')"
+                           onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
+                </div>
+                <button type="button" class="layui-btn layui-btn-primary" onclick="modifyTime(5)">提交</button>
+            </div>
+        </form>
+        <hr class="layui-bg-gray"/>
+        <form id="userSearch7" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width:200px;">虚拟玩法开始时间戳</label>
+                <div class="layui-input-inline">
+                    <input id="time7" name="time7" autocomplete="off" class="layui-input" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')"
+                           onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
+                </div>
+                <button type="button" class="layui-btn layui-btn-primary" onclick="modifyTime(7)">提交</button>
+            </div>
+        </form>
+        <hr class="layui-bg-gray"/>
+        <form id="userSearch8" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width:200px;">冠军开始时间戳</label>
+                <div class="layui-input-inline">
+                    <input id="time8" name="time8" autocomplete="off" class="layui-input" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')"
+                           onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
+                </div>
+                <button type="button" class="layui-btn layui-btn-primary" onclick="modifyTime(8)">提交</button>
+            </div>
+        </form>
+        <hr class="layui-bg-gray"/>
+        <form id="userSearch9" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width:200px;">运动员开始时间戳</label>
+                <div class="layui-input-inline">
+                    <input id="time9" name="time9" autocomplete="off" class="layui-input" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')"
+                           onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
+                </div>
+                <button type="button" class="layui-btn layui-btn-primary" onclick="modifyTime(9)">提交</button>
+            </div>
+        </form>
+        <hr class="layui-bg-gray"/>
+        <form id="userSearch222" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width:200px;">玩法集NameCode转换</label>
+                <div class="layui-form-item">
+                    <textarea id="lids" name="lids" style="width: 1300px; height:200px;"></textarea>
+                </div>
+                <button type="button" class="layui-btn layui-btn-primary" onclick="modifyTime(222)">提交</button>
+            </div>
+        </form>
+        <hr class="layui-bg-gray"/>
+        <form id="userSearch6" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width:200px;">商户名字</label>
+                <div class="layui-input-inline">
+                    <input id="bussName" name="bussName" autocomplete="off" class="layui-input" type="text"/>
+                </div>
+                <label class="layui-form-label" style="width:200px;">商户ID</label>
+                <div class="layui-input-inline">
+                    <input id="bussId" name="bussId" autocomplete="off" class="layui-input" type="text"/>
+                </div>
+                <button type="button" class="layui-btn layui-btn-primary" onclick="modifyTime(6)">提交</button>
+            </div>
+        </form>
+
+
+        <hr class="layui-bg-gray"/>
+            <div class="layui-form-item">
+                <button type="button" class="layui-btn layui-btn-primary" onclick="modifyTime(111)">同步国际化</button>
+            </div>
+        <div style="display:none;" id="currentUser">
+            <shiro:principal property="id"></shiro:principal>
+        </div>
+    </div>
+
+    <!--底部-->
+    <div th:replace="fragments/footer :: footer"></div>
+    <script src="/js/dateUtils.js"></script>
+    <script src="/js/setting/timeSetting.js"></script>
+
+</div>
+</body>
+</html>

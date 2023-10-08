@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: htmlhead" th:with="title='联赛模板相关设置'"></head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <!--头-->
+    <div th:replace="fragments/head :: header"></div>
+    <div class="layui-body" style="margin: 1%">
+        <form id="form1" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width:410px;background-color: #cfed67;">特殊抽水指定玩法数据初始化(只初始化联赛模板和专用模板)</label>
+                <hr/>
+                <label class="layui-form-label" style="width:200px;">玩法ID</label>
+                <div class="layui-input-inline">
+                    <input id="ipt1" name="ipt1" autocomplete="off" class="layui-input" value="336" type="text"/>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label" style="width:235px;">特殊抽水Spread值json(賽前)</label>
+                    <textarea id="text1" name="text1" style="width: 1000px; height:200px;">{"1.01-1.25":0.16,"1.26-1.39":0.16,"1.40-1.59":0.16,"1.60-1.79":0.16,"1.80-1.85":0.16,"1.86-2.00":0.16}</textarea>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label" style="width:235px;">特殊抽水Spread值json(滾球)</label>
+                    <textarea id="text2" name="text2" style="width: 1000px; height:200px;">{"1.01-1.05":0.16,"1.06-1.25":0.16,"1.26-1.39":0.16,"1.40-1.60":0.16,"1.61-1.85":0.16,"1.86-1.88":0.16,"1.89-2.00":0.16}</textarea>
+                </div>
+                <button type="button" class="layui-btn layui-btn-primary" onclick="modifyTemplate(1)">提交</button>
+            </div>
+        </form>
+
+        <hr class="layui-bg-gray" style="height: 30px;"/>
+        <form id="form2" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
+            <label class="layui-form-label" style="width:150px;background-color: #cfed67;">联赛模板新增玩法</label>
+            <hr/>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 410px; height: 60px; color: #ff0000; font-weight: 800;">
+                    新增玩法json串(提交直接入库,不包含验证)<br/>
+                    注:提交前一定要与技术人员确认相关字段是否都有对应数值
+                </label>
+                <div class="layui-form-item">
+                    <textarea id="text3" name="text3" style="width: 1000px; height:200px;">{"sportId":1,"matchType":0,"playMargainList":[{"playId":666,"ifWarnSuspended":0,"marketType":"MY","autoCloseMarket":6,"matchProgressTime":2520,"injuryTime":0,"marketCount":1,"isSell":0,"marketWarn":3,"isSeries":1,"marketNearDiff":0.3,"marketNearOddsDiff":0.25,"oddsAdjustRange":0.02,"marketAdjustRange":0.3,"isSpecialPumping":0,"specialOddsInterval":"{\"1.01-1.05\":0.07,\"1.06-1.19\":0.08,\"1.20-1.39\":0.08,\"1.40-1.60\":0.08,\"1.61-1.85\":0.10,\"1.86-1.88\":0.12,\"1.89-2.00\":0.14}","oddsChangeValue":"0.30","oddsChangeStatus":"1","playMargainRefParamList":[{"margain":"0.2","balanceOption":1,"maxOdds":-0.1,"minOdds":0.01,"oddChangeRule":0,"homeMultiMaxAmount":2995,"homeSingleMaxAmount":1495,"homeMultiOddsRate":0.03,"homeSingleOddsRate":0.03,"awayMultiOddsRate":0.03,"awaySingleOddsRate":0.03,"orderSinglePayVal":3000,"userMultiPayVal":9000,"homeLevelFirstMaxAmount":1495,"homeLevelSecondMaxAmount":2995,"homeLevelFirstOddsRate":0.03,"homeLevelSecondOddsRate":0.03,"awayLevelFirstOddsRate":0.03,"awayLevelSecondOddsRate":0.03,"categoryPreStatus":0,"cashOutMargin":10}]}]}</textarea>
+                </div>
+                <button type="button" class="layui-btn layui-btn-primary" onclick="modifyTemplate(2)">提交</button>
+            </div>
+        </form>
+
+        <hr class="layui-bg-gray" style="height: 30px;"/>
+        <div class="layui-inline">
+            <form id="upload-form" action="./importTemplate" onsubmit="return handleSubmit(this)" method="post" enctype="multipart/form-data" >
+                <label class="layui-form-label" style="width:150px;background-color: #cfed67;">上传联赛模板数据</label>
+                <div class="layui-inline">
+                    <input class="layui-btn layui-btn-primary" id="fileInput1" type="file" name="file" multiple="multiple">
+                    <input class="layui-btn" type="submit" value="上传" />
+                </div>
+            </form>
+            <hr/>
+            <form id="form3" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
+                <label class="layui-form-label" style="width:200px;background-color: #cfed67;">联赛模板初始化(请先上传)</label>
+                <div class="layui-input-inline">
+                    <input id="ipt2" name="ipt2" autocomplete="off" class="layui-input" type="text"/>
+                </div>
+                <button type="button" class="layui-btn layui-btn-primary" onclick="modifyTemplate(3)">提交</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--底部-->
+<div th:replace="fragments/footer :: footer"></div>
+<script src="/js/dateUtils.js"></script>
+<script src="/js/tournamentTemplate/templateSetting.js"></script>
+</div>
+</body>
+</html>
+

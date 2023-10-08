@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.mapper.RcsQuotaBusinessLimitMapper">
+
+    <select id="listPage" resultType="com.panda.sport.rcs.pojo.RcsQuotaBusinessLimit">
+         SELECT
+            l.id,
+                l.business_id,
+                c.child_key business_name,
+                l.business_single_day_limit_proportion,
+                l.business_single_day_limit,
+                l.business_single_day_series_limit,
+                l.business_single_day_series_limit_proportion,
+                l.business_single_day_limit_switch,
+                l.business_single_day_game_proportion,
+                l.user_quota_ratio,
+                l.user_quota_bet_ratio,
+                l.user_stray_quota_ratio,
+                l.credit_bet_ratio,
+                l.status_of_the_day,
+                l.tag_market_status,
+                l.tag_market_level_id,
+                l.tag_market_level_id_pc,
+                l.status,
+                l.business_bet_percent,
+                l.champion_business_proportion,
+                l.champion_user_proportion,
+                l.risk_status,
+                l.tag_market_level_status,
+                l.stray_switch_val,
+                l.user_single_stray_limit
+            FROM rcs_quota_business_limit l
+            LEFT JOIN rcs_code c ON c.`value` = l.business_id
+            LEFT JOIN rcs_operate_merchants_set m ON m.merchants_id = l.business_id
+            WHERE l.`status`=1 and (m.credit_parent_id is null or m.credit_parent_id = 0) and c.father_key = "business"
+    </select>
+
+    <select id="limitConfigList"
+            resultType="com.panda.sport.rcs.pojo.RcsQuotaBusinessLimit"
+            parameterType="com.panda.sport.rcs.pojo.vo.RcsQuotaBusinessLimitReqVo">
+        SELECT
+        l.*,
+        m.limit_type
+        FROM
+        rcs_operate_merchants_set m
+        LEFT JOIN rcs_quota_business_limit l ON m.merchants_id = l.business_id
+        WHERE
+        ( m.credit_parent_id IS NULL OR m.credit_parent_id = 0 )
+        AND l.business_id IS NOT NULL
+        and l.status=1
+        <if test="reqVo.businessCodes != null and reqVo.businessCodes.size > 0">
+            AND l.business_name IN
+            <foreach collection="reqVo.businessCodes" item="businessCode" open="(" separator="," close=")">#{businessCode}</foreach>
+        </if>
+        <if test="reqVo.straySwitchVal != null and reqVo.straySwitchVal == 0">
+            AND l.stray_switch_val = 0
+        </if>
+        <if test="reqVo.straySwitchVal != null and reqVo.straySwitchVal == 1">
+            AND l.stray_switch_val = 1
+        </if>
+        <if test="reqVo.businessSingleDayLimitSwitch != null and reqVo.businessSingleDayLimitSwitch == 0">
+            AND l.business_single_day_limit_switch = 0
+        </if>
+        <if test="reqVo.businessSingleDayLimitSwitch != null and reqVo.businessSingleDayLimitSwitch == 1">
+            AND l.business_single_day_limit_switch = 1
+        </if>
+        <if test="reqVo.businessSingleDayGameProportion != null">
+            AND l.business_single_day_game_proportion = #{reqVo.businessSingleDayGameProportion}
+        </if>
+        <if test="reqVo.parentNames != null and reqVo.parentNames.size > 0">
+            AND l.parent_name IN
+            <foreach collection="reqVo.parentNames" item="parentName" open="(" separator="," close=")">
+                #{parentName}
+            </foreach>
+        </if>
+        <if test="reqVo.tagMarketLevelIdPc != null and reqVo.tagMarketLevelIdPc != ''">
+            AND l.tag_market_level_id_pc = #{reqVo.tagMarketLevelIdPc}
+        </if>
+        <if test="reqVo.tagMarketLevelId != null and reqVo.tagMarketLevelId != ''">
+            AND l.tag_market_level_id = #{reqVo.tagMarketLevelId}
+        </if>
+        <if test="reqVo.businessBetPercent != null and reqVo.businessBetPercent != ''">
+            AND l.business_bet_percent = #{reqVo.businessBetPercent}
+        </if>
+        <if test="reqVo.limitType != null and reqVo.limitType != ''">
+            AND m.limit_type = #{reqVo.limitType}
+        </if>
+
+        <if test="reqVo.limitType != null and reqVo.limitType != ''">
+            AND m.limit_type = #{reqVo.limitType}
+        </if>
+        <if test="reqVo.limitType != null and reqVo.limitType != ''">
+            AND m.limit_type = #{reqVo.limitType}
+        </if>
+        <if test="reqVo.limitType != null and reqVo.limitType != ''">
+            AND m.limit_type = #{reqVo.limitType}
+        </if>
+        <!--电竞货量百分比-->
+        <if test="reqVo.gamingBetPercent != null ">
+            AND l.gaming_bet_percent = #{reqVo.gamingBetPercent}
+        </if>
+        <!--投注延时 s-->
+        <if test="reqVo.delay != null ">
+            AND l.delay = #{reqVo.delay}
+        </if>
+        <!--商户自行风控开关-->
+        <if test="reqVo.riskStatus != null and reqVo.riskStatus != ''">
+            AND l.risk_status = #{reqVo.riskStatus}
+        </if>
+        <!--商户单日亏损限额%-->
+        <if test="reqVo.businessSingleDayLimitProportion != null ">
+            AND l.business_single_day_limit_proportion = #{reqVo.businessSingleDayLimitProportion}
+        </if>
+        <!--商户单日串关亏损%-->
+        <if test="reqVo.businessSingleDaySeriesLimitProportion != null ">
+            AND l.business_single_day_series_limit_proportion = #{reqVo.businessSingleDaySeriesLimitProportion}
+        </if>
+        <!--用户单关累计限额%-->
+        <if test="reqVo.userQuotaRatio != null  ">
+            AND l.user_quota_ratio = #{reqVo.userQuotaRatio}
+        </if>
+        <!--用户单关单注限额%-->
+        <if test="reqVo.userQuotaBetRatio != null">
+            AND l.user_quota_bet_ratio = #{reqVo.userQuotaBetRatio}
+        </if>
+        <!--用户串关累计限额%-->
+        <if test="reqVo.userStrayQuotaRatio != null ">
+            AND l.user_stray_quota_ratio = #{reqVo.userStrayQuotaRatio}
+        </if>
+        <!--用户串关单场限额%-->
+        <if test="reqVo.userSingleStrayLimit != null ">
+            AND l.user_single_stray_limit = #{reqVo.userSingleStrayLimit}
+        </if>
+        <!--冠军玩法商户限额%-->
+        <if test="reqVo.championUserProportion != null ">
+            AND l.champion_business_proportion = #{reqVo.championUserProportion}
+        </if>
+        <!--冠军玩法用户限额%-->
+        <if test="reqVo.championBusinessProportion != null ">
+            AND l.champion_user_proportion = #{reqVo.championBusinessProportion}
+        </if>
+
+        <!--赔率分组动态开关-->
+        <if test="reqVo.tagMarketLevelStatus != null and reqVo.tagMarketLevelStatus == 0">
+            AND l.tag_market_level_status = 0
+        </if>
+        <if test="reqVo.tagMarketLevelStatus != null and reqVo.tagMarketLevelStatus == 1">
+            AND l.tag_market_level_status = 1
+        </if>
+
+        <!--投注货量动态风控-->
+        <if test="reqVo.betVolumeStatus != null and reqVo.betVolumeStatus == 0">
+            AND l.bet_volume_status = 0
+        </if>
+        <if test="reqVo.betVolumeStatus != null and reqVo.betVolumeStatus == 1">
+            AND l.bet_volume_status = 1
+        </if>
+
+        <!--查询赛种相关数据-->
+        <if test="reqVo.sportIdList != null  ">
+
+            <if test="reqVo.businessLimitIds != null and reqVo.checkSelect == 1 ">
+                AND l.id in
+                <foreach item="item" index="index" collection="reqVo.businessLimitIds" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+
+            <if test="reqVo.businessLimitIds == null and reqVo.checkSelect == 0 ">
+                AND l.id in (1)
+            </if>
+        </if>
+    </select>
+
+    <select id="getSubList" resultType="com.panda.sport.rcs.pojo.RcsQuotaBusinessLimit">
+        SELECT
+            l.id,
+            l.business_id,
+            l.credit_name as business_name,
+            l.credit_name as creditName,
+            l.business_single_day_limit_proportion,
+            l.business_single_day_limit,
+            l.business_single_day_series_limit_proportion,
+            l.business_single_day_series_limit,
+            l.business_single_day_game_proportion,
+            l.user_quota_ratio,
+            l.user_stray_quota_ratio,
+            l.status_of_the_day,
+            l.tag_market_status,
+            l.status,
+            l.tag_market_level_status,
+            l.champion_business_proportion,
+            l.champion_user_proportion,
+            l.credit_bet_ratio,
+            l.tag_market_level_id,
+            l.tag_market_level_id_pc,
+            l.delay,
+            l.sport_ids,
+            l.stray_switch_val,
+            l.risk_status,
+            l.bet_volume_status,
+            l.remark,
+            l.parent_name
+        FROM
+            rcs_operate_merchants_set m
+            LEFT JOIN rcs_quota_business_limit l ON m.merchants_id = l.business_id
+            WHERE l.`status`=1 and m.credit_parent_id = #{merchantId}
+            <if test="agentIds != null">
+                and l.business_id in
+                <foreach item="item" index="index" collection="agentIds" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="agentNames != null">
+                and l.credit_name in
+                <foreach item="item" index="index" collection="agentNames" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+    </select>
+
+    <select id="listByBusinessIds" resultType="com.panda.sport.rcs.pojo.RcsQuotaBusinessLimit">
+        SELECT
+            l.*
+        FROM
+            rcs_quota_business_limit l
+            LEFT JOIN rcs_operate_merchants_set m ON m.merchants_id = l.business_id
+        WHERE
+        <if test="businessIds != null and businessIds.size > 0">
+            l.`business_id` IN
+            <foreach collection="businessIds" item="businessId" open="(" separator="," close=")">#{businessId}</foreach>
+            AND
+        </if>
+            l.`status` = 1
+            AND ( m.credit_parent_id IS NULL OR m.credit_parent_id = 0 )
+    </select>
+
+    <select id="queryParentName" resultType="java.lang.String">
+        select parent_name from rcs_quota_business_limit
+        where parent_name is not null and parent_name != '-'
+        group by parent_name
+    </select>
+
+    <select id="getSportIdsList" resultType="java.lang.Long">
+        SELECT id FROM  rcs_quota_business_limit   WHERE  FIND_IN_SET(#{sportId},sport_ids);
+    </select>
+
+
+</mapper>

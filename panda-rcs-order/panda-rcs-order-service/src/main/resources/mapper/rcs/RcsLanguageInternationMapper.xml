@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.mapper.RcsLanguageInternationMapper">
+    <sql id="commonRcsLanguage">
+        With ali as (
+            select JSON_UNQUOTE(JSON_EXTRACT ( `text`, '$.zs' )) as text,
+                   'zs' as language_type,
+                   li.name_code
+            from rcs_language_internation li
+            union all
+            select JSON_UNQUOTE(JSON_EXTRACT ( `text`, '$.en' )) as text,
+                   'en' as language_type,
+                   li.name_code
+            from rcs_language_internation li
+            union all
+            select JSON_UNQUOTE(JSON_EXTRACT ( `text`, '$.zh' )) as text,
+                   'zh' as language_type,
+                   li.name_code
+            from rcs_language_internation li
+
+        )
+    </sql>
+    <select id="getMarketCategoryList" resultType="com.panda.sport.rcs.vo.ConditionVo">
+        <include refid="commonRcsLanguage"/>
+        SELECT DISTINCT
+        li.name_code,
+        ssmcr.category_id id,
+        li.language_type,
+        li.text,
+        ssmcr.sport_id
+        from standard_sport_market_category_ref ssmcr
+        LEFT JOIN ali li ON li.name_code = ssmcr.name_code
+        where li.name_code is not null
+    </select>
+
+    <select id="getLanguageNameCodesByPlayIds" resultType="com.panda.sport.rcs.vo.LanguageInternationDO">
+    <include refid="commonRcsLanguage"/>
+        SELECT
+        l.language_type,
+        l.text,
+        s.id playId
+        FROM
+        ali l
+        RIGHT JOIN standard_sport_market_category s ON l.name_code = s.name_code
+        WHERE
+        s.id IN
+        <foreach item="item" index="index" collection="playIds"
+                 open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="queryTeamNameByMatchId" resultType="java.util.Map">
+        <include refid="commonRcsLanguage"/>
+		SELECT  tr.match_position as matchPosition,
+		        i.text as text,
+		        i.language_type as languageType,
+		        concat(t.begin_time,"") as beginTime
+		FROM standard_match_info t
+		LEFT JOIN standard_match_team_relation tr ON t.id = tr.standard_match_id
+		LEFT JOIN standard_sport_team team ON team.id = tr.standard_team_id
+		LEFT JOIN ali i ON i.name_code = team.name_code
+		WHERE t.id = #{matchId}
+    </select>
+
+    <select id="queryTournamentNameByMatchId" resultType="java.util.Map">
+        <include refid="commonRcsLanguage"/>
+		SELECT li.text as text,
+		        li.language_type as languageType
+		FROM standard_match_info t
+		LEFT JOIN standard_sport_tournament st ON t.standard_tournament_id = st.id
+		LEFT JOIN ali li ON li.name_code = st.name_code
+		WHERE t.id = #{matchId}
+    </select>
+    <select id="getByMultilingualism" resultType="com.panda.sport.rcs.pojo.dto.PlayLanguageInternation">
+        SELECT l.id,c.play_id,l.name_code,l.text,UNIX_TIMESTAMP(l.create_time) AS create_time,UNIX_TIMESTAMP(l.update_time) AS update_time,c.* FROM rcs_language_internation l RIGHT JOIN  (SELECT DISTINCT category_id play_id ,name_code,sport_id FROM standard_sport_market_category_ref)   c ON c.name_code=l.name_code
+        <if test="sportId != null">
+            WHERE sport_id = #{sportId}
+        </if>
+    </select>
+</mapper>

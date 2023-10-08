@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.mapper.RcsSpecEventConfigMapper">
+
+    <update id="updateSpecEventConfigById">
+        UPDATE rcs_spec_event_config
+        SET
+        event_switch = #{record.eventSwitch},
+        one_side_switch = #{record.oneSideSwitch},
+        away_goal_prob = #{record.awayGoalProb},
+        home_goal_prob = #{record.homeGoalProb}
+        WHERE
+	    id = #{record.id};
+    </update>
+
+    <update id="updateSpecEventConfigProbByMatchId">
+        UPDATE rcs_spec_event_config
+        <set>
+            <if test="record.awayGoalProb!=null">
+                away_goal_prob = #{record.awayGoalProb},
+            </if>
+            <if test="record.homeGoalProb!=null">
+                home_goal_prob = #{record.homeGoalProb},
+            </if>
+        </set>
+        WHERE type_val = #{record.typeVal}
+          and type = 3
+          and event_code = #{record.eventCode};
+    </update>
+
+    <update id="updateActiveByMatchId">
+        UPDATE rcs_spec_event_config
+        SET
+        effective_time = now(),
+        one_side_switch = 0,
+        away_active = #{record.awayActive},
+        away_active_count = away_active_count + 1
+        home_active = #{record.homeActive},
+        home_active_count = home_active_count + 1
+        WHERE type_val = #{record.typeVal}
+            and type = 3
+            and event_code = #{record.eventCode}
+            and event_switch = 1;
+    </update>
+
+    <select id="querySpecEventConfigList" resultType="com.panda.sport.rcs.pojo.RcsSpecEventConfig">
+        select id, type, type_val, event_name, event_code, effective_time, event_switch, one_side_switch, away_active,
+        away_active_count, away_goal_prob, home_active, home_active_count, home_goal_prob, create_time, update_time
+        from rcs_spec_event_config
+        <where>
+            <if test="record.typeVal!=null">
+                type_val = #{record.typeVal}
+            </if>
+            <if test="record.type!=null">
+                and type = #{record.type}
+            </if>
+            <if test="record.id!=null">
+                and id = #{record.id}
+            </if>
+            <if test="record.active!=null">
+                and (home_active = #{record.active} or away_active = #{record.active} )
+            </if>
+        </where>
+    </select>
+
+    <insert id="initSpecEventConfig">
+        INSERT INTO rcs_spec_event_config
+        (
+        type, type_val, event_name, event_code,event_switch,away_goal_prob,home_goal_prob,one_side_switch
+        )
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+        (
+            #{item.type,jdbcType=BIGINT}, #{item.typeVal},
+            #{item.eventName,jdbcType=VARCHAR}, #{item.eventCode,jdbcType=VARCHAR},
+            #{item.eventSwitch,jdbcType=BIGINT}, #{item.awayGoalProb,jdbcType=DECIMAL},
+            #{item.homeGoalProb,jdbcType=DECIMAL},#{item.oneSideSwitch,jdbcType=BIGINT}
+        )
+        </foreach>
+
+    </insert>
+
+    <insert id="batchInsert">
+        INSERT INTO rcs_spec_event_config
+        (
+        type, type_val, event_name, event_code,
+        effective_time,event_switch,
+        one_side_switch,away_active,
+        away_active_count,away_goal_prob,
+        home_active,home_active_count,
+        home_goal_prob,
+        )
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+        (
+        #{item.type,jdbcType=BIGINT}, #{item.typeVal},
+        #{item.eventName,jdbcType=VARCHAR}, #{item.eventCode,jdbcType=VARCHAR}
+        #{item.effectiveTime,jdbcType=BIGINT}, #{item.eventSwitch,jdbcType=INTEGER}
+        #{item.oneSideSwitch,jdbcType=INTEGER}, #{item.awayActive,jdbcType=INTEGER}
+        #{item.awayActiveCount,jdbcType=INTEGER}, #{item.awayGoalProb,jdbcType=DECIMAL}
+        #{item.homeActive,jdbcType=INTEGER}, #{item.homeActiveCount,jdbcType=INTEGER}
+        #{item.homeGoalProb,jdbcType=DECIMAL}
+        )
+        </foreach>
+    </insert>
+
+    <update id="updateSpecEventStatusByMatchId">
+        UPDATE rcs_spec_event_config
+        <set>
+                event_switch = #{record.matchIdSwitch},
+            <if test="record.matchIdSwitch==0">
+                away_active = #{record.matchIdSwitch},
+                home_active = #{record.matchIdSwitch}
+            </if>
+        </set>
+        WHERE
+        type_val = #{record.typeVal}
+        and type = #{record.type}
+        <if test="null != record.id">
+            and id = #{record.id}
+        </if>
+    </update>
+
+    <select id="getAutoOpenMarketStatus" resultType="java.lang.String">
+        select status from rcs_ao_auto_open_switch where business_key = #{businessKey,jdbcType=VARCHAR} limit 1
+    </select>
+
+    <insert id="initAutoOpenMarketStatus">
+        INSERT INTO rcs_ao_auto_open_switch
+        (business_key,status)
+        values
+        (#{businessKey,jdbcType=VARCHAR},#{status,jdbcType=INTEGER})
+    </insert>
+
+    <update id="updateAutoOpenMarketStatus">
+        UPDATE rcs_ao_auto_open_switch
+        SET
+        status = #{status,jdbcType=INTEGER}
+        WHERE
+        business_key = #{businessKey}
+    </update>
+</mapper>

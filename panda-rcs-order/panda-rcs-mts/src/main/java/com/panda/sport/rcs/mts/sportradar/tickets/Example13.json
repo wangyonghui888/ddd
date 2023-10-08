@@ -1,0 +1,67 @@
+{
+	"timestampUtc": 1516093745838,
+	"bets": [{
+		"stake": {
+			"value": 40000,
+			"type": "total"
+		},
+		"id": "B1-29316189811797",
+		"selectedSystems": [1],
+		"sumOfWins": 0
+	},
+	{
+		"stake": {
+			"value": 60000,
+			"type": "total"
+		},
+		"id": "B2-29316190325189",
+		"selectedSystems": [2],
+		"sumOfWins": 0
+	},
+	{
+		"stake": {
+			"value": 120000,
+			"type": "total"
+		},
+		"id": "B3-29316190695028",
+		"selectedSystems": [3],
+		"sumOfWins": 0
+	}],
+	"ticketId": "Example13-29316189735487",
+	"selections": [{
+		"eventId": "11050915",
+		"id": "lcoo:20/5/*/1",
+		"odds": 14100
+	},
+	{
+		"eventId": "11029671",
+		"id": "lcoo:339/5/1.5/2",
+		"odds": 16800
+	},
+	{
+		"eventId": "11052893",
+		"id": "lcoo:20/5/*/2",
+		"odds": 16900
+	},
+	{
+		"eventId": "11052537",
+		"id": "lcoo:20/5/*/2",
+		"odds": 10400
+	}],
+	"sender": {
+		"currency": "EUR",
+		"channel": "internet",
+		"bookmakerId": 7669,
+		"endCustomer": {
+			"ip": "1.2.3.4",
+			"languageId": "EN",
+			"deviceId": "deviceId-123",
+			"id": "Customer-29316189775531",
+			"confidence": 10000
+		},
+		"limitId": 424
+	},
+	"version": "2.0",
+	"testSource": false,
+	"oddsChange": "any"
+}

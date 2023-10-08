@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.rcs.logService.mapper.StandardSportMarketMapper">
+
+    <resultMap id="BaseResultMap" type="com.panda.rcs.logService.vo.StandardSportMarket">
+        <!--@mbg.generated-->
+        <!--@Table t_order-->
+        <result column="place_num" jdbcType="INTEGER" property="placeNum"/>
+        <result column="m_market_category_id" jdbcType="BIGINT" property="marketCategoryId"/>
+        <result column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="m_addition1" jdbcType="VARCHAR" property="addition1"/>
+        <result column="m_addition2" jdbcType="VARCHAR" property="addition2"/>
+        <result column="m_addition3" jdbcType="VARCHAR" property="addition3"/>
+        <result column="m_addition4" jdbcType="VARCHAR" property="addition4"/>
+        <result column="m_addition5" jdbcType="VARCHAR" property="addition5"/>
+        <result column="m_market_type" jdbcType="INTEGER" property="marketType"/>
+        <result column="m_odds_value" jdbcType="VARCHAR" property="oddsValue"/>
+        <result column="m_odds_name" jdbcType="VARCHAR" property="oddsName"/>
+        <result column="m_name_code" jdbcType="VARCHAR" property="nameCode"/>
+        <result column="m_market_head_gap" jdbcType="VARCHAR" property="marketHeadGap"/>
+        <result column="m_data_source_code" jdbcType="VARCHAR" property="dataSourceCode"/>
+        <result column="m_status" jdbcType="INTEGER" property="status"/>
+        <result column="m_third_market_source_status" jdbcType="INTEGER" property="thirdMarketSourceStatus"/>
+        <result column="m_child_market_category_id" jdbcType="BIGINT" property="childStandardCategoryId"/>
+        <result column="m_market_source" jdbcType="BIGINT" property="marketSource"/>
+        <collection column="id" property="marketOddsList" ofType="com.panda.rcs.logService.vo.StandardSportMarketOdds"
+                    select="queryMarketOddsList"/>
+    </resultMap>
+
+    <select id="queryMarketOddsList" resultType="com.panda.rcs.logService.vo.StandardSportMarketOdds">
+        SELECT o.id as id,
+        o.settlement_result_text as settlementResultText,
+        o.settlement_result as settlementResult,
+        o.bet_settlement_certainty as betSettlementCertainty,
+        o.odds_type as oddsType,
+        o.addition1 as addition1,
+        o.addition2 as addition2,
+        o.addition3 as addition3,
+        o.addition4 as addition4,
+        o.addition5 as addition5,
+        o.market_diff_value as marketDiffValue,
+        o.`name` as name,
+        o.name_code as nameCode,
+        o.name_expression_value as nameExpressionValue,
+        o.odds_value as oddsValue,
+        o.odds_fields_templet_id as oddsFieldsTemplateId,
+        o.third_odds_field_source_id as thirdOddsFieldSourceId,
+        IFNULL(o.original_odds_value,o.odds_value) as originalOddsValue,
+        o.target_side as targetSide,
+        o.order_odds as orderOdds,
+        o.active as active,
+        o.margin as margin,
+        o.probability as probability,
+        o.anchor as anchor,
+        o.probability_odds as probabilityOdds,
+        o.market_diff_value as marketDiffValue,
+        o.margin_probability_odds as marginProbabilityOdds,
+        <!--				'PA' as dataSourceCode-->
+        o.data_source_code as dataSourceCode
+        from standard_sport_market_odds o
+        WHERE o.market_id = #{id}
+    </select>
+
+
+    <select id="selectMarketOddsByMarketIds" resultMap="BaseResultMap">
+        SELECT r.place_num as place_num,
+        m.id as id,
+        m.market_category_id as m_market_category_id,
+        m.addition1 as m_addition1,
+        m.addition2 as m_addition2,
+        m.addition3 as m_addition3,
+        m.addition4 as m_addition4,
+        m.addition5 as m_addition5,
+        m.market_type as m_market_type,
+        m.odds_value as m_odds_value,
+        m.odds_name as m_odds_name,
+        m.market_head_gap as m_market_head_gap,
+        <!--				'PA' as m_data_source_code,-->
+        m.data_source_code as m_data_source_code,
+        m.`status` as m_status,
+        m.name_code AS m_name_code,
+        m.third_market_source_status as m_third_market_source_status,
+        m.child_market_category_id as m_child_market_category_id,
+        m.market_source as m_market_source
+        from standard_sport_market m
+        JOIN rcs_standard_place_ref r ON r.market_id = m.id
+        JOIN (
+        SELECT r.version_id FROM standard_match_info i
+        LEFT JOIN rcs_standard_place_ref r ON r.standard_match_info_id = i.id
+        WHERE i.id = #{config.matchId,jdbcType=BIGINT} AND r.place_num = 1 AND r.market_category_id =
+        #{config.playId,jdbcType=BIGINT}
+        <if test="config.subPlayId != null and config.marketId != null">
+            AND r.child_market_category_id = #{config.subPlayId,jdbcType=VARCHAR}
+        </if>
+        ORDER BY r.version_id DESC LIMIT 1
+        ) t
+        ON t.version_id = r.version_id
+        WHERE r.market_category_id = #{config.playId,jdbcType=BIGINT}
+        AND m.third_market_source_status in (0,1)
+        AND r.standard_match_info_id = #{config.matchId,jdbcType=BIGINT}
+        order BY r.place_num
+    </select>
+
+
+</mapper>

@@ -1,0 +1,719 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.customdb.mapper.StaticsItemExtMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="staticsResultMap" type="com.panda.sport.rcs.customdb.entity.StaticsItemEntity">
+        <result column="uid" property="uid"/>
+        <result column="parentType" property="parentType"/>
+        <result column="childType" property="childType"/>
+        <result column="value" property="value"/>
+        <result column="profit" property="profit"/>
+        <result column="betNum" property="betNum"/>
+        <result column="betProfitNum" property="betProfitNum"/>
+        <result column="winBetNum" property="winBetNum"/>
+    </resultMap>
+
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap id="BaseResultMapOrder" type="com.panda.sport.rcs.db.entity.TOrderDetail">
+        <result property="id" column="id"/>
+        <result property="betNo" column="bet_no"/>
+        <result property="orderNo" column="order_no"/>
+        <result property="uid" column="uid"/>
+        <result property="playOptionsId" column="play_options_id"/>
+        <result property="sportId" column="sport_id"/>
+        <result property="sportName" column="sport_name"/>
+        <result property="playId" column="play_id"/>
+        <result property="playName" column="play_name"/>
+        <result property="matchId" column="match_id"/>
+        <result property="matchName" column="match_name"/>
+        <result property="matchType" column="match_type"/>
+        <result property="betTime" column="bet_time"/>
+        <result property="marketId" column="market_id"/>
+        <result property="marketType" column="market_type"/>
+        <result property="marketValue" column="market_value"/>
+        <result property="matchInfo" column="match_info"/>
+        <result property="betAmount" column="bet_amount"/>
+        <result property="oddsValue" column="odds_value"/>
+        <result property="marketTypeFinally" column="market_type_finally"/>
+        <result property="oddFinally" column="odd_finally"/>
+        <result property="acceptBetOdds" column="accept_bet_odds"/>
+        <result property="maxWinAmount" column="max_win_amount"/>
+        <result property="betStatus" column="bet_status"/>
+        <result property="scoreBenchmark" column="score_benchmark"/>
+        <result property="playOptions" column="play_options"/>
+        <result property="delFlag" column="del_flag"/>
+        <result property="remark" column="remark"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createUser" column="create_user"/>
+        <result property="modifyUser" column="modify_user"/>
+        <result property="modifyTime" column="modify_time"/>
+        <result property="tournamentId" column="tournament_id"/>
+        <result property="betResult" column="bet_result"/>
+        <result property="playOptionName" column="play_option_name"/>
+        <result property="addition" column="addition"/>
+        <result property="betAllResult" column="bet_all_result"/>
+        <result property="settleScore" column="settle_score"/>
+        <result property="settleMatchProcessId" column="settle_match_process_id"/>
+        <result property="tournamentLevel" column="tournament_level"/>
+        <result property="marketMain" column="market_main"/>
+        <result property="preDataSourse" column="pre_data_sourse"/>
+        <result property="liveDataSourse" column="live_data_sourse"/>
+        <result property="oddsDataSourse" column="odds_data_sourse"/>
+        <result property="tradeType" column="trade_type"/>
+    </resultMap>
+
+    <resultMap id="getUserIdResultMap" type="java.lang.Long">
+    </resultMap>
+    <resultMap id="getBasketBallWinNumMap" type="com.panda.sport.rcs.customdb.entity.BasketBallWinEntity">
+    </resultMap>
+
+    <!--
+  数据库表的基本查询列名集合
+-->
+    <sql id="Base_Column_List">
+        id, bet_no, order_no, uid, play_options_id, sport_id, sport_name, play_id, play_name, match_id, match_name,
+        match_type, bet_time, market_id, market_type, market_value, match_info, bet_amount, odds_value,
+        market_type_finally, odd_finally, accept_bet_odds, max_win_amount, bet_status, score_benchmark, play_options,
+        del_flag,  remark, create_time, create_user, modify_user, modify_time, tournament_id,
+        bet_result, play_option_name, addition, bet_all_result, settle_score, settle_match_process_id,
+        tournament_level, market_main, pre_data_sourse, live_data_sourse, odds_data_sourse, trade_type
+    </sql>
+
+    <!--对冲的 无需更改-->
+    <select id="queryOrderByCondition" resultMap="BaseResultMapOrder">
+        select
+        <include refid="Base_Column_List"/>
+        from tybss_merchant_common.t_order_detail as d
+        <where>
+            <![CDATA[
+                d.uid= #{uid} and d.create_time >= #{timeBegin} and d.create_time <= #{timeEnd}
+            ]]>
+        </where>
+    </select>
+
+    <!--一般用于一天内账变的用户 无需更改-->
+    <select id="fetchUserId" resultType="com.panda.sport.rcs.customdb.entity.StaticsUserDateEntity">
+        <![CDATA[
+            SELECT DISTINCT
+                uid,
+                date
+            FROM
+                (
+                    SELECT
+                        uid,
+                        from_unixtime( create_time / 1000, '%Y-%m-%d' ) date
+                    FROM
+                        tybss_merchant_common.t_order_detail
+                    WHERE
+                        create_time >= #{timeBegin}
+                        AND create_time < #{timeEnd}
+                    UNION ALL
+                    SELECT
+                        uid,
+                        from_unixtime( modify_time / 1000, '%Y-%m-%d' ) date
+                    FROM tybss_merchant_common.t_order
+                    WHERE modify_time >= #{timeBegin}  AND modify_time < #{timeEnd}
+                    UNION ALL
+                    SELECT
+                        uid,
+                        from_unixtime( create_time / 1000, '%Y-%m-%d' ) date
+                    FROM tybss_merchant_common.t_settle
+                    WHERE create_time >= #{timeBegin} AND create_time < #{timeEnd}
+                ) a;
+        ]]>
+    </select>
+
+    <!--一般用于一天内账变的用户 无需更改-->
+    <select id="fetchBasketBallUserId" resultType="java.lang.Long">
+        <![CDATA[
+                SELECT
+                 DISTINCT
+                    d.uid
+                FROM
+                    tybss_merchant_common.t_order_detail d
+                      RIGHT JOIN   tybss_merchant_common.t_order o  ON d.order_no = o.order_no
+                WHERE
+                    d.create_time >= #{timeBegin}
+                    AND d.create_time < #{timeEnd}
+                    and d.sport_id =2
+                    AND d.bet_status IN (0,1,6)
+                    AND  o.series_type=1
+        ]]>
+    </select>
+
+    <select id="fetchUserIdSportId" resultType="java.lang.Long">
+     <![CDATA[
+                SELECT
+                 DISTINCT
+                    sport_id
+                FROM
+                    tybss_merchant_common.t_order_detail d
+                WHERE
+                    create_time >= #{timeBegin}
+                    AND create_time < #{timeEnd}
+                    and sport_id =2
+                    AND d.bet_status IN (0,1,6)
+                    and uid = #{userId}
+
+                union
+                    SELECT
+                 DISTINCT
+                    sport_id
+                FROM
+                    tybss_merchant_common.t_order_detail_old d
+                WHERE
+                    create_time >= #{timeBegin}
+                    AND create_time < #{timeEnd}
+                    and sport_id =2
+                    AND d.bet_status IN (0,1,6)
+                    and uid = #{userId}
+        ]]>
+    </select>
+
+    <select id="getAllSportIdByUser" resultType="java.lang.Long">
+     <![CDATA[
+                SELECT
+                 DISTINCT
+                    sport_id
+                FROM
+                    tybss_merchant_common.t_order_detail d
+                WHERE
+                      d.bet_status IN (0,1,6)
+                    and uid = #{userId}
+                 union
+                 SELECT
+                 DISTINCT
+                    sport_id
+                FROM
+                    tybss_merchant_common.t_order_detail_old d
+                WHERE
+                      d.bet_status IN (0,1,6)
+                    and uid = #{userId}
+
+        ]]>
+    </select>
+
+
+    <select id="fetchBetTagUserId" resultMap="getUserIdResultMap">
+         <![CDATA[
+                    SELECT  uid   FROM  tybss_merchant_common.t_order_detail
+                    WHERE create_time >= #{timeBegin}  AND create_time < #{timeEnd} and uid = #{userId}
+                    UNION
+                    SELECT uid   FROM tybss_merchant_common.t_order
+                    WHERE modify_time >= #{timeBegin}  AND modify_time < #{timeEnd} and uid = #{userId}
+                    UNION
+                    SELECT  uid   FROM tybss_merchant_common.t_settle
+                    WHERE create_time >= #{timeBegin} AND create_time < #{timeEnd} and uid = #{userId}
+                    UNION
+                    SELECT  uid   FROM  tybss_merchant_common.t_order_detail_old
+                    WHERE create_time >= #{timeBegin}  AND create_time < #{timeEnd} and uid = #{userId}
+                    UNION
+                    SELECT uid   FROM tybss_merchant_common.t_order_old
+                    WHERE modify_time >= #{timeBegin}  AND modify_time < #{timeEnd} and uid = #{userId}
+                    UNION
+                    SELECT  uid   FROM tybss_merchant_common.t_settle_old
+                    WHERE create_time >= #{timeBegin} AND create_time < #{timeEnd} and uid = #{userId}
+
+        ]]>
+    </select>
+
+    <select id="getUserBetTag" resultMap="getUserIdResultMap">
+        SELECT user_level FROM tybss_merchant_common.t_user where uid = #{userId}
+    </select>
+
+    <select id="getUserUnactive" resultMap="getUserIdResultMap">
+        SELECT unactive FROM tybss_merchant_common.t_user where uid = #{userId}
+    </select>
+
+    <select id="getUserTagLastTime" resultMap="getUserIdResultMap">
+        SELECT max(modify_time) FROM  tybss_merchant_common.t_user_level_relation_history WHERE uid =  #{userId}
+    </select>
+
+    <select id="getUserCreateTime" resultMap="getUserIdResultMap">
+        SELECT create_time FROM tybss_merchant_common.t_user where uid = #{userId}
+    </select>
+    <select id="getUserByTag" resultMap="getUserIdResultMap">
+        SELECT uid FROM tybss_merchant_common.t_user where user_level = #{tagId}
+    </select>
+
+    <select id="getBasketBallWinNum" resultMap="getBasketBallWinNumMap">
+        select  SUM(betNum) AS betNum,  SUM(winBetNum) AS winBetNum from
+        (SELECT
+        SUM(1) AS betNum,
+        SUM(case when s.out_come in (4,5) then 1 else 0 end) AS winBetNum
+        FROM
+        (
+        SELECT  d.order_no,   d.bet_status
+        FROM  tybss_merchant_common.t_order_detail d RIGHT JOIN   tybss_merchant_common.t_order o  ON d.order_no = o.order_no
+        WHERE d.uid=  #{userId}
+        AND d.bet_status IN (0,1,6)  AND o.order_status IN (0,1) AND  o.series_type=1 and sport_id = 2
+        )  t
+        left join tybss_merchant_common.t_settle s on s.order_no = t.order_no and s.last_settle=1
+
+        UNION ALL
+
+        SELECT
+        SUM(1) AS betNum,
+        SUM(case when s.out_come in (4,5) then 1 else 0 end) AS winBetNum
+        FROM
+        (
+        SELECT  d.order_no,   d.bet_status
+        FROM  tybss_merchant_common.t_order_detail_old d RIGHT JOIN   tybss_merchant_common.t_order_old o  ON d.order_no = o.order_no
+        WHERE d.uid=  #{userId}
+        AND d.bet_status IN (0,1,6)  AND o.order_status IN (0,1) AND  o.series_type=1 and sport_id = 2
+        )  t
+        left join tybss_merchant_common.t_settle_old s on s.order_no = t.order_no and s.last_settle=1
+        ) t
+    </select>
+
+
+
+    <!--对冲的 无需更改-->
+    <select id="fetchHedgeAnalyzeUserId" resultMap="staticsResultMap">
+        SELECT
+            distinct uid   FROM tybss_merchant_common.t_order_detail
+        WHERE 1=1
+            <![CDATA[
+             and create_time >= #{timeBegin} and create_time < #{timeEnd}
+             and play_id in
+             ( 4,19,33,121,128,130,143,232,39,46,52,58,64,143,154,155,163,172,176,181,185,
+               2,10,11,18,34,87,88,97,98,114,115,116,122,123,124,127,233,
+               5,15,37,40,42,43,47,48,53,54,59,65,66,75,92,118,142,153,160,162,165,178,183,187)
+
+        ]]>
+    </select>
+
+    <!--功能已过期-->
+    <select id="staticsBySportId" resultMap="staticsResultMap">
+        SELECT
+            #{uid} AS uid,
+            1 AS parentType,
+            dst.sport_id AS childType,
+            SUM(dst.bet_amount) AS  VALUE ,
+            SUM(CASE WHEN dst.bet_status = 1 THEN dst.bet_amount ELSE 0 END) AS  financeValue ,
+            SUM( CASE WHEN dst.bet_status = 1 THEN 1 ELSE 0 END) AS betNum,
+            IFNULL(SUM(CASE WHEN dst.bet_status = 1 THEN dst.profit_amount ELSE 0 END),0) AS profit,
+            SUM(CASE WHEN dst.bet_status = 1 THEN dst.profit_mark ELSE 0 END) AS betProfitNum,
+            SUM(case when s.out_come in (4,5) then 1 else 0 end) AS winBetNum
+        FROM
+            (
+            SELECT
+                d.order_no,
+                d.sport_id,
+                d.bet_amount,
+                d.bet_status,
+               (SELECT  profit_amount FROM tybss_merchant_common.t_settle s WHERE s.order_no = d.order_no order by settle_time desc limit 1)  profit_amount ,
+               IF( (SELECT  profit_amount FROM tybss_merchant_common.t_settle s WHERE s.order_no = d.order_no order by settle_time desc limit 1) > 0,1,0) AS profit_mark
+            FROM
+                tybss_merchant_common.t_order_detail AS d RIGHT JOIN   tybss_merchant_common.t_order o  ON d.order_no = o.order_no
+            WHERE
+                <![CDATA[
+                    d.uid= #{uid} AND d.create_time >= #{timeBegin}  AND d.create_time < #{timeEnd} AND d.bet_status IN (0,1)  AND o.order_status IN (0,1) AND  o.series_type=1
+				]]>
+            ) AS dst left join tybss_merchant_common.t_settle s on s.order_no = dst.order_no and s.last_settle=1
+        GROUP BY sport_id;
+    </select>
+
+    <!--功能已过期-->
+    <select id="staticsByTournamentId" resultMap="staticsResultMap">
+        SELECT
+            #{uid} AS uid,
+            2 AS parentType,
+            tournament_id AS childType,
+            SUM(dst.bet_amount) AS  VALUE ,
+            SUM(CASE WHEN dst.bet_status = 1 THEN dst.bet_amount ELSE 0 END) AS  financeValue ,
+            SUM( CASE WHEN dst.bet_status = 1 THEN 1 ELSE 0 END) AS betNum,
+            IFNULL(SUM(CASE WHEN dst.bet_status = 1 THEN dst.profit_amount ELSE 0 END),0) AS profit,
+            SUM(CASE WHEN dst.bet_status = 1 THEN dst.profit_mark ELSE 0 END) AS betProfitNum,
+            SUM(case when s.out_come in (4,5) then 1 else 0 end) AS winBetNum
+        FROM
+            (
+            SELECT
+                d.order_no,
+                d.tournament_id,
+                d.bet_amount,
+                d.bet_status,
+               (SELECT  profit_amount FROM tybss_merchant_common.t_settle s WHERE s.order_no = d.order_no  order by settle_time desc limit 1)  profit_amount ,
+               IF( (SELECT  profit_amount FROM tybss_merchant_common.t_settle s WHERE s.order_no = d.order_no order by settle_time desc limit 1) > 0,1,0) AS profit_mark
+            FROM
+                tybss_merchant_common.t_order_detail AS d RIGHT JOIN   tybss_merchant_common.t_order o  ON d.order_no = o.order_no
+            WHERE
+                <![CDATA[
+                    d.uid= #{uid} AND d.create_time >= #{timeBegin}  AND d.create_time < #{timeEnd} AND d.bet_status IN (0,1)  AND o.order_status IN (0,1) AND  o.series_type=1
+				]]>
+            ) AS dst left join tybss_merchant_common.t_settle s on s.order_no = dst.order_no and s.last_settle=1
+        GROUP BY dst.tournament_id;
+    </select>
+
+    <!--功能已过期-->
+    <select id="staticsByPlayId" resultMap="staticsResultMap">
+        SELECT
+            #{uid} AS uid,
+            3 AS parentType,
+            CONCAT(dst.sport_id,'-',dst.play_id) AS childType,
+            SUM(dst.bet_amount) AS  VALUE ,
+            SUM(CASE WHEN dst.bet_status = 1 THEN dst.bet_amount ELSE 0 END) AS  financeValue ,
+            SUM( CASE WHEN dst.bet_status = 1 THEN 1 ELSE 0 END) AS betNum,
+            IFNULL(SUM(CASE WHEN dst.bet_status = 1 THEN dst.profit_amount ELSE 0 END),0) AS profit,
+            SUM(CASE WHEN dst.bet_status = 1 THEN dst.profit_mark ELSE 0 END) AS betProfitNum,
+            SUM(case when s.out_come in (4,5) then 1 else 0 end) winBetNum
+        FROM
+            (
+            SELECT
+                d.order_no,
+                d.sport_id,
+                d.play_id,
+                d.bet_amount,
+                d.bet_status,
+               (SELECT  profit_amount FROM tybss_merchant_common.t_settle s WHERE s.order_no = d.order_no order by settle_time desc limit 1)  profit_amount ,
+               IF( (SELECT  profit_amount FROM tybss_merchant_common.t_settle s WHERE s.order_no = d.order_no order by settle_time desc limit 1) > 0,1,0) AS profit_mark,
+               IF( (SELECT  profit_amount FROM tybss_merchant_common.t_settle s WHERE s.order_no = d.order_no and s.out_come IN ( 4, 5 )  order by settle_time desc limit 1),1,0) AS winBetNum
+            FROM
+                tybss_merchant_common.t_order_detail AS d RIGHT JOIN   tybss_merchant_common.t_order o  ON d.order_no = o.order_no
+            WHERE
+                <![CDATA[
+                    d.uid= #{uid} AND d.create_time >= #{timeBegin}  AND d.create_time < #{timeEnd} AND d.bet_status IN (0,1)  AND o.order_status IN (0,1) AND  o.series_type=1
+				]]>
+            ) AS dst left join tybss_merchant_common.t_settle s on s.order_no = dst.order_no and last_settle=1
+        GROUP BY sport_id, play_id;
+    </select>
+
+    <!--功能已过期-->
+    <select id="staticsByTeamId" resultMap="staticsResultMap">
+        SELECT
+            #{uid} as uid,
+            4 as parentType,
+            a.team_id as childType ,
+            SUM(times) as value
+         FROM
+             (
+                SELECT mt.home_team_id as team_id,   mt.id as match_id, ot.times FROM tybss_new.`s_match_info` mt,
+                    (
+                    SELECT match_id ,COUNT(*) times FROM  tybss_merchant_common.t_order_detail d inner join tybss_merchant_common.t_order o  on d.order_no = o.order_no
+                        where 1=1
+
+                         <![CDATA[
+                         and d.bet_amount >=10000
+                         AND d.uid= #{uid} and d.create_time >= #{timeBegin} and d.create_time < #{timeEnd} and d.bet_status in (0,1) AND o.series_type=1 and o.order_status in (0,1) ]]>
+                     GROUP BY match_id
+                    ) ot
+                WHERE ot.match_id = mt.id
+
+				union
+
+				SELECT mt.away_team_id as team_id,   mt.id as match_id, ot.times FROM tybss_new.`s_match_info` mt,
+                    (
+                    SELECT match_id ,COUNT(*) times FROM  tybss_merchant_common.t_order_detail d inner join tybss_merchant_common.t_order o  on d.order_no = o.order_no
+                        where 1=1
+                         <![CDATA[
+                         and d.bet_amount >=10000
+                         AND d.uid= #{uid} and d.create_time >= #{timeBegin} and d.create_time < #{timeEnd} and d.bet_status in (0,1) AND o.series_type=1  and o.order_status in (0,1)   ]]>
+                     GROUP BY match_id
+                    ) ot
+                WHERE ot.match_id = mt.id
+
+             ) a
+         GROUP BY  a.team_id
+    </select>
+
+    <!--功能已过期-->
+    <select id="staticsByMarketType" resultMap="staticsResultMap">
+        SELECT
+            #{uid} as uid,
+            5 as parentType,
+            market_type as childType,
+            sum(bet_amount) as value
+        FROM
+            tybss_merchant_common.t_order_detail AS d inner join tybss_merchant_common.t_order o  on d.order_no = o.order_no
+        where
+            <![CDATA[
+                d.uid= #{uid} and d.create_time >= #{timeBegin} and d.create_time < #{timeEnd} and d.bet_status in (0,1) AND o.series_type=1  and o.order_status in (0,1)
+            ]]>
+        GROUP BY market_type;
+    </select>
+
+    <!--功能已过期-->
+    <select id="staticsByBetAmount" resultMap="staticsResultMap">
+  	    (
+  	    SELECT #{uid} as uid,
+            7 AS parentType,
+            1 AS childType,
+            sum( bet_amount ) AS  VALUE
+        FROM
+            tybss_merchant_common.t_order_detail AS d inner join tybss_merchant_common.t_order o  on d.order_no = o.order_no
+        WHERE
+            <![CDATA[
+                d.uid = #{uid} and d.create_time >= #{timeBegin} and d.create_time < #{timeEnd}   and d.bet_amount >= 0 and d.bet_amount < 100000  and  d.bet_status in  (0,1)  and o.order_status in (0,1)  AND o.series_type=1
+            ]]>
+		)
+		UNION
+		(
+		SELECT
+		    #{uid} as uid,
+			7 AS parentType,
+			2 AS childType,
+			sum( bet_amount ) AS  VALUE
+		FROM
+            tybss_merchant_common.t_order_detail AS d inner join tybss_merchant_common.t_order o  on d.order_no = o.order_no
+		WHERE
+			<![CDATA[
+			    d.uid = #{uid} and d.create_time >= #{timeBegin} and d.create_time < #{timeEnd}   and d.bet_amount >= 100000 and d.bet_amount < 200000   and d.bet_status in (0,1)  and o.order_status in (0,1) AND o.series_type=1
+			]]>
+		)
+		UNION
+		(
+		SELECT
+		    #{uid} as uid,
+			7 AS parentType,
+			3 AS childType,
+			sum( bet_amount ) AS VALUE
+		FROM
+            tybss_merchant_common.t_order_detail AS d inner join tybss_merchant_common.t_order o  on d.order_no = o.order_no
+		WHERE
+			<![CDATA[
+			    d.uid = #{uid} and d.create_time >= #{timeBegin} and d.create_time < #{timeEnd}   and d.bet_amount >= 200000 and d.bet_amount < 500000   and d.bet_status in (0,1)  and o.order_status in (0,1) AND o.series_type=1
+			]]>
+		)
+		UNION
+		(
+		SELECT
+		    #{uid} as uid,
+			7 AS parentType,
+			4 AS childType,
+			sum( bet_amount ) AS VALUE
+		FROM
+            tybss_merchant_common.t_order_detail AS d inner join tybss_merchant_common.t_order o  on d.order_no = o.order_no
+		WHERE
+			<![CDATA[
+			    d.uid = #{uid} and d.create_time >= #{timeBegin} and d.create_time < #{timeEnd}   and d.bet_amount >= 500000 and d.bet_amount < 1000000  and d.bet_status in (0,1) and o.order_status in (0,1) AND o.series_type=1
+			]]>
+		)
+		UNION
+		(
+		SELECT
+		    #{uid} as uid,
+			7 AS parentType,
+			5 AS childType,
+			sum( bet_amount ) AS  VALUE
+		FROM
+            tybss_merchant_common.t_order_detail AS d inner join tybss_merchant_common.t_order o  on d.order_no = o.order_no
+		WHERE
+			<![CDATA[
+			    d.uid = #{uid} and d.create_time >= #{timeBegin} and d.create_time < #{timeEnd}   and d.bet_amount >= 1000000  and d.bet_status in (0,1)  and o.order_status in (0,1)  AND o.series_type=1
+		    ]]>
+		)
+
+    </select>
+
+    <!--功能已过期-->
+    <select id="staticsByOddsValue" resultMap="staticsResultMap">
+        (
+  	    SELECT #{uid} as uid,
+            6 AS parentType,
+            1 AS childType,
+            sum( bet_amount ) AS  VALUE
+        FROM
+            tybss_merchant_common.t_order_detail AS d inner join tybss_merchant_common.t_order o  on d.order_no = o.order_no
+        WHERE
+            <![CDATA[
+                d.uid = #{uid} and d.create_time >= #{timeBegin} and d.create_time < #{timeEnd}   and d.odds_value >= 100000 and d.odds_value < 130000   and d.bet_status in (0,1)  and o.order_status in (0,1) AND o.series_type=1
+            ]]>
+		)
+		UNION
+		(
+		SELECT
+		    #{uid} as uid,
+			6 AS parentType,
+			2 AS childType,
+			sum( bet_amount ) AS  VALUE
+		FROM
+            tybss_merchant_common.t_order_detail AS d inner join tybss_merchant_common.t_order o  on d.order_no = o.order_no
+		WHERE
+			<![CDATA[
+			    d.uid = #{uid} and d.create_time >= #{timeBegin} and d.create_time < #{timeEnd}  and d.odds_value >= 130000 and d.odds_value < 150000     and d.bet_status in (0,1)  and o.order_status in (0,1) AND o.series_type=1
+			]]>
+		)
+		UNION
+		(
+		SELECT
+		    #{uid} as uid,
+			6 AS parentType,
+			3 AS childType,
+			sum( bet_amount ) AS VALUE
+		FROM
+            tybss_merchant_common.t_order_detail AS d inner join tybss_merchant_common.t_order o  on d.order_no = o.order_no
+		WHERE
+			<![CDATA[
+			    d.uid = #{uid} and d.create_time >= #{timeBegin} and d.create_time < #{timeEnd}   and d.odds_value >= 150000 and d.odds_value < 200000   and d.bet_status in (0,1)  and o.order_status in (0,1)  AND o.series_type=1
+			]]>
+		)
+		UNION
+		(
+		SELECT
+		    #{uid} as uid,
+			6 AS parentType,
+			4 AS childType,
+			sum( bet_amount ) AS VALUE
+		FROM
+            tybss_merchant_common.t_order_detail AS d inner join tybss_merchant_common.t_order o  on d.order_no = o.order_no
+		WHERE
+			<![CDATA[
+			    d.uid = #{uid} and d.create_time >= #{timeBegin} and d.create_time < #{timeEnd}   and d.odds_value >= 200000 and d.odds_value < 300000    and d.bet_status in (0,1)  and o.order_status in (0,1) AND o.series_type=1
+			]]>
+		)
+		UNION
+		(
+		SELECT
+		    #{uid} as uid,
+			6 AS parentType,
+			5 AS childType,
+			sum( bet_amount ) AS  VALUE
+		FROM
+            tybss_merchant_common.t_order_detail AS d inner join tybss_merchant_common.t_order o  on d.order_no = o.order_no
+		WHERE
+			<![CDATA[
+			    d.uid = #{uid} and d.create_time >= #{timeBegin} and d.create_time < #{timeEnd}   and d.odds_value >= 300000 and d.odds_value < 500000   and d.bet_status in (0,1)  and o.order_status in (0,1) AND o.series_type=1
+		    ]]>
+		)
+		UNION
+		(
+		SELECT
+		    #{uid} as uid,
+			6 AS parentType,
+			6 AS childType,
+			sum( bet_amount ) AS  VALUE
+		FROM
+            tybss_merchant_common.t_order_detail AS d inner join tybss_merchant_common.t_order o  on d.order_no = o.order_no
+		WHERE
+			<![CDATA[
+			    d.uid = #{uid} and d.create_time >= #{timeBegin} and d.create_time < #{timeEnd} and d.odds_value >= 500000 and d.odds_value < 1000000    and d.bet_status in (0,1)  and o.order_status in (0,1)  AND o.series_type=1
+		    ]]>
+		)
+		UNION
+		(
+		SELECT
+		    #{uid} as uid,
+			6 AS parentType,
+			7 AS childType,
+			sum( bet_amount ) AS  VALUE
+		FROM
+            tybss_merchant_common.t_order_detail AS d inner join tybss_merchant_common.t_order o  on d.order_no = o.order_no
+		WHERE
+			<![CDATA[
+			    d.uid = #{uid} and d.create_time >= #{timeBegin} and d.create_time < #{timeEnd}   and d.odds_value >= 1000000     and d.bet_status in (0,1)  and o.order_status in (0,1) AND o.series_type=1
+		    ]]>
+		)
+    </select>
+
+    <!--功能已过期-->
+    <select id="staticsByMainMarket" resultMap="staticsResultMap">
+        SELECT
+            #{uid} as uid,
+            8 as parentType,
+            IFNULL(market_main, 0)  as childType,
+            sum(bet_amount) as value
+        FROM
+            tybss_merchant_common.t_order_detail AS d inner join tybss_merchant_common.t_order o  on d.order_no = o.order_no
+        where
+            <![CDATA[
+                d.uid= #{uid} and d.create_time >= #{timeBegin} and d.create_time < #{timeEnd}  and d.bet_status in (0,1)  and o.order_status in (0,1) AND o.series_type=1            ]]>
+        GROUP BY market_main;
+    </select>
+
+    <!--功能已过期-->
+    <select id="staticsByHedge" resultMap="staticsResultMap">
+        select
+            #{uid} AS uid, 9 AS parentType, childType, sum(bet_amount)   as value
+        FROM
+        (
+            SELECT
+                IF (  t.is_inverse is null  || 0 = t.is_inverse,0,1)  AS childType,
+                d.`bet_no`  ,
+                d.bet_amount
+            FROM
+                tybss_merchant_common.t_order_detail as d
+            inner join
+                tybss_merchant_common.t_order o  on d.order_no = o.order_no
+            left join
+                tybss_report.user_profile_order_tag as t  on  t.bet_no =d.bet_no
+            WHERE
+                <![CDATA[
+                    d.uid = #{uid} and d.create_time >= #{timeBegin} and d.create_time < #{timeEnd} and d.bet_status in (0,1) and o.order_status in (0,1) AND o.series_type=1
+                ]]> 
+        )t
+        group by childType
+    </select>
+
+    <!-- 统计投注类型 （单关、串关） -->
+    <!--功能已过期-->
+    <select id="staticsByBetType" resultMap="staticsResultMap">
+        <![CDATA[
+
+                SELECT
+                    #{uid} AS uid,
+                    10 AS parentType,
+                    a.series_type childType,
+                    IFNULL(sum(case when a.profit_amount is null then 0 else 1 end),0)  betNum,
+                    IFNULL(sum(a.profit_amount),0) profit,
+                    IFNULL(sum(case when  a.profit_amount is null then 0 else a.order_amount_total end),0) value,
+                    IFNULL(sum(case when  a.profit_amount is null then 0 else a.bet_amount end),0) financeValue,
+                    IFNULL(sum( case  WHEN a.profit_amount>0 THEN 1 ELSE 0 end),0) betProfitNum,
+                    IFNULL(sum( case  WHEN a.out_come IN ( 4, 5 ) THEN 1 ELSE 0 end),0) winBetNum
+                FROM
+                    (
+                    SELECT
+                        ( CASE WHEN o.series_type = 1 THEN 1 ELSE 2 END ) series_type ,
+                        o.order_amount_total,
+                        s.profit_amount,
+                        s.bet_amount,
+                        s.out_come
+                    FROM
+                        tybss_merchant_common.t_order o
+                    left join tybss_merchant_common.t_settle s on s.last_settle = 1 and o.order_no=s.order_no
+                    WHERE
+                        o.create_time >= #{timeBegin}
+                        AND o.create_time < #{timeEnd}
+                        AND o.order_status IN ( 0, 1 )
+                        AND o.uid = #{uid}
+                    ) a
+                GROUP BY a.series_type
+
+        ]]>
+    </select>
+
+    <!-- 投注阶段 （早盘、滚球、冠军玩法）-->
+    <!--功能已过期-->
+    <select id="staticsByBetStage" resultMap="staticsResultMap">
+        <![CDATA[
+
+                SELECT
+                    #{uid} AS uid,
+                    11 AS parentType,
+                    d.match_type childType,
+                    IFNULL(sum( o.order_amount_total ),0) as value,
+                    IFNULL(sum( s.bet_amount ),0) financeValue,
+                    IFNULL(sum( s.profit_amount ),0) profit,
+                    count( s.order_no ) betNum,
+                    IFNULL(sum( case  WHEN s.profit_amount>0 THEN 1 ELSE 0 end),0) betProfitNum,
+                    IFNULL(sum( case  WHEN s.out_come IN ( 4, 5 ) THEN 1 ELSE 0 end),0) winBetNum
+                FROM
+                    tybss_merchant_common.t_order_detail d
+                inner join
+                    tybss_merchant_common.t_order o on o.order_no=d.order_no
+                LEFT JOIN (select * from tybss_merchant_common.t_settle where last_settle = 1) s ON s.order_no = d.order_no
+                WHERE
+                    d.uid = #{uid}
+                    AND d.create_time >= #{timeBegin}
+                    AND d.create_time < #{timeEnd}
+                    AND d.bet_status IN (0,1)
+                    AND o.order_status IN (0,1)
+                    AND o.series_type=1
+                GROUP BY
+                    d.match_type
+
+
+        ]]>
+    </select>
+</mapper>

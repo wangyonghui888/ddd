@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.mapper.RcsOrderSecondConfigMapper">
+
+
+	<select id="selectOrderSecondConfig" resultType="java.lang.Integer">
+		SELECT case when SUM(cou) > 0 then 1 ELSE 0 END  FROM (
+		SELECT count(1) cou FROM rcs_order_second_config c
+		WHERE c.update_time >= #{time}
+		AND c.second_status = 1
+		AND c.match_info_id = #{matchId}
+		AND c.play_set_id = #{playSet}
+		AND c.user_level IS NULL
+		AND c.bet_amount IS NULL
+		UNION ALL
+		SELECT count(1) cou FROM rcs_order_second_config c
+		WHERE c.update_time >= #{time}
+		AND c.second_status = 1
+		AND c.match_info_id = #{matchId}
+		AND c.play_set_id = #{playSet}
+		AND c.user_level IS NOT NULL
+		AND FIND_IN_SET(${userLevel},user_level) > 0
+		AND c.bet_amount IS NULL
+		UNION ALL
+		SELECT count(1) cou FROM rcs_order_second_config c
+		WHERE c.update_time >= #{time}
+		AND c.second_status = 1
+		AND c.match_info_id = #{matchId}
+		AND c.play_set_id = #{playSet}
+		AND c.bet_amount IS NOT NULL
+		AND c.bet_amount >= #{betAmount}
+		AND c.user_level IS NULL
+		UNION ALL
+		SELECT count(1) cou FROM rcs_order_second_config c
+		WHERE c.update_time >= #{time}
+		AND c.second_status = 1
+		AND c.match_info_id = #{matchId}
+		AND c.play_set_id = #{playSet}
+		AND c.bet_amount IS NOT NULL AND c.user_level IS not NULL
+		AND c.bet_amount >= #{betAmount}
+		AND FIND_IN_SET(${userLevel},user_level) > 0
+		) t
+	</select>
+</mapper>
+		<!--/*SELECT count(1) FROM rcs_order_second_config c
+		WHERE c.update_time >= #{time,jdbcType=BIGINT}
+		AND c.second_status = 1
+		AND c.match_info_id = #{matchId,jdbcType=BIGINT}
+		AND c.play_set_id = #{playSet,jdbcType=VARCHAR}
+		and case when c.user_level  !='' then FIND_IN_SET(${userLevel},user_level) ELSE c.user_level ='' END
+		AND case when c.bet_amount > 0 then ${betAmount} > c.bet_amount ELSE c.bet_amount is null END
+		LIMIT 1*/-->

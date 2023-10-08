@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.customdb.mapper.MarketOptionMapper">
+
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.panda.sport.rcs.customdb.entity.MarketOptionEntity">
+        <result column="id" property="id"/>
+        <result column="odds_value" property="oddsValue"/>
+        <result column="market_id" property="marketId"/>
+    </resultMap>
+
+    <resultMap id="MarketResultMap" type="com.panda.sport.rcs.customdb.entity.MarketEntity">
+        <result column="id" property="id"/>
+        <result column="market_value" property="marketValue"/>
+    </resultMap>
+
+
+    <!-- 赛前盘订单 -->
+    <select id="getMarketOptionByIds" resultMap="BaseResultMap" parameterType="java.util.Set" >
+        SELECT
+            id, pa_odds_value oddsValue,market_id
+        FROM
+            tybss_new.s_market_odds
+        WHERE
+            id in
+            <foreach item="ids" index="index" collection="ids" open="(" separator="," close=")">
+                #{ids}
+            </foreach>;
+    </select>
+    
+    <select id="getMarketByIds" resultMap="MarketResultMap" parameterType="java.util.Set" >
+        SELECT
+            id, market_value
+        FROM
+            tybss_new.s_market
+        WHERE
+            id in
+            <foreach item="ids" index="index" collection="ids" open="(" separator="," close=")">
+                #{ids}
+            </foreach>;
+    </select>
+</mapper>

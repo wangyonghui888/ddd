@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.mapper.RcsOperateMerchantsSetMapper">
+
+    <select id="getOperateMerchantsSet" resultType="com.panda.sport.rcs.pojo.RcsOperateMerchantsSet">
+    	SELECT * FROM `rcs_operate_merchants_set` WHERE merchants_id = #{merchantsId}
+    </select>
+
+    <select id="getAllMerchantIdAndCode" resultType="com.panda.sport.rcs.pojo.RcsOMerchantsIDCode">
+        SELECT id, merchants_id, merchants_code FROM `rcs_operate_merchants_set`
+        where merchants_id is not null
+          and merchants_code is not null
+    </select>
+
+</mapper>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.mapper.settle.TSettleHistoryDetailMapper">
+
+
+    <insert id="batchSave" keyColumn="id" keyProperty="id" parameterType="com.panda.sport.rcs.pojo.settle.TSettleHistoryDetail" useGeneratedKeys="true">
+        INSERT INTO `t_settle_history_detail`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            `bet_no`,
+            `order_no`,
+            `match_id`,
+            `begin_time`,
+
+            `tournament_level`,
+             `match_type`,
+            `sport_id`,
+            `uid`,
+            `play_options_id`,
+
+            `bet_result`,
+            `odd_finally`,
+            `market_value`,
+            `bet_amount`,
+            `odds_value`,
+            `max_win_amount`,
+            `market_id`,
+            `play_options`,
+            `play_id`,
+            `settle_score`,
+            `market_value_new`,
+            `create_time`
+        </trim>
+        VALUES
+         <foreach collection="list" item="item" separator=",">
+            (
+             #{item.betNo},
+             #{item.orderNo},
+             #{item.matchId},
+             #{item.beginTime},
+
+             #{item.tournamentLevel},
+             #{item.matchType},
+             #{item.sportId},
+             #{item.uid},
+             #{item.playOptionsId},
+
+             #{item.betResult},
+             #{item.oddFinally},
+             #{item.marketValue},
+             #{item.betAmount},
+             #{item.oddsValue},
+             #{item.maxWinAmount},
+             #{item.marketId},
+             #{item.playOptions},
+             #{item.playId},
+             #{item.settleScore},
+             #{item.marketValueNew},
+             now()
+            )
+         </foreach>
+    </insert>
+
+
+
+</mapper>

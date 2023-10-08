@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.customdb.mapper.OddConversionMapper">
+
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.panda.sport.rcs.customdb.entity.OddConversionEntity">
+        <result column="eu_odds" property="euOdds"/>
+        <result column="my_odds"  property="myOdds"/>
+    </resultMap>
+ 
+
+
+    <!-- 赔率 -->
+    <select id="getOddConversion" resultMap="BaseResultMap" >
+        SELECT
+            europe as eu_odds, malaysia my_odds
+        FROM
+             rcs_odds_convert_mapping;
+    </select>
+</mapper>

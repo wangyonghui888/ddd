@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.rcs.pending.order.mapper.RcsMargainRefMapper">
+
+    <select id="currentMargainRef" parameterType="com.panda.rcs.pending.order.param.TournamentTemplateParam" resultType="com.panda.rcs.pending.order.pojo.RcsMargainRefVo">
+        SELECT
+            f.`order_single_pay_val` as singlePayLimit,
+            f.`user_multi_pay_val` as cumulativeCompensationPlaying,
+            f.pending_order_pay_val as pendingOrderPayVal,
+            m.`play_id` as playId,
+            t.match_type as matchType
+        FROM `rcs_tournament_template_play_margain_ref` f
+                 INNER JOIN   `rcs_tournament_template_play_margain` m ON f.id = m.`valid_margin_id`
+                 INNER JOIN `rcs_tournament_template` t ON m.`template_id` = t.`id`
+        WHERE t.`sport_id` = #{sportId}
+          AND t.`type`=3
+          AND t.`type_val`=#{typeVal}
+          AND m.`play_id` =#{playId}
+          AND t.`match_type` =#{matchType}
+    </select>
+
+</mapper>

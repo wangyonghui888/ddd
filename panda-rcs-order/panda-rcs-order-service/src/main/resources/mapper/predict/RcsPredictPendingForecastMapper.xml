@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.mapper.predict.pending.RcsPredictPendingForecastMapper">
+
+    <select id="selectRcsPredictPendingForecastList"
+            resultType="com.panda.sport.rcs.pojo.vo.predict.pending.RcsPredictPendingForecast">
+        SELECT *
+        FROM rcs_predict_pending_forecast t
+        WHERE 1=1
+        <if test="vo.sportId != null">
+            AND t.sport_id = #{vo.sportId}
+        </if>
+        <if test="vo.matchId != null">
+            AND t.match_id = #{vo.matchId}
+        </if>
+        <if test="vo.playId != null">
+            AND t.play_id = #{vo.playId}
+        </if>
+        <if test="vo.matchType != null">
+            AND t.match_type = #{vo.matchType}
+        </if>
+        ORDER BY forecast_score ASC
+    </select>
+</mapper>

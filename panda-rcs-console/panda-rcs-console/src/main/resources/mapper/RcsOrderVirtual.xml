@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.console.dao.RcsOrderVirtualMapper">
+
+    <select id="getVirtualOrderList" resultType="com.panda.sport.rcs.console.pojo.Order">
+        SELECT
+            o.order_no orderNo,
+            o.tenant_id tenantId,
+            o.uid,
+            o.order_status orderStatus,
+            FROM_UNIXTIME( o.create_time / 1000 ) createTime,
+            o.reason reason,
+            o.series_type seriesType,
+            o.product_amount_total productAmountTotal,
+            o.order_amount_total orderAmountTotal,
+            o.ip,
+            d.bet_no betNo,
+            d.match_id matchId,
+            d.market_id marketId,
+            d.odds_value oddsValue,
+            d.play_options_id playOptionsId,
+            d.bet_amount betAmount,
+            e.response_param responseParam,
+            e.remark,
+            e.pa_amount paAmount,
+            e.virtual_amount virtualAmount,
+            CASE WHEN e.id IS NULL THEN 0 ELSE 1 END isAcct,
+            e.order_status accOrderStatus
+        FROM
+            rcs_order_virtual o
+            LEFT JOIN rcs_order_virtual_detail d ON d.order_no = o.order_no
+            LEFT JOIN rcs_virtual_order_ext e ON e.order_no = d.order_no
+        <where>
+            <if test="orderNo != null and orderNo != '' ">
+                and o.order_no = #{orderNo}
+            </if>
+            <if test="orderStatus != null and orderStatus != '' ">
+                and o.order_status = #{orderStatus}
+            </if>
+            <if test="seriesType != null and seriesType != '' ">
+                <if test="seriesType==1">
+                    and o.series_type = #{seriesType}
+                </if>
+                <if test="seriesType==2">
+                    and o.series_type != 1
+                </if>
+            </if>
+            <if test="uid != null and uid != '' ">
+                and o.uid = #{uid}
+            </if>
+            <if test="matchId != null and matchId != '' ">
+                and d.match_id = #{matchId}
+            </if>
+            <if test="marketId != null and marketId != '' ">
+                and d.market_id = #{marketId}
+            </if>
+            <if test="startTime != null and startTime != '' ">
+                <![CDATA[ and d.bet_time >= unix_timestamp(#{startTime})*1000  ]]>
+            </if>
+            <if test="startTime == null or startTime == ''">
+                <![CDATA[ and d.bet_time >= UNIX_TIMESTAMP(now())-60*60*12  ]]>
+            </if>
+            <if test="endTime != null and endTime != '' ">
+                <![CDATA[ and d.bet_time <= unix_timestamp(#{endTime})*1000 ]]>
+            </if>
+        </where>
+        order by d.bet_time desc,o.order_no desc
+    </select>
+</mapper>

@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.mapper.RcsQuotaBusinessRateMapper">
+  <resultMap id="BaseResultMap" type="com.panda.sport.rcs.pojo.vo.RcsQuotaBusinessRate">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="business_id" jdbcType="BIGINT" property="businessId" />
+    <result column="mts_rate" jdbcType="DECIMAL" property="mtsRate" />
+    <result column="virtual_rate" jdbcType="DECIMAL" property="virtualRate" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, business_id, mts_rate, virtual_rate, create_time, update_time
+  </sql>
+
+  <select id="queryListPage" parameterType="com.panda.sport.rcs.pojo.vo.RcsQuotaBusinessRateDTOReqVo" resultType="com.panda.sport.rcs.pojo.vo.RcsQuotaBusinessRateDTO">
+      SELECT l.id,
+             l.business_id businessId,
+             l.business_name businessCode,
+             IFNULL(r.mts_rate,0) mtsRate,
+             IFNULL(r.virtual_rate,0) virtualRate,
+             r.vr_enable vrEnable,
+            IFNULL(r.cts_rate,0) ctsRate,
+            IFNULL(r.gts_rate,0) gtsRate,
+            IFNULL(r.ots_rate,0) otsRate,
+            IFNULL(r.rts_rate,0) rtsRate,
+             r.create_time createTime,
+             r.update_time updateTime
+      FROM  rcs_quota_business_limit l
+      LEFT JOIN rcs_quota_business_rate r ON r.business_id=l.business_id
+      LEFT JOIN rcs_code c ON c.`value` = l.business_id
+      WHERE l.`status`=1  and c.father_key = "business"
+      <if test="dto.businessId != null and dto.businessId != ''">
+          AND l.business_id = #{dto.businessId}
+      </if>
+      <if test="dto.businessCode != null and dto.businessCode != ''">
+         AND l.business_name = #{dto.businessCode}
+      </if>
+      <if test="dto.vrEnable != null and dto.vrEnable != ''">
+          AND r.vr_enable = #{dto.vrEnable}
+      </if>
+      ORDER BY
+        l.create_time DESC
+  </select>
+
+    <select id="queryAllRate" resultType="com.panda.sport.rcs.pojo.vo.RcsQuotaBusinessRateDTO">
+        SELECT l.id,
+        l.business_id businessId,
+        l.business_name businessCode,
+        IFNULL(r.mts_rate,0) mtsRate,
+        IFNULL(r.virtual_rate,0) virtualRate,
+        r.vr_enable vrEnable,
+        IFNULL(r.cts_rate,0) ctsRate,
+        IFNULL(r.gts_rate,0) gtsRate,
+        IFNULL(r.ots_rate,0) otsRate,
+        IFNULL(r.rts_rate,0) rtsRate,
+        r.create_time createTime,
+        r.update_time updateTime
+        FROM  rcs_quota_business_limit l
+        LEFT JOIN rcs_quota_business_rate r ON r.business_id=l.business_id
+        LEFT JOIN rcs_code c ON c.`value` = l.business_id
+        WHERE l.`status`=1  and c.father_key = "business"
+        ORDER BY
+        l.create_time DESC
+    </select>
+
+<!--    <select id="queryRateListPage" parameterType="com.panda.sport.rcs.pojo.vo.RcsQuotaBusinessRateDTOReqVo" resultType="com.panda.sport.rcs.pojo.dto.RcsQuotaBusinessRateDTO">-->
+<!--        SELECT r.id,-->
+<!--        r.business_id businessId,-->
+<!--        r.business_code businessCode,-->
+<!--        IFNULL(r.mts_rate,0) mtsRate,-->
+<!--        IFNULL(r.virtual_rate,0) virtualRate,-->
+<!--        r.vr_enable vrEnable,-->
+<!--        r.create_time createTime,-->
+<!--        r.update_time updateTime-->
+<!--        FROM rcs_quota_business_rate r-->
+<!--        WHERE 1=1-->
+<!--        <if test="dto.businessId != null and dto.businessId != ''">-->
+<!--            AND r.business_id = #{dto.businessId}-->
+<!--        </if>-->
+<!--        <if test="dto.businessCode != null and dto.businessCode != ''">-->
+<!--            AND r.business_code = #{dto.businessCode}-->
+<!--        </if>-->
+<!--        ORDER BY-->
+<!--        r.create_time DESC-->
+<!--    </select>-->
+
+
+    <select id="queryNoSetRate" resultType="com.panda.sport.rcs.pojo.vo.RcsQuotaBusinessRateDTO">
+        SELECT l.id,
+        l.business_id businessId,
+        l.business_name businessCode,
+        IFNULL(r.mts_rate,0) mtsRate,
+        IFNULL(r.virtual_rate,0) virtualRate,
+        r.vr_enable vrEnable,
+        r.create_time createTime,
+        r.update_time updateTime
+        FROM  rcs_quota_business_limit l
+        LEFT JOIN rcs_quota_business_rate r ON r.business_id=l.business_id
+        LEFT JOIN rcs_code c ON c.`value` = l.business_id
+        WHERE l.`status`=1  and c.father_key = "business" AND  r.create_time IS NULL
+    </select>
+
+    <update id="updateBusinessRate" parameterType="com.panda.sport.rcs.pojo.vo.RcsQuotaBusinessRateDTO">
+      update rcs_quota_business_rate
+        <set>
+            <if test="dto.mtsRate != null and dto.mtsRate != ''">
+                mts_rate = #{dto.mtsRate},
+            </if>
+            <if test="dto.virtualRate != null and dto.virtualRate != ''">
+                virtual_rate =#{dto.virtualRate},
+            </if>
+            <if test="dto.vrEnable != null and dto.vrEnable != ''">
+                vr_enable =#{dto.vrEnable},
+            </if>
+            <if test="dto.ctsRate != null and dto.ctsRate != ''">
+                cts_rate =#{dto.ctsRate},
+            </if>
+            <if test="dto.gtsRate != null and dto.gtsRate != ''">
+                gts_rate =#{dto.gtsRate},
+            </if>
+            <if test="dto.otsRate != null and dto.otsRate != ''">
+                ots_rate =#{dto.otsRate},
+            </if>
+            <if test="dto.rtsRate != null and dto.rtsRate != ''">
+                rts_rate =#{dto.rtsRate}
+            </if>
+        </set>
+        WHERE business_id = #{dto.businessId}
+    </update>
+
+    <select id="queryByBusinessId" resultType="com.panda.sport.rcs.pojo.vo.RcsQuotaBusinessRateDTO">
+        SELECT l.id,
+        l.business_id businessId,
+        l.business_name businessCode,
+        IFNULL(r.mts_rate,0) mtsRate,
+        IFNULL(r.virtual_rate,0) virtualRate,
+        r.vr_enable vrEnable,
+        IFNULL(r.cts_rate,0) ctsRate,
+        IFNULL(r.gts_rate,0) gtsRate,
+        IFNULL(r.ots_rate,0) otsRate,
+        IFNULL(r.rts_rate,0) rtsRate,
+        r.create_time createTime,
+        r.update_time updateTime
+        FROM  rcs_quota_business_limit l
+        LEFT JOIN rcs_quota_business_rate r ON r.business_id=l.business_id
+        LEFT JOIN rcs_code c ON c.`value` = l.business_id
+        WHERE l.`status`=1  and c.father_key = "business"
+        <if test="dto.businessId != null and dto.businessId != ''">
+            AND l.business_id = #{dto.businessId}
+        </if>
+    </select>
+<!--    <select id="queryRateByBusinessId" resultType="com.panda.sport.rcs.pojo.dto.RcsQuotaBusinessRateDTO">-->
+<!--        SELECT r.id,-->
+<!--        r.business_id businessId,-->
+<!--        r.business_code businessCode,-->
+<!--        IFNULL(r.mts_rate,0) mtsRate,-->
+<!--        IFNULL(r.virtual_rate,0) virtualRate,-->
+<!--        r.vr_enable vrEnable,-->
+<!--        r.create_time createTime,-->
+<!--        r.update_time updateTime-->
+<!--        FROM rcs_quota_business_rate r-->
+<!--        WHERE 1=1-->
+<!--        <if test="dto.businessId != null and dto.businessId != ''">-->
+<!--            AND r.business_id = #{dto.businessId}-->
+<!--        </if>-->
+<!--    </select>-->
+
+    <select id="queryByBusinessIds" resultType="com.panda.sport.rcs.pojo.vo.RcsQuotaBusinessRateDTO">
+        SELECT l.id,
+        l.business_id businessId,
+        l.business_name businessCode,
+        IFNULL(r.mts_rate,0) mtsRate,
+        IFNULL(r.virtual_rate,0) virtualRate,
+        r.vr_enable vrEnable,
+        IFNULL(r.cts_rate,0) ctsRate,
+        IFNULL(r.gts_rate,0) gtsRate,
+        IFNULL(r.ots_rate,0) otsRate,
+        IFNULL(r.rts_rate,0) rtsRate,
+        r.create_time createTime,
+        r.update_time updateTime
+        FROM  rcs_quota_business_limit l
+        LEFT JOIN rcs_quota_business_rate r ON r.business_id=l.business_id
+        LEFT JOIN rcs_code c ON c.`value` = l.business_id
+        WHERE l.`status`=1  and c.father_key = "business"
+        <if test="dto.businessIds != null">
+            AND   r.business_id IN
+            <foreach item="item" collection="dto.businessIds" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+
+    <update id="batchUpdateBusinessRate" parameterType="com.panda.sport.rcs.pojo.vo.RcsQuotaBusinessRateDTO">
+      update rcs_quota_business_rate
+        <set>
+            <if test="dto.mtsRateAll != null and dto.mtsRateAll != ''">
+                mts_rate = #{dto.mtsRateAll},
+            </if>
+            <if test="dto.virtualRateAll != null and dto.virtualRateAll != ''">
+                virtual_rate =#{dto.virtualRateAll},
+            </if>
+            <if test="dto.vrEnableAll != null and dto.vrEnableAll != ''">
+                vr_enable =#{dto.vrEnableAll},
+            </if>
+            <if test="dto.ctsRateAll != null and dto.ctsRateAll != ''">
+                cts_rate =#{dto.ctsRateAll},
+            </if>
+            <if test="dto.gtsRateAll != null and dto.gtsRateAll != ''">
+                gts_rate =#{dto.gtsRateAll},
+            </if>
+            <if test="dto.otsRateAll != null and dto.otsRateAll != ''">
+                ots_rate =#{dto.otsRateAll},
+            </if>
+            <if test="dto.rtsRateAll != null and dto.rtsRateAll != ''">
+                rts_rate =#{dto.rtsRateAll}
+            </if>
+        </set>
+      where business_id in
+        <foreach item="item" collection="dto.businessIds" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <update id="batchUpdateVirtualRate" parameterType="com.panda.sport.rcs.pojo.vo.RcsQuotaBusinessRateDTO">
+        update rcs_quota_business_rate
+        <set>
+            <if test="dto.mtsRateAll != null and dto.mtsRateAll != ''">
+                mts_rate = #{dto.mtsRateAll},
+            </if>
+            <if test="dto.virtualRateAll != null and dto.virtualRateAll != ''">
+                virtual_rate =#{dto.virtualRateAll},
+            </if>
+            <if test="dto.vrEnableAll != null and dto.vrEnableAll != ''">
+                vr_enable =#{dto.vrEnableAll},
+            </if>
+            <if test="dto.ctsRateAll != null and dto.ctsRateAll != ''">
+                cts_rate =#{dto.ctsRateAll},
+            </if>
+            <if test="dto.gtsRateAll != null and dto.gtsRateAll != ''">
+                gts_rate =#{dto.gtsRateAll},
+            </if>
+            <if test="dto.otsRateAll != null and dto.otsRateAll != ''">
+                ots_rate =#{dto.otsRateAll},
+            </if>
+            <if test="dto.rtsRateAll != null and dto.rtsRateAll != ''">
+                rts_rate =#{dto.rtsRateAll}
+            </if>
+        </set>
+        where business_code IS NOT NULL
+        <if test="dto.businessIds != null">
+        AND  business_id NOT IN
+        <foreach item="item" collection="dto.businessIds" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        </if>
+    </update>
+
+
+    <insert id="insertOrUpdateBusinessRate" parameterType="com.panda.sport.rcs.pojo.vo.RcsQuotaBusinessRateDTO">
+        INSERT INTO rcs_quota_business_rate ( business_id, business_code, mts_rate, virtual_rate,vr_enable,cts_rate,gts_rate,ots_rate,rts_rate)
+        VALUES
+            (#{businessId},#{businessCode} ,#{mtsRate}, #{virtualRate},#{vrEnable},#{ctsRate},#{gtsRate},#{otsRate},#{rtsRate})
+            ON DUPLICATE KEY UPDATE
+            business_id = #{businessId},
+            business_code = #{businessCode},
+            mts_rate = #{mtsRate},
+            virtual_rate =#{virtualRate},
+            vr_enable=#{vrEnable},
+        cts_rate = #{ctsRate},
+        gts_rate = #{gtsRate},
+        ots_rate = #{otsRate},
+        rts_rate = #{rtsRate}
+    </insert>
+
+
+
+    <select id="selectMerchantsCount" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM `rcs_operate_merchants_set` s  INNER JOIN `rcs_quota_business_limit` l ON s.merchants_id=l.business_id WHERE l.status=1 AND s.valid_status=1
+    </select>
+
+    <select id="selectMerchantsByPage" resultType="com.panda.sport.rcs.pojo.vo.RcsQuotaBusinessRateDTO">
+        SELECT
+            t.merchants_id as businessId,
+            t.merchants_code as businessCode,
+            r.mts_rate as mtsRate,
+            r.vr_enable as vrEnable,
+            r.virtual_rate as virtualRate
+        FROM
+            rcs_operate_merchants_set t INNER JOIN rcs_quota_business_limit l ON t.merchants_id=l.business_id
+            left join rcs_quota_business_rate r on r.business_id = t.merchants_id
+        WHERE  l.status=1
+        order by t.merchants_id desc
+            limit #{offset},#{pageSize}
+    </select>
+
+    <select id="selectMerchantsList" resultType="com.panda.sport.rcs.pojo.vo.RcsQuotaBusinessRateDTO">
+        SELECT
+          m.merchants_id as businessId,
+          m.merchants_code as businessCode
+        FROM rcs_operate_merchants_set m
+        LEFT JOIN rcs_quota_business_limit l ON m.merchants_id = l.business_id
+        LEFT JOIN rcs_code c ON c.`value` = l.business_id
+        WHERE l.`status`=1 and (m.credit_parent_id is null or m.credit_parent_id = 0) and c.father_key = "business"
+        <if test="dto.businessIds != null">
+          AND   m.merchants_id NOT IN
+          <foreach item="item" collection="dto.businessIds" open="(" separator="," close=")">
+             #{item}
+          </foreach>
+        </if>
+        order by m.merchants_id desc
+    </select>
+
+</mapper>

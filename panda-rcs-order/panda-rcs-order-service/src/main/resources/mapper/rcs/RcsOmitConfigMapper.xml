@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.mapper.RcsOmitConfigMapper">
+
+    <select id="listPage" resultType="com.panda.sport.rcs.pojo.RcsOmitConfig">
+        SELECT
+            o.id,
+            o.merchants_id,
+            o.merchants_code,
+            o.volume_percentage,
+            o.min_money,
+            o.max_money,
+            o.remark,
+            o.crt_time,
+            o.update_time,
+            o.bq_status,
+            o.qj_status,
+            o.level_id
+        FROM rcs_omit_config o
+        <where>
+            <if test="merchantsId != null and merchantsId != ''">
+                AND o.merchants_id = #{merchantsId}
+            </if>
+            <if test="merchantsCode != null and merchantsCode != ''">
+                AND o.merchants_code = #{merchantsCode}
+            </if>
+            AND o.is_default_src = 2
+        </where>
+    </select>
+
+    <select id="selectByMerchantIds" resultType="com.panda.sport.rcs.pojo.RcsOmitConfig">
+        SELECT
+        o.id,
+        o.merchants_id,
+        o.merchants_code,
+        o.volume_percentage,
+        o.min_money,
+        o.max_money,
+        o.remark,
+        o.crt_time,
+        o.update_time,
+        o.bq_status,
+        o.qj_status,
+        o.level_id
+        FROM rcs_omit_config o
+        <where>
+            <if test="merchantIds != null and merchantIds.size() > 0">
+                AND o.merchants_id in
+                <foreach collection="merchantIds" open="(" close=")" item="id" separator=",">
+                    #{id}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <select id="selectStatusOpened" resultType="com.panda.sport.rcs.pojo.RcsOmitConfig">
+        SELECT
+        o.id,
+        o.merchants_id,
+        o.merchants_code,
+        o.volume_percentage,
+        o.min_money,
+        o.max_money,
+        o.remark,
+        o.crt_time,
+        o.update_time,
+        o.bq_status,
+        o.qj_status,
+        o.level_id
+        FROM rcs_omit_config o
+        <where>
+            o.bq_status = 1 or o.qj_status = 1
+        </where>
+    </select>
+
+    <select id="selectByMerchantId" resultType="com.panda.sport.rcs.pojo.RcsOmitConfig">
+        SELECT
+        o.id,
+        o.merchants_id,
+        o.merchants_code,
+        o.volume_percentage,
+        o.min_money,
+        o.max_money,
+        o.remark,
+        o.crt_time,
+        o.update_time,
+        o.bq_status,
+        o.qj_status,
+        o.level_id
+        FROM rcs_omit_config o
+        <where>
+            <if test="merchantIds != null">
+                AND o.merchants_id = #{merchantIds}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertEntity">
+        insert into rcs_omit_config
+        (merchants_id, merchants_code, volume_percentage, min_money, max_money, remark, bq_status, qj_status, level_id, is_default_src)
+        values (
+            #{entity.merchantsId},
+            #{entity.merchantsCode},
+            #{entity.volumePercentage},
+            #{entity.minMoney},
+            #{entity.maxMoney},
+            #{entity.remark},
+            #{entity.bqStatus},
+            #{entity.qjStatus},
+            #{entity.levelId},
+            #{entity.isDefaultSrc}
+        )
+    </insert>
+
+    <insert id="batchInsert">
+        insert into rcs_omit_config
+        (merchants_id, merchants_code, volume_percentage, min_money, max_money, remark, bq_status, qj_status, level_id, is_default_src)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.merchantsId},
+            #{item.merchantsCode},
+            #{item.volumePercentage},
+            #{item.minMoney},
+            #{item.maxMoney},
+            #{item.remark},
+            #{item.bqStatus},
+            #{item.qjStatus},
+            #{item.levelId},
+            #{item.isDefaultSrc}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="batchInsertUpdate">
+        insert into rcs_omit_config
+        (merchants_id, merchants_code, volume_percentage, min_money, max_money, remark, bq_status, qj_status, level_id, is_default_src)
+        values
+        <trim prefix="" suffixOverrides=",">
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.merchantsId},
+            #{item.merchantsCode},
+            #{item.volumePercentage},
+            #{item.minMoney},
+            #{item.maxMoney},
+            #{item.remark},
+            #{item.bqStatus},
+            #{item.qjStatus},
+            #{item.levelId},
+            #{item.isDefaultSrc}
+            )
+        </foreach>
+        </trim>
+        ON DUPLICATE KEY UPDATE
+        <trim prefix="" suffixOverrides=",">
+            <foreach collection="list" item="item">
+                min_money = values(min_money ),
+                max_money = values(max_money ),
+                <if test="item.volumePercentage != null">
+                    volume_percentage = values(volume_percentage),
+                </if>
+                <if test="item.remark != null">
+                    remark = values(remark ),
+                </if>
+                <if test="item.bqStatus != null">
+                    bq_status = values(bq_status ),
+                </if>
+                <if test="item.qjStatus != null">
+                    qj_status = values(qj_status ),
+                </if>
+                <if test="item.levelId != null">
+                    level_id = values(level_id ),
+                </if>
+            </foreach>
+        </trim>
+    </insert>
+
+    <insert id="insertUpdate">
+        insert into rcs_omit_config
+        (merchants_id, merchants_code, volume_percentage, min_money, max_money, remark, bq_status, qj_status, level_id, is_default_src)
+        values (#{merchantsId}, #{merchantsCode}, #{volumePercentage}, #{minMoney}, #{maxMoney}, #{remark}, #{bqStatus}, #{qjStatus}, #{levelId}, #{isDefaultSrc})
+        ON DUPLICATE KEY UPDATE
+        <trim prefix="" suffixOverrides=",">
+            min_money = #{minMoney},
+            max_money = #{maxMoney},
+            <if test="volumePercentage != null">
+                volume_percentage = #{volumePercentage},
+            </if>
+            <if test="bqStatus != null">
+                bq_status = #{bqStatus},
+            </if>
+            <if test="qjStatus != null">
+                qj_status = #{qjStatus},
+            </if>
+            <if test="levelId != null">
+                level_id = #{levelId},
+            </if>
+        </trim>
+    </insert>
+
+    <delete id="deleteAllMerchantConfig">
+        delete from rcs_omit_config where is_default_src = 2
+    </delete>
+
+    <delete id="deleteAllNotInMerchantIds">
+        delete from rcs_omit_config where is_default_src = 2
+        and merchants_id not in
+        <foreach collection="list" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="batchDeleteByMerchantId">
+        delete from rcs_omit_config where merchants_id in
+        <foreach collection="list" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+</mapper>

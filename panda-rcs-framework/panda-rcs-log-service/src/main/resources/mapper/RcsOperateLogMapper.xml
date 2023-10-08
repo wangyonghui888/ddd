@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.rcs.logService.mapper.RcsOperateLogMapper">
+
+    <select id="selectByParam" parameterType="com.panda.rcs.logService.vo.RcsOperateLogVO"
+            resultType="com.panda.sport.rcs.log.format.RcsOperateLog">
+
+        select
+        l.id id, l.operate_page_code operatePageCode, l.object_id objectId, l.object_name objectName, l.ext_object_id
+        extObjectId,l.match_id  match_Id,
+        l.ext_object_name extObjectName, l.behavior behavior, l.parameter_name parameterName, l.before_val beforeVal,
+        l.after_val afterVal, l.user_id userId, u.user_code userName, l.operate_time operateTime, l.ip ip, l.sport_id sportId
+        from rcs_operate_log l
+        left join rcs_sys_user u on l.user_id = u.id
+        where
+        1=1
+        <if test="sportId != null">
+            and l.sport_id=#{sportId}
+        </if>
+        <if test="matchId != null">
+            and l.match_id=#{matchId}
+        </if>
+        <if test="playId != null">
+            and l.play_id=#{playId}
+        </if>
+        <if test="operatePageCode != null">
+            and l.operate_page_code=#{operatePageCode}
+        </if>
+        <if test="operatePageCodes != null">
+            and l.operate_page_code in
+            <foreach collection="operatePageCodes" item="operatePageCode" open="(" separator="," close=")">
+                #{operatePageCode}
+            </foreach>
+        </if>
+        <if test="objectId != null">
+            and l.object_id=#{objectId}
+        </if>
+        <if test="objectName != null">
+            and l.object_name=#{objectName}
+        </if>
+        <if test="extObjectId != null">
+            and l.ext_object_id like concat(#{extObjectId},'%')
+        </if>
+        <if test="extObjectName != null">
+            and l.ext_object_name like concat(#{extObjectName},'%')
+        </if>
+        <if test="behavior != null">
+            and l.behavior = #{behavior}
+        </if>
+        <if test="userName != null">
+            and l.user_id=(select id from rcs_sys_user where user_code = #{userName})
+        </if>
+        <if test="operateStartTime != null">
+            and l.operate_time &gt;= DATE_FORMAT(#{operateStartTime},'%Y-%m-%d %H:%i:%s')
+        </if>
+        <if test="operateEndTime != null">
+            and l.operate_time &lt;= DATE_FORMAT(#{operateEndTime},'%Y-%m-%d %H:%i:%s')
+        </if>
+        ORDER BY l.operate_time desc
+        LIMIT ${(pageNum-1)*pageSize},#{pageSize}
+    </select>
+
+    <select id="selectCountByParam" parameterType="com.panda.rcs.logService.vo.RcsOperateLogVO" resultType="INTEGER">
+
+        select
+        count(l.id)
+        from rcs_operate_log l
+        where 1=1
+        <if test="sportId != null">
+            and l.sport_id=#{sportId}
+        </if>
+        <if test="matchId != null">
+            and l.match_id=#{matchId}
+        </if>
+        <if test="operatePageCode != null">
+            and l.operate_page_code=#{operatePageCode}
+        </if>
+        <if test="playId != null">
+            and l.play_id=#{playId}
+        </if>
+        <if test="operatePageCodes != null">
+            and l.operate_page_code in
+            <foreach collection="operatePageCodes" item="operatePageCode" open="(" separator="," close=")">
+                #{operatePageCode}
+            </foreach>
+        </if>
+        <if test="objectId != null">
+            and l.object_id=#{objectId}
+        </if>
+        <if test="objectName != null">
+            and l.object_name=#{objectName}
+        </if>
+        <if test="extObjectId != null">
+            and l.ext_object_id like concat(#{extObjectId},'%')
+        </if>
+        <if test="extObjectName != null">
+            and l.ext_object_name like concat(#{extObjectName},'%')
+        </if>
+        <if test="behavior != null">
+            and l.behavior = #{behavior}
+        </if>
+        <if test="userName != null">
+            and l.user_id=(select id from rcs_sys_user where user_code = #{userName})
+        </if>
+        <if test="operateStartTime != null">
+            and l.operate_time &gt;= DATE_FORMAT(#{operateStartTime},'%Y-%m-%d %H:%i:%s')
+        </if>
+        <if test="operateEndTime != null">
+            and l.operate_time &lt;= DATE_FORMAT(#{operateEndTime},'%Y-%m-%d %H:%i:%s')
+        </if>
+    </select>
+
+
+    <select id="selectSimpleLog" parameterType="com.panda.rcs.logService.vo.RcsOperateLogVO"
+            resultType="com.panda.sport.rcs.log.format.RcsOperateSimpleLog">
+
+        select
+        l.id id, l.operate_page_code operatePageCode, l.object_name objectName, l.ext_object_name extObjectName, l.behavior behavior, l.parameter_name
+        parameterName, l.before_val beforeVal,
+        l.after_val afterVal, l.user_id userId, u.user_code userName, l.operate_time operateTime
+        from rcs_operate_log l
+        left join rcs_sys_user u on l.user_id = u.id
+        where
+        1=1
+        and l.match_id=#{matchId}
+        <if test="sportId != null">
+            and l.sport_id=#{sportId}
+        </if>
+        <if test="playId != null">
+            and l.play_id=#{playId}
+        </if>
+        <if test="objectId != null">
+            and l.object_id=#{objectId}
+        </if>
+        <if test="operatePageCodes != null">
+            and l.operate_page_code in
+            <foreach collection="operatePageCodes" item="operatePageCode" open="(" separator="," close=")">
+                #{operatePageCode}
+            </foreach>
+        </if>
+        <if test="playIds != null">
+            and l.play_id in
+            <foreach collection="playIds" item="playId" open="(" separator="," close=")">
+                #{playId}
+            </foreach>
+        </if>
+        ORDER BY l.operate_time desc
+        LIMIT ${(pageNum-1)*pageSize},#{pageSize}
+    </select>
+
+    <select id="selectSimpleLogCount" parameterType="com.panda.rcs.logService.vo.RcsOperateLogVO" resultType="INTEGER">
+
+        select
+        count(l.id)
+        from rcs_operate_log l
+        where 1=1
+        and l.match_id=#{matchId}
+        <if test="sportId != null">
+            and l.sport_id=#{sportId}
+        </if>
+        <if test="playId != null">
+            and l.play_id=#{playId}
+        </if>
+        <if test="objectId != null">
+            and l.object_id=#{objectId}
+        </if>
+        <if test="operatePageCodes != null">
+            and l.operate_page_code in
+            <foreach collection="operatePageCodes" item="operatePageCode" open="(" separator="," close=")">
+                #{operatePageCode}
+            </foreach>
+        </if>
+        <if test="playIds != null">
+            and l.play_id in
+            <foreach collection="playIds" item="playId" open="(" separator="," close=")">
+                #{playId}
+            </foreach>
+        </if>
+    </select>
+
+
+    <insert id="bathInserts" keyColumn="id" keyProperty="id" parameterType="com.panda.sport.rcs.log.format.RcsOperateLog" useGeneratedKeys="true">
+        INSERT INTO `rcs_operate_log`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            `operate_page_code`,
+            `object_id`,
+            `object_name`,
+            `ext_object_id`,
+            `ext_object_name`,
+            `operate_time`,
+            `parameter_name`,
+            `before_val`,
+            `after_val`,
+            `user_id`,
+            `match_id`,
+            `sport_id`,
+            `play_id`,
+            `behavior`,
+            `ip`
+        </trim>
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.operatePageCode},
+            #{item.objectId},
+            #{item.objectName},
+            #{item.extObjectId},
+            #{item.extObjectName},
+            #{item.operateTime},
+            #{item.parameterName},
+            #{item.beforeVal},
+            #{item.afterVal},
+            #{item.userId},
+            #{item.matchId},
+            #{item.sportId},
+            #{item.playId},
+            #{item.behavior},
+            #{item.ip}
+            )
+        </foreach>
+
+    </insert>
+
+</mapper>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.db.mapper.UserProfileDangerousBetRuleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.panda.sport.rcs.db.entity.UserProfileDangerousBetRule">
+        <id column="id" property="id" />
+        <result column="sport_id" property="sportId" />
+        <result column="rule_name" property="ruleName" />
+        <result column="english_rule_name" property="englishRuleName" />
+        <result column="rule_detail" property="ruleDetail" />
+        <result column="parameter1" property="parameter1" />
+        <result column="parameter2" property="parameter2" />
+        <result column="parameter3" property="parameter3" />
+        <result column="parameter4" property="parameter4" />
+        <result column="enable" property="enable" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, sport_id, rule_name, rule_detail, parameter1, parameter2, parameter3, parameter4, enable
+    </sql>
+
+</mapper>

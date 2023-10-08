@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.mapper.champion.RcsChampionTradeConfigMapper">
+    <select id="selectMatchStatus" resultType="java.lang.Integer">
+        SELECT
+        t.market_type as marketType
+        from standard_sport_market t
+        where t.id = #{marketId}
+    </select>
+
+    <select id="selectOddsFieldsList" resultType="com.panda.sport.rcs.pojo.vo.api.response.RcsChampionOddsFieldsResVo">
+        SELECT
+            t.id                                        as oddsFiedsId,
+            t.odds_type                                 as oddsType,
+            t.market_id                                 as marketId,
+            t.i18n_names                                as oddsFiedsName,
+            TRUNCATE(t.odds_value / 100000, 2)          as oddsValue,
+            t.third_odds_field_source_id                as thirdOddsFieldSourceId,
+            t.active                                    as oddsFiedsStatus,
+            t.third_source_active                       as thirdSourceActive,
+            TRUNCATE(t.previous_odds_value / 100000, 2) as originalOddsValue
+        FROM standard_sport_market_odds t
+        where t.market_id = #{marketId}
+        order by t.order_odds, t.odds_value asc
+    </select>
+
+    <select id="selectBetAmount" resultType="java.util.Map">
+        SELECT
+        t.bet_order_num as betOrderNum,
+        t.bet_amount_pay as betAmountPay,
+        t.bet_amount as betAmount,
+        t.odds_type as oddsType,
+        t.hash_unique as hashUniqe
+        FROM rcs_predict_bet_odds t
+        where 1=1
+        <if test="matchId != null">
+            and t.match_id = #{matchId}
+        </if>
+        <if test="playId != null">
+            and t.play_id = #{playId}
+        </if>
+        and t.data_type = 1
+        and t.data_type_value = #{marketId}
+    </select>
+
+
+</mapper>

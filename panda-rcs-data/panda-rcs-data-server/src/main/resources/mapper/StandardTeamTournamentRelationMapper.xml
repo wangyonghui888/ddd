@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.data.mapper.StandardTeamTournamentRelationMapper">
+  <resultMap id="BaseResultMap" type="com.panda.sport.rcs.pojo.StandardTeamTournamentRelation">
+    <!--@mbg.generated-->
+    <!--@Table standard_team_tournament_relation-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="standard_team_id" jdbcType="BIGINT" property="standardTeamId" />
+    <result column="standard_tournament_id" jdbcType="BIGINT" property="standardTournamentId" />
+    <result column="tournament_order" jdbcType="INTEGER" property="tournamentOrder" />
+    <result column="tournament_year" jdbcType="INTEGER" property="tournamentYear" />
+    <result column="data_source_code" jdbcType="VARCHAR" property="dataSourceCode" />
+    <result column="tournament_name" jdbcType="VARCHAR" property="tournamentName" />
+    <result column="team_name" jdbcType="VARCHAR" property="teamName" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="modify_time" jdbcType="BIGINT" property="modifyTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, standard_team_id, standard_tournament_id, tournament_order, tournament_year, 
+    data_source_code, tournament_name, team_name, remark, create_time, modify_time
+  </sql>
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update standard_team_tournament_relation
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="standard_team_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.standardTeamId,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="standard_tournament_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.standardTournamentId,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="tournament_order = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.tournamentOrder,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+      <trim prefix="tournament_year = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.tournamentYear,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+      <trim prefix="data_source_code = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.dataSourceCode,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="tournament_name = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.tournamentName,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="team_name = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.teamName,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="remark = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.remark,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="create_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.createTime,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="modify_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.modifyTime,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id,jdbcType=BIGINT}
+    </foreach>
+  </update>
+  <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into standard_team_tournament_relation
+    (standard_team_id, standard_tournament_id, tournament_order, tournament_year, data_source_code, 
+      tournament_name, team_name, remark, create_time, modify_time)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.standardTeamId,jdbcType=BIGINT}, #{item.standardTournamentId,jdbcType=BIGINT}, 
+        #{item.tournamentOrder,jdbcType=INTEGER}, #{item.tournamentYear,jdbcType=INTEGER}, 
+        #{item.dataSourceCode,jdbcType=VARCHAR}, #{item.tournamentName,jdbcType=VARCHAR}, 
+        #{item.teamName,jdbcType=VARCHAR}, #{item.remark,jdbcType=VARCHAR}, #{item.createTime,jdbcType=BIGINT}, 
+        #{item.modifyTime,jdbcType=BIGINT})
+    </foreach>
+  </insert>
+</mapper>

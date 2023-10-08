@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.mapper.TOrderHideMapper">
+  <insert id="insertOrUpdate" parameterType="com.panda.sport.rcs.pojo.TOrderHidePO">
+    INSERT INTO `rcs_order_hide`(`order_no`, `category`, `volume_percentage`, `dynamic_volume_percentage`,
+                                 `merchant_volume_percentage`, `equipment_volume_percentage`, `create_time`)
+    VALUES (#{orderNo}, #{category}, #{volumePercentage}, #{dynamicVolumePercentage}, #{merchantVolumePercentage},
+            #{equipmentVolumePercentage}, #{createTime}) ON DUPLICATE KEY
+    UPDATE
+      volume_percentage = #{volumePercentage}
+  </insert>
+
+
+  <insert id="insertOrUpdates" keyColumn="betNo" keyProperty="betNo" parameterType="com.panda.sport.rcs.pojo.TOrderHidePO" useGeneratedKeys="true">
+    INSERT INTO `rcs_order_hide`
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      `order_no`,
+      `category`,
+      `volume_percentage`,
+      `dynamic_volume_percentage`,
+      `merchant_volume_percentage`,
+      `equipment_volume_percentage`,
+      `create_time`
+    </trim>
+    VALUES
+    <foreach collection="list" item="item" separator=",">
+      (
+      #{item.orderNo},
+      #{item.category},
+      #{item.volumePercentage},
+      #{item.dynamicVolumePercentage},
+      #{item.merchantVolumePercentage},
+      #{item.equipmentVolumePercentage},
+      #{item.createTime}
+      )
+    </foreach>
+    ON DUPLICATE KEY UPDATE
+    `order_no` = VALUES(order_no),
+    `category` = VALUES(category),
+    `volume_percentage` = VALUES(volume_percentage),
+    `dynamic_volume_percentage` = VALUES(dynamic_volume_percentage),
+    `merchant_volume_percentage` = VALUES(merchant_volume_percentage),
+    `equipment_volume_percentage` = VALUES(equipment_volume_percentage)
+  </insert>
+</mapper>

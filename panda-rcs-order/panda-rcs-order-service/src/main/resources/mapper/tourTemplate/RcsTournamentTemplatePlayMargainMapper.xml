@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.mapper.tourTemplate.RcsTournamentTemplatePlayMargainMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.panda.sport.rcs.pojo.tourTemplate.RcsTournamentTemplatePlayMargain">
+        <id column="id" property="id" />
+        <result column="template_id" property="templateId" />
+        <result column="play_id" property="playId" />
+        <result column="match_type" property="matchType" />
+        <result column="market_type" property="marketType" />
+        <result column="market_count" property="marketCount" />
+        <result column="is_sell" property="isSell" />
+        <result column="auto_close_market" property="autoCloseMarket" />
+        <result column="match_progress_time" property="matchProgressTime" />
+        <result column="injury_time" property="injuryTime" />
+        <result column="market_warn" property="marketWarn" />
+        <result column="is_series" property="isSeries" />
+        <result column="vice_market_ratio" property="viceMarketRatio" />
+        <result column="market_near_diff" property="marketNearDiff" />
+        <result column="market_near_odds_diff" property="marketNearOddsDiff" />
+        <result column="valid_margin_id" property="validMarginId" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, template_id, play_id, match_type, market_type, market_count, is_sell, auto_close_market, match_progress_time, injury_time, market_warn, is_series, vice_market_ratio, market_near_diff, market_near_odds_diff, valid_margin_id, create_time, update_time
+    </sql>
+
+    <select id="queryTournamentAdjustRangeByPlayId" resultType="com.panda.sport.rcs.pojo.tourTemplate.RcsTournamentTemplatePlayMargain">
+        SELECT   IFNULL(m.market_adjust_range,1) as marketAdjustRange,
+                IFNULL(m.odds_adjust_range,0.01) as oddsAdjustRange,
+				IFNULL(m.market_near_diff,1) as marketNearDiff,
+				IFNULL(m.market_count,3) as marketCount,
+				ifnull(m.is_special_pumping,0) as isSpecialPumping,
+                m.special_odds_interval as specialOddsInterval,
+				IFNULL(m.market_near_odds_diff,0.15) as marketNearOddsDiff,
+				ifnull(m.odds_max_value,0.3) as oddsMaxValue,
+                ifnull(m.market_max_value,3) as marketMaxValue
+        FROM  rcs_tournament_template_play_margain m
+        JOIN rcs_tournament_template t ON t.id = m.template_id AND t.type = 3
+        WHERE t.type_val = #{config.matchId,jdbcType=BIGINT}
+        AND t.match_type = #{config.matchType,jdbcType=INTEGER}
+        AND m.play_id = #{config.playId,jdbcType=BIGINT}
+        LIMIT 1
+    </select>
+
+
+    <select id="queryTemplatePlay" resultType="com.panda.sport.rcs.pojo.tourTemplate.RcsTournamentTemplatePlayMargain">
+        SELECT
+        m.*
+        FROM
+        rcs_tournament_template t
+        LEFT JOIN rcs_tournament_template_play_margain m ON t.id = m.template_id
+        LEFT JOIN rcs_tournament_template_play_margain_ref f ON ( m.id = f.margain_id AND m.valid_margin_id = f.id )
+        LEFT JOIN standard_match_info i ON i.id = t.type_val
+        WHERE
+        t.type_val =#{matchId} and m.play_id = #{categoryId}
+        AND t.type = 3 and m.is_sell = 1
+        AND ( CASE WHEN i.match_status IN ( 1, 2, 10 ) THEN t.match_type = 0 ELSE t.match_type = 1 END )
+    </select>
+
+    <select id="rcsTournamentConfig" resultType="com.panda.sport.rcs.pojo.RcsMatchMarketConfig">
+        SELECT case when #{config.marketType,jdbcType=VARCHAR} = 'EU' then t.multi_diff_val
+                    WHEN #{config.marketType,jdbcType=VARCHAR} = 'MY' AND t.odd_change_rule = 0 then t.home_single_max_amount
+                    else t.home_level_first_max_amount end homeLevelFirstMaxAmount,
+        if(t.odd_change_rule=1,t.home_level_second_max_amount,t.home_multi_max_amount) homeLevelSecondMaxAmount,
+        case when #{config.marketType,jdbcType=VARCHAR} = 'EU' THEN t.multi_odds_rate
+            WHEN #{config.marketType,jdbcType=VARCHAR} = 'MY' AND t.odd_change_rule = 0 THEN t.home_single_odds_rate
+            else t.home_level_first_odds_rate end homeLevelFirstOddsRate,
+        if(t.odd_change_rule=1,t.home_level_second_odds_rate,t.home_multi_odds_rate) homeLevelSecondOddsRate,
+        if(t.odd_change_rule=1,t.away_level_first_odds_rate,t.away_single_odds_rate) awayLevelFirstOddsRate,
+        if(t.odd_change_rule=1,t.away_level_second_odds_rate,t.away_multi_odds_rate) awayLevelSecondOddsRate,
+        IF(#{config.marketType,jdbcType=VARCHAR}='MY',t.spread_max_odds,t.margin_max_odds)	as	maxOdds,
+        IF(#{config.marketType,jdbcType=VARCHAR}='MY',t.spread_min_odds,t.margin_min_odds)	as	minOdds,
+        IF(#{config.marketType,jdbcType=VARCHAR}='MY',t.spread_balance_option,t.margin_balance_option)	as	balanceOption,
+        IF(#{config.marketType,jdbcType=VARCHAR}='MY',t.odd_change_rule,1) as oddChangeRule,
+        IF(#{config.marketType,jdbcType=VARCHAR}='MY',t.is_multiple_jump_odds,0) as isMultipleJumpOdds,
+        1 as isOpenJumpOdds
+        FROM rcs_tournament_template_jump_config t
+         WHERE t.tournament_id = #{config.tournamentId,jdbcType=BIGINT}
+         AND t.match_type = #{config.matchType,jdbcType=INTEGER}
+    </select>
+
+    <select id="getTemplatePlayMargainList" resultType="com.panda.sport.rcs.pojo.tourTemplate.RcsTournamentTemplatePlayMargain">
+         SELECT pm.* FROM `rcs_tournament_template_play_margain` pm INNER JOIN rcs_tournament_template temp on
+        temp.id = pm.template_id where pm.template_id = #{templateId,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectPlayMarginByMatchInfoReject"
+            resultType="com.panda.sport.rcs.pojo.tourTemplate.RcsTournamentTemplatePlayMargain">
+        SELECT m.odds_change_value,m.odds_change_status,m.play_id
+        FROM rcs_tournament_template_play_margain m
+                 JOIN rcs_tournament_template t ON t.id = m.template_id AND t.type = 3
+        WHERE t.type_val = #{config.matchId,jdbcType=BIGINT}
+          AND t.match_type = #{config.matchType,jdbcType=INTEGER}
+          AND m.play_id = #{config.playId,jdbcType=BIGINT} LIMIT 1
+    </select>
+
+</mapper>

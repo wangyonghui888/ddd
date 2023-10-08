@@ -1,0 +1,15 @@
+#启动配置
+spring:
+  application:
+    name: panda-rcs-risk
+  cloud:
+    nacos:
+      config:
+        server-addr: 192.168.31.111:8848
+        file-extension: properties
+        namespace: 18f7ef4a-d4ed-412a-b03a-003461502120
+  profiles:
+    active: dev
+
+spring.cloud.nacos.discovery.serverAddr: ${spring.cloud.nacos.config.server-addr}
+spring.cloud.nacos.discovery.namespace: ${spring.cloud.nacos.config.namespace}

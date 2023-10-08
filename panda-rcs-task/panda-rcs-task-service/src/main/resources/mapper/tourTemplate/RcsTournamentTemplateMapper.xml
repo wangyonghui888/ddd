@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.mapper.tourTemplate.RcsTournamentTemplateMapper">
+  <resultMap id="BaseResultMap" type="com.panda.sport.rcs.pojo.tourTemplate.RcsTournamentTemplate">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="sport_id" jdbcType="INTEGER" property="sportId" />
+      <result column="match_type" jdbcType="INTEGER" property="matchType" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="type_val" jdbcType="BIGINT" property="typeVal" />
+    <result column="match_type" jdbcType="INTEGER" property="matchType" />
+    <result column="data_source_code" jdbcType="VARCHAR" property="dataSourceCode" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, sport_id, `type`, type_val,match_type, data_source_code, <!--order_accept_event_code, template_event_id,
+    template_accept_event_id, pre_market_count, live_market_count, accept_min_time, accept_max_time,-->
+    create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from rcs_tournament_template
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from rcs_tournament_template
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <!--<insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.panda.sport.rcs.pojo.tourTemplate.RcsTournamentTemplate" useGeneratedKeys="true">
+    insert into rcs_tournament_template (sport_id, `type`, type_val,match_type,
+      data_source_code, order_accept_event_code, template_event_id,
+      template_accept_event_id, pre_market_count,
+      live_market_count, accept_min_time, accept_max_time,
+      create_time, update_time)
+    values (#{sportId,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{typeVal,jdbcType=BIGINT},#{matchType,jdbcType=INTEGER}
+      #{dataSourceCode,jdbcType=VARCHAR}, #{orderAcceptEventCode,jdbcType=VARCHAR}, #{templateEventId,jdbcType=INTEGER},
+      #{templateAcceptEventId,jdbcType=INTEGER}, #{preMarketCount,jdbcType=INTEGER},
+      #{liveMarketCount,jdbcType=INTEGER}, #{acceptMinTime,jdbcType=INTEGER}, #{acceptMaxTime,jdbcType=INTEGER},
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>-->
+  <!--<insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.panda.sport.rcs.pojo.tourTemplate.RcsTournamentTemplate" useGeneratedKeys="true">
+    insert into rcs_tournament_template
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="sportId != null">
+        sport_id,
+      </if>
+      <if test="type != null">
+        `type`,
+      </if>
+      <if test="typeVal != null">
+        type_val,
+      </if>
+      <if test="matchType != null">
+        match_type,
+      </if>
+      <if test="dataSourceCode != null">
+        data_source_code,
+      </if>
+      <if test="orderAcceptEventCode != null">
+        order_accept_event_code,
+      </if>
+      <if test="templateEventId != null">
+        template_event_id,
+      </if>
+      <if test="templateAcceptEventId != null">
+        template_accept_event_id,
+      </if>
+      <if test="preMarketCount != null">
+        pre_market_count,
+      </if>
+      <if test="liveMarketCount != null">
+        live_market_count,
+      </if>
+      <if test="acceptMinTime != null">
+        accept_min_time,
+      </if>
+      <if test="acceptMaxTime != null">
+        accept_max_time,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="sportId != null">
+        #{sportId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="typeVal != null">
+        #{typeVal,jdbcType=BIGINT},
+      </if>
+      <if test="matchType != null">
+        #{matchType,jdbcType=INTEGER},
+      </if>
+      <if test="dataSourceCode != null">
+        #{dataSourceCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderAcceptEventCode != null">
+        #{orderAcceptEventCode,jdbcType=VARCHAR},
+      </if>
+      <if test="templateEventId != null">
+        #{templateEventId,jdbcType=INTEGER},
+      </if>
+      <if test="templateAcceptEventId != null">
+        #{templateAcceptEventId,jdbcType=INTEGER},
+      </if>
+      <if test="preMarketCount != null">
+        #{preMarketCount,jdbcType=INTEGER},
+      </if>
+      <if test="liveMarketCount != null">
+        #{liveMarketCount,jdbcType=INTEGER},
+      </if>
+      <if test="acceptMinTime != null">
+        #{acceptMinTime,jdbcType=INTEGER},
+      </if>
+      <if test="acceptMaxTime != null">
+        #{acceptMaxTime,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>-->
+  <update id="updateByPrimaryKeySelective" parameterType="com.panda.sport.rcs.pojo.tourTemplate.RcsTournamentTemplate">
+    update rcs_tournament_template
+    <set>
+      <if test="sportId != null">
+        sport_id = #{sportId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        `type` = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="typeVal != null">
+        type_val = #{typeVal,jdbcType=BIGINT},
+      </if>
+      <if test="matchType != null">
+        match_type = #{matchType,jdbcType=BIGINT},
+      </if>
+      <if test="dataSourceCode != null">
+        data_source_code = #{dataSourceCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderAcceptEventCode != null">
+        order_accept_event_code = #{orderAcceptEventCode,jdbcType=VARCHAR},
+      </if>
+      <if test="templateEventId != null">
+        template_event_id = #{templateEventId,jdbcType=INTEGER},
+      </if>
+      <if test="templateAcceptEventId != null">
+        template_accept_event_id = #{templateAcceptEventId,jdbcType=INTEGER},
+      </if>
+      <if test="preMarketCount != null">
+        pre_market_count = #{preMarketCount,jdbcType=INTEGER},
+      </if>
+      <if test="liveMarketCount != null">
+        live_market_count = #{liveMarketCount,jdbcType=INTEGER},
+      </if>
+      <if test="acceptMinTime != null">
+        accept_min_time = #{acceptMinTime,jdbcType=INTEGER},
+      </if>
+      <if test="acceptMaxTime != null">
+        accept_max_time = #{acceptMaxTime,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.panda.sport.rcs.pojo.tourTemplate.RcsTournamentTemplate">
+    update rcs_tournament_template
+    set sport_id = #{sportId,jdbcType=INTEGER},
+      `type` = #{type,jdbcType=INTEGER},
+      type_val = #{typeVal,jdbcType=BIGINT},
+      `match_type` = #{matchType,jdbcType=INTEGER},
+      data_source_code = #{dataSourceCode,jdbcType=VARCHAR},
+      order_accept_event_code = #{orderAcceptEventCode,jdbcType=VARCHAR},
+      template_event_id = #{templateEventId,jdbcType=INTEGER},
+      template_accept_event_id = #{templateAcceptEventId,jdbcType=INTEGER},
+      pre_market_count = #{preMarketCount,jdbcType=INTEGER},
+      live_market_count = #{liveMarketCount,jdbcType=INTEGER},
+      accept_min_time = #{acceptMinTime,jdbcType=INTEGER},
+      accept_max_time = #{acceptMaxTime,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="menuList" resultMap="BaseResultMap">
+    select * from `rcs_tournament_template` where sport_id = #{sportId} and match_type=#{matchType} and
+        (`type`=1 and `type_val`=#{tournamentLevel,jdbcType=BIGINT}) or (`type`=2 and`type_val`=#{tournamentId,jdbcType=BIGINT})
+            order by type asc,id desc
+  </select>
+
+
+  <select id="queryByTypeAndTypeVal" resultMap="BaseResultMap">
+    select * from `rcs_tournament_template` where
+        `type`=#{type,jdbcType=INTEGER} and `type_val`=#{typeVal,jdbcType=BIGINT}
+  </select>
+
+
+
+
+  <resultMap id="SearchResultMap" type="com.panda.sport.rcs.pojo.dto.TournamentTemplateDto">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="data_source_code" jdbcType="VARCHAR" property="dataSourceCode" />
+    <result column="order_accept_event_code" jdbcType="VARCHAR" property="orderAcceptEventCode" />
+    <result column="accept_min_time" jdbcType="INTEGER" property="acceptMinTime" />
+    <result column="accept_max_time" jdbcType="INTEGER" property="acceptMaxTime" />
+    <collection property="acceptEventList" ofType="com.panda.sport.rcs.pojo.dto.TournamentTemplateAcceptEventDto">
+      <result column="event_code" jdbcType="VARCHAR" property="eventCode" />
+      <result column="event_desc" jdbcType="VARCHAR" property="eventDesc" />
+      <result column="delay_time" jdbcType="INTEGER" property="delayTime" />
+      <result column="status" jdbcType="INTEGER" property="status" />
+    </collection>
+  </resultMap>
+
+
+  <select id="queryByTournamentId" resultMap="SearchResultMap">
+    SELECT
+        t.id,
+        t.data_source_code,
+        t.order_accept_event_code,
+        t.accept_min_time,
+        t.accept_max_time,
+        e.event_code,
+        e.event_desc,
+        e.delay_time,
+        e.status
+    FROM
+        rcs_tournament_template AS t
+    LEFT JOIN rcs_tournament_template_accept_event AS e ON t.id = e.template_id
+    WHERE t.type=2 and t.type_val=#{tournamentId} and sport_id=#{sportId} and t.match_type=#{matchType}
+  </select>
+
+
+  <select id="queryByTournamentLevel" resultMap="SearchResultMap">
+    SELECT
+        t.id,
+        t.data_source_code,
+        t.order_accept_event_code,
+        t.accept_min_time,
+        t.accept_max_time,
+        e.event_code,
+        e.event_desc,
+        e.delay_time,
+        e.status
+    FROM
+        rcs_tournament_template AS t
+    LEFT JOIN rcs_tournament_template_accept_event AS e ON t.id = e.template_id
+     where t.type=1 and t.type_val=#{tournamentLevel} and sport_id=#{sportId}  and t.match_type=#{matchType}
+  </select>
+
+    <select id="selectRcsTournamentTemplateMarketWarnByLive" resultType="com.panda.sport.rcs.pojo.dto.TournamentTemplateMarginDto">
+                SELECT
+            r.order_single_pay_val,
+            m.market_warn
+        FROM
+            rcs_tournament_template t
+            LEFT JOIN rcs_tournament_template_play_margain m ON t.id = m.template_id
+            LEFT JOIN rcs_tournament_template_play_margain_ref r ON m.id = r.margain_id
+        WHERE
+            t.match_type = #{matchType}
+            AND t.type = #{type}
+            AND t.type_val = #{typeVal}
+            AND m.play_id = #{playId}
+            AND r.time_val &lt;= #{timeVal}
+            ORDER BY r.time_val DESC
+            LIMIT 1
+    </select>
+
+    <select id="selectRcsTournamentTemplateMarketWarn" resultType="com.panda.sport.rcs.pojo.dto.TournamentTemplateMarginDto">
+                SELECT
+            r.order_single_pay_val,
+            m.market_warn
+        FROM
+            rcs_tournament_template t
+            LEFT JOIN rcs_tournament_template_play_margain m ON t.id = m.template_id
+            LEFT JOIN rcs_tournament_template_play_margain_ref r ON m.id = r.margain_id
+        WHERE
+            t.match_type = #{matchType}
+            AND t.type = #{type}
+            AND t.type_val = #{typeVal}
+            AND m.play_id = #{playId}
+            AND r.time_val &gt;=#{timeVal}
+            ORDER BY r.time_val
+            LIMIT 1
+    </select>
+
+    <select id="selectRcsTournamentTemplateMarket" resultType="com.panda.sport.rcs.pojo.dto.TournamentTemplateMarginDto">
+        SELECT
+            c.max_single_bet_amount,
+            m.market_warn
+        FROM
+            rcs_match_market_config c
+            LEFT JOIN rcs_tournament_template t ON c.match_id = t.type_val
+            LEFT JOIN rcs_tournament_template_play_margain m ON t.id = m.template_id  AND m.play_id=c.play_id
+        WHERE
+             c.match_id = #{typeVal}
+            AND c.market_index = #{marketIndex}
+            AND c.play_id =#{playId}
+            AND t.match_type = #{matchType}
+            AND t.type = #{type}
+    </select>
+    <select id="selectRcsTournamentTemplateMarketSub" resultType="com.panda.sport.rcs.pojo.dto.TournamentTemplateMarginDto">
+        SELECT
+            c.max_single_bet_amount,
+            m.market_warn
+        FROM
+            rcs_match_market_config_sub c
+            LEFT JOIN rcs_tournament_template t ON c.match_id = t.type_val
+            LEFT JOIN rcs_tournament_template_play_margain m ON t.id = m.template_id  AND m.play_id=c.play_id
+        WHERE
+             c.match_id = #{typeVal}
+            AND c.market_index = #{marketIndex}
+            AND c.play_id =#{playId}
+            AND t.match_type = #{matchType}
+            AND t.type = #{type}
+        ORDER BY c.create_time DESC
+        LIMIT 1
+    </select>
+    <select id="selectSubPlayChuZhangConfig" resultType="com.panda.sport.rcs.pojo.dto.TournamentTemplateMarginDto">
+        SELECT
+            c.max_single_bet_amount,
+            m.market_warn
+        FROM
+            rcs_match_market_config_sub c
+            LEFT JOIN rcs_tournament_template t ON c.match_id = t.type_val
+            LEFT JOIN rcs_tournament_template_play_margain m ON t.id = m.template_id
+            AND m.play_id = c.play_id
+        WHERE
+            c.match_id = #{matchId}
+            AND c.play_id = #{playId}
+            AND c.sub_play_id = #{subPlayId}
+            AND c.market_index = #{placeNum}
+            AND t.match_type = #{matchType}
+            AND t.type = 3
+    </select>
+</mapper>

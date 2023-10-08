@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: htmlhead" th:with="title='操盘记录'"></head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <!--头-->
+    <div th:replace="fragments/head :: header"></div>
+
+    <div class="layui-body" style="margin: 1%">
+        <form id="userSearch1" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width:200px;">Reids key</label>
+                <div class="layui-input-inline">
+                    <input id="time1" name="time1" autocompletetime1="off" class="layui-input" type="text" style="width:200px;"/>
+                </div>
+                <button type="button" class="layui-btn layui-btn-primary" onclick="sRedisKeyTrade(1)">提交</button>
+                <hr class="layui-bg-gray"/>
+<!--                <label class="layui-form-label" style="width:200px;">Reids keys *</label>
+                <div class="layui-input-inline">
+                    <input id="time2" name="time2" autocompletetime1="off" class="layui-input" type="text" style="width:200px;"/>
+                </div>
+                <button type="button" class="layui-btn layui-btn-primary" onclick="sRedisKey(2)">提交</button>
+                <hr class="layui-bg-gray"/>-->
+                <label class="layui-form-label" style="width:200px;">Reids HashKey</label>
+                <div class="layui-input-inline">
+                    <input id="time3" name="time3" autocompletetime1="off" class="layui-input" type="text" style="width:200px;"/>
+                </div>
+                <div class="layui-input-inline">
+                    <input id="time4" name="time4" autocompletetime1="off" class="layui-input" type="text" style="width:200px;"/>
+                </div>
+                <button type="button" class="layui-btn layui-btn-primary" onclick="sRedisKeyTrade(3)">提交</button>
+            </div>
+        </form>
+        <!--<hr class="layui-bg-blue"/>-->
+        <hr class="layui-bg-gray"/>
+        <div class="layui-form-item">
+            <div class="layui-input-inline">
+                <!--<input id="time10" name="time10" autocomplete="off" class="layui-input" style="width: 1500px; height:900px;" type="text"/>-->
+                        <textarea id="time10" name="time10" style="width: 1600px; height:600px;"></textarea>
+            </div>
+        </div>
+    </div>
+
+    <!--底部-->
+    <div th:replace="fragments/footer :: footer"></div>
+    <script src="/js/dateUtils.js"></script>
+    <script src="/js/matchFlowing/redis.js"></script>
+
+</div>
+</body>
+</html>

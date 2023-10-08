@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: htmlhead" th:with="title='操盘记录'"></head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <!--头-->
+    <div th:replace="fragments/head :: header"></div>
+
+    <div class="layui-body" style="margin: 1%">
+
+        <el-main class="app-main">
+            <el-card>
+                <el-divider content-position="left"><h3>JVM基础数据</h3></el-divider>
+                <ul style="line-height: 26px;">
+                    <li><b>主机：</b>{{data.host}}</li>
+                    <li><b>JVM：</b>{{data.jvm}}</li>
+                    <li><b>JDK路径：</b>{{data.home}}</li>
+                    <li><b>JVM启动时间：</b>{{dateFormat(data.startTime)}}</li>
+                    <li><b>参数：</b>
+                        <div v-for="arg in data.args">&nbsp;&nbsp;&nbsp;&nbsp;{{arg}}</div>
+                    </li>
+                </ul>
+                <br/>
+                <el-divider content-position="left"><h3>JVM详细数据</h3></el-divider>
+                <!-- 列表 -->
+                <el-table :data="data.properties" size="small" v-loading="loading" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" border fit highlight-current-row>
+                    <el-table-column prop="key" label="参数名称" width="280"></el-table-column>
+                    <el-table-column label="参数值">
+                        <template slot-scope="scope">
+                            <span v-html="strFormat(scope.row.value)"></span>
+                        </template>
+                    </el-table-column>
+                </el-table>
+                <br/>
+            </el-card>
+        </el-main>
+    </div>
+
+    <!--底部-->
+    <div th:replace="fragments/footer :: footer"></div>
+    <script src="/js/dateUtils.js"></script>
+</div>
+<div th:replace="common/js"></div>
+<script data-th-src="@{/lib/highchart/highcharts.js}"></script>
+<script data-th-src="@{/lib/highchart/exporting.js}"></script>
+<script data-th-src="@{/lib/highchart/highcharts-zh_CN.js}"></script>
+<script type="text/javascript" th:src="@{/js/jvm/overview.js}"></script>
+</body>
+</html>

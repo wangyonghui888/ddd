@@ -1,0 +1,2 @@
+dubboLogFilter=com.panda.sport.rcs.log.DubboLogFilter
+dubboConsumerLogFilter=com.panda.sport.rcs.log.DubboConsumerLogFilter

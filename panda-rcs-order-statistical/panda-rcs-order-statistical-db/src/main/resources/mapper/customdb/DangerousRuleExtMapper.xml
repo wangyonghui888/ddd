@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.customdb.mapper.DangerousRuleExtMapper">
+
+    <resultMap id="getEventNumResultMap" type="java.lang.Long"></resultMap>
+    <resultMap id="getOrderRiskStatusResultMap" type="java.lang.Integer"></resultMap>
+    <resultMap id="getBasketballResultMap" type="com.panda.sport.rcs.common.vo.rule.DangerousR4Vo"></resultMap>
+    <resultMap id="getOrderResultMap" type="com.panda.sport.rcs.common.vo.rule.OrderDetailVo"></resultMap>
+
+
+    <!--注单（无论是否投注成功）投注时间之后的5秒内（参数1）发生了xxxx事件-->
+    <select id="getEventNum" resultMap="getEventNumResultMap">
+        SELECT count(*) FROM tybss_new.s_match_event_info
+        WHERE standard_match_id = #{matchId}
+        AND event_time &gt;= #{beginTime}
+        AND event_time &lt;= #{endTime}
+        AND event_code IN(${eventCodes})
+    </select>
+
+    <!--风控拒单 查询注单状态 是否是风控拒单-->
+    <select id="getOrderRiskStatus" resultMap="getOrderRiskStatusResultMap">
+        SELECT order_status FROM tybss_merchant_common.t_order
+        WHERE order_no = #{orderNo}
+    </select>
+
+    <!--篮球投注时，在同一赛事相同玩法的不同盘口之间交叉下注（无论是否投注成功），相应注单标记为篮球打洞 -->
+    <select id="getBasketball" resultMap="getBasketballResultMap">
+        SELECT play_id ,COUNT(*) marketNum    FROM
+        (
+            SELECT DISTINCT  d.play_id ,d.market_id  FROM tybss_merchant_common.t_order_detail d inner join tybss_merchant_common.t_order o  on d.order_no = o.order_no
+            WHERE d.play_id IN(2,10,11,18,26,38,45,51,57,63,87,88,97,98,145,146 )
+            AND d.match_id = #{matchId}
+            AND d.play_id = #{playId}
+            AND d.uid =#{userId}
+            AND d.sport_id = 2
+            and o.series_type=1
+        ) t
+        GROUP BY play_id
+        having marketNum >1
+    </select>
+
+    <!--打水投注1.单账户的同投注项的两笔或多笔注单，间隔时间少于2秒（参数1)-->
+    <select id="getOrderByPlayOptions" resultMap="getOrderResultMap">
+        SELECT d.* FROM  tybss_merchant_common.t_order_detail d inner join tybss_merchant_common.t_order o  on d.order_no = o.order_no
+        WHERE d.match_id =#{matchId}
+        AND  d.play_id =#{playId}
+        AND d.play_options_id = #{playOptionsId}
+        AND d.uid =#{userId}
+        and o.series_type=1
+    </select>
+
+    <!--打水投注3.同一赛事注单达到参数3笔，且至少参数3笔注单的下注时间间隔相似（差异在参数4秒内），-->
+    <select id="getOrderByMatchId" resultMap="getOrderResultMap">
+        SELECT d.* FROM  tybss_merchant_common.t_order_detail d inner join tybss_merchant_common.t_order o  on d.order_no = o.order_no
+        WHERE d.match_id =#{matchId}
+        AND d.uid =#{userId}
+        and o.series_type=1
+    </select>
+
+    <!--打水投注3.同一赛事注单达到参数3笔，且至少参数3笔注单的下注时间间隔相似（差异在参数4秒内），-->
+    <select id="getOrderByBetTime" resultMap="getOrderResultMap">
+        SELECT * FROM tybss_merchant_common.t_order_detail d inner join tybss_merchant_common.t_order o  on d.order_no = o.order_no
+        where d.create_time &gt;= #{beginTime}
+        and d.create_time &lt; #{endTime}
+        and o.series_type=1
+    </select>
+</mapper>
+        

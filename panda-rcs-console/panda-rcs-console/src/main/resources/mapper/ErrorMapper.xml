@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.console.dao.ErrorMapper">
+
+    <sql id="querySQL">
+        <where>
+            <if test="bean.ip != null and bean.ip != ''">
+                and h.ip = #{bean.ip,jdbcType=VARCHAR}
+            </if>
+            <if test="bean.pid != null and bean.pid != ''">
+                AND h.pid = #{bean.pid,jdbcType=VARCHAR}
+            </if>
+            <if test="bean.serverName != null and bean.serverName != ''">
+                AND h.server_name = #{bean.serverName,jdbcType=VARCHAR}
+            </if>
+            <if test="bean.startTime != null and bean.startTime != ''">
+                AND h.`current_time` &gt;= (unix_timestamp(#{bean.startTime,jdbcType=VARCHAR}) * 1000)
+            </if>
+            <if test="bean.endTime != null and bean.endTime != ''">
+                AND h.`current_time` &lt; (unix_timestamp(#{bean.endTime,jdbcType=VARCHAR}) * 1000)
+            </if>
+        </where>
+    </sql>
+
+    <select id="errorList" resultType="com.panda.sport.rcs.console.pojo.ErrorMqBean">
+        SELECT  h.ip as ip,
+                h.pid as pid,
+                h.server_name as serverName,
+                h.`current_time` as currentDate,
+                h.log_content as logContent
+        FROM rcs_monitor_error_log h
+        <include refid="querySQL"></include>
+        ORDER BY h.`current_time` DESC
+    </select>
+
+    <select id="errorListCount" resultType="long">
+        SELECT  count(1)
+        FROM rcs_monitor_error_log h
+        <include refid="querySQL"></include>
+    </select>
+
+    <insert id="saveThreadInfo">
+        INSERT INTO rcs_monitor_thread(
+                        ip,
+                        pid,
+                        sever_name,
+                        `current_time`,
+                        `daemon_count`,
+                        `count`,total_started_thread_count,create_time)
+        VALUES(
+            #{bean.ip,jdbcType=VARCHAR},
+            #{bean.pid,jdbcType=VARCHAR},
+            #{bean.severName,jdbcType=VARCHAR},
+            #{bean.currentTime},
+            #{bean.daemonCount},
+            #{bean.count},
+            #{bean.totalStartedThreadCount},
+            #{bean.createTime}
+        )
+    </insert>
+    
+    <insert id="saveError">
+        INSERT INTO rcs_monitor_error_log(
+                        ip,
+                        pid,
+                        server_name,
+                        created_time,
+                        `current_time`,
+                        log_content)
+        VALUES(
+            #{bean.ip,jdbcType=VARCHAR},
+            #{bean.pid,jdbcType=VARCHAR},
+            #{bean.serverName,jdbcType=VARCHAR},
+            now(),
+            #{bean.currentDate},
+            #{bean.logContent,jdbcType=VARCHAR}
+        )
+    </insert>
+    
+    <insert id="saveMqInfo" parameterType="Map">
+		insert into rcs_monitor_mq_info(ip,pid,server_name,group_name,version_id,topic,diff)
+		value(#{ip},#{pid},#{server_name},#{group_name},#{version_id},#{topic},#{diff})
+    </insert>
+</mapper>

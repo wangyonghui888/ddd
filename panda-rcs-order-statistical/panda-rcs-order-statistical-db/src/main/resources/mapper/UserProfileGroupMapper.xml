@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.db.mapper.UserProfileGroupMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.panda.sport.rcs.db.entity.UserProfileGroup">
+        <id column="id" property="id" />
+        <result column="group_name" property="groupName" />
+        <result column="remake" property="remake" />
+        <result column="modify_user" property="modifyUser" />
+        <result column="modify_time" property="modifyTime" />
+    </resultMap>
+
+    <!--查询玩家组-->
+    <select id="queryUserGroups" resultType="com.panda.sport.rcs.common.vo.api.response.ListByGroupAndUserNumResVo">
+        SELECT
+            g.id as id,
+            g.group_name as groupName,
+            (select count(1) from user_profile_group_user_relation r where g.id = r.group_id) as userNum,
+            g.modify_user as modifyUser,
+            g.modify_time as modifyTime,
+            g.remake as remark
+        FROM
+            user_profile_group g
+        WHERE 1=1
+        <if test="vo.id != null">
+            AND g.group_name like concat('%' , #{vo.id} , '%') or g.id like concat('%' , #{vo.id} , '%') or g.modify_user like concat('%' , #{vo.id} , '%')
+        </if>
+
+        <if test="vo.sortName == 'userNum'">
+            ORDER By userNum
+        </if>
+        <if test="vo.sortName == 'modifyUser'">
+            ORDER By modifyUser
+        </if>
+        <if test="vo.sortName == 'modifyTime'">
+            ORDER By modifyTime
+        </if>
+
+        <if test="vo.sortType == 1">
+            ASC
+        </if>
+        <if test="vo.sortType == 2">
+            DESC
+        </if>
+
+        <if test="vo.sortName == null">
+            order by g.id desc
+        </if>
+
+    </select>
+
+    <select id="queryUserLevelInfo" resultType="com.panda.sport.rcs.common.vo.api.response.ListByUserResVo">
+        select
+        l.uid as uid,
+        l.sport_json as sportJson,
+        l.tournament_json as tournamentJson,
+        l.order_type_json as orderTypeJson,
+        l.play_json as playJson,
+        l.order_stage_json as orderStageJson
+        from tybss_merchant_common.t_user_level_relation l
+        where 1=1
+        <if test="userList != null and userList.size() > 0">
+            and l.uid in
+            <foreach item="item" index="index" collection="userList" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+
+
+    <select id="queryGroupInfo" resultType="com.panda.sport.rcs.common.vo.api.response.ListByUserResVo">
+        select
+            t.user_id as uid,
+            g.id as groupId,
+            g.group_name as groupName
+        from user_profile_group_user_relation t
+        left join user_profile_group g on g.id = t.group_id
+        where 1=1
+        <if test="userList != null and userList.size() > 0">
+            and t.user_id in
+            <foreach item="item" index="index" collection="userList" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+
+    <!--查询用户列表-->
+    <select id="queryUsers" resultType="com.panda.sport.rcs.common.vo.api.response.ListByUserResVo">
+        SELECT
+            u.uid as uid,
+            u.username as username,
+            fake_name as fakeName,
+            u.user_level as tagId,
+            u.merchant_code as merchantCode,
+            u.profit as profit,
+            u.profit / u.bet_amount as rate,
+            u.seven_day_profit_amount as sevenDayAmount
+        FROM
+            tybss_merchant_common.t_user u
+        <if test="userListReqVo.ip != null or userListReqVo.ipTagId != null">
+        LEFT JOIN risk_order_tag_ip tip on u.uid = tip.user_id
+        LEFT JOIN risk_order_statistics_by_ip ip on tip.ip = ip.ip
+        </if>
+        WHERE 1=1
+        <if test="userListReqVo.id != null and userListReqVo.id.length > 0">
+            AND u.uid in
+            <foreach item="item" index="index" collection="userListReqVo.id" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="userListReqVo.tagId != null and userListReqVo.tagId.length > 0">
+            AND u.user_level in
+            <foreach item="item" index="index" collection="userListReqVo.tagId" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="userListReqVo.ip != null and userListReqVo.ip.length > 0">
+            AND ip.ip in
+            <foreach item="item" index="index" collection="userListReqVo.ip" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="userListReqVo.ipTagId != null and userListReqVo.ipTagId.length > 0">
+            AND ip.tag_id in
+            <foreach item="item" index="index" collection="userListReqVo.ipTagId" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="userListReqVo.ip != null or userListReqVo.ipTagId != null">
+        GROUP BY u.uid
+        </if>
+    </select>
+
+    <!--根据玩家组ID查询用户列表-->
+    <select id="queryUsersByGroupId" resultType="com.panda.sport.rcs.common.vo.api.response.ListByUserByGroupIdResVo">
+        SELECT
+            gr.id as id,
+            u.username as username,
+            fake_name as fakeName,
+            u.uid as uid,
+            u.user_level as tagId,
+            u.merchant_code as merchantCode,
+            ifnull(u.profit,0) as profit,
+            ifnull(u.profit,0) / ifnull(u.bet_amount,1) as rate,
+            ifnull(u.seven_day_profit_amount,0) as sevenDayAmount,
+			lr.sport_json as sportJson,
+            lr.tournament_json as tournamentJson,
+            lr.order_type_json as orderTypeJson,
+            lr.play_json as playJson,
+            lr.order_stage_json as orderStageJson
+        FROM
+            tybss_merchant_common.t_user u
+            LEFT JOIN user_profile_group_user_relation gr ON u.uid = gr.user_id
+			LEFT JOIN tybss_merchant_common.t_user_level_relation lr on lr.uid = u.uid
+        WHERE gr.group_id = #{groupId}
+        GROUP BY gr.id
+    </select>
+
+</mapper>

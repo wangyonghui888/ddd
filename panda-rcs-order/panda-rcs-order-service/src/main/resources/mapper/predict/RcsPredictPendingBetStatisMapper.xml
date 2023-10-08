@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.mapper.predict.pending.RcsPredictPendingBetStatisMapper">
+
+
+    <select id="selectBetForMarket" resultType="com.panda.sport.rcs.pojo.vo.api.response.BetForMarketResVo">
+        SELECT
+        a.market_id AS id,
+        a.market_id AS marketId,
+        a.bet_score AS betScore,
+        a.match_type AS matchType,
+        a.market_value_complete AS marketValueComplete,
+        a.market_value_current AS marketValueCurrent,
+        ifnull( b.bet_amount, 0 ) AS homeBetAmount,
+        IFNULL( b.bet_amount_pay, 0 ) AS homeBetAmountPay,
+        IFNULL( b.bet_amount_complex, 0 ) AS homeBetAmountComplex,
+        IFNULL( c.bet_amount, 0 ) AS awayBetAmount,
+        IFNULL( c.bet_amount_pay, 0 ) AS awayBetAmountPay,
+        IFNULL( c.bet_amount_complex, 0 ) AS awayBetAmountComplex,
+        ifnull( b.bet_amount, 0 ) - ifnull( c.bet_amount, 0 ) AS betAmountEquilibriumValue,
+        ifnull( b.bet_amount_pay, 0 ) - ifnull( c.bet_amount_pay, 0 ) AS betAmountPayEquilibriumValue,
+        ifnull( b.bet_amount_complex, 0 ) - ifnull( c.bet_amount_complex, 0 ) AS betAmountComplexEquilibriumValue
+        FROM
+        (
+        SELECT
+        market_id,
+        bet_score,
+        match_type,
+        market_value_complete,
+        market_value_current
+        FROM
+        rcs_predict_pending_bet_statis t
+        WHERE
+        sport_id = #{sportId}
+        AND t.match_id = #{matchId}
+        AND t.play_id = #{playId}
+        <if test="matchType != null">
+            AND match_type = #{matchType}
+        </if>
+        GROUP BY
+        market_id,
+        bet_score,
+        match_type,
+        market_value_complete,
+        market_value_current
+        ) a
+        LEFT JOIN ( SELECT * FROM rcs_predict_pending_bet_statis WHERE odds_item = #{oddsItemForHome}
+        <if test="matchType != null">
+            AND match_type = #{matchType}
+        </if>
+        ) b ON a.market_id = b.market_id
+        AND a.bet_score = b.bet_score
+        LEFT JOIN ( SELECT * FROM rcs_predict_pending_bet_statis WHERE odds_item = #{oddsItemForAway}
+        <if test="matchType != null">
+            AND match_type = #{matchType}
+        </if>
+        ) c ON a.market_id = c.market_id
+        AND a.bet_score = c.bet_score
+    </select>
+
+
+</mapper>

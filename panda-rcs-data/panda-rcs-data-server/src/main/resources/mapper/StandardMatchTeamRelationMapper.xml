@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.data.mapper.StandardMatchTeamRelationMapper">
+  <resultMap id="BaseResultMap" type="com.panda.sport.rcs.pojo.StandardMatchTeamRelation">
+    <!--@mbg.generated-->
+    <!--@Table standard_match_team_relation-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="standard_team_id" jdbcType="BIGINT" property="standardTeamId" />
+    <result column="team_name" jdbcType="VARCHAR" property="teamName" />
+    <result column="standard_match_id" jdbcType="BIGINT" property="standardMatchId" />
+    <result column="match_position" jdbcType="VARCHAR" property="matchPosition" />
+    <result column="display_order" jdbcType="TINYINT" property="displayOrder" />
+    <result column="team_name_record" jdbcType="VARCHAR" property="teamNameRecord" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="modify_time" jdbcType="INTEGER" property="modifyTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, standard_team_id, team_name, standard_match_id, match_position, display_order, 
+    team_name_record, remark, create_time, modify_time
+  </sql>
+
+  <select id="selectMatchPosition" parameterType="java.lang.Long" resultType="java.lang.String">
+    <!--@mbg.generated-->
+      SELECT
+      d.match_position
+      FROM
+      standard_sport_odds_fields_templet ae
+
+      LEFT JOIN standard_sport_market_odds a ON ae.id = a.odds_fields_templet_id
+      LEFT JOIN standard_sport_market b ON a.market_id = b.id
+      LEFT JOIN standard_match_info c ON b.standard_match_info_id = c.id
+      LEFT JOIN standard_match_team_relation d ON c.id = d.standard_match_id
+
+      WHERE ae.addition1=d.standard_team_id and ae.id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update standard_match_team_relation
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="standard_team_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.standardTeamId,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="team_name = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.teamName,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="standard_match_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.standardMatchId,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="match_position = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.matchPosition,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="display_order = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.displayOrder,jdbcType=TINYINT}
+        </foreach>
+      </trim>
+      <trim prefix="team_name_record = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.teamNameRecord,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="remark = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.remark,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="create_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.createTime,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="modify_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.modifyTime,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id,jdbcType=BIGINT}
+    </foreach>
+  </update>
+  <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into standard_match_team_relation
+    (id,standard_team_id, team_name, standard_match_id, match_position, display_order, team_name_record,
+      remark, create_time, modify_time)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.id,jdbcType=BIGINT},#{item.standardTeamId,jdbcType=BIGINT}, #{item.teamName,jdbcType=VARCHAR}, #{item.standardMatchId,jdbcType=BIGINT},
+        #{item.matchPosition,jdbcType=VARCHAR}, #{item.displayOrder,jdbcType=TINYINT}, 
+        #{item.teamNameRecord,jdbcType=VARCHAR}, #{item.remark,jdbcType=VARCHAR}, now(),now())
+    </foreach>
+  </insert>
+
+
+    <insert id="batchInsertOrUpdate" keyColumn="id" keyProperty="id"
+            parameterType="com.panda.sport.rcs.pojo.StandardMatchTeamRelation" useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into standard_match_team_relation
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            standard_team_id,
+            team_name,
+            standard_match_id,
+            match_position,
+            display_order,
+            team_name_record,
+            remark,
+            create_time,
+            modify_time,
+        </trim>
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.standardTeamId,jdbcType=BIGINT}, #{item.teamName,jdbcType=VARCHAR},
+            #{item.standardMatchId,jdbcType=BIGINT},
+            #{item.matchPosition,jdbcType=VARCHAR}, #{item.displayOrder,jdbcType=TINYINT},
+            #{item.teamNameRecord,jdbcType=VARCHAR}, #{item.remark,jdbcType=VARCHAR},
+            #{item.createTime,jdbcType=BIGINT},#{item.modifyTime,jdbcType=BIGINT})
+        </foreach>
+        on duplicate key update
+        <trim suffixOverrides=",">
+            standard_team_id = values (standard_team_id),
+            team_name = values (team_name),
+            standard_match_id = values (standard_match_id),
+            match_position = values (match_position),
+            display_order = values (display_order),
+            team_name_record = values (team_name_record),
+            remark = values (remark),
+            modify_time = UNIX_TIMESTAMP()*1000,
+        </trim>
+    </insert>
+</mapper>

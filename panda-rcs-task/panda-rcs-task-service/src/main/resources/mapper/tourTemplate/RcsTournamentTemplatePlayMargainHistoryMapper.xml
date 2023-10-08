@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.mapper.tourTemplate.RcsTournamentTemplatePlayMargainHistoryMapper">
+
+    <insert id="insertOrUpdateBatch" keyColumn="id" keyProperty="id" parameterType="list" useGeneratedKeys="true">
+        insert into rcs_tournament_template_play_margain_history (id,template_id,play_id,
+        match_type,market_type,is_sell,market_count,auto_open_market,auto_open_time,auto_close_market,match_progress_time,injury_time,market_warn,is_series,
+        vice_market_ratio,market_near_diff,market_near_odds_diff,odds_adjust_range,market_adjust_range,valid_margin_id,create_time,update_time,pending_order_status)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.id,jdbcType=BIGINT},#{item.templateId,jdbcType=BIGINT},#{item.playId,jdbcType=INTEGER},#{item.matchType,jdbcType=INTEGER},#{item.marketType,jdbcType=INTEGER},#{item.isSell,jdbcType=INTEGER},
+            #{item.marketCount,jdbcType=INTEGER},#{item.autoOpenMarket},#{item.autoOpenTime},#{item.autoCloseMarket,jdbcType=INTEGER},#{item.matchProgressTime,jdbcType=INTEGER},
+            #{item.injuryTime,jdbcType=INTEGER},#{item.marketWarn,jdbcType=INTEGER},#{item.isSeries,jdbcType=INTEGER},#{item.viceMarketRatio,jdbcType=VARCHAR},
+            #{item.marketNearDiff,jdbcType=DECIMAL},#{item.marketNearOddsDiff,jdbcType=DECIMAL},#{item.oddsAdjustRange,jdbcType=DECIMAL},#{item.marketAdjustRange,jdbcType=DECIMAL},#{item.validMarginId},#{item.createTime},#{item.updateTime},#{item.pendingOrderStatus})
+        </foreach>
+    </insert>
+
+</mapper>

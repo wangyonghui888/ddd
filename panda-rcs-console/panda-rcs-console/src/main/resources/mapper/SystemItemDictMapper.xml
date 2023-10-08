@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.console.dao.SystemItemDictMapper">
+
+  <resultMap id="BaseResultMap" type="com.panda.sport.rcs.console.pojo.SystemItemDict">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="parent_type_id" jdbcType="BIGINT" property="parentTypeId" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="value" jdbcType="VARCHAR" property="value" />
+    <result column="active" jdbcType="INTEGER" property="active" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="addition1" jdbcType="VARCHAR" property="addition1" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="modify_time" jdbcType="BIGINT" property="modifyTime" />
+  </resultMap>
+
+  <select id="selectSystemItemDictList" resultMap="BaseResultMap">
+    SELECT id, parent_type_id, code, value, active, description, addition1, remark, create_time, modify_time
+    FROM system_item_dict
+    <where>
+        <if test="systemItemDict.id != null">
+            AND id = #{systemItemDict.id}
+        </if>
+        <if test="systemItemDict.parentTypeId != null">
+            AND parent_type_id = #{systemItemDict.parentTypeId}
+        </if>
+        <if test="systemItemDict.code != null and systemItemDict.code != ''">
+            AND code = #{systemItemDict.code}
+        </if>
+        <if test="systemItemDict.value != null and systemItemDict.value != ''">
+            AND `value` = #{systemItemDict.value}
+        </if>
+        <if test="systemItemDict.active != null">
+             AND active = #{systemItemDict.active}
+        </if>
+        <if test="systemItemDict.description != null and systemItemDict.description != ''">
+             AND description LIKE CONCAT('%',#{systemItemDict.description},'%')
+        </if>
+        <if test="systemItemDict.addition1 != null and systemItemDict.addition1 != ''">
+            AND addition1 LIKE CONCAT('%',#{systemItemDict.addition1},'%')
+        </if>
+        <if test="systemItemDict.remark != null and systemItemDict.remark != ''">
+            AND remark LIKE CONCAT('%',#{systemItemDict.remark},'%')
+        </if>
+        <if test="systemItemDict.createTimeStart != null">
+            AND create_time &gt;= #{systemItemDict.createTimeStart}
+        </if>
+        <if test="systemItemDict.createTimeEnd != null">
+            AND create_time &lt;= #{systemItemDict.createTimeEnd}
+        </if>
+        <if test="systemItemDict.modifyTimeStart != null">
+            AND modify_time &gt;= #{systemItemDict.modifyTimeStart}
+        </if>
+        <if test="systemItemDict.modifyTimeEnd != null">
+            AND modify_time &lt;= #{systemItemDict.modifyTimeEnd}
+        </if>
+    </where>
+  </select>
+
+  <select id="selectSystemItemDictById" resultMap="BaseResultMap">
+      SELECT id, parent_type_id, code, value, active, description, addition1, remark, create_time, modify_time
+      FROM system_item_dict
+      WHERE id = #{id}
+  </select>
+
+  <insert id="insertSystemItemDict">
+    INSERT INTO system_item_dict
+        (parent_type_id, code, value, active, description, addition1, remark, create_time, modify_time)
+    VALUES
+        (#{parentTypeId}, #{code}, #{value}, #{active}, #{description}, #{addition1}, #{remark}, #{createTime}, #{modifyTime})
+  </insert>
+
+  <update id="updateSystemItemDictById">
+      UPDATE system_item_dict
+      <set>
+          <if test="parentTypeId != null">
+              parent_type_id = #{parentTypeId},
+          </if>
+          <if test="code != null and code != ''">
+              code = #{code},
+          </if>
+          <if test="value != null and value != ''">
+              value = #{value},
+          </if>
+          <if test="active != null">
+              active = #{active},
+          </if>
+          <if test="description != null and description != ''">
+              description = #{description},
+          </if>
+          <if test="addition1 != null and addition1 != ''">
+              addition1 = #{addition1},
+          </if>
+          <if test="remark != null and remark != ''">
+              remark = #{remark},
+          </if>
+          modify_time = now()
+      </set>
+      WHERE id = #{id}
+  </update>
+
+  <delete id="deleteSystemItemDictById">
+    DELETE FROM system_item_dict WHERE id = #{dictId}
+  </delete>
+</mapper>

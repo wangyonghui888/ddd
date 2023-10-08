@@ -1,0 +1,1 @@
+hystrix=com.panda.sport.rcs.core.hystrix.HystrixFilter

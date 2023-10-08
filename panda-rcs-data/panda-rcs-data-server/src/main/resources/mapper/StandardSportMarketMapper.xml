@@ -1,0 +1,622 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.data.mapper.StandardSportMarketMapper">
+  <resultMap id="BaseResultMap" type="com.panda.sport.rcs.pojo.StandardSportMarket">
+    <!--@mbg.generated-->
+    <!--@Table standard_sport_market-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="sport_id" jdbcType="BIGINT" property="sportId" />
+    <result column="standard_tournament_id" jdbcType="BIGINT" property="standardTournamentId" />
+    <result column="standard_match_info_id" jdbcType="BIGINT" property="standardMatchInfoId" />
+    <result column="market_category_id" jdbcType="BIGINT" property="marketCategoryId" />
+    <result column="market_type" jdbcType="TINYINT" property="marketType" />
+    <result column="odds_value" jdbcType="VARCHAR" property="oddsValue" />
+    <result column="odds_name" jdbcType="VARCHAR" property="oddsName" />
+    <result column="name_code" jdbcType="BIGINT" property="nameCode" />
+    <result column="order_type" jdbcType="VARCHAR" property="orderType" />
+    <result column="addition1" jdbcType="VARCHAR" property="addition1" />
+    <result column="addition2" jdbcType="VARCHAR" property="addition2" />
+    <result column="addition3" jdbcType="VARCHAR" property="addition3" />
+    <result column="addition4" jdbcType="VARCHAR" property="addition4" />
+    <result column="addition5" jdbcType="VARCHAR" property="addition5" />
+    <result column="data_source_code" jdbcType="VARCHAR" property="dataSourceCode" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="scope_id" jdbcType="BIGINT" property="scopeId" />
+    <result column="manager_confirm_prize" jdbcType="TINYINT" property="managerConfirmPrize" />
+    <result column="third_market_source_id" jdbcType="VARCHAR" property="thirdMarketSourceId" />
+    <result column="i18n_names" jdbcType="VARCHAR" property="i18nNames" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="extra_info" jdbcType="VARCHAR" property="extraInfo" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="modify_time" jdbcType="BIGINT" property="modifyTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, sport_id, standard_tournament_id, standard_match_info_id, market_category_id, 
+    market_type, odds_value, odds_name, name_code, order_type, addition1, addition2, 
+    addition3, addition4, addition5, data_source_code, `status`, scope_id, manager_confirm_prize, 
+    third_market_source_id, i18n_names, remark, extra_info, create_time, modify_time
+  </sql>
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update standard_sport_market
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="sport_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.sportId,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="standard_tournament_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.standardTournamentId,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="standard_match_info_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.standardMatchInfoId,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="market_category_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.marketCategoryId,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="market_type = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.marketType,jdbcType=TINYINT}
+        </foreach>
+      </trim>
+      <trim prefix="odds_value = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.oddsValue,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="odds_name = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.oddsName,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="name_code = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.nameCode,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="order_type = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.orderType,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="addition1 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.addition1,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="addition2 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.addition2,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="addition3 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.addition3,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="addition4 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.addition4,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="addition5 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.addition5,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="data_source_code = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.dataSourceCode,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="`status` = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.status,jdbcType=TINYINT}
+        </foreach>
+      </trim>
+      <trim prefix="scope_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.scopeId,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="manager_confirm_prize = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.managerConfirmPrize,jdbcType=TINYINT}
+        </foreach>
+      </trim>
+      <trim prefix="third_market_source_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.thirdMarketSourceId,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="i18n_names = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.i18nNames,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="remark = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.remark,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="extra_info = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.extraInfo,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="create_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.createTime,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="modify_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.modifyTime,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id,jdbcType=BIGINT}
+    </foreach>
+  </update>
+  <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into standard_sport_market
+    (sport_id, standard_tournament_id, standard_match_info_id, market_category_id, market_type, 
+      odds_value, odds_name, name_code, order_type, addition1, addition2, addition3, 
+      addition4, addition5, data_source_code, `status`, scope_id, manager_confirm_prize, 
+      third_market_source_id, i18n_names, remark, extra_info, create_time, modify_time
+      )
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.sportId,jdbcType=BIGINT}, #{item.standardTournamentId,jdbcType=BIGINT}, #{item.standardMatchInfoId,jdbcType=BIGINT}, 
+        #{item.marketCategoryId,jdbcType=BIGINT}, #{item.marketType,jdbcType=TINYINT}, 
+        #{item.oddsValue,jdbcType=VARCHAR}, #{item.oddsName,jdbcType=VARCHAR}, #{item.nameCode,jdbcType=BIGINT}, 
+        #{item.orderType,jdbcType=VARCHAR}, #{item.addition1,jdbcType=VARCHAR}, #{item.addition2,jdbcType=VARCHAR}, 
+        #{item.addition3,jdbcType=VARCHAR}, #{item.addition4,jdbcType=VARCHAR}, #{item.addition5,jdbcType=VARCHAR}, 
+        #{item.dataSourceCode,jdbcType=VARCHAR}, #{item.status,jdbcType=TINYINT}, #{item.scopeId,jdbcType=BIGINT}, 
+        #{item.managerConfirmPrize,jdbcType=TINYINT}, #{item.thirdMarketSourceId,jdbcType=VARCHAR}, 
+        #{item.i18nNames,jdbcType=VARCHAR}, #{item.remark,jdbcType=VARCHAR}, #{item.extraInfo,jdbcType=VARCHAR}, 
+        #{item.createTime,jdbcType=BIGINT}, #{item.modifyTime,jdbcType=BIGINT})
+    </foreach>
+  </insert>
+  <insert id="insertOrUpdate" keyColumn="id" keyProperty="id" parameterType="com.panda.sport.rcs.pojo.StandardSportMarket" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into standard_sport_market
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      id,
+      sport_id,
+      standard_tournament_id,
+      standard_match_info_id,
+      market_category_id,
+      market_type,
+      odds_value,
+      odds_name,
+      name_code,
+      order_type,
+      addition1,
+      addition2,
+      addition3,
+      addition4,
+      addition5,
+      data_source_code,
+      `status`,
+      scope_id,
+      manager_confirm_prize,
+      third_market_source_id,
+      i18n_names,
+      remark,
+      extra_info,
+      create_time,
+      modify_time,
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      #{id,jdbcType=BIGINT},
+      #{sportId,jdbcType=BIGINT},
+      #{standardTournamentId,jdbcType=BIGINT},
+      #{standardMatchInfoId,jdbcType=BIGINT},
+      #{marketCategoryId,jdbcType=BIGINT},
+      #{marketType,jdbcType=TINYINT},
+      #{oddsValue,jdbcType=VARCHAR},
+      #{oddsName,jdbcType=VARCHAR},
+      #{nameCode,jdbcType=BIGINT},
+      #{orderType,jdbcType=VARCHAR},
+      #{addition1,jdbcType=VARCHAR},
+      #{addition2,jdbcType=VARCHAR},
+      #{addition3,jdbcType=VARCHAR},
+      #{addition4,jdbcType=VARCHAR},
+      #{addition5,jdbcType=VARCHAR},
+      #{dataSourceCode,jdbcType=VARCHAR},
+      #{status,jdbcType=TINYINT},
+      #{scopeId,jdbcType=BIGINT},
+      #{managerConfirmPrize,jdbcType=TINYINT},
+      #{thirdMarketSourceId,jdbcType=VARCHAR},
+      #{i18nNames,jdbcType=VARCHAR},
+      #{remark,jdbcType=VARCHAR},
+      #{extraInfo,jdbcType=VARCHAR},
+      #{createTime,jdbcType=BIGINT},
+      #{modifyTime,jdbcType=BIGINT},
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      sport_id = VALUES(sport_id),
+      standard_tournament_id =VALUES(standard_tournament_id) ,
+      standard_match_info_id =VALUES(standard_match_info_id) ,
+      market_category_id =VALUES(market_category_id),
+      market_type = VALUES(market_type),
+      odds_value = VALUES(odds_value),
+      odds_name = VALUES(odds_name),
+      name_code = VALUES(name_code),
+      order_type = VALUES(order_type),
+      addition1 = VALUES(addition1),
+      addition2 = VALUES(addition2),
+      addition3 = VALUES(addition3),
+      addition4 = VALUES(addition4),
+      addition5 = VALUES(addition5),
+      data_source_code = VALUES(data_source_code),
+      `status` = VALUES(`status`),
+      `third_market_source_status` = IFNULL(VALUES(third_market_source_status),third_market_source_status),
+      scope_id = VALUES(scope_id),
+      manager_confirm_prize = VALUES(manager_confirm_prize),
+      third_market_source_id = VALUES(third_market_source_id),
+      i18n_names = VALUES(i18n_names),
+      remark = VALUES(remark),
+      extra_info = VALUES(extra_info),
+      modify_time = VALUES(modify_time),
+    </trim>
+  </insert>
+
+  <insert id="batchInsertOrUpdate" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="false">
+      <!--@mbg.generated-->
+      insert into standard_sport_market
+      (id, standard_match_info_id, market_category_id, market_type,
+      odds_value, odds_name,  order_type, 
+      addition1,
+      addition2, addition3,
+      addition4, addition5, data_source_code, `status`,third_market_source_status,old_third_market_source_status,pa_status,place_num_status,scope_id,
+      third_market_source_id, i18n_names, remark, extra_info, create_time, modify_time,odds_metric,market_head_gap,name_code,child_market_category_id,
+      market_source,end_ed_status
+      )
+      values
+      <foreach collection="list" item="item" separator=",">
+        (#{item.id,jdbcType=BIGINT}, #{item.standardMatchInfoId,jdbcType=BIGINT},
+        #{item.marketCategoryId,jdbcType=BIGINT}, #{item.marketType,jdbcType=TINYINT},
+        #{item.oddsValue,jdbcType=VARCHAR}, #{item.oddsName,jdbcType=VARCHAR},
+        #{item.orderType,jdbcType=VARCHAR}, 
+        #{item.addition1,jdbcType=VARCHAR},
+        #{item.addition2,jdbcType=VARCHAR},
+        #{item.addition3,jdbcType=VARCHAR}, #{item.addition4,jdbcType=VARCHAR}, #{item.addition5,jdbcType=VARCHAR},
+        #{item.dataSourceCode,jdbcType=VARCHAR}, #{item.status,jdbcType=TINYINT}, #{item.thirdMarketSourceStatus},#{item.oldThirdMarketSourceStatus},#{item.paStatus},#{item.placeNumStatus},#{item.scopeId,jdbcType=BIGINT},
+        #{item.thirdMarketSourceId,jdbcType=VARCHAR},
+        #{item.i18nNamesStr,jdbcType=VARCHAR}, #{item.remark,jdbcType=VARCHAR}, #{item.extraInfo,jdbcType=VARCHAR},
+        #{item.createTime,jdbcType=BIGINT}, #{item.modifyTime,jdbcType=BIGINT},#{item.oddsMetric},#{item.marketHeadGap},#{item.nameCode},#{item.childMarketCategoryId},
+        #{item.marketSource},#{item.endEdStatus})
+      </foreach>
+    on duplicate key update
+    <trim suffixOverrides=",">
+      standard_match_info_id =VALUES(standard_match_info_id) ,
+      market_category_id =VALUES(market_category_id),
+      market_type = VALUES(market_type),
+      odds_value = VALUES(odds_value),
+      odds_name = VALUES(odds_name),
+      order_type = VALUES(order_type),
+      addition1 = VALUES(addition1),
+      addition2 = VALUES(addition2),
+      addition3 = VALUES(addition3),
+      addition4 = VALUES(addition4),
+      addition5 = VALUES(addition5),
+      data_source_code = VALUES(data_source_code),
+      `status` = VALUES(`status`),
+      third_market_source_status = IFNULL(VALUES(third_market_source_status),third_market_source_status),
+      old_third_market_source_status = VALUES (old_third_market_source_status),
+      pa_status = IFNULL(VALUES(pa_status),pa_status),
+      place_num_status = IFNULL(VALUES(place_num_status),place_num_status),
+      scope_id = VALUES(scope_id),
+      third_market_source_id = VALUES(third_market_source_id),
+      i18n_names = VALUES(i18n_names),
+      remark = VALUES(remark),
+      extra_info = VALUES(extra_info),
+      modify_time = VALUES(modify_time),
+      odds_metric = IFNULL(VALUES(odds_metric),odds_metric),
+      market_head_gap = values (market_head_gap),
+      name_code = values (name_code),
+      child_market_category_id = values (child_market_category_id),
+      market_source = values (market_source),
+      end_ed_status = values (end_ed_status)
+    </trim>
+  </insert>
+
+  <insert id="insertOrUpdateSelective" keyColumn="id" keyProperty="id" parameterType="com.panda.sport.rcs.pojo.StandardSportMarket" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into standard_sport_market
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="sportId != null">
+        sport_id,
+      </if>
+      <if test="standardTournamentId != null">
+        standard_tournament_id,
+      </if>
+      <if test="standardMatchInfoId != null">
+        standard_match_info_id,
+      </if>
+      <if test="marketCategoryId != null">
+        market_category_id,
+      </if>
+      <if test="marketType != null">
+        market_type,
+      </if>
+      <if test="oddsValue != null">
+        odds_value,
+      </if>
+      <if test="oddsName != null">
+        odds_name,
+      </if>
+      <if test="nameCode != null">
+        name_code,
+      </if>
+      <if test="orderType != null">
+        order_type,
+      </if>
+      <if test="addition1 != null">
+        addition1,
+      </if>
+      <if test="addition2 != null">
+        addition2,
+      </if>
+      <if test="addition3 != null">
+        addition3,
+      </if>
+      <if test="addition4 != null">
+        addition4,
+      </if>
+      <if test="addition5 != null">
+        addition5,
+      </if>
+      <if test="dataSourceCode != null">
+        data_source_code,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+      <if test="scopeId != null">
+        scope_id,
+      </if>
+      <if test="managerConfirmPrize != null">
+        manager_confirm_prize,
+      </if>
+      <if test="thirdMarketSourceId != null">
+        third_market_source_id,
+      </if>
+      <if test="i18nNames != null">
+        i18n_names,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="extraInfo != null">
+        extra_info,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifyTime != null">
+        modify_time,
+      </if>
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="sportId != null">
+        #{sportId,jdbcType=BIGINT},
+      </if>
+      <if test="standardTournamentId != null">
+        #{standardTournamentId,jdbcType=BIGINT},
+      </if>
+      <if test="standardMatchInfoId != null">
+        #{standardMatchInfoId,jdbcType=BIGINT},
+      </if>
+      <if test="marketCategoryId != null">
+        #{marketCategoryId,jdbcType=BIGINT},
+      </if>
+      <if test="marketType != null">
+        #{marketType,jdbcType=TINYINT},
+      </if>
+      <if test="oddsValue != null">
+        #{oddsValue,jdbcType=VARCHAR},
+      </if>
+      <if test="oddsName != null">
+        #{oddsName,jdbcType=VARCHAR},
+      </if>
+      <if test="nameCode != null">
+        #{nameCode,jdbcType=BIGINT},
+      </if>
+      <if test="orderType != null">
+        #{orderType,jdbcType=VARCHAR},
+      </if>
+      <if test="addition1 != null">
+        #{addition1,jdbcType=VARCHAR},
+      </if>
+      <if test="addition2 != null">
+        #{addition2,jdbcType=VARCHAR},
+      </if>
+      <if test="addition3 != null">
+        #{addition3,jdbcType=VARCHAR},
+      </if>
+      <if test="addition4 != null">
+        #{addition4,jdbcType=VARCHAR},
+      </if>
+      <if test="addition5 != null">
+        #{addition5,jdbcType=VARCHAR},
+      </if>
+      <if test="dataSourceCode != null">
+        #{dataSourceCode,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="scopeId != null">
+        #{scopeId,jdbcType=BIGINT},
+      </if>
+      <if test="managerConfirmPrize != null">
+        #{managerConfirmPrize,jdbcType=TINYINT},
+      </if>
+      <if test="thirdMarketSourceId != null">
+        #{thirdMarketSourceId,jdbcType=VARCHAR},
+      </if>
+      <if test="i18nNames != null">
+        #{i18nNames,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="extraInfo != null">
+        #{extraInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=BIGINT},
+      </if>
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        id = #{id,jdbcType=BIGINT},
+      </if>
+      <if test="sportId != null">
+        sport_id = #{sportId,jdbcType=BIGINT},
+      </if>
+      <if test="standardTournamentId != null">
+        standard_tournament_id = #{standardTournamentId,jdbcType=BIGINT},
+      </if>
+      <if test="standardMatchInfoId != null">
+        standard_match_info_id = #{standardMatchInfoId,jdbcType=BIGINT},
+      </if>
+      <if test="marketCategoryId != null">
+        market_category_id = #{marketCategoryId,jdbcType=BIGINT},
+      </if>
+      <if test="marketType != null">
+        market_type = #{marketType,jdbcType=TINYINT},
+      </if>
+      <if test="oddsValue != null">
+        odds_value = #{oddsValue,jdbcType=VARCHAR},
+      </if>
+      <if test="oddsName != null">
+        odds_name = #{oddsName,jdbcType=VARCHAR},
+      </if>
+      <if test="nameCode != null">
+        name_code = #{nameCode,jdbcType=BIGINT},
+      </if>
+      <if test="orderType != null">
+        order_type = #{orderType,jdbcType=VARCHAR},
+      </if>
+      <if test="addition1 != null">
+        addition1 = #{addition1,jdbcType=VARCHAR},
+      </if>
+      <if test="addition2 != null">
+        addition2 = #{addition2,jdbcType=VARCHAR},
+      </if>
+      <if test="addition3 != null">
+        addition3 = #{addition3,jdbcType=VARCHAR},
+      </if>
+      <if test="addition4 != null">
+        addition4 = #{addition4,jdbcType=VARCHAR},
+      </if>
+      <if test="addition5 != null">
+        addition5 = #{addition5,jdbcType=VARCHAR},
+      </if>
+      <if test="dataSourceCode != null">
+        data_source_code = #{dataSourceCode,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="scopeId != null">
+        scope_id = #{scopeId,jdbcType=BIGINT},
+      </if>
+      <if test="managerConfirmPrize != null">
+        manager_confirm_prize = #{managerConfirmPrize,jdbcType=TINYINT},
+      </if>
+      <if test="thirdMarketSourceId != null">
+        third_market_source_id = #{thirdMarketSourceId,jdbcType=VARCHAR},
+      </if>
+      <if test="i18nNames != null">
+        i18n_names = #{i18nNames,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="extraInfo != null">
+        extra_info = #{extraInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="modifyTime != null">
+        modify_time = #{modifyTime,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateAdditionOne" parameterType="Map">
+  	update standard_sport_market set addition1 = #{addition1}
+  	where id = ${marketId}
+  </update>
+
+  <select id="selectOddsFieldsTempletId" resultType="com.panda.merge.dto.StandardMarketOddsDTO">
+    select t.id as oddsFieldsTemplateId,
+           t.order_no as orderOdds
+    from standard_market_category_field t
+    WHERE t.market_category_id = #{marketCategoryId,jdbcType=BIGINT}
+    ORDER BY t.order_no ASC
+  </select>
+
+  <select id="selectMarketPlaceInfo" resultType="com.panda.sport.rcs.pojo.dto.StandardMarketPlaceDto">
+    SELECT DISTINCT
+    p.place_id,
+    p.place_num,
+    p.market_id,
+    p.version_id,
+    m.*
+    FROM
+    (
+    SELECT
+    r.standard_match_info_id,
+    r.market_category_id,
+    r.version_id
+    FROM
+    rcs_standard_place_ref r
+    WHERE
+    r.standard_match_info_id = #{matchId}
+    <if test="playIds != null and playIds.size > 0">
+      AND r.market_category_id IN
+      <foreach collection="playIds" item="playId" open="(" separator="," close=")">#{playId}</foreach>
+    </if>
+    AND r.place_num = 1
+    AND r.child_market_category_id &lt;&gt; '-1'
+    ) t
+    LEFT JOIN rcs_standard_place_ref p ON ( p.standard_match_info_id = t.standard_match_info_id AND
+    p.market_category_id = t.market_category_id AND p.version_id = t.version_id )
+    LEFT JOIN standard_sport_market m ON p.market_id = m.id
+    WHERE
+    p.market_id IS NOT NULL
+    <if test="placeNum != null">
+      AND p.place_num = #{placeNum}
+    </if>
+  </select>
+</mapper>

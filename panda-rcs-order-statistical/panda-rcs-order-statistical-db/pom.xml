@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>panda-rcs-order-statistical</artifactId>
+        <groupId>com.panda.sport.rcs</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <version>1.0-SNAPSHOT</version>
+    <artifactId>panda-rcs-order-statistical-db</artifactId>
+
+
+
+    <dependencies>
+
+        <dependency>
+            <groupId>com.panda.sport.rcs</groupId>
+            <artifactId>panda-rcs-order-statistical-common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.panda.sport.rcs</groupId>
+            <artifactId>panda-rcs-api</artifactId>
+            <version>2.5.6-development</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.panda.sport.rcs</groupId>
+                    <artifactId>panda-rcs-pojo</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!--jdbc -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.panda.sport.rcs</groupId>
+            <artifactId>panda-rcs-api</artifactId>
+            <version>2.5.6-development</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.panda.sport.rcs</groupId>
+                    <artifactId>panda-rcs-pojo</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>com.panda.sport.rcs</groupId>
+            <artifactId>panda-rcs-api</artifactId>
+            <version>2.5.6-development</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.panda.sport.rcs</groupId>
+                    <artifactId>panda-rcs-pojo</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        
+        <!--mybatis-->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-generator</artifactId>
+            <version>3.1.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>3.1.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+            <version>2.3.29</version>
+        </dependency>
+
+        <!-- mysql驱动 -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.17</version>
+        </dependency>
+        <dependency>
+            <groupId>com.panda.sport.rcs</groupId>
+            <artifactId>panda-rcs-order-statistical-mq</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+ 
+</project>

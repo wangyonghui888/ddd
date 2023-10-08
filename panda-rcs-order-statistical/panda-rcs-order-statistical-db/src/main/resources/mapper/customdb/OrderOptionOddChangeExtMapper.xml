@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.customdb.mapper.OrderOptionOddChangeExtMapper">
+
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.panda.sport.rcs.db.entity.OrderOptionOddChange">
+        <result column="id" property="id"/>
+        <result column="bet_no" property="betNo"/>
+        <result column="order_no" property="orderNo"/>
+        <result column="play_options_id" property="playOptionsId"/>
+        <result column="odds_value" property="oddsValue"/>
+        <result column="order_type" property="orderType"/>
+    </resultMap>
+
+    <insert id="batchSaveOrUpdate" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" separator=";">
+            insert into
+            order_option_odd_change (bet_no, order_no, play_options_id, order_type, odds_value,bet_time,market_id)
+            values
+            (
+            #{item.betNo},
+            #{item.orderNo},
+            #{item.playOptionsId},
+            #{item.orderType},
+            #{item.oddsValue},
+            #{item.betTime},
+            #{item.marketId}
+            )
+            on duplicate key update
+            odds_value = #{item.oddsValue}
+        </foreach>
+    </insert>
+
+
+</mapper>

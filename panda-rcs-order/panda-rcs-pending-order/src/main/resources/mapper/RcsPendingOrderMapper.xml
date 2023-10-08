@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.rcs.pending.order.mapper.RcsPendingOrderMapper">
+
+    <!--优先取赔率最小的注单撮合，赔率相同时优先取预约时间早的预约单；若赔率、预约时间相同，则随机取-->
+    <!--    <select id="selectPendingOrderList" resultType="com.panda.rcs.pending.order.pojo.RcsPendingOrder">-->
+    <!--        select rpo.*,case when rpo.market_value is null then rpo.play_id else rpo.market_value end temp_name-->
+    <!--        from rcs_pending_order rpo where rpo.match_id = #{matchId}-->
+    <!--        and rpo.match_type = 0 and rpo.order_status = 0-->
+    <!--        group by temp_name,rpo.create_time,rpo.order_odds-->
+    <!--        having count(rpo.market_value) &lt;= #{limit.liveLimitRate}-->
+    <!--        union all-->
+    <!--        select rpo.*,case when rpo.market_value is null then rpo.play_id else rpo.market_value end temp_name-->
+    <!--        from rcs_pending_order rpo where rpo.match_id = #{matchId}-->
+    <!--        and rpo.match_type = 1 and rpo.order_status = 0-->
+    <!--        group by temp_name,rpo.create_time,rpo.order_odds-->
+    <!--        having count(rpo.market_value) &lt;= #{limit.earlyLimitRate}-->
+    <!--        order by  order_odds ,create_time-->
+    <!--    </select>-->
+
+    <select id="selectPendingOrderList" resultType="com.panda.rcs.pending.order.pojo.RcsPendingOrder">
+        SELECT * from rcs_pending_order where match_id= #{matchId} and order_status=0   order by  order_odds ,create_time;
+    </select>
+
+</mapper>

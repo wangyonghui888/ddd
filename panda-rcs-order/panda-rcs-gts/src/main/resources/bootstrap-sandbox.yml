@@ -1,0 +1,16 @@
+#启动配置
+spring:
+  application:
+    name: panda-rcs-gts
+  cloud:
+    nacos:
+      config:
+        server-addr: 10.5.21.35:8848
+        file-extension: properties
+        namespace: 19360358-8e5b-4932-bbcc-aa4d411774e8
+  profiles:
+    active: sandbox
+
+spring.cloud.nacos.discovery.serverAddr: ${spring.cloud.nacos.config.server-addr}
+spring.cloud.nacos.discovery.namespace: ${spring.cloud.nacos.config.namespace}
+

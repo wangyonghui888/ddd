@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.console.dao.RcsMonitorDataMapper">
+  <resultMap id="BaseResultMap" type="com.panda.sport.rcs.console.pojo.RcsMonitorData">
+    <!--@mbg.generated-->
+    <!--@Table rcs_monitor_data-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="uuid" jdbcType="INTEGER" property="uuid" />
+    <result column="service_name" jdbcType="VARCHAR" property="serviceName" />
+    <result column="monitor_type" jdbcType="VARCHAR" property="monitorType" />
+    <result column="monitor_code" jdbcType="VARCHAR" property="monitorCode" />
+    <result column="main_type" jdbcType="INTEGER" property="mainType" />
+    <result column="main_date_str" jdbcType="TIMESTAMP" property="mainDateStr" />
+    <result column="handle_class" jdbcType="VARCHAR" property="handleClass" />
+    <result column="ext_map" jdbcType="VARCHAR" property="extMap" />
+    <result column="exe_time" jdbcType="INTEGER" property="exeTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, uuid, service_name, monitor_type, monitor_code, main_type, main_date_str,create_time_hours, handle_class,
+    ext_map, exe_time, create_time
+  </sql>
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update rcs_monitor_data
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="uuid = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.uuid,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+      <trim prefix="service_name = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.serviceName,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="monitor_type = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.monitorType,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="monitor_code = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.monitorCode,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="main_type = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.mainType,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+      <trim prefix="main_date_str = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.mainDateStr,jdbcType=TIMESTAMP}
+        </foreach>
+      </trim>
+      <trim prefix="handle_class = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.handleClass,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="ext_map = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.extMap,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="exe_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.exeTime,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+      <trim prefix="create_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.createTime,jdbcType=TIMESTAMP}
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id,jdbcType=BIGINT}
+    </foreach>
+  </update>
+  <update id="updateBatchSelective" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update rcs_monitor_data
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="uuid = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.uuid != null">
+            when id = #{item.id,jdbcType=BIGINT} then #{item.uuid,jdbcType=INTEGER}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="service_name = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.serviceName != null">
+            when id = #{item.id,jdbcType=BIGINT} then #{item.serviceName,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="monitor_type = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.monitorType != null">
+            when id = #{item.id,jdbcType=BIGINT} then #{item.monitorType,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="monitor_code = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.monitorCode != null">
+            when id = #{item.id,jdbcType=BIGINT} then #{item.monitorCode,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="main_type = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.mainType != null">
+            when id = #{item.id,jdbcType=BIGINT} then #{item.mainType,jdbcType=INTEGER}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="main_date_str = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.mainDateStr != null">
+            when id = #{item.id,jdbcType=BIGINT} then #{item.mainDateStr,jdbcType=TIMESTAMP}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="handle_class = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.handleClass != null">
+            when id = #{item.id,jdbcType=BIGINT} then #{item.handleClass,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="ext_map = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.extMap != null">
+            when id = #{item.id,jdbcType=BIGINT} then #{item.extMap,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="exe_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.exeTime != null">
+            when id = #{item.id,jdbcType=BIGINT} then #{item.exeTime,jdbcType=INTEGER}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="create_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.createTime != null">
+            when id = #{item.id,jdbcType=BIGINT} then #{item.createTime,jdbcType=TIMESTAMP}
+          </if>
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id,jdbcType=BIGINT}
+    </foreach>
+  </update>
+  <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into rcs_monitor_data
+    (uuid, service_name, monitor_type, monitor_code, main_type, main_date_str, create_time_hours,handle_class,
+      ext_map, exe_time, create_time)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.uuid,jdbcType=INTEGER}, #{item.serviceName,jdbcType=VARCHAR}, #{item.monitorType,jdbcType=VARCHAR},
+        #{item.monitorCode,jdbcType=VARCHAR}, #{item.mainType,jdbcType=INTEGER}, #{item.mainDateStr,jdbcType=TIMESTAMP}, #{item.createTimeHours},
+        #{item.handleClass,jdbcType=VARCHAR}, #{item.extMap,jdbcType=VARCHAR}, #{item.exeTime,jdbcType=INTEGER}, 
+        #{item.createTime,jdbcType=TIMESTAMP})
+    </foreach>
+  </insert>
+  <insert id="insertOrUpdate" keyColumn="id" keyProperty="id" parameterType="com.panda.sport.rcs.console.pojo.RcsMonitorData" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into rcs_monitor_data
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      uuid,
+      service_name,
+      monitor_type,
+      monitor_code,
+      main_type,
+      main_date_str,
+      handle_class,
+      ext_map,
+      exe_time,
+      create_time,
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      #{uuid,jdbcType=INTEGER},
+      #{serviceName,jdbcType=VARCHAR},
+      #{monitorType,jdbcType=VARCHAR},
+      #{monitorCode,jdbcType=VARCHAR},
+      #{mainType,jdbcType=INTEGER},
+      #{mainDateStr,jdbcType=TIMESTAMP},
+      #{handleClass,jdbcType=VARCHAR},
+      #{extMap,jdbcType=VARCHAR},
+      #{exeTime,jdbcType=INTEGER},
+      #{createTime,jdbcType=TIMESTAMP},
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        id = #{id,jdbcType=BIGINT},
+      </if>
+      uuid = #{uuid,jdbcType=INTEGER},
+      service_name = #{serviceName,jdbcType=VARCHAR},
+      monitor_type = #{monitorType,jdbcType=VARCHAR},
+      monitor_code = #{monitorCode,jdbcType=VARCHAR},
+      main_type = #{mainType,jdbcType=INTEGER},
+      main_date_str = #{mainDateStr,jdbcType=TIMESTAMP},
+      handle_class = #{handleClass,jdbcType=VARCHAR},
+      ext_map = #{extMap,jdbcType=VARCHAR},
+      exe_time = #{exeTime,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+    </trim>
+  </insert>
+  <insert id="insertOrUpdateSelective" keyColumn="id" keyProperty="id" parameterType="com.panda.sport.rcs.console.pojo.RcsMonitorData" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into rcs_monitor_data
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="uuid != null">
+        uuid,
+      </if>
+      <if test="serviceName != null">
+        service_name,
+      </if>
+      <if test="monitorType != null">
+        monitor_type,
+      </if>
+      <if test="monitorCode != null">
+        monitor_code,
+      </if>
+      <if test="mainType != null">
+        main_type,
+      </if>
+      <if test="mainDateStr != null">
+        main_date_str,
+      </if>
+      <if test="handleClass != null">
+        handle_class,
+      </if>
+      <if test="extMap != null">
+        ext_map,
+      </if>
+      <if test="exeTime != null">
+        exe_time,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="uuid != null">
+        #{uuid,jdbcType=INTEGER},
+      </if>
+      <if test="serviceName != null">
+        #{serviceName,jdbcType=VARCHAR},
+      </if>
+      <if test="monitorType != null">
+        #{monitorType,jdbcType=VARCHAR},
+      </if>
+      <if test="monitorCode != null">
+        #{monitorCode,jdbcType=VARCHAR},
+      </if>
+      <if test="mainType != null">
+        #{mainType,jdbcType=INTEGER},
+      </if>
+      <if test="mainDateStr != null">
+        #{mainDateStr,jdbcType=TIMESTAMP},
+      </if>
+      <if test="handleClass != null">
+        #{handleClass,jdbcType=VARCHAR},
+      </if>
+      <if test="extMap != null">
+        #{extMap,jdbcType=VARCHAR},
+      </if>
+      <if test="exeTime != null">
+        #{exeTime,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        id = #{id,jdbcType=BIGINT},
+      </if>
+      <if test="uuid != null">
+        uuid = #{uuid,jdbcType=INTEGER},
+      </if>
+      <if test="serviceName != null">
+        service_name = #{serviceName,jdbcType=VARCHAR},
+      </if>
+      <if test="monitorType != null">
+        monitor_type = #{monitorType,jdbcType=VARCHAR},
+      </if>
+      <if test="monitorCode != null">
+        monitor_code = #{monitorCode,jdbcType=VARCHAR},
+      </if>
+      <if test="mainType != null">
+        main_type = #{mainType,jdbcType=INTEGER},
+      </if>
+      <if test="mainDateStr != null">
+        main_date_str = #{mainDateStr,jdbcType=TIMESTAMP},
+      </if>
+      <if test="handleClass != null">
+        handle_class = #{handleClass,jdbcType=VARCHAR},
+      </if>
+      <if test="extMap != null">
+        ext_map = #{extMap,jdbcType=VARCHAR},
+      </if>
+      <if test="exeTime != null">
+        exe_time = #{exeTime,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+
+    <select id="queryRate" parameterType="com.panda.sport.rcs.console.dto.MatchFlowingDTO" resultType="com.panda.sport.rcs.console.pojo.RcsMonitorDataVo">
+        SELECT
+            r.monitor_code monitorCode,
+            r.create_time_hours createTimeHours,
+            count(1) allCount,
+            sum(case when exe_time &lt; 100 then 1 else 0 end ) value100,
+            sum(case when exe_time &lt; 200 then 1 else 0 end ) value200,
+            sum(case when exe_time &lt; 500 then 1 else 0 end ) value500,
+            sum(case when exe_time &lt; 1000 then 1 else 0 end ) value1000,
+            sum(case when exe_time &lt; 2000 then 1 else 0 end ) value2000
+        FROM
+            `rcs_monitor_data`  r
+            <where>
+                <if test="bean.startTime != null and bean.startTime != ''">
+                    r.create_time &gt; #{bean.startTime}
+                </if>
+                <if test="bean.endTime != null and bean.endTime != ''">
+                    and r.create_time &lt; #{bean.endTime}
+                </if>
+                <if test="bean.startTime == null or bean.startTime == ''">
+                    AND r.create_time &gt;= FROM_UNIXTIME(UNIX_TIMESTAMP()-60*60*1)
+                </if>
+                <if test="bean.type != null and bean.type != ''">
+                    AND r.monitor_code = #{bean.type}
+                </if>
+                <if test="bean.type != null and bean.type != ''">
+                    AND r.monitor_code = #{bean.type}
+                </if>
+                <if test="bean.createTimeHours != null and bean.createTimeHours != ''">
+                    AND r.create_time_hours = #{bean.createTimeHours}
+                </if>
+            </where>
+            GROUP BY
+                r. monitor_code
+            order by r.create_time_hours asc
+    </select>
+
+    <select id="group" resultType="java.lang.String">
+        SELECT
+            r.monitor_code monitorCode
+        FROM
+            `rcs_monitor_data`  r
+        GROUP BY
+            r. monitor_code
+        order by r. monitor_code
+    </select>
+
+
+  <insert id="insertBean" keyColumn="id" keyProperty="id" parameterType="com.panda.sport.rcs.console.pojo.RcsMonitorData" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into rcs_monitor_data (uuid, service_name, monitor_type,
+      monitor_code, main_type, main_date_str,
+      handle_class, ext_map, exe_time,
+      create_time,create_time_hours)
+    values (#{uuid,jdbcType=INTEGER}, #{serviceName,jdbcType=VARCHAR}, #{monitorType,jdbcType=VARCHAR},
+      #{monitorCode,jdbcType=VARCHAR}, #{mainType,jdbcType=INTEGER}, #{mainDateStr,jdbcType=TIMESTAMP},
+      #{handleClass,jdbcType=VARCHAR}, #{extMap,jdbcType=VARCHAR}, #{exeTime,jdbcType=INTEGER},
+      now(),#{createTimeHours})
+  </insert>
+
+
+  <select id="queryAllCount" resultType="com.panda.sport.rcs.console.pojo.RcsMonitorDataVo">
+        SELECT
+            r.monitor_code monitorCode,
+            r.create_time_hours createTimeHours,
+            count(1) allCount
+        FROM
+            `rcs_monitor_data`  r
+            <where>
+                <if test="bean.startTime != null and bean.startTime != ''">
+                    r.create_time &gt; #{bean.startTime}
+                </if>
+                <if test="bean.endTime != null and bean.endTime != ''">
+                    and r.create_time &lt; #{bean.endTime}
+                </if>
+                <if test="bean.startTime == null or bean.startTime == ''">
+                    AND r.create_time &gt;= FROM_UNIXTIME(UNIX_TIMESTAMP()-60*60*10)
+                </if>
+            </where>
+            GROUP BY
+                r. monitor_code ,r.create_time_hours
+            order by r.create_time_hours asc
+  </select>
+
+</mapper>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: htmlhead" th:with="title='图形报表'"></head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <!--头-->
+    <div th:replace="fragments/head :: header"></div>
+    <div class="layui-body" style="margin: 2% ;">
+        <form id="userSearch" class="layui-form layui-form-pane">
+            <div class="layui-inline">
+                <label class="layui-form-label">时间</label>
+                <div class="layui-input-inline" style="width: 175px;">
+                    <input name="startTime" id="startTime" placeholder="yyyy-MM-dd hh:mm:ss" autocomplete="off"
+                           class="layui-input" type="text" lay-key="1">
+                </div>
+                <div class="layui-form-mid">-</div>
+                <div class="layui-input-inline" style="width: 175px;">
+                    <input name="endTime" id="endTime" placeholder="yyyy-MM-dd hh:mm:ss" autocomplete="off"
+                           class="layui-input" type="text" lay-key="2">
+                </div>
+                <lable type="reset" onclick="searchSubmit()" class="layui-btn layui-btn-primary">提交</lable>
+            </div>
+        </form>
+
+        <div style="display:none;" id="currentUser">
+            <shiro:principal property="id"></shiro:principal>
+        </div>
+        <div id="container" style="height: 90%; margin-top: 20px;" align="left"></div>
+
+    </div>
+
+    <!--底部-->
+    <div th:replace="fragments/footer :: footer"></div>
+    <script src="/js/dateUtils.js"></script>
+    <script src="/js/echart/echarts.min.js"></script>
+    <script src="/js/monitorData/graph.js"></script>
+</div>
+</body>
+</html>

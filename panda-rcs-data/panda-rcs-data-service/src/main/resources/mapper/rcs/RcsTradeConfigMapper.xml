@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.mapper.RcsTradeConfigMapper">
+
+    <!-- 通用查询映射结果 -->
+    <select id="selectRcsTradeConfig" resultType="com.panda.sport.rcs.pojo.RcsTradeConfig">
+        SELECT
+        *
+        FROM
+        rcs_trade_config c
+        WHERE
+        c.match_id = #{matchId}
+        AND c.data_source IS NOT NULL
+        AND (
+        ( c.trader_level = 1 AND c.targer_data = #{matchId} )
+        OR ( c.trader_level = 2 AND c.targer_data = #{playId} )
+        OR ( c.trader_level = 3 AND c.targer_data = #{marketId} )
+        )
+        ORDER BY
+        crt_time DESC
+        LIMIT 1
+    </select>
+
+    <select id="getRcsTradeConfig" resultType="com.panda.sport.rcs.pojo.RcsTradeConfig">
+        SELECT
+        *
+        FROM
+        rcs_trade_config c
+        WHERE
+        c.match_id = #{config.matchId}
+        AND c.trader_level = #{config.traderLevel} AND c.targer_data = #{config.targerData}
+        ORDER BY
+        crt_time DESC
+        LIMIT 1
+    </select>
+
+</mapper>

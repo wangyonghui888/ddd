@@ -1,0 +1,668 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panda.sport.rcs.mapper.RcsMatchMarketConfigMapper">
+
+<!--    <resultMap id="BaseResultMap" type="com.panda.sport.rcs.pojo.RcsMatchMarketConfig">-->
+<!--        &lt;!&ndash;@mbg.generated&ndash;&gt;-->
+<!--        <result column="home_level_first_max_amount" jdbcType="BIGINT" property="homeLevelFirstMaxAmount" />-->
+<!--        <result column="home_level_second_max_amount" jdbcType="BIGINT" property="homeLevelSecondMaxAmount" />-->
+<!--        <result column="away_level_first_max_amount" jdbcType="BIGINT" property="awayLevelFirstMaxAmount" />-->
+<!--        <result column="away_level_second_max_amount" jdbcType="BIGINT" property="awayLevelSecondMaxAmount" />-->
+<!--        <result column="home_level_first_odds_rate" jdbcType="DOUBLE" property="homeLevelFirstOddsRate" />-->
+<!--        <result column="home_level_second_odds_rate" jdbcType="DOUBLE" property="homeLevelSecondOddsRate" />-->
+<!--        <result column="away_level_first_odds_rate" jdbcType="DOUBLE" property="awayLevelFirstOddsRate" />-->
+<!--        <result column="away_level_second_odds_rate" jdbcType="DOUBLE" property="awayLevelSecondOddsRate" />-->
+<!--        <result column="data_source" jdbcType="INTEGER" property="dataSource" />-->
+<!--        <result column="market_type" jdbcType="VARCHAR" property="marketType" />-->
+<!--        <result column="auto_bet_stop" jdbcType="VARCHAR" property="autoBetStop" />-->
+<!--        <result column="max_odds" jdbcType="VARCHAR" property="maxOdds" />-->
+<!--        <result column="min_odds" jdbcType="VARCHAR" property="minOdds" />-->
+<!--    </resultMap>-->
+
+<!--    <select id="queryMaxBetAmount" parameterType = "com.panda.sport.rcs.pojo.RcsMatchMarketConfig" resultMap="BaseResultMap">-->
+<!--        SELECT-->
+<!--        ifnull(a.home_level_first_max_amount,0) home_level_first_max_amount,-->
+<!--        ifnull(a.home_level_second_max_amount,0) home_level_second_max_amount,-->
+<!--        ifnull(a.away_level_first_max_amount,0) away_level_first_max_amount,-->
+<!--        ifnull(a.away_level_second_max_amount,0) away_level_second_max_amount,-->
+<!--        ifnull(a.home_level_first_odds_rate,0) home_level_first_odds_rate,-->
+<!--        ifnull(a.home_level_second_odds_rate,0) home_level_second_odds_rate,-->
+<!--        ifnull(a.away_level_first_odds_rate,0) away_level_first_odds_rate,-->
+<!--        ifnull(a.away_level_second_odds_rate,0) away_level_second_odds_rate,data_source,-->
+<!--        a.market_type,a.auto_bet_stop,a.max_odds,a.min_odds-->
+<!--        FROM rcs_match_market_config a-->
+<!--        WHERE a.match_id = #{matchId,jdbcType=BIGINT} AND a.play_id = #{playId,jdbcType=BIGINT} AND a.market_id =#{marketId,jdbcType=BIGINT}-->
+
+<!--        union all-->
+
+<!--        SELECT-->
+<!--        ifnull(a.home_level_first_max_amount,0) home_level_first_max_amount,-->
+<!--        ifnull(a.home_level_second_max_amount,0) home_level_second_max_amount,-->
+<!--        ifnull(a.away_level_first_max_amount,0) away_level_first_max_amount,-->
+<!--        ifnull(a.away_level_second_max_amount,0) away_level_second_max_amount,-->
+<!--        ifnull(a.home_level_first_odds_rate,0) home_level_first_odds_rate,-->
+<!--        ifnull(a.home_level_second_odds_rate,0) home_level_second_odds_rate,-->
+<!--        ifnull(a.away_level_first_odds_rate,0) away_level_first_odds_rate,-->
+<!--        ifnull(a.away_level_second_odds_rate,0) away_level_second_odds_rate,data_source,-->
+<!--        null,null,a.max_odds,a.min_odds-->
+<!--        FROM rcs_tournament_market_config a-->
+<!--        WHERE a.tournament_id = #{tournamentId,jdbcType=BIGINT} AND a.play_id = #{playId,jdbcType=BIGINT}-->
+
+<!--        limit 1-->
+<!--    </select>-->
+
+<!--    <select id="updateBatch">-->
+<!--        UPDATE rcs_match_market_config-->
+<!--        <set>-->
+<!--            <if test="dataSource!=null">-->
+<!--                data_source = #{dataSource},-->
+<!--                odds_change=0,-->
+<!--            </if>-->
+<!--            <if test="marketStatus!=null">-->
+<!--                market_status = #{marketStatus},-->
+<!--            </if>-->
+<!--        </set>-->
+<!--        WHERE-->
+<!--        match_id = #{matchId}-->
+
+
+<!--    </select>-->
+
+
+<!--    <update id="updateDataSource">-->
+<!--        <foreach collection="standardSportMarketList" index="index" item="item" separator=";">-->
+<!--            INSERT INTO `panda_rcs`.`rcs_match_market_config` ( `match_id`, `play_id`, `market_id`, data_source )-->
+<!--            VALUES-->
+<!--            ( #{item.standardMatchInfoId}, #{item.marketCategoryId}, #{item.id}, #{dataSource} )-->
+<!--            ON DUPLICATE KEY UPDATE data_source = #{dataSource},odds_change=0-->
+<!--        </foreach>-->
+<!--    </update>-->
+<!--    <select id="selectRcsMatchMarketConfigByMarketId" resultType="com.panda.sport.rcs.pojo.RcsMatchMarketConfig">-->
+<!--        	SELECT * FROM rcs_match_market_config WHERE market_id=#{marketId}-->
+<!--    </select>-->
+
+<!--    <update id="insertAndUpdate">-->
+<!--        <foreach collection="standardSportMarketList" index="index" item="item" separator=";">-->
+<!--            INSERT INTO `panda_rcs`.`rcs_match_market_config` ( `match_id`,`play_id`, `market_id`, data_source )-->
+<!--            VALUES-->
+<!--            ( #{item.standardMatchInfoId}, #{item.marketCategoryId}, #{item.id}, #{dataSource} )-->
+<!--            ON DUPLICATE KEY UPDATE data_source = #{dataSource},odds_change=0-->
+<!--        </foreach>-->
+<!--    </update>-->
+<!--    <select id="selectOddsChangeAndMaxRate" resultType="com.panda.sport.rcs.pojo.RcsMatchMarketConfig">-->
+<!--		SELECT-->
+<!--            (SELECT mc.price_adjustment_parameters FROM rcs_match_config mc WHERE mc.match_id = mmc.match_id)  as updateOdds,-->
+<!--            mmc.margin as margin,-->
+<!--            mmc.odds_change as oddsChange-->
+<!--        FROM 	rcs_match_market_config mmc-->
+<!--        WHERE	mmc.market_id =#{marketId}-->
+<!--    </select>-->
+<!--    <update id="updateMarginChange">-->
+<!--        UPDATE rcs_match_market_config c SET c.odds_change = #{oddsRateTotal},c.modify_time = now() WHERE c.market_id = #{marketId}-->
+<!--    </update>-->
+
+<!--    <select id="selectRcsMatchMarketConfigByRelevanceType" resultType="com.panda.sport.rcs.pojo.RcsMatchMarketConfig">-->
+<!--SELECT-->
+<!--	*-->
+<!--FROM-->
+<!--	rcs_match_market_config c-->
+<!--	LEFT JOIN standard_sport_market s ON s.id = c.market_id-->
+<!--WHERE-->
+<!--	c.match_id = #{matchId}-->
+<!--	AND ( c.play_id = #{playId1} OR c.play_id = #{playId2} )-->
+<!--	AND c.market_id != #{marketId}-->
+<!--	AND c.relevance_type = 1-->
+<!--	AND s.`status` =0-->
+<!--	AND c.data_source=0-->
+<!--    </select>-->
+
+<!--    <select id="updateRcsMatchMarketConfigToOddsValue">-->
+<!--        	UPDATE rcs_match_market_config SET  home_market_value=#{home_market_value} , away_market_value=#{away_market_value} WHERE market_id=#{marketId}-->
+<!--    </select>-->
+
+
+<!--    <update id="updateRcsMatchMarketConfigToOddsChange">-->
+<!--        UPDATE rcs_match_market_config SET odds_change=0 WHERE match_id =#{matchId}-->
+<!--        <if test="playId!=null">-->
+<!--            AND play_id=#{playId}-->
+<!--        </if>-->
+<!--    </update>-->
+<!--        -->
+<!--    <select id="queryAllMarketConfigList" parameterType="Map" resultType="Map">-->
+<!--        SELECT match_id,market_id FROM rcs_match_market_config WHERE match_id = #{matchId}  -->
+<!--    </select>-->
+<!--        -->
+<!--    <update id="updateAllMarketToZeroByMatchId" parameterType="Map">-->
+<!--        update rcs_match_market_config set home_amount = 0 , away_amount = 0 , tie_amount = 0 ,odds_change = 0-->
+<!--        where match_id = #{matchId} -->
+<!--    </update>-->
+
+    <insert id="insertOrUpdateMarketConfig">
+        INSERT INTO `panda_rcs`.`rcs_match_market_config` (
+        `match_id`,
+        `play_id`,
+        `market_index`,
+
+        `margin`,
+        `time_out_margin`,
+        `wait_seconds`,
+        `time_out_wait_seconds`,
+        away_auto_change_rate,
+
+        `home_level_first_max_amount`,
+        `home_level_first_odds_rate`,
+        `home_level_second_max_amount`,
+        `home_level_second_odds_rate`,
+
+        `max_single_bet_amount`,
+        `max_odds`,
+        `min_odds`,
+        `away_level_first_odds_rate`,
+        `away_level_second_odds_rate`,
+        `market_type`,
+
+        `balance_option`,
+        `odd_change_rule`,
+
+        `home_single_max_amount`,
+        `home_multi_max_amount`,
+        `home_single_odds_rate`,
+        `home_multi_odds_rate`,
+        `away_single_odds_rate`,
+        `away_multi_odds_rate`,
+
+        level_first_market_amount,
+        level_second_market_amount,
+        home_level_first_market_rate,
+        home_level_second_market_rate,
+        away_level_first_market_rate,
+        away_level_second_market_rate,
+
+        market_single_max_amount,
+        market_cumulative_max_amount,
+        home_single_market_rate,
+        home_cumulative_market_rate,
+        away_single_market_rate,
+        away_cumulative_market_rate,
+        is_auto_close_score_config,
+        achieve_close_score
+        )
+        VALUES
+        ( #{config.matchId},
+        #{config.playId},
+        #{config.marketIndex},
+
+        #{config.margin},
+        #{config.timeOutMargin,jdbcType=DECIMAL},
+        #{config.waitSeconds,jdbcType=INTEGER},
+        #{config.timeOutWaitSeconds,jdbcType=INTEGER},
+        #{config.awayAutoChangeRate,jdbcType=VARCHAR},
+
+
+        #{config.homeLevelFirstMaxAmount},
+        #{config.homeLevelFirstOddsRate},
+        #{config.homeLevelSecondMaxAmount},
+        #{config.homeLevelSecondOddsRate},
+
+        #{config.maxSingleBetAmount},
+        #{config.maxOdds},
+        #{config.minOdds},
+
+        #{config.awayLevelFirstOddsRate},
+        #{config.awayLevelSecondOddsRate},
+        #{config.marketType},
+
+        #{config.balanceOption},
+        #{config.oddChangeRule},
+
+        #{config.homeSingleMaxAmount},
+        #{config.homeMultiMaxAmount},
+        #{config.homeSingleOddsRate},
+        #{config.homeMultiOddsRate},
+        #{config.awaySingleOddsRate},
+        #{config.awayMultiOddsRate},
+
+        #{config.levelFirstMarketAmount},
+        #{config.levelSecondMarketAmount},
+        #{config.homeLevelFirstMarketRate},
+        #{config.homeLevelSecondMarketRate},
+        #{config.awayLevelFirstMarketRate},
+        #{config.awayLevelSecondMarketRate},
+
+        #{config.marketSingleMaxAmount},
+        #{config.marketCumulativeMaxAmount},
+        #{config.homeSingleMarketRate},
+        #{config.homeCumulativeMarketRate},
+        #{config.awaySingleMarketRate},
+        #{config.awayCumulativeMarketRate},
+        #{config.isAutoCloseScoreConfig},
+        #{config.achieveCloseScore}
+        )
+        ON DUPLICATE KEY UPDATE
+        `margin`=	#{config.margin},
+        `time_out_margin`=#{config.timeOutMargin,jdbcType=DECIMAL},
+        `wait_seconds`=#{config.waitSeconds,jdbcType=INTEGER},
+        `time_out_wait_seconds`=	#{config.timeOutWaitSeconds,jdbcType=INTEGER},
+
+        `home_level_first_max_amount`=	#{config.homeLevelFirstMaxAmount},
+        `home_level_first_odds_rate`=	#{config.homeLevelFirstOddsRate},
+        `home_level_second_max_amount`=	#{config.homeLevelSecondMaxAmount},
+        `home_level_second_odds_rate`=	#{config.homeLevelSecondOddsRate},
+
+        `max_single_bet_amount`=	#{config.maxSingleBetAmount},
+        `max_odds`=	#{config.maxOdds},
+        `min_odds`=	#{config.minOdds},
+
+        `away_level_first_odds_rate`=	#{config.awayLevelFirstOddsRate},
+        `away_level_second_odds_rate`=	#{config.awayLevelSecondOddsRate},
+        `market_type`=	#{config.marketType},
+
+        `balance_option`=	#{config.balanceOption},
+        `odd_change_rule`=	#{config.oddChangeRule},
+
+        `home_single_max_amount`=	#{config.homeSingleMaxAmount},
+        `home_multi_max_amount`=	#{config.homeMultiMaxAmount},
+        `home_single_odds_rate`=	#{config.homeSingleOddsRate},
+        `home_multi_odds_rate`=	#{config.homeMultiOddsRate},
+        `away_single_odds_rate`=	#{config.awaySingleOddsRate},
+        `away_multi_odds_rate`=	#{config.awayMultiOddsRate},
+
+        `level_first_market_amount`=	#{config.levelFirstMarketAmount},
+        `level_second_market_amount`=	#{config.levelSecondMarketAmount},
+        `home_level_first_market_rate`=	#{config.homeLevelFirstMarketRate},
+        `home_level_second_market_rate`=	#{config.homeLevelSecondMarketRate},
+        `away_level_first_market_rate`=	#{config.awayLevelFirstMarketRate},
+        `away_level_second_market_rate`=	#{config.awayLevelSecondMarketRate},
+
+        `market_single_max_amount`=	#{config.marketSingleMaxAmount},
+        `market_cumulative_max_amount`=	#{config.marketCumulativeMaxAmount},
+        `home_single_market_rate`=	#{config.homeSingleMarketRate},
+        `home_cumulative_market_rate`=	#{config.homeCumulativeMarketRate},
+        `away_single_market_rate`=	#{config.awaySingleMarketRate},
+        `away_cumulative_market_rate`=	#{config.awayCumulativeMarketRate},
+        `is_auto_close_score_config`=	#{config.isAutoCloseScoreConfig},
+        `achieve_close_score`=	#{config.achieveCloseScore}
+    </insert>
+
+    <insert id="insertBatchMarketConfigSub">
+        INSERT INTO `panda_rcs`.`rcs_match_market_config_sub` (
+            `match_id`,
+            `play_id`,
+            `market_index`,
+            `sub_play_id`,
+            `margin`,
+            `time_out_margin`,
+            `wait_seconds`,
+            `time_out_wait_seconds`,
+            away_auto_change_rate,
+
+            `home_level_first_max_amount`,
+            `home_level_first_odds_rate`,
+            `home_level_second_max_amount`,
+            `home_level_second_odds_rate`,
+
+            `max_single_bet_amount`,
+            `max_odds`,
+            `min_odds`,
+            `away_level_first_odds_rate`,
+            `away_level_second_odds_rate`,
+            `market_type`,
+
+            `balance_option`,
+            `odd_change_rule`,
+
+            `home_single_max_amount`,
+            `home_multi_max_amount`,
+            `home_single_odds_rate`,
+            `home_multi_odds_rate`,
+            `away_single_odds_rate`,
+            `away_multi_odds_rate`,
+
+            level_first_market_amount,
+            level_second_market_amount,
+            home_level_first_market_rate,
+            home_level_second_market_rate,
+            away_level_first_market_rate,
+            away_level_second_market_rate,
+
+            market_single_max_amount,
+            market_cumulative_max_amount,
+            home_single_market_rate,
+            home_cumulative_market_rate,
+            away_single_market_rate,
+            away_cumulative_market_rate,
+            is_auto_close_score_config,
+            achieve_close_score
+        )
+        values
+        <foreach collection="list" item="config" separator=",">
+            ( #{config.matchId},
+              #{config.playId},
+              #{config.marketIndex},
+              #{config.subPlayId},
+              #{config.margin},
+              #{config.timeOutMargin,jdbcType=DECIMAL},
+              #{config.waitSeconds,jdbcType=INTEGER},
+              #{config.timeOutWaitSeconds,jdbcType=INTEGER},
+              #{config.awayAutoChangeRate,jdbcType=VARCHAR},
+
+
+              #{config.homeLevelFirstMaxAmount},
+              #{config.homeLevelFirstOddsRate},
+              #{config.homeLevelSecondMaxAmount},
+              #{config.homeLevelSecondOddsRate},
+
+              #{config.maxSingleBetAmount},
+              #{config.maxOdds},
+              #{config.minOdds},
+
+              #{config.awayLevelFirstOddsRate},
+              #{config.awayLevelSecondOddsRate},
+              #{config.marketType},
+
+              #{config.balanceOption},
+              #{config.oddChangeRule},
+
+              #{config.homeSingleMaxAmount},
+              #{config.homeMultiMaxAmount},
+              #{config.homeSingleOddsRate},
+              #{config.homeMultiOddsRate},
+              #{config.awaySingleOddsRate},
+              #{config.awayMultiOddsRate},
+
+              #{config.levelFirstMarketAmount},
+              #{config.levelSecondMarketAmount},
+              #{config.homeLevelFirstMarketRate},
+              #{config.homeLevelSecondMarketRate},
+              #{config.awayLevelFirstMarketRate},
+              #{config.awayLevelSecondMarketRate},
+
+              #{config.marketSingleMaxAmount},
+              #{config.marketCumulativeMaxAmount},
+              #{config.homeSingleMarketRate},
+              #{config.homeCumulativeMarketRate},
+              #{config.awaySingleMarketRate},
+              #{config.awayCumulativeMarketRate},
+              #{config.isAutoCloseScoreConfig},
+              #{config.achieveCloseScore}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateMarketConfigSub">
+        INSERT INTO `panda_rcs`.`rcs_match_market_config_sub` (
+        `match_id`,
+        `play_id`,
+        `market_index`,
+
+        `margin`,
+        `time_out_margin`,
+        `wait_seconds`,
+        `time_out_wait_seconds`,
+        away_auto_change_rate,
+
+        `home_level_first_max_amount`,
+        `home_level_first_odds_rate`,
+        `home_level_second_max_amount`,
+        `home_level_second_odds_rate`,
+
+        `max_single_bet_amount`,
+        `max_odds`,
+        `min_odds`,
+        `away_level_first_odds_rate`,
+        `away_level_second_odds_rate`,
+        `market_type`,
+
+        `balance_option`,
+        `odd_change_rule`,
+
+        `home_single_max_amount`,
+        `home_multi_max_amount`,
+        `home_single_odds_rate`,
+        `home_multi_odds_rate`,
+        `away_single_odds_rate`,
+        `away_multi_odds_rate`,
+
+        level_first_market_amount,
+        level_second_market_amount,
+        home_level_first_market_rate,
+        home_level_second_market_rate,
+        away_level_first_market_rate,
+        away_level_second_market_rate,
+
+        market_single_max_amount,
+        market_cumulative_max_amount,
+        home_single_market_rate,
+        home_cumulative_market_rate,
+        away_single_market_rate,
+        away_cumulative_market_rate,
+        is_auto_close_score_config,
+        achieve_close_score
+        )
+        VALUES
+        ( #{config.matchId},
+        #{config.playId},
+        #{config.marketIndex},
+
+        #{config.margin},
+        #{config.timeOutMargin,jdbcType=DECIMAL},
+        #{config.waitSeconds,jdbcType=INTEGER},
+        #{config.timeOutWaitSeconds,jdbcType=INTEGER},
+        #{config.awayAutoChangeRate,jdbcType=VARCHAR},
+
+
+        #{config.homeLevelFirstMaxAmount},
+        #{config.homeLevelFirstOddsRate},
+        #{config.homeLevelSecondMaxAmount},
+        #{config.homeLevelSecondOddsRate},
+
+        #{config.maxSingleBetAmount},
+        #{config.maxOdds},
+        #{config.minOdds},
+
+        #{config.awayLevelFirstOddsRate},
+        #{config.awayLevelSecondOddsRate},
+        #{config.marketType},
+
+        #{config.balanceOption},
+        #{config.oddChangeRule},
+
+        #{config.homeSingleMaxAmount},
+        #{config.homeMultiMaxAmount},
+        #{config.homeSingleOddsRate},
+        #{config.homeMultiOddsRate},
+        #{config.awaySingleOddsRate},
+        #{config.awayMultiOddsRate},
+
+        #{config.levelFirstMarketAmount},
+        #{config.levelSecondMarketAmount},
+        #{config.homeLevelFirstMarketRate},
+        #{config.homeLevelSecondMarketRate},
+        #{config.awayLevelFirstMarketRate},
+        #{config.awayLevelSecondMarketRate},
+
+        #{config.marketSingleMaxAmount},
+        #{config.marketCumulativeMaxAmount},
+        #{config.homeSingleMarketRate},
+        #{config.homeCumulativeMarketRate},
+        #{config.awaySingleMarketRate},
+        #{config.awayCumulativeMarketRate},
+        #{config.isAutoCloseScoreConfig},
+        #{config.achieveCloseScore}
+        )
+        ON DUPLICATE KEY UPDATE
+        `margin`=	#{config.margin},
+        `time_out_margin`=#{config.timeOutMargin,jdbcType=DECIMAL},
+        `wait_seconds`=#{config.waitSeconds,jdbcType=INTEGER},
+        `time_out_wait_seconds`=	#{config.timeOutWaitSeconds,jdbcType=INTEGER},
+
+        `home_level_first_max_amount`=	#{config.homeLevelFirstMaxAmount},
+        `home_level_first_odds_rate`=	#{config.homeLevelFirstOddsRate},
+        `home_level_second_max_amount`=	#{config.homeLevelSecondMaxAmount},
+        `home_level_second_odds_rate`=	#{config.homeLevelSecondOddsRate},
+
+        `max_single_bet_amount`=	#{config.maxSingleBetAmount},
+        `max_odds`=	#{config.maxOdds},
+        `min_odds`=	#{config.minOdds},
+
+        `away_level_first_odds_rate`=	#{config.awayLevelFirstOddsRate},
+        `away_level_second_odds_rate`=	#{config.awayLevelSecondOddsRate},
+        `market_type`=	#{config.marketType},
+
+        `balance_option`=	#{config.balanceOption},
+        `odd_change_rule`=	#{config.oddChangeRule},
+
+        `home_single_max_amount`=	#{config.homeSingleMaxAmount},
+        `home_multi_max_amount`=	#{config.homeMultiMaxAmount},
+        `home_single_odds_rate`=	#{config.homeSingleOddsRate},
+        `home_multi_odds_rate`=	#{config.homeMultiOddsRate},
+        `away_single_odds_rate`=	#{config.awaySingleOddsRate},
+        `away_multi_odds_rate`=	#{config.awayMultiOddsRate},
+
+        `level_first_market_amount`=	#{config.levelFirstMarketAmount},
+        `level_second_market_amount`=	#{config.levelSecondMarketAmount},
+        `home_level_first_market_rate`=	#{config.homeLevelFirstMarketRate},
+        `home_level_second_market_rate`=	#{config.homeLevelSecondMarketRate},
+        `away_level_first_market_rate`=	#{config.awayLevelFirstMarketRate},
+        `away_level_second_market_rate`=	#{config.awayLevelSecondMarketRate},
+
+        `market_single_max_amount`=	#{config.marketSingleMaxAmount},
+        `market_cumulative_max_amount`=	#{config.marketCumulativeMaxAmount},
+        `home_single_market_rate`=	#{config.homeSingleMarketRate},
+        `home_cumulative_market_rate`=	#{config.homeCumulativeMarketRate},
+        `away_single_market_rate`=	#{config.awaySingleMarketRate},
+        `away_cumulative_market_rate`=	#{config.awayCumulativeMarketRate},
+        `is_auto_close_score_config`=	#{config.isAutoCloseScoreConfig},
+        `achieve_close_score`=	#{config.achieveCloseScore}
+    </insert>
+    <update id="updateMarketConfigSub">
+        update `panda_rcs`.`rcs_match_market_config_sub` set
+        `margin`=	#{config.margin},
+        `time_out_margin`=#{config.timeOutMargin,jdbcType=DECIMAL},
+        `wait_seconds`=#{config.waitSeconds,jdbcType=INTEGER},
+        `time_out_wait_seconds`=	#{config.timeOutWaitSeconds,jdbcType=INTEGER},
+
+        `home_level_first_max_amount`=	#{config.homeLevelFirstMaxAmount},
+        `home_level_first_odds_rate`=	#{config.homeLevelFirstOddsRate},
+        `home_level_second_max_amount`=	#{config.homeLevelSecondMaxAmount},
+        `home_level_second_odds_rate`=	#{config.homeLevelSecondOddsRate},
+
+        `max_single_bet_amount`=	#{config.maxSingleBetAmount},
+        `max_odds`=	#{config.maxOdds},
+        `min_odds`=	#{config.minOdds},
+
+        `away_level_first_odds_rate`=	#{config.awayLevelFirstOddsRate},
+        `away_level_second_odds_rate`=	#{config.awayLevelSecondOddsRate},
+        `market_type`=	#{config.marketType},
+
+        `balance_option`=	#{config.balanceOption},
+        `odd_change_rule`=	#{config.oddChangeRule},
+
+        `home_single_max_amount`=	#{config.homeSingleMaxAmount},
+        `home_multi_max_amount`=	#{config.homeMultiMaxAmount},
+        `home_single_odds_rate`=	#{config.homeSingleOddsRate},
+        `home_multi_odds_rate`=	#{config.homeMultiOddsRate},
+        `away_single_odds_rate`=	#{config.awaySingleOddsRate},
+        `away_multi_odds_rate`=	#{config.awayMultiOddsRate},
+
+        `level_first_market_amount`=	#{config.levelFirstMarketAmount},
+        `level_second_market_amount`=	#{config.levelSecondMarketAmount},
+        `home_level_first_market_rate`=	#{config.homeLevelFirstMarketRate},
+        `home_level_second_market_rate`=	#{config.homeLevelSecondMarketRate},
+        `away_level_first_market_rate`=	#{config.awayLevelFirstMarketRate},
+        `away_level_second_market_rate`=	#{config.awayLevelSecondMarketRate},
+
+        `market_single_max_amount`=	#{config.marketSingleMaxAmount},
+        `market_cumulative_max_amount`=	#{config.marketCumulativeMaxAmount},
+        `home_single_market_rate`=	#{config.homeSingleMarketRate},
+        `home_cumulative_market_rate`=	#{config.homeCumulativeMarketRate},
+        `away_single_market_rate`=	#{config.awaySingleMarketRate},
+        `away_cumulative_market_rate`=	#{config.awayCumulativeMarketRate},
+        `is_auto_close_score_config`=	#{config.isAutoCloseScoreConfig},
+        `achieve_close_score`=	#{config.achieveCloseScore}
+        where `match_id` = #{config.matchId}
+        AND `play_id` = #{config.playId}
+        AND `market_index` = #{config.marketIndex}
+    </update>
+
+    <resultMap id="BuildMarketPlaceConfigResultMap" type="com.panda.sport.rcs.pojo.BuildMarketPlaceConfig">
+        <result column="match_id" jdbcType="BIGINT" property="matchId" />
+        <result column="play_id" jdbcType="INTEGER" property="playId" />
+        <result column="place_num" jdbcType="INTEGER" property="placeNum" />
+        <result column="spread" jdbcType="VARCHAR" property="spread" />
+        <result column="pause_spread" jdbcType="INTEGER" property="pauseSpread" />
+        <result column="place_water_diff" jdbcType="DECIMAL" property="placeWaterDiff" />
+    </resultMap>
+
+    <select id="getBuildMarketPlaceConfig" resultMap="BuildMarketPlaceConfigResultMap">
+        SELECT
+            t.match_id,
+            t.play_id,
+            t.market_index place_num,
+            t.margin spread,
+            t.time_out_margin pause_spread,
+            t.away_auto_change_rate place_water_diff
+        FROM
+            rcs_match_market_config t
+        WHERE
+            t.match_id = #{matchId}
+          AND t.play_id = #{playId}
+        ORDER BY
+            t.market_index
+    </select>
+
+    <select id="queryMatchMarketConfigSub" resultType="com.panda.sport.rcs.pojo.RcsMatchMarketConfigSub">
+                select   t.match_id	as	matchId,
+                t.play_id	as	playId,
+                t.market_index	as	marketIndex,
+                t.sub_play_id AS subPlayId,
+                t.margin	as	margin,
+                t.linkage_mode	as	linkageMode,
+                t.home_level_first_max_amount	as	homeLevelFirstMaxAmount,
+                t.home_level_first_odds_rate	as	homeLevelFirstOddsRate,
+                t.home_level_second_max_amount	as	homeLevelSecondMaxAmount,
+                t.home_level_second_odds_rate	as	homeLevelSecondOddsRate,
+                t.max_single_bet_amount	as	maxSingleBetAmount,
+                t.max_odds	as	maxOdds,
+                t.min_odds	as	minOdds,
+                t.time_out_wait_seconds	as	timeOutWaitSeconds,
+                t.wait_seconds	as	waitSeconds,
+                t.away_level_first_odds_rate	as	awayLevelFirstOddsRate,
+                t.away_level_second_odds_rate	as	awayLevelSecondOddsRate,
+                t.market_type	as	marketType,
+                t.balance_option	as	balanceOption,
+                t.odd_change_rule	as	oddChangeRule,
+                t.home_single_max_amount	as	homeSingleMaxAmount,
+                t.home_multi_max_amount	as	homeMultiMaxAmount,
+                t.home_single_odds_rate	as	homeSingleOddsRate,
+                t.home_multi_odds_rate	as	homeMultiOddsRate,
+                t.away_single_odds_rate	as	awaySingleOddsRate,
+                t.away_multi_odds_rate	as	awayMultiOddsRate,
+                t.time_out_margin	as	timeOutMargin,
+                IFNULL(t.away_auto_change_rate,0)	as	awayAutoChangeRate,
+                t.level_first_market_amount	as	levelFirstMarketAmount,
+                t.level_second_market_amount	as	levelSecondMarketAmount,
+                t.home_level_first_market_rate	as	homeLevelFirstMarketRate,
+                t.home_level_second_market_rate	as	homeLevelSecondMarketRate,
+                t.away_level_first_market_rate	as	awayLevelFirstMarketRate,
+                t.away_level_second_market_rate	as	awayLevelSecondMarketRate,
+                t.market_single_max_amount	as	marketSingleMaxAmount,
+                t.market_cumulative_max_amount	as	marketCumulativeMaxAmount,
+                t.home_single_market_rate	as	homeSingleMarketRate,
+                t.home_cumulative_market_rate	as	homeCumulativeMarketRate,
+                t.away_single_market_rate	as	awaySingleMarketRate,
+                t.away_cumulative_market_rate	as	awayCumulativeMarketRate,
+                t.is_open_jump_odds	as	isOpenJumpOdds,
+                t.is_multiple_jump_odds	as	isMultipleJumpOdds,
+                t.is_open_jump_market	as	isOpenJumpMarket,
+                t.is_multiple_jump_market	as	isMultipleJumpMarket,
+                t.is_auto_close_score_config	as	isAutoCloseScoreConfig,
+                t.achieve_close_score	as	achieveCloseScore
+             FROM rcs_match_market_config_sub t
+             WHERE t.match_id = #{config.matchId,jdbcType=BIGINT}
+             AND t.play_id = #{config.playId,jdbcType=BIGINT}
+             AND t.sub_play_id = #{config.subPlayId,jdbcType=VARCHAR}
+             AND t.market_index = #{config.marketIndex,jdbcType=INTEGER}
+    </select>
+
+</mapper>
